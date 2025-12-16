@@ -31,8 +31,8 @@ final class AppStateTests: XCTestCase {
     }
 
     func testStateIsObservable() {
-        // Verify AppState conforms to ObservableObject
-        XCTAssertTrue(type(of: appState) is ObservableObject.Type,
+        // Verify AppState conforms to ObservableObject by checking it has objectWillChange
+        XCTAssertNotNil(appState.objectWillChange,
                      "AppState should conform to ObservableObject protocol")
     }
 
