@@ -5,7 +5,7 @@ import AVFoundation
 ///
 /// All errors provide user-friendly descriptions through LocalizedError conformance,
 /// with actionable guidance on how to resolve the issue.
-public enum CallTranscriptionError: LocalizedError {
+public enum CallTranscriptionError: LocalizedError, Equatable {
     /// Microphone permission was denied by the user.
     case microphonePermissionDenied
 
