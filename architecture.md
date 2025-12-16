@@ -8,10 +8,9 @@ MeetingRecorder is a macOS menu bar application that captures audio from both si
 
 ## Target Platform
 
-- **Minimum macOS Version**: macOS 26 (Tahoe) for `SpeechTranscriber` API
-- **Alternative**: macOS 14.2+ if using legacy `SFSpeechRecognizer` (see Fallback section)
+- **Minimum macOS Version**: macOS 26.0 (Sequoia) for `SpeechTranscriber` API
 - **Language**: Swift 6 / SwiftUI
-- **Architecture**: Native macOS app bundle (required for Screen Recording permissions UI)
+- **Architecture**: Native macOS app bundle
 
 ## Core Features
 
@@ -50,7 +49,7 @@ MeetingRecorder/
 
 #### System Audio (What Zoom plays to you)
 
-Use **Core Audio Taps** (`AudioHardwareCreateProcessTap`) introduced in macOS 14.2. This is the recommended API for audio-only capture—it's designed specifically for this use case and does not require screen recording permissions (unlike ScreenCaptureKit).
+Use **Core Audio Taps** (`AudioHardwareCreateProcessTap`). This is the recommended API for audio-only capture—it's designed specifically for this use case and does not require screen recording permissions (unlike ScreenCaptureKit).
 
 **Key characteristics:**
 - Passive tap—audio passes through unmodified
@@ -335,22 +334,24 @@ class TranscriptWriter {
 }
 ```
 
-### 6. Post-Recording Shell Script Execution
+### 6. Post-Recording Shell Script Execution (Future Feature)
+
+> **Note**: This feature is not yet implemented. When implementing, add the required entitlement documented below.
 
 ```swift
 func executePostRecordingScript(scriptPath: String, transcriptPath: URL) async throws {
     guard !scriptPath.isEmpty else { return }
-    
+
     let expandedPath = NSString(string: scriptPath).expandingTildeInPath
-    
+
     let process = Process()
     process.executableURL = URL(fileURLWithPath: "/bin/bash")
     process.arguments = [expandedPath, transcriptPath.path]
     process.environment = ProcessInfo.processInfo.environment
-    
+
     try process.run()
     process.waitUntilExit()
-    
+
     if process.terminationStatus != 0 {
         print("Warning: Post-recording script exited with status \(process.terminationStatus)")
     }
@@ -365,14 +366,10 @@ func executePostRecordingScript(scriptPath: String, transcriptPath: URL) async t
 
 ```xml
 <key>NSMicrophoneUsageDescription</key>
-<string>MeetingRecorder needs microphone access to transcribe your side of the conversation.</string>
+<string>MeetingRecorder needs microphone access to record and transcribe your side of the conversation during calls. All audio processing happens on-device.</string>
 
 <key>NSSpeechRecognitionUsageDescription</key>
-<string>MeetingRecorder uses on-device speech recognition to transcribe your calls.</string>
-
-<!-- Only if using ScreenCaptureKit fallback -->
-<key>NSScreenCaptureUsageDescription</key>
-<string>MeetingRecorder needs screen recording permission to capture system audio.</string>
+<string>MeetingRecorder uses on-device speech recognition to transcribe your calls in real-time. Your audio never leaves your Mac.</string>
 ```
 
 ### Entitlements
@@ -388,11 +385,12 @@ func executePostRecordingScript(scriptPath: String, transcriptPath: URL) async t
 <key>com.apple.security.files.user-selected.read-write</key>
 <true/>
 
-<!-- For shell script execution -->
-<key>com.apple.security.temporary-exception.files.absolute-path.read-write</key>
+<!-- TODO: Add when implementing post-recording shell script execution (Section 6) -->
+<!-- SECURITY NOTE: Only add this broad exception when actually needed -->
+<!-- <key>com.apple.security.temporary-exception.files.absolute-path.read-write</key>
 <array>
     <string>/</string>
-</array>
+</array> -->
 ```
 
 ---
@@ -431,58 +429,6 @@ enum MeetingRecorderError: LocalizedError {
     }
 }
 ```
-
----
-
-## Fallback: SFSpeechRecognizer (macOS 14.2+)
-
-If targeting macOS versions before Tahoe (26), use the legacy `SFSpeechRecognizer`:
-
-```swift
-import Speech
-
-class LegacyTranscriptionManager {
-    private let recognizer: SFSpeechRecognizer
-    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
-    private var recognitionTask: SFSpeechRecognitionTask?
-    
-    init(locale: Locale = .current) throws {
-        guard let recognizer = SFSpeechRecognizer(locale: locale) else {
-            throw TranscriptionError.localeNotSupported
-        }
-        self.recognizer = recognizer
-    }
-    
-    func startTranscription() async throws {
-        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-        recognitionRequest?.shouldReportPartialResults = true
-        recognitionRequest?.requiresOnDeviceRecognition = true // Privacy
-        
-        recognitionTask = recognizer.recognitionTask(with: recognitionRequest!) { result, error in
-            if let result = result {
-                let text = result.bestTranscription.formattedString
-                if result.isFinal {
-                    self.handleFinalizedText(text)
-                }
-            }
-        }
-    }
-    
-    func feedAudio(_ buffer: AVAudioPCMBuffer) {
-        recognitionRequest?.append(buffer)
-    }
-    
-    func stopTranscription() {
-        recognitionRequest?.endAudio()
-        recognitionTask?.cancel()
-    }
-}
-```
-
-**Limitations of SFSpeechRecognizer:**
-- 1-minute audio limit per recognition task (requires restart)
-- Less accurate than new SpeechTranscriber model
-- On-device recognition may not be available for all locales
 
 ---
 

@@ -16,6 +16,7 @@ struct ConfigurationValidator {
 
     func validate() throws {
         print("🔍 Validating project configuration...")
+        print("  📁 Project root: \(projectRoot.path)")
 
         try validateInfoPlist()
         try validateEntitlements()
@@ -50,7 +51,13 @@ struct ConfigurationValidator {
                 format: nil
             )
         } catch {
-            throw ValidationError.invalidFormat("Info.plist parsing failed: \(error.localizedDescription)")
+            var errorDetails = "Info.plist parsing failed at path: \(infoPlistPath)\n"
+            errorDetails += "    Parse error: \(error.localizedDescription)"
+            if let nsError = error as NSError? {
+                errorDetails += "\n    Domain: \(nsError.domain), Code: \(nsError.code)"
+            }
+            errorDetails += "\n    Hint: Check that the file is valid XML plist format. Try: plutil -lint \(infoPlistPath)"
+            throw ValidationError.invalidFormat(errorDetails)
         }
 
         guard let infoPlist = plistObject as? [String: Any] else {
@@ -60,7 +67,6 @@ struct ConfigurationValidator {
         // Validate required privacy keys
         try validateKey("NSMicrophoneUsageDescription", in: infoPlist, description: "microphone usage")
         try validateKey("NSSpeechRecognitionUsageDescription", in: infoPlist, description: "speech recognition usage")
-        try validateKey("NSScreenCaptureUsageDescription", in: infoPlist, description: "screen capture usage")
 
         print("    ✓ Info.plist contains all required privacy keys")
     }
@@ -96,7 +102,13 @@ struct ConfigurationValidator {
                 format: nil
             )
         } catch {
-            throw ValidationError.invalidFormat("Entitlements parsing failed: \(error.localizedDescription)")
+            var errorDetails = "Entitlements parsing failed at path: \(entitlementsPath)\n"
+            errorDetails += "    Parse error: \(error.localizedDescription)"
+            if let nsError = error as NSError? {
+                errorDetails += "\n    Domain: \(nsError.domain), Code: \(nsError.code)"
+            }
+            errorDetails += "\n    Hint: Check that the file is valid XML plist format. Try: plutil -lint \(entitlementsPath)"
+            throw ValidationError.invalidFormat(errorDetails)
         }
 
         guard let entitlements = entitlementsObject as? [String: Any] else {
@@ -174,7 +186,31 @@ struct ConfigurationValidator {
             throw ValidationError.missingConfiguration("macOS deployment target must be configured")
         }
 
-        print("    ✓ Deployment target is configured")
+        // Extract and validate the actual version
+        let pattern = #"MACOSX_DEPLOYMENT_TARGET\s*=\s*"?([0-9]+\.[0-9]+)"?;"#
+        guard let regex = try? NSRegularExpression(pattern: pattern),
+              let match = regex.firstMatch(in: projectContent, range: NSRange(projectContent.startIndex..., in: projectContent)),
+              let versionRange = Range(match.range(at: 1), in: projectContent) else {
+            throw ValidationError.invalidConfiguration("Could not parse MACOSX_DEPLOYMENT_TARGET version")
+        }
+
+        let versionString = String(projectContent[versionRange])
+        let components = versionString.split(separator: ".").compactMap { Int($0) }
+        guard components.count >= 2 else {
+            throw ValidationError.invalidConfiguration("Invalid MACOSX_DEPLOYMENT_TARGET format: \(versionString)")
+        }
+
+        let major = components[0]
+        let minor = components[1]
+
+        // Validate minimum 26.0 (as per architecture.md - requires SpeechTranscriber API)
+        if major < 26 {
+            throw ValidationError.invalidConfiguration(
+                "MACOSX_DEPLOYMENT_TARGET must be at least 26.0 (found: \(versionString))"
+            )
+        }
+
+        print("    ✓ Deployment target is \(versionString) (minimum 26.0)")
     }
 }
 
@@ -212,9 +248,19 @@ do {
 } catch let error as ValidationError {
     print("\n" + error.description)
     print("\n⛔️ Build failed: Configuration validation error")
+    print("Fix the configuration issues above and rebuild.")
     exit(1)
 } catch {
-    print("\n❌ Unexpected error: \(error)")
-    print("\n⛔️ Build failed: Configuration validation error")
-    exit(1)
+    print("\n❌ UNEXPECTED ERROR: The validation script itself encountered an error")
+    print("Error: \(error)")
+    print("Error type: \(type(of: error))")
+    print("\n⛔️ Build failed: Validation script error (not a configuration issue)")
+    print("This is likely a bug in the validation script. Please report this error.")
+    if let localizedError = error as? LocalizedError {
+        print("Details: \(localizedError.localizedDescription)")
+        if let reason = localizedError.failureReason {
+            print("Reason: \(reason)")
+        }
+    }
+    exit(2)  // Different exit code for script errors vs config errors
 }
