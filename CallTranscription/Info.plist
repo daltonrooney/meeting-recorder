@@ -19,8 +19,10 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Olive needs access to your microphone to record and transcribe your calls in real-time.</string>
+	<string>The app needs access to your microphone to capture and transcribe your voice during meetings and calls.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Olive uses speech recognition to transcribe your call audio into text.</string>
+	<string>The app uses speech recognition to transcribe audio from meetings and calls into text.</string>
+	<key>NSSystemAudioUsageDescription</key>
+	<string>The app needs access to system audio to capture and transcribe audio from video conferencing applications like Zoom and Microsoft Teams.</string>
 </dict>
 </plist>

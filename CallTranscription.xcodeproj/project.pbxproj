@@ -12,6 +12,7 @@
 		3BC8EF36E7898CD472C4C664 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63760A7627F95E5F5C94BC93 /* AppStateTests.swift */; };
 		8869D04B8F22E78E5BC3A5C7 /* CallTranscriptionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BB01769B57BC5597D4228A /* CallTranscriptionApp.swift */; };
 		892538670FEEB9B0A611ECE2 /* CallTranscriptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1291776FAF1F50A6D74B6 /* CallTranscriptionError.swift */; };
+		AFE020D3997B0BA2F2D829CA /* SettingsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C01FD18BE02FEBF100E8663 /* SettingsManagerTests.swift */; };
 		CA76C34D8CB9196337C1E551 /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E4256CF449F0EA7EF6DB /* ProjectConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,10 +35,19 @@
 		680C5C418C37810D643E187F /* CallTranscriptionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallTranscriptionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A37E4256CF449F0EA7EF6DB /* ProjectConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfigurationTests.swift; sourceTree = "<group>"; };
 		6C271E6DA5902D32B25006F0 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		7C01FD18BE02FEBF100E8663 /* SettingsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManagerTests.swift; sourceTree = "<group>"; };
 		9709DC7C782FDBDC6AD96DDF /* CallTranscriptionErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionErrorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		0905F4014329FD3D1E222ED3 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				7C01FD18BE02FEBF100E8663 /* SettingsManagerTests.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		5F251CB0B0D90F603448C707 /* CallTranscriptionTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -45,6 +55,7 @@
 				9709DC7C782FDBDC6AD96DDF /* CallTranscriptionErrorTests.swift */,
 				0FD8A3996AEA71A095A8FF3D /* CallTranscriptionTests.entitlements */,
 				6A37E4256CF449F0EA7EF6DB /* ProjectConfigurationTests.swift */,
+				0905F4014329FD3D1E222ED3 /* Settings */,
 			);
 			path = CallTranscriptionTests;
 			sourceTree = "<group>";
@@ -186,6 +197,7 @@
 				3BC8EF36E7898CD472C4C664 /* AppStateTests.swift in Sources */,
 				0B4992F7E4F7DD77C4B46F53 /* CallTranscriptionErrorTests.swift in Sources */,
 				CA76C34D8CB9196337C1E551 /* ProjectConfigurationTests.swift in Sources */,
+				AFE020D3997B0BA2F2D829CA /* SettingsManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
