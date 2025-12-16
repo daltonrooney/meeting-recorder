@@ -24,6 +24,7 @@ public final class SettingsManager: ObservableObject {
     @Published public var captureMicrophone: Bool
 
     private let userDefaults: UserDefaults
+    private var cancellables = Set<AnyCancellable>()
 
     public init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
@@ -46,6 +47,43 @@ public final class SettingsManager: ObservableObject {
         } else {
             self.captureMicrophone = Self.defaultCaptureMicrophone
         }
+
+        // Set up observers to persist changes to UserDefaults
+        setupPersistence()
+    }
+
+    private func setupPersistence() {
+        // Persist outputFolder changes
+        $outputFolder
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.outputFolder)
+            }
+            .store(in: &cancellables)
+
+        // Persist postRecordingScript changes
+        $postRecordingScript
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.postRecordingScript)
+            }
+            .store(in: &cancellables)
+
+        // Persist captureSystemAudio changes
+        $captureSystemAudio
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.captureSystemAudio)
+            }
+            .store(in: &cancellables)
+
+        // Persist captureMicrophone changes
+        $captureMicrophone
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.captureMicrophone)
+            }
+            .store(in: &cancellables)
     }
 
     // Path expansion utilities
