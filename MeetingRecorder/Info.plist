@@ -19,8 +19,10 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>MeetingRecorder needs microphone access to record and transcribe your side of the conversation during calls. All audio processing happens on-device.</string>
+	<string>Meeting Recorder needs microphone access to record your audio during meetings.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>MeetingRecorder uses on-device speech recognition to transcribe your calls in real-time. Your audio never leaves your Mac.</string>
+	<string>Meeting Recorder uses speech recognition to transcribe meeting audio in real-time.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Meeting Recorder needs access to system audio to record other participants and system sounds.</string>
 </dict>
 </plist>
