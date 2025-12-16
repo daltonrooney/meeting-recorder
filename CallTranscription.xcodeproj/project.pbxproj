@@ -7,97 +7,103 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		053A944577AD8C87F4BC2EB5 /* CallTranscriptionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D26A6FD0F50DA4C06EEBC0 /* CallTranscriptionApp.swift */; };
-		304059F3414BB7B1E50B6E9F /* CallTranscriptionErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526BE3020D40826DA05D37E9 /* CallTranscriptionErrorTests.swift */; };
-		B7E6683CB9567C381764E2D8 /* CallTranscriptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA89B63985E430F5462FF80E /* CallTranscriptionError.swift */; };
-		FB0D772AFC12CEE59F53D174 /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */; };
+		0B4992F7E4F7DD77C4B46F53 /* CallTranscriptionErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709DC7C782FDBDC6AD96DDF /* CallTranscriptionErrorTests.swift */; };
+		32F37637558779CDE091F796 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C271E6DA5902D32B25006F0 /* AppState.swift */; };
+		3BC8EF36E7898CD472C4C664 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63760A7627F95E5F5C94BC93 /* AppStateTests.swift */; };
+		8869D04B8F22E78E5BC3A5C7 /* CallTranscriptionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BB01769B57BC5597D4228A /* CallTranscriptionApp.swift */; };
+		892538670FEEB9B0A611ECE2 /* CallTranscriptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1291776FAF1F50A6D74B6 /* CallTranscriptionError.swift */; };
+		CA76C34D8CB9196337C1E551 /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E4256CF449F0EA7EF6DB /* ProjectConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		362E9ADA55EF672EE6FB8C1E /* PBXContainerItemProxy */ = {
+		042C3A9549FA354491283975 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4F0F1ED080CAC680BD7BB5BE /* Project object */;
+			containerPortal = 7FC31468B8DA053246E3F730 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 93037C6606DB7A7975C52A72;
+			remoteGlobalIDString = 1601182A1F385775828F8B89;
 			remoteInfo = CallTranscription;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04D26A6FD0F50DA4C06EEBC0 /* CallTranscriptionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionApp.swift; sourceTree = "<group>"; };
-		29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfigurationTests.swift; sourceTree = "<group>"; };
-		526BE3020D40826DA05D37E9 /* CallTranscriptionErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionErrorTests.swift; sourceTree = "<group>"; };
-		9C44A872BDECD6F1549C13CA /* CallTranscriptionTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallTranscriptionTests.entitlements; sourceTree = "<group>"; };
-		A70F7BE32AB1ED7A9D98D286 /* CallTranscriptionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallTranscriptionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA89B63985E430F5462FF80E /* CallTranscriptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionError.swift; sourceTree = "<group>"; };
-		CC5A5E7D89DE1ADF1AF506A9 /* CallTranscription.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallTranscription.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AC1291776FAF1F50A6D74B6 /* CallTranscriptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionError.swift; sourceTree = "<group>"; };
+		0FD8A3996AEA71A095A8FF3D /* CallTranscriptionTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallTranscriptionTests.entitlements; sourceTree = "<group>"; };
+		38D38A046EB7BB650D0DE9AE /* CallTranscription.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallTranscription.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		41BB01769B57BC5597D4228A /* CallTranscriptionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionApp.swift; sourceTree = "<group>"; };
+		63760A7627F95E5F5C94BC93 /* AppStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateTests.swift; sourceTree = "<group>"; };
+		680C5C418C37810D643E187F /* CallTranscriptionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallTranscriptionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A37E4256CF449F0EA7EF6DB /* ProjectConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfigurationTests.swift; sourceTree = "<group>"; };
+		6C271E6DA5902D32B25006F0 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		9709DC7C782FDBDC6AD96DDF /* CallTranscriptionErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionErrorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		4256E1297D09C85C398306F8 /* Products */ = {
+		5F251CB0B0D90F603448C707 /* CallTranscriptionTests */ = {
 			isa = PBXGroup;
 			children = (
-				CC5A5E7D89DE1ADF1AF506A9 /* CallTranscription.app */,
-				A70F7BE32AB1ED7A9D98D286 /* CallTranscriptionTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		82F54D8E8FD9E03D94BA746C /* CallTranscriptionTests */ = {
-			isa = PBXGroup;
-			children = (
-				526BE3020D40826DA05D37E9 /* CallTranscriptionErrorTests.swift */,
-				9C44A872BDECD6F1549C13CA /* CallTranscriptionTests.entitlements */,
-				29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */,
+				63760A7627F95E5F5C94BC93 /* AppStateTests.swift */,
+				9709DC7C782FDBDC6AD96DDF /* CallTranscriptionErrorTests.swift */,
+				0FD8A3996AEA71A095A8FF3D /* CallTranscriptionTests.entitlements */,
+				6A37E4256CF449F0EA7EF6DB /* ProjectConfigurationTests.swift */,
 			);
 			path = CallTranscriptionTests;
 			sourceTree = "<group>";
 		};
-		D58683CFD574658150FC55C5 /* CallTranscription */ = {
+		6D3866CDB25FE74C1660D461 /* CallTranscription */ = {
 			isa = PBXGroup;
 			children = (
-				04D26A6FD0F50DA4C06EEBC0 /* CallTranscriptionApp.swift */,
-				CA89B63985E430F5462FF80E /* CallTranscriptionError.swift */,
+				6C271E6DA5902D32B25006F0 /* AppState.swift */,
+				41BB01769B57BC5597D4228A /* CallTranscriptionApp.swift */,
+				0AC1291776FAF1F50A6D74B6 /* CallTranscriptionError.swift */,
 			);
 			path = CallTranscription;
 			sourceTree = "<group>";
 		};
-		FBECA5B86895E43DAE3A93F9 = {
+		A53087A84A08B5E565A1867D = {
 			isa = PBXGroup;
 			children = (
-				D58683CFD574658150FC55C5 /* CallTranscription */,
-				82F54D8E8FD9E03D94BA746C /* CallTranscriptionTests */,
-				4256E1297D09C85C398306F8 /* Products */,
+				6D3866CDB25FE74C1660D461 /* CallTranscription */,
+				5F251CB0B0D90F603448C707 /* CallTranscriptionTests */,
+				EE950FEC795586885DB1B8D6 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		EE950FEC795586885DB1B8D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				38D38A046EB7BB650D0DE9AE /* CallTranscription.app */,
+				680C5C418C37810D643E187F /* CallTranscriptionTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		44B7EAEEB8CA8C1BED98A6A8 /* CallTranscriptionTests */ = {
+		0870270C8F53E4DBA523951A /* CallTranscriptionTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0755F6E204D4D7574D200CF7 /* Build configuration list for PBXNativeTarget "CallTranscriptionTests" */;
+			buildConfigurationList = 4DB68B75BFB9CC03D4C88E30 /* Build configuration list for PBXNativeTarget "CallTranscriptionTests" */;
 			buildPhases = (
-				42533FCB9F395557997D7685 /* Sources */,
+				250DFEF5A26F4B5B15CE1492 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				81BE7850A999F82526786764 /* PBXTargetDependency */,
+				C7113DB6409E6ADF2231569F /* PBXTargetDependency */,
 			);
 			name = CallTranscriptionTests;
 			packageProductDependencies = (
 			);
 			productName = CallTranscriptionTests;
-			productReference = A70F7BE32AB1ED7A9D98D286 /* CallTranscriptionTests.xctest */;
+			productReference = 680C5C418C37810D643E187F /* CallTranscriptionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		93037C6606DB7A7975C52A72 /* CallTranscription */ = {
+		1601182A1F385775828F8B89 /* CallTranscription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9C4F405A057A524AB719C7ED /* Build configuration list for PBXNativeTarget "CallTranscription" */;
+			buildConfigurationList = 7226FB7CA61D9AB27C914E51 /* Build configuration list for PBXNativeTarget "CallTranscription" */;
 			buildPhases = (
-				1E2877DACF835C25FAE7384D /* Validate Configuration */,
-				03BDE06BC707D7361EBFD6DB /* Sources */,
+				1535682FBFB9E7390203A264 /* Validate Configuration */,
+				69CBC9B488F99FBFDF2F9D29 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -107,29 +113,29 @@
 			packageProductDependencies = (
 			);
 			productName = CallTranscription;
-			productReference = CC5A5E7D89DE1ADF1AF506A9 /* CallTranscription.app */;
+			productReference = 38D38A046EB7BB650D0DE9AE /* CallTranscription.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4F0F1ED080CAC680BD7BB5BE /* Project object */ = {
+		7FC31468B8DA053246E3F730 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					44B7EAEEB8CA8C1BED98A6A8 = {
+					0870270C8F53E4DBA523951A = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
-					93037C6606DB7A7975C52A72 = {
+					1601182A1F385775828F8B89 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 7347C05C08B06A94277B6BDF /* Build configuration list for PBXProject "CallTranscription" */;
+			buildConfigurationList = 2253C02904D3C7A333D2D93C /* Build configuration list for PBXProject "CallTranscription" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -137,20 +143,20 @@
 				Base,
 				en,
 			);
-			mainGroup = FBECA5B86895E43DAE3A93F9;
+			mainGroup = A53087A84A08B5E565A1867D;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				93037C6606DB7A7975C52A72 /* CallTranscription */,
-				44B7EAEEB8CA8C1BED98A6A8 /* CallTranscriptionTests */,
+				1601182A1F385775828F8B89 /* CallTranscription */,
+				0870270C8F53E4DBA523951A /* CallTranscriptionTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1E2877DACF835C25FAE7384D /* Validate Configuration */ = {
+		1535682FBFB9E7390203A264 /* Validate Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -173,140 +179,38 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		03BDE06BC707D7361EBFD6DB /* Sources */ = {
+		250DFEF5A26F4B5B15CE1492 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				053A944577AD8C87F4BC2EB5 /* CallTranscriptionApp.swift in Sources */,
-				B7E6683CB9567C381764E2D8 /* CallTranscriptionError.swift in Sources */,
+				3BC8EF36E7898CD472C4C664 /* AppStateTests.swift in Sources */,
+				0B4992F7E4F7DD77C4B46F53 /* CallTranscriptionErrorTests.swift in Sources */,
+				CA76C34D8CB9196337C1E551 /* ProjectConfigurationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		42533FCB9F395557997D7685 /* Sources */ = {
+		69CBC9B488F99FBFDF2F9D29 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304059F3414BB7B1E50B6E9F /* CallTranscriptionErrorTests.swift in Sources */,
-				FB0D772AFC12CEE59F53D174 /* ProjectConfigurationTests.swift in Sources */,
+				32F37637558779CDE091F796 /* AppState.swift in Sources */,
+				8869D04B8F22E78E5BC3A5C7 /* CallTranscriptionApp.swift in Sources */,
+				892538670FEEB9B0A611ECE2 /* CallTranscriptionError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		81BE7850A999F82526786764 /* PBXTargetDependency */ = {
+		C7113DB6409E6ADF2231569F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 93037C6606DB7A7975C52A72 /* CallTranscription */;
-			targetProxy = 362E9ADA55EF672EE6FB8C1E /* PBXContainerItemProxy */;
+			target = 1601182A1F385775828F8B89 /* CallTranscription */;
+			targetProxy = 042C3A9549FA354491283975 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		09D8B020F7BEF72E55822E74 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = CallTranscription/CallTranscription.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = CallTranscription/Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
-				PRODUCT_NAME = CallTranscription;
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 6.0;
-			};
-			name = Release;
-		};
-		647E4215531FC385806E9629 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = CallTranscription/CallTranscription.entitlements;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				GCC_OPTIMIZATION_LEVEL = s;
-				INFOPLIST_FILE = CallTranscription/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
-				PRODUCT_MODULE_NAME = CallTranscription;
-				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-			};
-			name = Release;
-		};
-		7568C7B836495D3FF274AB71 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_ENTITLEMENTS = CallTranscriptionTests/CallTranscriptionTests.entitlements;
-				COMBINE_HIDPI_IMAGES = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscriptionTests;
-				PRODUCT_MODULE_NAME = CallTranscriptionTests;
-				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CallTranscription.app/Contents/MacOS/CallTranscription";
-			};
-			name = Release;
-		};
-		CB95EECEA8C7AC30E1F83942 /* Debug */ = {
+		03D99A4E563E65207451DF5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -327,7 +231,7 @@
 			};
 			name = Debug;
 		};
-		CC0B8812141DCB110B81F7A6 /* Debug */ = {
+		8337A1A9929D57568FFF6B54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -348,7 +252,27 @@
 			};
 			name = Debug;
 		};
-		CEDC12DC98F83BC8FDB383C1 /* Debug */ = {
+		858A79B7416A14961EDA1D57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = CallTranscriptionTests/CallTranscriptionTests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscriptionTests;
+				PRODUCT_MODULE_NAME = CallTranscriptionTests;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CallTranscription.app/Contents/MacOS/CallTranscription";
+			};
+			name = Release;
+		};
+		90172EA67A4611D523515C9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -419,37 +343,121 @@
 			};
 			name = Debug;
 		};
+		A879961B1511BBD8E52C347E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CallTranscription/CallTranscription.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				INFOPLIST_FILE = CallTranscription/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
+				PRODUCT_MODULE_NAME = CallTranscription;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		CACFBCD567EFB66B8DCB5FCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = CallTranscription/CallTranscription.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CallTranscription/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
+				PRODUCT_NAME = CallTranscription;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0755F6E204D4D7574D200CF7 /* Build configuration list for PBXNativeTarget "CallTranscriptionTests" */ = {
+		2253C02904D3C7A333D2D93C /* Build configuration list for PBXProject "CallTranscription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CB95EECEA8C7AC30E1F83942 /* Debug */,
-				7568C7B836495D3FF274AB71 /* Release */,
+				90172EA67A4611D523515C9B /* Debug */,
+				CACFBCD567EFB66B8DCB5FCC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		7347C05C08B06A94277B6BDF /* Build configuration list for PBXProject "CallTranscription" */ = {
+		4DB68B75BFB9CC03D4C88E30 /* Build configuration list for PBXNativeTarget "CallTranscriptionTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CEDC12DC98F83BC8FDB383C1 /* Debug */,
-				09D8B020F7BEF72E55822E74 /* Release */,
+				03D99A4E563E65207451DF5E /* Debug */,
+				858A79B7416A14961EDA1D57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		9C4F405A057A524AB719C7ED /* Build configuration list for PBXNativeTarget "CallTranscription" */ = {
+		7226FB7CA61D9AB27C914E51 /* Build configuration list for PBXNativeTarget "CallTranscription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC0B8812141DCB110B81F7A6 /* Debug */,
-				647E4215531FC385806E9629 /* Release */,
+				8337A1A9929D57568FFF6B54 /* Debug */,
+				A879961B1511BBD8E52C347E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 4F0F1ED080CAC680BD7BB5BE /* Project object */;
+	rootObject = 7FC31468B8DA053246E3F730 /* Project object */;
 }
