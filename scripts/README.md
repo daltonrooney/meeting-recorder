@@ -44,7 +44,7 @@ Installs local git hooks for the project.
    - Points to PR checklist
    - Suggests using validated PR creation script
 
-2. **Pre-commit hook** - Validates commit messages:
+2. **Commit-msg hook** - Validates commit messages:
    - Blocks commits with "Generated with Claude Code" footer
    - Blocks commits with "Co-Authored-By: Claude" line
    - Ensures CLAUDE.md compliance

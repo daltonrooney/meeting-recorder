@@ -43,11 +43,11 @@ EOF
 chmod +x "$HOOKS_DIR/pre-push"
 echo "✅ Installed pre-push hook"
 
-# Pre-commit hook
-cat > "$HOOKS_DIR/pre-commit" << 'EOF'
+# Commit-msg hook
+cat > "$HOOKS_DIR/commit-msg" << 'EOF'
 #!/bin/bash
 
-# Pre-commit hook to validate commit messages
+# Commit-msg hook to validate commit messages
 
 # Get the commit message from the file
 commit_msg_file="$1"
@@ -58,12 +58,12 @@ if [ -z "$commit_msg_file" ]; then
 fi
 
 echo ""
-echo "🔍 Pre-Commit Validation"
-echo "========================"
+echo "🔍 Commit Message Validation"
+echo "============================="
 echo ""
 
 # Read the commit message
-commit_msg=$(cat .git/COMMIT_EDITMSG 2>/dev/null || echo "")
+commit_msg=$(cat "$commit_msg_file" 2>/dev/null || echo "")
 
 # Check for forbidden phrases in commit message
 if echo "$commit_msg" | grep -q "Generated with \[Claude Code\]"; then
@@ -86,8 +86,8 @@ echo ""
 exit 0
 EOF
 
-chmod +x "$HOOKS_DIR/pre-commit"
-echo "✅ Installed pre-commit hook"
+chmod +x "$HOOKS_DIR/commit-msg"
+echo "✅ Installed commit-msg hook"
 
 echo ""
 echo "✅ All hooks installed successfully!"
