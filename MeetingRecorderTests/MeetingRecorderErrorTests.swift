@@ -53,13 +53,14 @@ final class MeetingRecorderErrorTests: XCTestCase {
     func testMicrophonePermissionDeniedDescriptionIsActionable() {
         let error = MeetingRecorderError.microphonePermissionDenied
         let description = error.errorDescription
+        let recoverySuggestion = error.recoverySuggestion
 
         // Should mention microphone
         XCTAssertTrue(description?.lowercased().contains("microphone") ?? false)
-        // Should mention System Settings (actionable guidance)
-        XCTAssertTrue(description?.contains("System Settings") ?? false)
-        // Should mention Privacy & Security
-        XCTAssertTrue(description?.contains("Privacy") ?? false)
+        // Should mention System Settings in recovery suggestion (actionable guidance)
+        XCTAssertTrue(recoverySuggestion?.contains("System Settings") ?? false)
+        // Should mention Privacy & Security in recovery suggestion
+        XCTAssertTrue(recoverySuggestion?.contains("Privacy") ?? false)
     }
 
     func testSpeechRecognitionUnavailableHasDescription() {
@@ -73,13 +74,14 @@ final class MeetingRecorderErrorTests: XCTestCase {
     func testSpeechRecognitionUnavailableDescriptionIsActionable() {
         let error = MeetingRecorderError.speechRecognitionUnavailable
         let description = error.errorDescription
+        let recoverySuggestion = error.recoverySuggestion
 
         // Should mention speech recognition
         XCTAssertTrue(description?.lowercased().contains("speech recognition") ?? false)
-        // Should provide actionable guidance (model download, connection)
+        // Should provide actionable guidance in recovery suggestion (model download, connection)
         XCTAssertTrue(
-            (description?.contains("model") ?? false) ||
-            (description?.contains("connection") ?? false)
+            (recoverySuggestion?.contains("model") ?? false) ||
+            (recoverySuggestion?.contains("connection") ?? false)
         )
     }
 
@@ -134,14 +136,15 @@ final class MeetingRecorderErrorTests: XCTestCase {
         let url = URL(fileURLWithPath: "/protected/folder")
         let error = MeetingRecorderError.outputFolderNotWritable(url)
         let description = error.errorDescription
+        let recoverySuggestion = error.recoverySuggestion
 
         // Should mention cannot write
         XCTAssertTrue(
             (description?.lowercased().contains("write") ?? false) ||
             (description?.lowercased().contains("writable") ?? false)
         )
-        // Should suggest selecting different folder
-        XCTAssertTrue(description?.lowercased().contains("select") ?? false)
+        // Should suggest selecting different folder in recovery suggestion
+        XCTAssertTrue(recoverySuggestion?.lowercased().contains("select") ?? false)
     }
 
     func testAudioTapCreationFailedHasDescription() {
@@ -164,11 +167,12 @@ final class MeetingRecorderErrorTests: XCTestCase {
     func testAudioTapCreationFailedDescriptionIsActionable() {
         let error = MeetingRecorderError.audioTapCreationFailed(-50)
         let description = error.errorDescription
+        let recoverySuggestion = error.recoverySuggestion
 
         // Should mention audio tap
         XCTAssertTrue(description?.lowercased().contains("audio tap") ?? false)
-        // Should mention system audio
-        XCTAssertTrue(description?.lowercased().contains("system audio") ?? false)
+        // Should mention system audio in recovery suggestion
+        XCTAssertTrue(recoverySuggestion?.lowercased().contains("system audio") ?? false)
     }
 
     // MARK: - Associated Value Preservation Tests
