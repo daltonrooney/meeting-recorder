@@ -243,4 +243,86 @@ final class SettingsManagerTests: XCTestCase {
         XCTAssertEqual(microphoneChanges.first, false,
                       "Microphone changes should be published")
     }
+
+    // MARK: - Write-Through Persistence Tests
+
+    func testOutputFolderChangeWritesToUserDefaults() async {
+        let newPath = "/Users/test/NewFolder"
+        settingsManager.outputFolder = newPath
+
+        // Give Combine pipeline time to process
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+
+        // Verify it was written to UserDefaults
+        let storedValue = testUserDefaults.string(forKey: "outputFolder")
+        XCTAssertEqual(storedValue, newPath,
+                      "Output folder changes should be written to UserDefaults")
+    }
+
+    func testPostRecordingScriptChangeWritesToUserDefaults() async {
+        let newScript = "/usr/local/bin/new-script.sh"
+        settingsManager.postRecordingScript = newScript
+
+        // Give Combine pipeline time to process
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+
+        // Verify it was written to UserDefaults
+        let storedValue = testUserDefaults.string(forKey: "postRecordingScript")
+        XCTAssertEqual(storedValue, newScript,
+                      "Post-recording script changes should be written to UserDefaults")
+    }
+
+    func testCaptureSystemAudioChangeWritesToUserDefaults() async {
+        settingsManager.captureSystemAudio = false
+
+        // Give Combine pipeline time to process
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+
+        // Verify it was written to UserDefaults
+        let storedValue = testUserDefaults.bool(forKey: "captureSystemAudio")
+        XCTAssertFalse(storedValue,
+                      "Capture system audio changes should be written to UserDefaults")
+    }
+
+    func testCaptureMicrophoneChangeWritesToUserDefaults() async {
+        settingsManager.captureMicrophone = false
+
+        // Give Combine pipeline time to process
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+
+        // Verify it was written to UserDefaults
+        let storedValue = testUserDefaults.bool(forKey: "captureMicrophone")
+        XCTAssertFalse(storedValue,
+                      "Capture microphone changes should be written to UserDefaults")
+    }
+
+    func testMultipleChangesAllPersist() async {
+        // Make multiple changes
+        settingsManager.outputFolder = "/new/output"
+        settingsManager.postRecordingScript = "/new/script.sh"
+        settingsManager.captureSystemAudio = false
+        settingsManager.captureMicrophone = false
+
+        // Give Combine pipeline time to process
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+
+        // Verify all were written
+        XCTAssertEqual(testUserDefaults.string(forKey: "outputFolder"), "/new/output")
+        XCTAssertEqual(testUserDefaults.string(forKey: "postRecordingScript"), "/new/script.sh")
+        XCTAssertFalse(testUserDefaults.bool(forKey: "captureSystemAudio"))
+        XCTAssertFalse(testUserDefaults.bool(forKey: "captureMicrophone"))
+    }
+
+    func testChangesPersistToNewInstance() async {
+        // Make a change
+        settingsManager.outputFolder = "/persistent/folder"
+
+        // Give Combine pipeline time to process
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+
+        // Create new instance - should read the persisted value
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.outputFolder, "/persistent/folder",
+                      "Changes should persist to new instances via UserDefaults")
+    }
 }
