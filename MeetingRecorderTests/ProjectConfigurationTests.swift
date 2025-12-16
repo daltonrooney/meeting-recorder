@@ -9,6 +9,38 @@ import XCTest
 /// This follows best practices: build-time validation for fail-fast, runtime tests for verification.
 final class ProjectConfigurationTests: XCTestCase {
 
+    // MARK: - Constants
+
+    private static let expectedBundleIdentifier = "com.daltonrooney.MeetingRecorder"
+    private static let minimumMacOSVersion = 26
+
+    // MARK: - Helper Methods
+
+    /// Get the main application bundle using a reliable fallback approach.
+    /// Tries multiple methods to ensure we get the correct bundle across different test environments.
+    private func getMainAppBundle() throws -> Bundle {
+        // Method 1: Try to find bundle by identifier in loaded bundles
+        // This works when the app is loaded in the test process
+        if let bundle = Bundle.allBundles.first(where: { $0.bundleIdentifier == Self.expectedBundleIdentifier }) {
+            return bundle
+        }
+
+        // Method 2: Try Bundle.main (works in some test configurations)
+        if Bundle.main.bundleIdentifier == Self.expectedBundleIdentifier {
+            return Bundle.main
+        }
+
+        // Method 3: Look for the app bundle in the test bundle's path
+        // The built app should be in the same directory as the test bundle
+        let testBundlePath = Bundle(for: type(of: self)).bundlePath
+        let appPath = (testBundlePath as NSString).deletingLastPathComponent + "/MeetingRecorder.app"
+        if let bundle = Bundle(path: appPath), bundle.bundleIdentifier == Self.expectedBundleIdentifier {
+            return bundle
+        }
+
+        throw TestError.appBundleNotFound
+    }
+
     // MARK: - Privacy Keys Tests
 
     func testInfoPlistContainsRequiredPrivacyKeys() throws {
@@ -60,11 +92,7 @@ final class ProjectConfigurationTests: XCTestCase {
     }
 
     func testBundleVersionsAreSet() throws {
-        // Test the main app bundle, not the test bundle
-        guard let appBundle = Bundle.allBundles.first(where: { $0.bundleIdentifier == "com.daltonrooney.MeetingRecorder" }) else {
-            XCTFail("Could not find main app bundle")
-            return
-        }
+        let appBundle = try getMainAppBundle()
 
         let version = appBundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         let build = appBundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String
@@ -78,22 +106,33 @@ final class ProjectConfigurationTests: XCTestCase {
     // MARK: - Deployment Target Tests
 
     func testMinimumSystemVersionIsCorrect() throws {
-        // Test the main app bundle, not the test bundle
-        guard let appBundle = Bundle.allBundles.first(where: { $0.bundleIdentifier == "com.daltonrooney.MeetingRecorder" }) else {
-            XCTFail("Could not find main app bundle")
-            return
-        }
+        let appBundle = try getMainAppBundle()
 
         // The minimum macOS version should be set to 26.0 or higher
         let minimumVersion = appBundle.object(forInfoDictionaryKey: "LSMinimumSystemVersion") as? String
 
         XCTAssertNotNil(minimumVersion, "LSMinimumSystemVersion must be set")
 
-        if let versionString = minimumVersion {
-            // Parse version string (e.g., "26.0")
-            let components = versionString.split(separator: ".").compactMap { Int($0) }
-            XCTAssertGreaterThanOrEqual(components.first ?? 0, 26,
-                                       "Minimum system version should be macOS 26.0 or higher")
+        guard let versionString = minimumVersion else {
+            XCTFail("LSMinimumSystemVersion is nil")
+            return
         }
+
+        // Parse version string (e.g., "26.0")
+        let components = versionString.split(separator: ".").compactMap { Int($0) }
+
+        guard let majorVersion = components.first else {
+            XCTFail("Could not parse major version from '\(versionString)'")
+            return
+        }
+
+        XCTAssertGreaterThanOrEqual(majorVersion, Self.minimumMacOSVersion,
+                                   "Minimum system version should be macOS \(Self.minimumMacOSVersion).0 or higher, but found \(versionString)")
+    }
+
+    // MARK: - Error Types
+
+    enum TestError: Error {
+        case appBundleNotFound
     }
 }

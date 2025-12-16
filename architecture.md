@@ -8,7 +8,7 @@ MeetingRecorder is a macOS menu bar application that captures audio from both si
 
 ## Target Platform
 
-- **Minimum macOS Version**: macOS 26.0 (Sequoia) for `SpeechTranscriber` API
+- **Minimum macOS Version**: macOS 26.0 for `SpeechTranscriber` API
 - **Language**: Swift 6 / SwiftUI
 - **Architecture**: Native macOS app bundle
 
