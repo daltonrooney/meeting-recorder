@@ -19,8 +19,8 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone access is required to record audio from calls for transcription.</string>
+	<string>This app needs microphone access to record audio from calls for transcription.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Speech recognition is used to transcribe audio from calls into text.</string>
+	<string>This app uses speech recognition to transcribe audio from calls into text.</string>
 </dict>
 </plist>
