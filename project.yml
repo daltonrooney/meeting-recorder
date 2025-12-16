@@ -1,6 +1,6 @@
-name: MeetingRecorder
+name: CallTranscription
 options:
-  bundleIdPrefix: com.daltonrooney
+  bundleIdPrefix: dev.rygn
   deploymentTarget:
     macOS: "26.0"
   developmentLanguage: en
@@ -8,31 +8,31 @@ options:
 
 settings:
   base:
-    PRODUCT_NAME: MeetingRecorder
-    PRODUCT_BUNDLE_IDENTIFIER: com.daltonrooney.MeetingRecorder
+    PRODUCT_NAME: CallTranscription
+    PRODUCT_BUNDLE_IDENTIFIER: dev.rygn.CallTranscription
     MACOSX_DEPLOYMENT_TARGET: "26.0"
     SWIFT_VERSION: "6.0"
     ENABLE_PREVIEWS: YES
     ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     GENERATE_INFOPLIST_FILE: NO
-    INFOPLIST_FILE: MeetingRecorder/Info.plist
-    CODE_SIGN_ENTITLEMENTS: MeetingRecorder/MeetingRecorder.entitlements
+    INFOPLIST_FILE: CallTranscription/Info.plist
+    CODE_SIGN_ENTITLEMENTS: CallTranscription/CallTranscription.entitlements
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: ""
 
 targets:
-  MeetingRecorder:
+  CallTranscription:
     type: application
     platform: macOS
     sources:
-      - path: MeetingRecorder
+      - path: CallTranscription
         excludes:
           - "*.plist"
           - "*.entitlements"
     info:
-      path: MeetingRecorder/Info.plist
+      path: CallTranscription/Info.plist
     entitlements:
-      path: MeetingRecorder/MeetingRecorder.entitlements
+      path: CallTranscription/CallTranscription.entitlements
     preBuildScripts:
       - name: Validate Configuration
         script: |
@@ -42,10 +42,10 @@ targets:
         basedOnDependencyAnalysis: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.daltonrooney.MeetingRecorder
-        PRODUCT_MODULE_NAME: MeetingRecorder
-        INFOPLIST_FILE: MeetingRecorder/Info.plist
-        CODE_SIGN_ENTITLEMENTS: MeetingRecorder/MeetingRecorder.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: dev.rygn.CallTranscription
+        PRODUCT_MODULE_NAME: CallTranscription
+        INFOPLIST_FILE: CallTranscription/Info.plist
+        CODE_SIGN_ENTITLEMENTS: CallTranscription/CallTranscription.entitlements
         DEFINES_MODULE: YES
       configs:
         Debug:
@@ -56,20 +56,20 @@ targets:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
           GCC_OPTIMIZATION_LEVEL: "s"
 
-  MeetingRecorderTests:
+  CallTranscriptionTests:
     type: bundle.unit-test
     platform: macOS
     sources:
-      - path: MeetingRecorderTests
+      - path: CallTranscriptionTests
     dependencies:
-      - target: MeetingRecorder
+      - target: CallTranscription
     entitlements:
-      path: MeetingRecorderTests/MeetingRecorderTests.entitlements
+      path: CallTranscriptionTests/CallTranscriptionTests.entitlements
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.daltonrooney.MeetingRecorderTests
-        PRODUCT_MODULE_NAME: MeetingRecorderTests
-        CODE_SIGN_ENTITLEMENTS: MeetingRecorderTests/MeetingRecorderTests.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: dev.rygn.CallTranscriptionTests
+        PRODUCT_MODULE_NAME: CallTranscriptionTests
+        CODE_SIGN_ENTITLEMENTS: CallTranscriptionTests/CallTranscriptionTests.entitlements
         GENERATE_INFOPLIST_FILE: YES
       configs:
         Debug:
@@ -79,17 +79,17 @@ targets:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
 
 schemes:
-  MeetingRecorder:
+  CallTranscription:
     build:
       targets:
-        MeetingRecorder: all
-        MeetingRecorderTests: [test]
+        CallTranscription: all
+        CallTranscriptionTests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - name: MeetingRecorderTests
+        - name: CallTranscriptionTests
     profile:
       config: Release
     analyze:

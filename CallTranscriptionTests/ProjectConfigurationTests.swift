@@ -11,7 +11,7 @@ final class ProjectConfigurationTests: XCTestCase {
 
     // MARK: - Constants
 
-    private static let expectedBundleIdentifier = "com.daltonrooney.CallTranscription"
+    private static let expectedBundleIdentifier = "dev.rygn.CallTranscription"
     private static let minimumMacOSVersion = 26
 
     // MARK: - Helper Methods
@@ -87,7 +87,7 @@ final class ProjectConfigurationTests: XCTestCase {
         let bundleId = bundle.bundleIdentifier
 
         XCTAssertNotNil(bundleId, "Bundle identifier must be set")
-        XCTAssertTrue(bundleId?.hasPrefix("com.daltonrooney.") ?? false,
+        XCTAssertTrue(bundleId?.hasPrefix("dev.rygn.") ?? false,
                       "Bundle ID should use correct prefix")
     }
 

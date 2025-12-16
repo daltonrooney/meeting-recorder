@@ -257,7 +257,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
 				PRODUCT_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -279,7 +279,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
 				PRODUCT_MODULE_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -298,7 +298,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscriptionTests;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscriptionTests;
 				PRODUCT_MODULE_NAME = CallTranscriptionTests;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -319,7 +319,7 @@
 					"@loader_path/../Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscriptionTests;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscriptionTests;
 				PRODUCT_MODULE_NAME = CallTranscriptionTests;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -341,7 +341,7 @@
 					"@executable_path/../Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
 				PRODUCT_MODULE_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -410,7 +410,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
 				PRODUCT_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
