@@ -44,7 +44,7 @@ final class ProjectConfigurationTests: XCTestCase {
     // MARK: - Privacy Keys Tests
 
     func testInfoPlistContainsRequiredPrivacyKeys() throws {
-        let bundle = Bundle(for: type(of: self))
+        let bundle = try getMainAppBundle()
 
         // Test microphone usage description
         let microphoneDesc = bundle.object(forInfoDictionaryKey: "NSMicrophoneUsageDescription") as? String
@@ -62,7 +62,7 @@ final class ProjectConfigurationTests: XCTestCase {
     }
 
     func testPrivacyDescriptionsAreUserFriendly() throws {
-        let bundle = Bundle(for: type(of: self))
+        let bundle = try getMainAppBundle()
 
         let microphoneDesc = bundle.object(forInfoDictionaryKey: "NSMicrophoneUsageDescription") as? String
         let speechDesc = bundle.object(forInfoDictionaryKey: "NSSpeechRecognitionUsageDescription") as? String
@@ -83,7 +83,7 @@ final class ProjectConfigurationTests: XCTestCase {
     // MARK: - Bundle Configuration Tests
 
     func testBundleIdentifierIsCorrect() throws {
-        let bundle = Bundle(for: type(of: self))
+        let bundle = try getMainAppBundle()
         let bundleId = bundle.bundleIdentifier
 
         XCTAssertNotNil(bundleId, "Bundle identifier must be set")

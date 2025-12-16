@@ -41,8 +41,25 @@ check_tdd_commits() {
     echo ""
     echo "📝 Checking commit history for TDD evidence..."
 
-    local test_commits=$(git log --oneline --grep="^test:" origin/dev..HEAD 2>/dev/null | wc -l | tr -d ' ')
-    local feat_commits=$(git log --oneline --grep="^feat:" origin/dev..HEAD 2>/dev/null | wc -l | tr -d ' ')
+    # Detect the default branch dynamically
+    local default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+    if [ -z "$default_branch" ]; then
+        # Fallback: try common default branches
+        for branch in dev main master; do
+            if git rev-parse --verify "origin/$branch" >/dev/null 2>&1; then
+                default_branch="$branch"
+                break
+            fi
+        done
+    fi
+
+    if [ -z "$default_branch" ]; then
+        echo "⚠️  Warning: Could not detect default branch, skipping TDD check"
+        return
+    fi
+
+    local test_commits=$(git log --oneline --grep="^test:" "origin/$default_branch..HEAD" 2>/dev/null | wc -l | tr -d ' ')
+    local feat_commits=$(git log --oneline --grep="^feat:" "origin/$default_branch..HEAD" 2>/dev/null | wc -l | tr -d ' ')
 
     echo "   Test commits: $test_commits"
     echo "   Feature commits: $feat_commits"
