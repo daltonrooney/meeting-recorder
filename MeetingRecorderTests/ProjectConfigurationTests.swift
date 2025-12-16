@@ -24,6 +24,22 @@ final class ProjectConfigurationTests: XCTestCase {
 
     // MARK: - Info.plist Tests
 
+    func testProjectRootCanBeFound() throws {
+        let sourceFileURL = URL(fileURLWithPath: #file)
+        print("Source file: \(sourceFileURL.path)")
+
+        let currentDir = FileManager.default.currentDirectoryPath
+        print("Current directory: \(currentDir)")
+
+        let pwd = ProcessInfo.processInfo.environment["PWD"] ?? "not set"
+        print("PWD: \(pwd)")
+
+        let projectRoot = try findProjectRoot()
+        print("Project root: \(projectRoot.path)")
+
+        XCTAssertTrue(FileManager.default.fileExists(atPath: projectRoot.path), "Project root should exist")
+    }
+
     func testInfoPlistContainsMicrophoneUsageDescription() throws {
         guard let infoPlist = cachedInfoPlist else {
             XCTFail("Failed to load Info.plist")
@@ -136,9 +152,14 @@ final class ProjectConfigurationTests: XCTestCase {
 
     // MARK: - Helper Methods
 
-    /// Loads Info.plist from the main bundle
+    /// Loads Info.plist from the project source
     private func loadInfoPlist() throws -> [String: Any] {
-        guard let infoPlistPath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
+        let projectRoot = try findProjectRoot()
+        let infoPlistPath = projectRoot
+            .appendingPathComponent("MeetingRecorder/Info.plist")
+            .path
+
+        guard FileManager.default.fileExists(atPath: infoPlistPath) else {
             throw TestError.infoPlistNotFound
         }
 
@@ -191,27 +212,59 @@ final class ProjectConfigurationTests: XCTestCase {
             .path
     }
 
-    /// Finds the project root directory by searching upward for marker files
-    /// This is more robust than assuming a specific bundle structure
+    /// Finds the project root directory
+    /// TODO: Improve path resolution to work reliably in all environments
+    /// Current limitation: Tests run in sandboxed app container, making source file access difficult
     private func findProjectRoot() throws -> URL {
-        var currentURL = Bundle(for: type(of: self)).bundleURL
+        let fileManager = FileManager.default
 
-        // Search upward for the project root (contains .xcodeproj or project.yml)
-        for _ in 0..<10 { // Limit search depth to prevent infinite loops
-            let xcodeproj = currentURL.appendingPathComponent("MeetingRecorder.xcodeproj")
-            let projectYml = currentURL.appendingPathComponent("project.yml")
+        // Try PWD environment variable first (set by xcodebuild when not sandboxed)
+        if let pwd = ProcessInfo.processInfo.environment["PWD"] {
+            let pwdURL = URL(fileURLWithPath: pwd)
+            let xcodeproj = pwdURL.appendingPathComponent("MeetingRecorder.xcodeproj")
+            let projectYml = pwdURL.appendingPathComponent("project.yml")
 
-            if FileManager.default.fileExists(atPath: xcodeproj.path) ||
-               FileManager.default.fileExists(atPath: projectYml.path) {
-                return currentURL
+            if fileManager.fileExists(atPath: xcodeproj.path) ||
+               fileManager.fileExists(atPath: projectYml.path) {
+                return pwdURL
             }
+        }
 
-            let parentURL = currentURL.deletingLastPathComponent()
-            if parentURL == currentURL {
-                // Reached filesystem root without finding project
-                break
+        // Try current directory
+        let currentDir = fileManager.currentDirectoryPath
+        let currentURL = URL(fileURLWithPath: currentDir)
+
+        let xcodeproj = currentURL.appendingPathComponent("MeetingRecorder.xcodeproj")
+        let projectYml = currentURL.appendingPathComponent("project.yml")
+
+        if fileManager.fileExists(atPath: xcodeproj.path) ||
+           fileManager.fileExists(atPath: projectYml.path) {
+            return currentURL
+        }
+
+        // Temporary fallback: Use git to find repository root
+        // This works even in sandboxed environment if git is accessible
+        let gitProcess = Process()
+        gitProcess.executableURL = URL(fileURLWithPath: "/usr/bin/git")
+        gitProcess.arguments = ["rev-parse", "--show-toplevel"]
+
+        let pipe = Pipe()
+        gitProcess.standardOutput = pipe
+        gitProcess.standardError = Pipe()
+
+        try? gitProcess.run()
+        gitProcess.waitUntilExit()
+
+        if gitProcess.terminationStatus == 0 {
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            if let gitRoot = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                let gitRootURL = URL(fileURLWithPath: gitRoot)
+                let xcodeproj = gitRootURL.appendingPathComponent("MeetingRecorder.xcodeproj")
+
+                if fileManager.fileExists(atPath: xcodeproj.path) {
+                    return gitRootURL
+                }
             }
-            currentURL = parentURL
         }
 
         throw TestError.projectNotFound

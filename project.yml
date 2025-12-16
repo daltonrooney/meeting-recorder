@@ -36,12 +36,15 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.daltonrooney.MeetingRecorder
+        PRODUCT_MODULE_NAME: MeetingRecorder
         INFOPLIST_FILE: MeetingRecorder/Info.plist
         CODE_SIGN_ENTITLEMENTS: MeetingRecorder/MeetingRecorder.entitlements
+        DEFINES_MODULE: YES
       configs:
         Debug:
           SWIFT_OPTIMIZATION_LEVEL: "-Onone"
           GCC_OPTIMIZATION_LEVEL: "0"
+          ONLY_ACTIVE_ARCH: YES
         Release:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
           GCC_OPTIMIZATION_LEVEL: "s"
@@ -53,14 +56,18 @@ targets:
       - path: MeetingRecorderTests
     dependencies:
       - target: MeetingRecorder
+    entitlements:
+      path: MeetingRecorderTests/MeetingRecorderTests.entitlements
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.daltonrooney.MeetingRecorderTests
-        INFOPLIST_FILE: MeetingRecorderTests/Info.plist
+        PRODUCT_MODULE_NAME: MeetingRecorderTests
+        CODE_SIGN_ENTITLEMENTS: MeetingRecorderTests/MeetingRecorderTests.entitlements
         GENERATE_INFOPLIST_FILE: YES
       configs:
         Debug:
           SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+          ONLY_ACTIVE_ARCH: YES
         Release:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
 
@@ -69,6 +76,7 @@ schemes:
     build:
       targets:
         MeetingRecorder: all
+        MeetingRecorderTests: [test]
     run:
       config: Debug
     test:
