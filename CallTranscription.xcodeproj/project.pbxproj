@@ -14,6 +14,7 @@
 		892538670FEEB9B0A611ECE2 /* CallTranscriptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1291776FAF1F50A6D74B6 /* CallTranscriptionError.swift */; };
 		AFE020D3997B0BA2F2D829CA /* SettingsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C01FD18BE02FEBF100E8663 /* SettingsManagerTests.swift */; };
 		CA76C34D8CB9196337C1E551 /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E4256CF449F0EA7EF6DB /* ProjectConfigurationTests.swift */; };
+		E47BFBD3C927D2B54AD26D82 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D768B922F268100D8748CC6 /* SettingsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		0AC1291776FAF1F50A6D74B6 /* CallTranscriptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionError.swift; sourceTree = "<group>"; };
+		0D768B922F268100D8748CC6 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		0FD8A3996AEA71A095A8FF3D /* CallTranscriptionTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallTranscriptionTests.entitlements; sourceTree = "<group>"; };
 		38D38A046EB7BB650D0DE9AE /* CallTranscription.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallTranscription.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41BB01769B57BC5597D4228A /* CallTranscriptionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionApp.swift; sourceTree = "<group>"; };
@@ -44,6 +46,14 @@
 			isa = PBXGroup;
 			children = (
 				7C01FD18BE02FEBF100E8663 /* SettingsManagerTests.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		177DCA62975329DFB3B90976 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0D768B922F268100D8748CC6 /* SettingsManager.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -66,6 +76,7 @@
 				6C271E6DA5902D32B25006F0 /* AppState.swift */,
 				41BB01769B57BC5597D4228A /* CallTranscriptionApp.swift */,
 				0AC1291776FAF1F50A6D74B6 /* CallTranscriptionError.swift */,
+				177DCA62975329DFB3B90976 /* Settings */,
 			);
 			path = CallTranscription;
 			sourceTree = "<group>";
@@ -208,6 +219,7 @@
 				32F37637558779CDE091F796 /* AppState.swift in Sources */,
 				8869D04B8F22E78E5BC3A5C7 /* CallTranscriptionApp.swift in Sources */,
 				892538670FEEB9B0A611ECE2 /* CallTranscriptionError.swift in Sources */,
+				E47BFBD3C927D2B54AD26D82 /* SettingsManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
