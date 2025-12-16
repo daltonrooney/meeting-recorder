@@ -13,8 +13,13 @@ import OSLog
 /// This class provides the API surface and infrastructure for future system audio capture
 /// functionality while currently serving as a microphone capture mechanism.
 ///
+/// **TODO: CLASS NAMING ISSUE** - This class should either:
+/// - Be renamed to reflect actual behavior (e.g., `MicrophoneCapturePlus`)
+/// - Implement actual Core Audio Process Tap for system audio
+/// - Be removed until proper implementation is ready
+///
 /// - Important: Requires macOS 14.2+ for future Core Audio tap support.
-/// - Note: Process filtering parameters are accepted but not currently functional.
+/// - Note: Process filtering parameters will throw an error if used (not implemented).
 ///
 /// Example usage:
 /// ```swift
@@ -39,7 +44,6 @@ public final class SystemAudioCapture {
     private let audioEngine = AVAudioEngine()
     private var isCapturing = false
     private let bufferSize: AVAudioFrameCount = 1024  // Aligned with MicrophoneCapture
-    private var aggregateDeviceID: AudioDeviceID?
     private let logger = Logger(subsystem: "dev.rygn.CallTranscription", category: "SystemAudioCapture")
 
     // MARK: - Initialization
@@ -54,9 +58,6 @@ public final class SystemAudioCapture {
             audioEngine.stop()
             audioEngine.inputNode.removeTap(onBus: 0)
         }
-        if let deviceID = aggregateDeviceID {
-            destroyAggregateDevice(deviceID)
-        }
     }
 
     // MARK: - Public Methods
@@ -64,27 +65,24 @@ public final class SystemAudioCapture {
     /// Starts capturing audio.
     ///
     /// **LIMITATION**: Currently captures microphone input, not system audio output.
-    /// Process filtering is not yet implemented.
     ///
     /// - Parameters:
-    ///   - excludingProcesses: Process IDs to exclude (NOT IMPLEMENTED - parameter ignored)
-    ///   - includingProcesses: Process IDs to include (NOT IMPLEMENTED - parameter ignored)
-    /// - Throws: `CallTranscriptionError.audioTapCreationFailed` if capture setup fails
+    ///   - excludingProcesses: Process IDs to exclude (NOT IMPLEMENTED - throws error if non-empty)
+    ///   - includingProcesses: Process IDs to include (NOT IMPLEMENTED - throws error if non-empty)
+    /// - Throws: `CallTranscriptionError.featureNotImplemented` if process filtering requested,
+    ///   `CallTranscriptionError.audioTapCreationFailed` if capture setup fails,
     ///   or `CallTranscriptionError.microphonePermissionDenied` if permission not granted
     /// - Note: This method is idempotent - multiple calls are safe
-    ///
-    /// - Warning: Process filtering parameters are currently ignored. Providing these
-    ///   parameters will log a warning but will not affect capture behavior.
     public func startCapture(excludingProcesses: [pid_t] = [], includingProcesses: [pid_t] = []) async throws {
         // Handle multiple start calls gracefully
         guard !isCapturing else {
             return
         }
 
-        // Log warning if process filtering is requested (not yet implemented)
+        // Reject process filtering (not yet implemented)
         if !excludingProcesses.isEmpty || !includingProcesses.isEmpty {
-            logger.warning("Process filtering requested but not implemented. Parameters will be ignored.")
-            logger.warning("excludingProcesses: \(excludingProcesses), includingProcesses: \(includingProcesses)")
+            logger.error("Process filtering requested but not implemented")
+            throw CallTranscriptionError.featureNotImplemented("Process filtering")
         }
 
         // Check microphone permission (since we're currently using inputNode)
@@ -93,25 +91,9 @@ public final class SystemAudioCapture {
             throw CallTranscriptionError.microphonePermissionDenied
         }
 
-        // Create aggregate device for audio capture
-        // TODO: Replace with actual system audio tap implementation
-        do {
-            aggregateDeviceID = try createAggregateDevice()
-        } catch let error as CallTranscriptionError {
-            throw error
-        } catch {
-            let osStatus = (error as NSError).code
-            throw CallTranscriptionError.audioTapCreationFailed(OSStatus(osStatus))
-        }
-
-        // Configure audio engine
-        guard let deviceID = aggregateDeviceID else {
-            throw CallTranscriptionError.audioTapCreationFailed(-2)
-        }
-
         // Set up audio input tap
         // CURRENT BEHAVIOR: Uses inputNode (microphone)
-        // FUTURE: Should tap system audio output via Core Audio Process Tap
+        // FUTURE TODO: Should tap system audio output via Core Audio Process Tap
         let inputNode = audioEngine.inputNode
         let format = inputNode.outputFormat(forBus: 0)
 
@@ -144,12 +126,6 @@ public final class SystemAudioCapture {
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         isCapturing = false
-
-        // Clean up aggregate device
-        if let deviceID = aggregateDeviceID {
-            destroyAggregateDevice(deviceID)
-            aggregateDeviceID = nil
-        }
     }
 
     // MARK: - Private Methods
@@ -175,58 +151,5 @@ public final class SystemAudioCapture {
         #else
         return false
         #endif
-    }
-
-    /// Creates or identifies an audio device for capture.
-    ///
-    /// - Returns: AudioDeviceID for the capture device
-    /// - Throws: `CallTranscriptionError.audioTapCreationFailed` if device setup fails
-    ///
-    /// **CURRENT IMPLEMENTATION**: Returns default output device
-    /// **FUTURE TODO**: Create actual aggregate device combining system output with loopback
-    private func createAggregateDevice() throws -> AudioDeviceID {
-        // Get default output device
-        var deviceID = AudioDeviceID()
-        var propertySize = UInt32(MemoryLayout<AudioDeviceID>.size)
-
-        var propertyAddress = AudioObjectPropertyAddress(
-            mSelector: kAudioHardwarePropertyDefaultOutputDevice,
-            mScope: kAudioObjectPropertyScopeGlobal,
-            mElement: kAudioObjectPropertyElementMain
-        )
-
-        let status = AudioObjectGetPropertyData(
-            AudioObjectID(kAudioObjectSystemObject),
-            &propertyAddress,
-            0,
-            nil,
-            &propertySize,
-            &deviceID
-        )
-
-        guard status == noErr else {
-            throw CallTranscriptionError.audioTapCreationFailed(status)
-        }
-
-        // NOTE: This returns the default output device but doesn't actually
-        // create an aggregate device or set up system audio tapping.
-        // A complete implementation would:
-        // 1. Create an aggregate device via Audio HAL
-        // 2. Configure it to tap system audio output
-        // 3. Set it as the audioEngine's input device
-        // For now, audioEngine will use the default microphone input.
-
-        return deviceID
-    }
-
-    /// Cleans up aggregate device resources.
-    ///
-    /// - Parameter deviceID: The device to clean up
-    ///
-    /// **FUTURE TODO**: Implement actual aggregate device destruction
-    private func destroyAggregateDevice(_ deviceID: AudioDeviceID) {
-        // Cleanup of aggregate device
-        // Currently a no-op since we're using the default device
-        // Future implementation should destroy the aggregate device via Audio HAL
     }
 }

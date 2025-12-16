@@ -21,6 +21,9 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
     /// Failed to create Core Audio tap for system audio capture.
     case audioTapCreationFailed(OSStatus)
 
+    /// Requested feature is not yet implemented.
+    case featureNotImplemented(String)
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -39,6 +42,9 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .audioTapCreationFailed(let status):
             return "Failed to create audio tap (error \(status))."
+
+        case .featureNotImplemented(let feature):
+            return "\(feature) is not yet implemented."
         }
     }
 
@@ -58,6 +64,9 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .audioTapCreationFailed(let status):
             return "Core Audio returned error code \(status) when attempting to create a system audio tap."
+
+        case .featureNotImplemented(let feature):
+            return "\(feature) functionality has not been implemented yet."
         }
     }
 
@@ -77,6 +86,9 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .audioTapCreationFailed:
             return "System audio capture is unavailable. Try restarting the app or check for system audio conflicts."
+
+        case .featureNotImplemented:
+            return "This feature will be available in a future version."
         }
     }
 }
