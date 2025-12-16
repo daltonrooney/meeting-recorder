@@ -19,10 +19,8 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Olive - Call Transcription needs microphone access to record your audio during calls.</string>
+	<string>Olive needs access to your microphone to record and transcribe your calls in real-time.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Olive - Call Transcription uses speech recognition to transcribe call audio in real-time.</string>
-	<key>NSAppleEventsUsageDescription</key>
-	<string>Olive - Call Transcription needs access to system audio to record other participants and system sounds.</string>
+	<string>Olive uses speech recognition to transcribe your call audio into text.</string>
 </dict>
 </plist>

@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93037C6606DB7A7975C52A72"
+               BlueprintIdentifier = "1601182A1F385775828F8B89"
                BuildableName = "CallTranscription.app"
                BlueprintName = "CallTranscription"
                ReferencedContainer = "container:CallTranscription.xcodeproj">
@@ -29,7 +29,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "44B7EAEEB8CA8C1BED98A6A8"
+               BlueprintIdentifier = "0870270C8F53E4DBA523951A"
                BuildableName = "CallTranscriptionTests.xctest"
                BlueprintName = "CallTranscriptionTests"
                ReferencedContainer = "container:CallTranscription.xcodeproj">
@@ -46,7 +46,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "93037C6606DB7A7975C52A72"
+            BlueprintIdentifier = "1601182A1F385775828F8B89"
             BuildableName = "CallTranscription.app"
             BlueprintName = "CallTranscription"
             ReferencedContainer = "container:CallTranscription.xcodeproj">
@@ -58,7 +58,7 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "44B7EAEEB8CA8C1BED98A6A8"
+               BlueprintIdentifier = "0870270C8F53E4DBA523951A"
                BuildableName = "CallTranscriptionTests.xctest"
                BlueprintName = "CallTranscriptionTests"
                ReferencedContainer = "container:CallTranscription.xcodeproj">
@@ -82,7 +82,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "93037C6606DB7A7975C52A72"
+            BlueprintIdentifier = "1601182A1F385775828F8B89"
             BuildableName = "CallTranscription.app"
             BlueprintName = "CallTranscription"
             ReferencedContainer = "container:CallTranscription.xcodeproj">
@@ -101,7 +101,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "93037C6606DB7A7975C52A72"
+            BlueprintIdentifier = "1601182A1F385775828F8B89"
             BuildableName = "CallTranscription.app"
             BlueprintName = "CallTranscription"
             ReferencedContainer = "container:CallTranscription.xcodeproj">
