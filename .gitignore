@@ -1,0 +1,32 @@
+# Xcode
+build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+.swiftpm/
+
+# macOS
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Dependencies
+Carthage/
+Pods/
+
+# Test Results
+*.xcresult
+*.gcda
+*.gcno
+coverage/
+
+# Temporary Files
+*.orig
+*.rej
+*.log
