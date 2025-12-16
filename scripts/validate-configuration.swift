@@ -42,12 +42,19 @@ struct ConfigurationValidator {
             throw ValidationError.fileNotReadable("Could not read Info.plist")
         }
 
-        guard let infoPlist = try PropertyListSerialization.propertyList(
-            from: infoPlistData,
-            options: [],
-            format: nil
-        ) as? [String: Any] else {
-            throw ValidationError.invalidFormat("Info.plist has invalid format")
+        let plistObject: Any
+        do {
+            plistObject = try PropertyListSerialization.propertyList(
+                from: infoPlistData,
+                options: [],
+                format: nil
+            )
+        } catch {
+            throw ValidationError.invalidFormat("Info.plist parsing failed: \(error.localizedDescription)")
+        }
+
+        guard let infoPlist = plistObject as? [String: Any] else {
+            throw ValidationError.invalidFormat("Info.plist must be a dictionary, found: \(type(of: plistObject))")
         }
 
         // Validate required privacy keys
@@ -81,12 +88,19 @@ struct ConfigurationValidator {
             throw ValidationError.fileNotReadable("Could not read entitlements file")
         }
 
-        guard let entitlements = try PropertyListSerialization.propertyList(
-            from: entitlementsData,
-            options: [],
-            format: nil
-        ) as? [String: Any] else {
-            throw ValidationError.invalidFormat("Entitlements file has invalid format")
+        let entitlementsObject: Any
+        do {
+            entitlementsObject = try PropertyListSerialization.propertyList(
+                from: entitlementsData,
+                options: [],
+                format: nil
+            )
+        } catch {
+            throw ValidationError.invalidFormat("Entitlements parsing failed: \(error.localizedDescription)")
+        }
+
+        guard let entitlements = entitlementsObject as? [String: Any] else {
+            throw ValidationError.invalidFormat("Entitlements must be a dictionary, found: \(type(of: entitlementsObject))")
         }
 
         // Validate required entitlements
@@ -120,8 +134,11 @@ struct ConfigurationValidator {
             throw ValidationError.fileNotFound("project.pbxproj not found at: \(projectPath)")
         }
 
-        guard let projectContent = try? String(contentsOfFile: projectPath, encoding: .utf8) else {
-            throw ValidationError.fileNotReadable("Could not read project.pbxproj")
+        let projectContent: String
+        do {
+            projectContent = try String(contentsOfFile: projectPath, encoding: .utf8)
+        } catch {
+            throw ValidationError.fileNotReadable("Could not read project.pbxproj: \(error.localizedDescription)")
         }
 
         // Check for Debug configuration
@@ -146,8 +163,11 @@ struct ConfigurationValidator {
             .appendingPathComponent("MeetingRecorder.xcodeproj/project.pbxproj")
             .path
 
-        guard let projectContent = try? String(contentsOfFile: projectPath, encoding: .utf8) else {
-            throw ValidationError.fileNotReadable("Could not read project.pbxproj")
+        let projectContent: String
+        do {
+            projectContent = try String(contentsOfFile: projectPath, encoding: .utf8)
+        } catch {
+            throw ValidationError.fileNotReadable("Could not read project.pbxproj: \(error.localizedDescription)")
         }
 
         guard projectContent.contains("MACOSX_DEPLOYMENT_TARGET") else {
