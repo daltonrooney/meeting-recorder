@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		053A944577AD8C87F4BC2EB5 /* MeetingRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D26A6FD0F50DA4C06EEBC0 /* MeetingRecorderApp.swift */; };
-		897C21DB909E4B609544F9B8 /* BuildScriptValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5165037845B3BDA0978826 /* BuildScriptValidationTests.swift */; };
 		FB0D772AFC12CEE59F53D174 /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +27,6 @@
 		9C44A872BDECD6F1549C13CA /* MeetingRecorderTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MeetingRecorderTests.entitlements; sourceTree = "<group>"; };
 		A70F7BE32AB1ED7A9D98D286 /* MeetingRecorderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingRecorderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5A5E7D89DE1ADF1AF506A9 /* MeetingRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeetingRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EB5165037845B3BDA0978826 /* BuildScriptValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildScriptValidationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -44,7 +42,6 @@
 		82F54D8E8FD9E03D94BA746C /* MeetingRecorderTests */ = {
 			isa = PBXGroup;
 			children = (
-				EB5165037845B3BDA0978826 /* BuildScriptValidationTests.swift */,
 				9C44A872BDECD6F1549C13CA /* MeetingRecorderTests.entitlements */,
 				29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */,
 			);
@@ -182,7 +179,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				897C21DB909E4B609544F9B8 /* BuildScriptValidationTests.swift in Sources */,
 				FB0D772AFC12CEE59F53D174 /* ProjectConfigurationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
