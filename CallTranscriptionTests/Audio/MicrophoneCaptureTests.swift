@@ -118,24 +118,34 @@ final class MicrophoneCaptureTests: XCTestCase {
     }
 
     func testBuffersStopArrivingAfterStop() async throws {
-        var bufferCount = 0
+        var bufferCountDuringCapture = 0
+        var bufferCountAfterStop = 0
+        var isStopped = false
         let expectation = expectation(description: "Buffers stop after stop")
         expectation.isInverted = true
 
         microphoneCapture.audioBufferHandler = { _ in
-            bufferCount += 1
-            if bufferCount > 3 {
-                // If we receive more than 3 buffers after stop, fail
-                expectation.fulfill()
+            if isStopped {
+                bufferCountAfterStop += 1
+                if bufferCountAfterStop == 1 {
+                    // Only fulfill once if we receive buffers after stop
+                    expectation.fulfill()
+                }
+            } else {
+                bufferCountDuringCapture += 1
             }
         }
 
         try await microphoneCapture.startCapture()
         try await Task.sleep(nanoseconds: 500_000_000) // Let some buffers arrive
         await microphoneCapture.stopCapture()
+        isStopped = true
 
         // After stop, no more buffers should arrive
         await fulfillment(of: [expectation], timeout: 2.0)
+
+        // Verify we actually received buffers during capture
+        XCTAssertGreaterThan(bufferCountDuringCapture, 0, "Should have received buffers during capture")
     }
 
     func testMultipleStopCallsAreSafe() async throws {
