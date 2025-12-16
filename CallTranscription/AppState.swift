@@ -24,13 +24,17 @@ public final class AppState: ObservableObject {
     /// Start time of the current recording.
     private var startTime: Date?
 
-    /// Total accumulated seconds for the current recording.
-    private var totalSeconds: Int = 0
-
     // MARK: - Initialization
 
     public init() {
         // Initialize with default values (already set in property declarations)
+    }
+
+    nonisolated deinit {
+        MainActor.assumeIsolated {
+            timer?.invalidate()
+            timer = nil
+        }
     }
 
     // MARK: - Public Methods
@@ -44,7 +48,7 @@ public final class AppState: ObservableObject {
     ///
     /// If recording is already in progress, this method handles the call gracefully
     /// by doing nothing (idempotent).
-    public func startRecording() async {
+    public func startRecording() {
         // Handle multiple start calls gracefully
         guard !isRecording else {
             return
@@ -52,7 +56,6 @@ public final class AppState: ObservableObject {
 
         // Update state
         isRecording = true
-        totalSeconds = 0
         startTime = Date()
 
         // Start timer for elapsed time tracking
@@ -68,7 +71,7 @@ public final class AppState: ObservableObject {
     ///
     /// If recording is not in progress, this method handles the call gracefully
     /// by doing nothing (idempotent).
-    public func stopRecording() async {
+    public func stopRecording() {
         // Handle stop when not recording gracefully
         guard isRecording else {
             return
@@ -79,7 +82,6 @@ public final class AppState: ObservableObject {
 
         // Reset state
         isRecording = false
-        totalSeconds = 0
         startTime = nil
         elapsedTime = "00:00"
     }
@@ -118,10 +120,9 @@ public final class AppState: ObservableObject {
 
         // Calculate total seconds elapsed
         let elapsed = Date().timeIntervalSince(startTime)
-        totalSeconds = Int(elapsed)
 
         // Format the time
-        elapsedTime = formatTime(seconds: totalSeconds)
+        elapsedTime = formatTime(seconds: Int(elapsed))
     }
 
     /// Formats seconds into a time string (MM:SS or HH:MM:SS).

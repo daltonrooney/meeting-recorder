@@ -51,7 +51,7 @@ final class AppStateTests: XCTestCase {
             .store(in: &cancellables)
 
         Task {
-            await appState.startRecording()
+            appState.startRecording()
         }
 
         wait(for: [expectation], timeout: 2.0)
@@ -73,7 +73,7 @@ final class AppStateTests: XCTestCase {
             .store(in: &cancellables)
 
         Task {
-            await appState.startRecording()
+            appState.startRecording()
             // Wait a bit for timer to update
             try? await Task.sleep(nanoseconds: 1_200_000_000) // 1.2 seconds
         }
@@ -86,22 +86,22 @@ final class AppStateTests: XCTestCase {
     // MARK: - Recording State Transition Tests
 
     func testStartRecordingChangesIsRecordingToTrue() async {
-        await appState.startRecording()
+        appState.startRecording()
         XCTAssertTrue(appState.isRecording, "startRecording() should change isRecording to true")
     }
 
     func testStopRecordingChangesIsRecordingToFalse() async {
-        await appState.startRecording()
-        await appState.stopRecording()
+        appState.startRecording()
+        appState.stopRecording()
         XCTAssertFalse(appState.isRecording, "stopRecording() should change isRecording to false")
     }
 
     func testMultipleStartCallsAreHandledGracefully() async {
-        await appState.startRecording()
+        appState.startRecording()
         XCTAssertTrue(appState.isRecording)
 
         // Call start again - should be handled gracefully (no crash, no error)
-        await appState.startRecording()
+        appState.startRecording()
         XCTAssertTrue(appState.isRecording, "Multiple start calls should be handled gracefully")
     }
 
@@ -109,25 +109,25 @@ final class AppStateTests: XCTestCase {
         XCTAssertFalse(appState.isRecording)
 
         // Call stop when not recording - should be handled gracefully
-        await appState.stopRecording()
+        appState.stopRecording()
         XCTAssertFalse(appState.isRecording, "Stop called when not recording should be handled gracefully")
     }
 
     func testRecordingCanBeStartedAfterStopping() async {
-        await appState.startRecording()
+        appState.startRecording()
         XCTAssertTrue(appState.isRecording)
 
-        await appState.stopRecording()
+        appState.stopRecording()
         XCTAssertFalse(appState.isRecording)
 
-        await appState.startRecording()
+        appState.startRecording()
         XCTAssertTrue(appState.isRecording, "Recording should be able to restart after stopping")
     }
 
     // MARK: - Elapsed Time Tracking Tests
 
     func testElapsedTimeUpdatesWhileRecording() async {
-        await appState.startRecording()
+        appState.startRecording()
         let initialTime = appState.elapsedTime
 
         // Wait for at least one timer tick (should be ~1 second)
@@ -138,18 +138,18 @@ final class AppStateTests: XCTestCase {
     }
 
     func testElapsedTimeResetsAfterStopping() async {
-        await appState.startRecording()
+        appState.startRecording()
 
         // Wait for time to accumulate
         try? await Task.sleep(nanoseconds: 1_200_000_000) // 1.2 seconds
         XCTAssertNotEqual(appState.elapsedTime, "00:00", "elapsedTime should accumulate")
 
-        await appState.stopRecording()
+        appState.stopRecording()
         XCTAssertEqual(appState.elapsedTime, "00:00", "elapsedTime should reset after stopping")
     }
 
     func testTimeFormatIsCorrectForSeconds() async {
-        await appState.startRecording()
+        appState.startRecording()
 
         // Wait for at least 1 second
         try? await Task.sleep(nanoseconds: 1_200_000_000) // 1.2 seconds
@@ -169,7 +169,7 @@ final class AppStateTests: XCTestCase {
     func testTimeFormatIsCorrectForMinutes() async {
         // This is a long test - we'll simulate by manipulating internal state
         // For now, just verify the format can handle minutes
-        await appState.startRecording()
+        appState.startRecording()
 
         // Wait a bit to ensure timer is running
         try? await Task.sleep(nanoseconds: 1_200_000_000) // 1.2 seconds
@@ -186,7 +186,7 @@ final class AppStateTests: XCTestCase {
     func testTimeFormatHandlesHours() async {
         // Verify format can handle hours if needed (HH:MM:SS)
         // This test validates that the format specification is met
-        await appState.startRecording()
+        appState.startRecording()
         try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
 
         let time = appState.elapsedTime
@@ -207,6 +207,21 @@ final class AppStateTests: XCTestCase {
                       "elapsedTime should not update when not recording")
     }
 
+    func testTimerStopsWhenRecordingStops() async {
+        appState.startRecording()
+
+        // Wait for timer to fire at least once
+        try? await Task.sleep(nanoseconds: 1_200_000_000)
+        let timeAfterStart = appState.elapsedTime
+
+        appState.stopRecording()
+
+        // Wait again - time should NOT change
+        try? await Task.sleep(nanoseconds: 1_200_000_000)
+        XCTAssertEqual(appState.elapsedTime, "00:00",
+                      "Timer should be stopped and time reset")
+    }
+
     // MARK: - Error State Management Tests
 
     func testStartRecordingPropagatesErrors() async {
@@ -214,7 +229,7 @@ final class AppStateTests: XCTestCase {
         // Actual error conditions will be tested with real recording subsystems
         do {
             // For now, verify that startRecording completes without error
-            await appState.startRecording()
+            appState.startRecording()
             // If we get here, no error was thrown (expected for basic AppState)
             XCTAssertTrue(appState.isRecording)
         } catch {
@@ -226,8 +241,8 @@ final class AppStateTests: XCTestCase {
 
     func testStopRecordingPropagatesErrors() async {
         do {
-            await appState.startRecording()
-            await appState.stopRecording()
+            appState.startRecording()
+            appState.stopRecording()
             // If we get here, no error was thrown (expected for basic AppState)
             XCTAssertFalse(appState.isRecording)
         } catch {
@@ -238,11 +253,11 @@ final class AppStateTests: XCTestCase {
     }
 
     func testErrorStateLeavesAppInConsistentState() async {
-        await appState.startRecording()
+        appState.startRecording()
         let wasRecording = appState.isRecording
 
         // Even if stop encounters an error, state should be consistent
-        await appState.stopRecording()
+        appState.stopRecording()
 
         // After stop (error or not), isRecording should be false
         XCTAssertFalse(appState.isRecording,
@@ -255,7 +270,7 @@ final class AppStateTests: XCTestCase {
 
     func testStateRemainsConsistentAfterErrorDuringStart() async {
         // Attempt to start (may fail in real scenarios with permissions)
-        await appState.startRecording()
+        appState.startRecording()
 
         // Regardless of success/failure, state should be consistent
         if appState.isRecording {
@@ -275,13 +290,13 @@ final class AppStateTests: XCTestCase {
         XCTAssertFalse(appState.isRecording, "Should start not recording")
         XCTAssertEqual(appState.elapsedTime, "00:00", "Should start at 00:00")
 
-        await appState.startRecording()
+        appState.startRecording()
         XCTAssertTrue(appState.isRecording, "Should be recording after start")
 
         try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
         XCTAssertNotEqual(appState.elapsedTime, "00:00", "Should have elapsed time")
 
-        await appState.stopRecording()
+        appState.stopRecording()
         XCTAssertFalse(appState.isRecording, "Should stop recording")
         XCTAssertEqual(appState.elapsedTime, "00:00", "Should reset to 00:00")
     }
@@ -289,12 +304,12 @@ final class AppStateTests: XCTestCase {
     func testMultipleRecordingCycles() async {
         // Test multiple start/stop cycles
         for _ in 0..<3 {
-            await appState.startRecording()
+            appState.startRecording()
             XCTAssertTrue(appState.isRecording)
 
             try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
 
-            await appState.stopRecording()
+            appState.stopRecording()
             XCTAssertFalse(appState.isRecording)
             XCTAssertEqual(appState.elapsedTime, "00:00")
         }
