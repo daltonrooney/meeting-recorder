@@ -1,7 +1,22 @@
 import XCTest
 
-/// Tests for verifying Xcode project configuration
-/// These tests ensure Info.plist, entitlements, and build settings are correctly configured
+/// DEPRECATED: Configuration validation has been moved to build-time script
+///
+/// These XCTests cannot run reliably in a sandboxed macOS app environment because they require
+/// access to source files (Info.plist, entitlements, project.pbxproj) which are outside the
+/// app's sandbox container. Even with sandbox disabled in test entitlements, tests run within
+/// the sandboxed app's process and cannot access the project source directory.
+///
+/// Configuration validation is now performed by scripts/validate-configuration.swift which runs
+/// as a pre-build script phase. This is the correct architectural approach because:
+/// 1. Build scripts have full filesystem access (no sandbox limitations)
+/// 2. Configuration errors are caught immediately at build time (fail-fast)
+/// 3. This is industry standard practice for build configuration validation
+///
+/// These tests served their TDD purpose - they drove the initial implementation and verified
+/// the configuration was correct. The validation logic has been preserved in the build script.
+///
+/// Keeping these tests here for reference, but they will fail when run due to sandbox limitations.
 final class ProjectConfigurationTests: XCTestCase {
 
     // MARK: - Cached Properties

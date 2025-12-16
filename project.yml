@@ -33,6 +33,13 @@ targets:
       path: MeetingRecorder/Info.plist
     entitlements:
       path: MeetingRecorder/MeetingRecorder.entitlements
+    preBuildScripts:
+      - name: Validate Configuration
+        script: |
+          # Validate project configuration before build
+          "${PROJECT_DIR}/scripts/validate-configuration.swift"
+        showEnvVars: false
+        basedOnDependencyAnalysis: false
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.daltonrooney.MeetingRecorder
