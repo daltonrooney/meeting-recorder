@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		053A944577AD8C87F4BC2EB5 /* MeetingRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D26A6FD0F50DA4C06EEBC0 /* MeetingRecorderApp.swift */; };
+		304059F3414BB7B1E50B6E9F /* MeetingRecorderErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526BE3020D40826DA05D37E9 /* MeetingRecorderErrorTests.swift */; };
+		B7E6683CB9567C381764E2D8 /* MeetingRecorderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA89B63985E430F5462FF80E /* MeetingRecorderError.swift */; };
 		FB0D772AFC12CEE59F53D174 /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,8 +26,10 @@
 /* Begin PBXFileReference section */
 		04D26A6FD0F50DA4C06EEBC0 /* MeetingRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRecorderApp.swift; sourceTree = "<group>"; };
 		29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfigurationTests.swift; sourceTree = "<group>"; };
+		526BE3020D40826DA05D37E9 /* MeetingRecorderErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRecorderErrorTests.swift; sourceTree = "<group>"; };
 		9C44A872BDECD6F1549C13CA /* MeetingRecorderTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MeetingRecorderTests.entitlements; sourceTree = "<group>"; };
 		A70F7BE32AB1ED7A9D98D286 /* MeetingRecorderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingRecorderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA89B63985E430F5462FF80E /* MeetingRecorderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRecorderError.swift; sourceTree = "<group>"; };
 		CC5A5E7D89DE1ADF1AF506A9 /* MeetingRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeetingRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -42,6 +46,7 @@
 		82F54D8E8FD9E03D94BA746C /* MeetingRecorderTests */ = {
 			isa = PBXGroup;
 			children = (
+				526BE3020D40826DA05D37E9 /* MeetingRecorderErrorTests.swift */,
 				9C44A872BDECD6F1549C13CA /* MeetingRecorderTests.entitlements */,
 				29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */,
 			);
@@ -52,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				04D26A6FD0F50DA4C06EEBC0 /* MeetingRecorderApp.swift */,
+				CA89B63985E430F5462FF80E /* MeetingRecorderError.swift */,
 			);
 			path = MeetingRecorder;
 			sourceTree = "<group>";
@@ -172,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				053A944577AD8C87F4BC2EB5 /* MeetingRecorderApp.swift in Sources */,
+				B7E6683CB9567C381764E2D8 /* MeetingRecorderError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +186,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				304059F3414BB7B1E50B6E9F /* MeetingRecorderErrorTests.swift in Sources */,
 				FB0D772AFC12CEE59F53D174 /* ProjectConfigurationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
