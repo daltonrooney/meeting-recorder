@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		053A944577AD8C87F4BC2EB5 /* MeetingRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D26A6FD0F50DA4C06EEBC0 /* MeetingRecorderApp.swift */; };
-		304059F3414BB7B1E50B6E9F /* MeetingRecorderErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526BE3020D40826DA05D37E9 /* MeetingRecorderErrorTests.swift */; };
-		B7E6683CB9567C381764E2D8 /* MeetingRecorderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA89B63985E430F5462FF80E /* MeetingRecorderError.swift */; };
+		053A944577AD8C87F4BC2EB5 /* CallTranscriptionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D26A6FD0F50DA4C06EEBC0 /* CallTranscriptionApp.swift */; };
+		304059F3414BB7B1E50B6E9F /* CallTranscriptionErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526BE3020D40826DA05D37E9 /* CallTranscriptionErrorTests.swift */; };
+		B7E6683CB9567C381764E2D8 /* CallTranscriptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA89B63985E430F5462FF80E /* CallTranscriptionError.swift */; };
 		FB0D772AFC12CEE59F53D174 /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -19,54 +19,54 @@
 			containerPortal = 4F0F1ED080CAC680BD7BB5BE /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 93037C6606DB7A7975C52A72;
-			remoteInfo = MeetingRecorder;
+			remoteInfo = CallTranscription;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04D26A6FD0F50DA4C06EEBC0 /* MeetingRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRecorderApp.swift; sourceTree = "<group>"; };
+		04D26A6FD0F50DA4C06EEBC0 /* CallTranscriptionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionApp.swift; sourceTree = "<group>"; };
 		29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfigurationTests.swift; sourceTree = "<group>"; };
-		526BE3020D40826DA05D37E9 /* MeetingRecorderErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRecorderErrorTests.swift; sourceTree = "<group>"; };
-		9C44A872BDECD6F1549C13CA /* MeetingRecorderTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MeetingRecorderTests.entitlements; sourceTree = "<group>"; };
-		A70F7BE32AB1ED7A9D98D286 /* MeetingRecorderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingRecorderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA89B63985E430F5462FF80E /* MeetingRecorderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRecorderError.swift; sourceTree = "<group>"; };
-		CC5A5E7D89DE1ADF1AF506A9 /* MeetingRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeetingRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		526BE3020D40826DA05D37E9 /* CallTranscriptionErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionErrorTests.swift; sourceTree = "<group>"; };
+		9C44A872BDECD6F1549C13CA /* CallTranscriptionTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallTranscriptionTests.entitlements; sourceTree = "<group>"; };
+		A70F7BE32AB1ED7A9D98D286 /* CallTranscriptionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallTranscriptionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA89B63985E430F5462FF80E /* CallTranscriptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionError.swift; sourceTree = "<group>"; };
+		CC5A5E7D89DE1ADF1AF506A9 /* CallTranscription.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallTranscription.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		4256E1297D09C85C398306F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CC5A5E7D89DE1ADF1AF506A9 /* MeetingRecorder.app */,
-				A70F7BE32AB1ED7A9D98D286 /* MeetingRecorderTests.xctest */,
+				CC5A5E7D89DE1ADF1AF506A9 /* CallTranscription.app */,
+				A70F7BE32AB1ED7A9D98D286 /* CallTranscriptionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		82F54D8E8FD9E03D94BA746C /* MeetingRecorderTests */ = {
+		82F54D8E8FD9E03D94BA746C /* CallTranscriptionTests */ = {
 			isa = PBXGroup;
 			children = (
-				526BE3020D40826DA05D37E9 /* MeetingRecorderErrorTests.swift */,
-				9C44A872BDECD6F1549C13CA /* MeetingRecorderTests.entitlements */,
+				526BE3020D40826DA05D37E9 /* CallTranscriptionErrorTests.swift */,
+				9C44A872BDECD6F1549C13CA /* CallTranscriptionTests.entitlements */,
 				29A1B24FE6899296FDD40F11 /* ProjectConfigurationTests.swift */,
 			);
-			path = MeetingRecorderTests;
+			path = CallTranscriptionTests;
 			sourceTree = "<group>";
 		};
-		D58683CFD574658150FC55C5 /* MeetingRecorder */ = {
+		D58683CFD574658150FC55C5 /* CallTranscription */ = {
 			isa = PBXGroup;
 			children = (
-				04D26A6FD0F50DA4C06EEBC0 /* MeetingRecorderApp.swift */,
-				CA89B63985E430F5462FF80E /* MeetingRecorderError.swift */,
+				04D26A6FD0F50DA4C06EEBC0 /* CallTranscriptionApp.swift */,
+				CA89B63985E430F5462FF80E /* CallTranscriptionError.swift */,
 			);
-			path = MeetingRecorder;
+			path = CallTranscription;
 			sourceTree = "<group>";
 		};
 		FBECA5B86895E43DAE3A93F9 = {
 			isa = PBXGroup;
 			children = (
-				D58683CFD574658150FC55C5 /* MeetingRecorder */,
-				82F54D8E8FD9E03D94BA746C /* MeetingRecorderTests */,
+				D58683CFD574658150FC55C5 /* CallTranscription */,
+				82F54D8E8FD9E03D94BA746C /* CallTranscriptionTests */,
 				4256E1297D09C85C398306F8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -74,9 +74,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		44B7EAEEB8CA8C1BED98A6A8 /* MeetingRecorderTests */ = {
+		44B7EAEEB8CA8C1BED98A6A8 /* CallTranscriptionTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0755F6E204D4D7574D200CF7 /* Build configuration list for PBXNativeTarget "MeetingRecorderTests" */;
+			buildConfigurationList = 0755F6E204D4D7574D200CF7 /* Build configuration list for PBXNativeTarget "CallTranscriptionTests" */;
 			buildPhases = (
 				42533FCB9F395557997D7685 /* Sources */,
 			);
@@ -85,16 +85,16 @@
 			dependencies = (
 				81BE7850A999F82526786764 /* PBXTargetDependency */,
 			);
-			name = MeetingRecorderTests;
+			name = CallTranscriptionTests;
 			packageProductDependencies = (
 			);
-			productName = MeetingRecorderTests;
-			productReference = A70F7BE32AB1ED7A9D98D286 /* MeetingRecorderTests.xctest */;
+			productName = CallTranscriptionTests;
+			productReference = A70F7BE32AB1ED7A9D98D286 /* CallTranscriptionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		93037C6606DB7A7975C52A72 /* MeetingRecorder */ = {
+		93037C6606DB7A7975C52A72 /* CallTranscription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9C4F405A057A524AB719C7ED /* Build configuration list for PBXNativeTarget "MeetingRecorder" */;
+			buildConfigurationList = 9C4F405A057A524AB719C7ED /* Build configuration list for PBXNativeTarget "CallTranscription" */;
 			buildPhases = (
 				1E2877DACF835C25FAE7384D /* Validate Configuration */,
 				03BDE06BC707D7361EBFD6DB /* Sources */,
@@ -103,11 +103,11 @@
 			);
 			dependencies = (
 			);
-			name = MeetingRecorder;
+			name = CallTranscription;
 			packageProductDependencies = (
 			);
-			productName = MeetingRecorder;
-			productReference = CC5A5E7D89DE1ADF1AF506A9 /* MeetingRecorder.app */;
+			productName = CallTranscription;
+			productReference = CC5A5E7D89DE1ADF1AF506A9 /* CallTranscription.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -129,7 +129,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7347C05C08B06A94277B6BDF /* Build configuration list for PBXProject "MeetingRecorder" */;
+			buildConfigurationList = 7347C05C08B06A94277B6BDF /* Build configuration list for PBXProject "CallTranscription" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -143,8 +143,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				93037C6606DB7A7975C52A72 /* MeetingRecorder */,
-				44B7EAEEB8CA8C1BED98A6A8 /* MeetingRecorderTests */,
+				93037C6606DB7A7975C52A72 /* CallTranscription */,
+				44B7EAEEB8CA8C1BED98A6A8 /* CallTranscriptionTests */,
 			);
 		};
 /* End PBXProject section */
@@ -177,8 +177,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				053A944577AD8C87F4BC2EB5 /* MeetingRecorderApp.swift in Sources */,
-				B7E6683CB9567C381764E2D8 /* MeetingRecorderError.swift in Sources */,
+				053A944577AD8C87F4BC2EB5 /* CallTranscriptionApp.swift in Sources */,
+				B7E6683CB9567C381764E2D8 /* CallTranscriptionError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +186,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304059F3414BB7B1E50B6E9F /* MeetingRecorderErrorTests.swift in Sources */,
+				304059F3414BB7B1E50B6E9F /* CallTranscriptionErrorTests.swift in Sources */,
 				FB0D772AFC12CEE59F53D174 /* ProjectConfigurationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,7 +196,7 @@
 /* Begin PBXTargetDependency section */
 		81BE7850A999F82526786764 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 93037C6606DB7A7975C52A72 /* MeetingRecorder */;
+			target = 93037C6606DB7A7975C52A72 /* CallTranscription */;
 			targetProxy = 362E9ADA55EF672EE6FB8C1E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -236,7 +236,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = MeetingRecorder/MeetingRecorder.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallTranscription/CallTranscription.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -253,12 +253,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = MeetingRecorder/Info.plist;
+				INFOPLIST_FILE = CallTranscription/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.MeetingRecorder;
-				PRODUCT_NAME = MeetingRecorder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscription;
+				PRODUCT_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -270,17 +270,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = MeetingRecorder/MeetingRecorder.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallTranscription/CallTranscription.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
-				INFOPLIST_FILE = MeetingRecorder/Info.plist;
+				INFOPLIST_FILE = CallTranscription/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.MeetingRecorder;
-				PRODUCT_MODULE_NAME = MeetingRecorder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscription;
+				PRODUCT_MODULE_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
@@ -290,7 +290,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_ENTITLEMENTS = MeetingRecorderTests/MeetingRecorderTests.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallTranscriptionTests/CallTranscriptionTests.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -298,11 +298,11 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.MeetingRecorderTests;
-				PRODUCT_MODULE_NAME = MeetingRecorderTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscriptionTests;
+				PRODUCT_MODULE_NAME = CallTranscriptionTests;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MeetingRecorder.app/Contents/MacOS/MeetingRecorder";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CallTranscription.app/Contents/MacOS/CallTranscription";
 			};
 			name = Release;
 		};
@@ -310,7 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_ENTITLEMENTS = MeetingRecorderTests/MeetingRecorderTests.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallTranscriptionTests/CallTranscriptionTests.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -319,11 +319,11 @@
 					"@loader_path/../Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.MeetingRecorderTests;
-				PRODUCT_MODULE_NAME = MeetingRecorderTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscriptionTests;
+				PRODUCT_MODULE_NAME = CallTranscriptionTests;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MeetingRecorder.app/Contents/MacOS/MeetingRecorder";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CallTranscription.app/Contents/MacOS/CallTranscription";
 			};
 			name = Debug;
 		};
@@ -331,18 +331,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = MeetingRecorder/MeetingRecorder.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallTranscription/CallTranscription.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = MeetingRecorder/Info.plist;
+				INFOPLIST_FILE = CallTranscription/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.MeetingRecorder;
-				PRODUCT_MODULE_NAME = MeetingRecorder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscription;
+				PRODUCT_MODULE_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -382,7 +382,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = MeetingRecorder/MeetingRecorder.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallTranscription/CallTranscription.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -405,13 +405,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = MeetingRecorder/Info.plist;
+				INFOPLIST_FILE = CallTranscription/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.MeetingRecorder;
-				PRODUCT_NAME = MeetingRecorder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.daltonrooney.CallTranscription;
+				PRODUCT_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -422,7 +422,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0755F6E204D4D7574D200CF7 /* Build configuration list for PBXNativeTarget "MeetingRecorderTests" */ = {
+		0755F6E204D4D7574D200CF7 /* Build configuration list for PBXNativeTarget "CallTranscriptionTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CB95EECEA8C7AC30E1F83942 /* Debug */,
@@ -431,7 +431,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		7347C05C08B06A94277B6BDF /* Build configuration list for PBXProject "MeetingRecorder" */ = {
+		7347C05C08B06A94277B6BDF /* Build configuration list for PBXProject "CallTranscription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CEDC12DC98F83BC8FDB383C1 /* Debug */,
@@ -440,7 +440,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		9C4F405A057A524AB719C7ED /* Build configuration list for PBXNativeTarget "MeetingRecorder" */ = {
+		9C4F405A057A524AB719C7ED /* Build configuration list for PBXNativeTarget "CallTranscription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CC0B8812141DCB110B81F7A6 /* Debug */,

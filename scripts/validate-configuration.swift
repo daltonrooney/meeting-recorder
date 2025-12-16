@@ -32,7 +32,7 @@ struct ConfigurationValidator {
         print("  • Checking Info.plist...")
 
         let infoPlistPath = projectRoot
-            .appendingPathComponent("MeetingRecorder/Info.plist")
+            .appendingPathComponent("CallTranscription/Info.plist")
             .path
 
         guard FileManager.default.fileExists(atPath: infoPlistPath) else {
@@ -83,7 +83,7 @@ struct ConfigurationValidator {
         print("  • Checking entitlements...")
 
         let entitlementsPath = projectRoot
-            .appendingPathComponent("MeetingRecorder/MeetingRecorder.entitlements")
+            .appendingPathComponent("CallTranscription/CallTranscription.entitlements")
             .path
 
         guard FileManager.default.fileExists(atPath: entitlementsPath) else {
@@ -139,7 +139,7 @@ struct ConfigurationValidator {
         print("  • Checking build configurations...")
 
         let projectPath = projectRoot
-            .appendingPathComponent("MeetingRecorder.xcodeproj/project.pbxproj")
+            .appendingPathComponent("CallTranscription.xcodeproj/project.pbxproj")
             .path
 
         guard FileManager.default.fileExists(atPath: projectPath) else {
@@ -172,7 +172,7 @@ struct ConfigurationValidator {
         print("  • Checking deployment target...")
 
         let projectPath = projectRoot
-            .appendingPathComponent("MeetingRecorder.xcodeproj/project.pbxproj")
+            .appendingPathComponent("CallTranscription.xcodeproj/project.pbxproj")
             .path
 
         let projectContent: String

@@ -1,49 +1,49 @@
 import XCTest
-@testable import MeetingRecorder
+@testable import CallTranscription
 
-final class MeetingRecorderErrorTests: XCTestCase {
+final class CallTranscriptionErrorTests: XCTestCase {
 
     // MARK: - Error Case Existence Tests
 
     func testMicrophonePermissionDeniedErrorExists() {
-        let error = MeetingRecorderError.microphonePermissionDenied
+        let error = CallTranscriptionError.microphonePermissionDenied
         XCTAssertNotNil(error)
     }
 
     func testSpeechRecognitionUnavailableErrorExists() {
-        let error = MeetingRecorderError.speechRecognitionUnavailable
+        let error = CallTranscriptionError.speechRecognitionUnavailable
         XCTAssertNotNil(error)
     }
 
     func testLocaleNotSupportedErrorExists() {
         let locale = Locale(identifier: "en_US")
-        let error = MeetingRecorderError.localeNotSupported(locale)
+        let error = CallTranscriptionError.localeNotSupported(locale)
         XCTAssertNotNil(error)
     }
 
     func testOutputFolderNotWritableErrorExists() {
         let url = URL(fileURLWithPath: "/tmp/test")
-        let error = MeetingRecorderError.outputFolderNotWritable(url)
+        let error = CallTranscriptionError.outputFolderNotWritable(url)
         XCTAssertNotNil(error)
     }
 
     func testAudioTapCreationFailedErrorExists() {
         let status: OSStatus = -50
-        let error = MeetingRecorderError.audioTapCreationFailed(status)
+        let error = CallTranscriptionError.audioTapCreationFailed(status)
         XCTAssertNotNil(error)
     }
 
     // MARK: - LocalizedError Conformance Tests
 
     func testErrorConformsToLocalizedError() {
-        let error = MeetingRecorderError.microphonePermissionDenied
+        let error = CallTranscriptionError.microphonePermissionDenied
         XCTAssertTrue(error is LocalizedError)
     }
 
     // MARK: - Error Description Tests
 
     func testMicrophonePermissionDeniedHasDescription() {
-        let error = MeetingRecorderError.microphonePermissionDenied
+        let error = CallTranscriptionError.microphonePermissionDenied
         let description = error.errorDescription
 
         XCTAssertNotNil(description)
@@ -51,7 +51,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
     }
 
     func testMicrophonePermissionDeniedDescriptionIsActionable() {
-        let error = MeetingRecorderError.microphonePermissionDenied
+        let error = CallTranscriptionError.microphonePermissionDenied
         let description = error.errorDescription
         let recoverySuggestion = error.recoverySuggestion
 
@@ -64,7 +64,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
     }
 
     func testSpeechRecognitionUnavailableHasDescription() {
-        let error = MeetingRecorderError.speechRecognitionUnavailable
+        let error = CallTranscriptionError.speechRecognitionUnavailable
         let description = error.errorDescription
 
         XCTAssertNotNil(description)
@@ -72,7 +72,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
     }
 
     func testSpeechRecognitionUnavailableDescriptionIsActionable() {
-        let error = MeetingRecorderError.speechRecognitionUnavailable
+        let error = CallTranscriptionError.speechRecognitionUnavailable
         let description = error.errorDescription
         let recoverySuggestion = error.recoverySuggestion
 
@@ -87,7 +87,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testLocaleNotSupportedHasDescription() {
         let locale = Locale(identifier: "fr_FR")
-        let error = MeetingRecorderError.localeNotSupported(locale)
+        let error = CallTranscriptionError.localeNotSupported(locale)
         let description = error.errorDescription
 
         XCTAssertNotNil(description)
@@ -96,7 +96,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testLocaleNotSupportedIncludesLocaleIdentifier() {
         let locale = Locale(identifier: "fr_FR")
-        let error = MeetingRecorderError.localeNotSupported(locale)
+        let error = CallTranscriptionError.localeNotSupported(locale)
         let description = error.errorDescription
 
         // Should include the locale identifier
@@ -105,7 +105,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testLocaleNotSupportedDescriptionIsActionable() {
         let locale = Locale(identifier: "es_ES")
-        let error = MeetingRecorderError.localeNotSupported(locale)
+        let error = CallTranscriptionError.localeNotSupported(locale)
         let description = error.errorDescription
 
         // Should mention speech recognition not available
@@ -116,7 +116,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testOutputFolderNotWritableHasDescription() {
         let url = URL(fileURLWithPath: "/System/Library")
-        let error = MeetingRecorderError.outputFolderNotWritable(url)
+        let error = CallTranscriptionError.outputFolderNotWritable(url)
         let description = error.errorDescription
 
         XCTAssertNotNil(description)
@@ -125,7 +125,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testOutputFolderNotWritableIncludesPath() {
         let url = URL(fileURLWithPath: "/System/Library")
-        let error = MeetingRecorderError.outputFolderNotWritable(url)
+        let error = CallTranscriptionError.outputFolderNotWritable(url)
         let description = error.errorDescription
 
         // Should include the path
@@ -134,7 +134,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testOutputFolderNotWritableDescriptionIsActionable() {
         let url = URL(fileURLWithPath: "/protected/folder")
-        let error = MeetingRecorderError.outputFolderNotWritable(url)
+        let error = CallTranscriptionError.outputFolderNotWritable(url)
         let description = error.errorDescription
         let recoverySuggestion = error.recoverySuggestion
 
@@ -148,7 +148,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
     }
 
     func testAudioTapCreationFailedHasDescription() {
-        let error = MeetingRecorderError.audioTapCreationFailed(-50)
+        let error = CallTranscriptionError.audioTapCreationFailed(-50)
         let description = error.errorDescription
 
         XCTAssertNotNil(description)
@@ -157,7 +157,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testAudioTapCreationFailedIncludesStatusCode() {
         let status: OSStatus = -12345
-        let error = MeetingRecorderError.audioTapCreationFailed(status)
+        let error = CallTranscriptionError.audioTapCreationFailed(status)
         let description = error.errorDescription
 
         // Should include the status code
@@ -165,7 +165,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
     }
 
     func testAudioTapCreationFailedDescriptionIsActionable() {
-        let error = MeetingRecorderError.audioTapCreationFailed(-50)
+        let error = CallTranscriptionError.audioTapCreationFailed(-50)
         let description = error.errorDescription
         let recoverySuggestion = error.recoverySuggestion
 
@@ -179,7 +179,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testLocaleAssociatedValueIsPreserved() {
         let originalLocale = Locale(identifier: "ja_JP")
-        let error = MeetingRecorderError.localeNotSupported(originalLocale)
+        let error = CallTranscriptionError.localeNotSupported(originalLocale)
 
         // Extract associated value
         if case .localeNotSupported(let extractedLocale) = error {
@@ -191,7 +191,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testURLAssociatedValueIsPreserved() {
         let originalURL = URL(fileURLWithPath: "/tmp/meeting-recordings")
-        let error = MeetingRecorderError.outputFolderNotWritable(originalURL)
+        let error = CallTranscriptionError.outputFolderNotWritable(originalURL)
 
         // Extract associated value
         if case .outputFolderNotWritable(let extractedURL) = error {
@@ -203,7 +203,7 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testOSStatusAssociatedValueIsPreserved() {
         let originalStatus: OSStatus = -9876
-        let error = MeetingRecorderError.audioTapCreationFailed(originalStatus)
+        let error = CallTranscriptionError.audioTapCreationFailed(originalStatus)
 
         // Extract associated value
         if case .audioTapCreationFailed(let extractedStatus) = error {
@@ -217,19 +217,19 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testErrorCanBeThrown() throws {
         func throwingFunction() throws {
-            throw MeetingRecorderError.microphonePermissionDenied
+            throw CallTranscriptionError.microphonePermissionDenied
         }
 
         XCTAssertThrowsError(try throwingFunction()) { error in
-            XCTAssertTrue(error is MeetingRecorderError)
+            XCTAssertTrue(error is CallTranscriptionError)
         }
     }
 
     func testErrorCanBeCaught() {
         do {
-            throw MeetingRecorderError.speechRecognitionUnavailable
+            throw CallTranscriptionError.speechRecognitionUnavailable
             XCTFail("Should have thrown error")
-        } catch let error as MeetingRecorderError {
+        } catch let error as CallTranscriptionError {
             XCTAssertNotNil(error)
         } catch {
             XCTFail("Caught wrong error type")
@@ -238,9 +238,9 @@ final class MeetingRecorderErrorTests: XCTestCase {
 
     func testErrorCanBeCaughtWithSpecificCase() {
         do {
-            throw MeetingRecorderError.localeNotSupported(Locale(identifier: "de_DE"))
+            throw CallTranscriptionError.localeNotSupported(Locale(identifier: "de_DE"))
             XCTFail("Should have thrown error")
-        } catch MeetingRecorderError.localeNotSupported(let locale) {
+        } catch CallTranscriptionError.localeNotSupported(let locale) {
             XCTAssertEqual(locale.identifier, "de_DE")
         } catch {
             XCTFail("Caught wrong error type or case")
@@ -250,8 +250,8 @@ final class MeetingRecorderErrorTests: XCTestCase {
     // MARK: - Edge Case Tests
 
     func testMultipleDifferentLocaleErrors() {
-        let error1 = MeetingRecorderError.localeNotSupported(Locale(identifier: "en_US"))
-        let error2 = MeetingRecorderError.localeNotSupported(Locale(identifier: "fr_FR"))
+        let error1 = CallTranscriptionError.localeNotSupported(Locale(identifier: "en_US"))
+        let error2 = CallTranscriptionError.localeNotSupported(Locale(identifier: "fr_FR"))
 
         // Both should have descriptions
         XCTAssertNotNil(error1.errorDescription)
@@ -263,8 +263,8 @@ final class MeetingRecorderErrorTests: XCTestCase {
     }
 
     func testMultipleDifferentURLErrors() {
-        let error1 = MeetingRecorderError.outputFolderNotWritable(URL(fileURLWithPath: "/path/one"))
-        let error2 = MeetingRecorderError.outputFolderNotWritable(URL(fileURLWithPath: "/path/two"))
+        let error1 = CallTranscriptionError.outputFolderNotWritable(URL(fileURLWithPath: "/path/one"))
+        let error2 = CallTranscriptionError.outputFolderNotWritable(URL(fileURLWithPath: "/path/two"))
 
         // Both should have descriptions with respective paths
         XCTAssertTrue(error1.errorDescription?.contains("/path/one") ?? false)
@@ -272,8 +272,8 @@ final class MeetingRecorderErrorTests: XCTestCase {
     }
 
     func testMultipleDifferentOSStatusErrors() {
-        let error1 = MeetingRecorderError.audioTapCreationFailed(100)
-        let error2 = MeetingRecorderError.audioTapCreationFailed(-500)
+        let error1 = CallTranscriptionError.audioTapCreationFailed(100)
+        let error2 = CallTranscriptionError.audioTapCreationFailed(-500)
 
         // Both should have descriptions with respective status codes
         XCTAssertTrue(error1.errorDescription?.contains("100") ?? false)

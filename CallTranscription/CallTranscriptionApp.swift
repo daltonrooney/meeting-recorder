@@ -1,10 +1,10 @@
 import SwiftUI
 
 @main
-struct MeetingRecorderApp: App {
+struct CallTranscriptionApp: App {
     var body: some Scene {
         MenuBarExtra {
-            Text("MeetingRecorder")
+            Text("Olive - Call Transcription")
         } label: {
             Image(systemName: "waveform.circle")
         }
