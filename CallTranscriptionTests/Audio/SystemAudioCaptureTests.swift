@@ -63,9 +63,18 @@ final class SystemAudioCaptureTests: XCTestCase {
 
     func testTapCanFilterByProcessIDs() async throws {
         // Test filtering by specific process IDs
+        // Process filtering throws featureNotImplemented error
         let testProcessIDs: [pid_t] = [1000]
-        try await systemAudioCapture.startCapture(excludingProcesses: testProcessIDs)
-        // Should not throw - filtering is supported
+        do {
+            try await systemAudioCapture.startCapture(excludingProcesses: testProcessIDs)
+            XCTFail("Should throw featureNotImplemented error")
+        } catch let error as CallTranscriptionError {
+            if case .featureNotImplemented(let feature) = error {
+                XCTAssertEqual(feature, "Process filtering")
+            } else {
+                XCTFail("Wrong error type: \(error)")
+            }
+        }
     }
 
     func testTapCapturesAllSystemAudioWhenNoFilter() async throws {
@@ -159,15 +168,31 @@ final class SystemAudioCaptureTests: XCTestCase {
 
     func testCanExcludeSpecificProcessIDs() async throws {
         let excludeProcesses: [pid_t] = [12345]
-        try await systemAudioCapture.startCapture(excludingProcesses: excludeProcesses)
-        // Should not throw - exclusion is supported
+        do {
+            try await systemAudioCapture.startCapture(excludingProcesses: excludeProcesses)
+            XCTFail("Should throw featureNotImplemented error")
+        } catch let error as CallTranscriptionError {
+            if case .featureNotImplemented = error {
+                // Expected
+            } else {
+                XCTFail("Wrong error type: \(error)")
+            }
+        }
     }
 
     func testCanCaptureFromSpecificProcessesOnly() async throws {
-        // Test include-only filtering (if supported)
-        // For now, test that filtering doesn't break capture
+        // Test include-only filtering throws error (not implemented)
         let testProcesses: [pid_t] = [1]
-        try await systemAudioCapture.startCapture(includingProcesses: testProcesses)
+        do {
+            try await systemAudioCapture.startCapture(includingProcesses: testProcesses)
+            XCTFail("Should throw featureNotImplemented error")
+        } catch let error as CallTranscriptionError {
+            if case .featureNotImplemented = error {
+                // Expected
+            } else {
+                XCTFail("Wrong error type: \(error)")
+            }
+        }
     }
 
     func testEmptyExcludeListCapturesAllAudio() async throws {
@@ -185,8 +210,16 @@ final class SystemAudioCaptureTests: XCTestCase {
     func testFilteringWorksWithMultipleProcesses() async throws {
         let multipleProcesses: [pid_t] = [100, 200, 300]
 
-        try await systemAudioCapture.startCapture(excludingProcesses: multipleProcesses)
-        // Should handle multiple process filters
+        do {
+            try await systemAudioCapture.startCapture(excludingProcesses: multipleProcesses)
+            XCTFail("Should throw featureNotImplemented error")
+        } catch let error as CallTranscriptionError {
+            if case .featureNotImplemented = error {
+                // Expected
+            } else {
+                XCTFail("Wrong error type: \(error)")
+            }
+        }
     }
 
     // MARK: - Tap Destruction Tests
