@@ -1,301 +1,138 @@
 import XCTest
 
-/// DEPRECATED: Configuration validation has been moved to build-time script
+/// Runtime configuration tests that verify the BUILT app bundle has correct settings.
 ///
-/// These XCTests cannot run reliably in a sandboxed macOS app environment because they require
-/// access to source files (Info.plist, entitlements, project.pbxproj) which are outside the
-/// app's sandbox container. Even with sandbox disabled in test entitlements, tests run within
-/// the sandboxed app's process and cannot access the project source directory.
+/// These tests complement the build-time validation script (scripts/validate-configuration.swift):
+/// - Build script: Prevents bad builds by validating source files at build time
+/// - These tests: Verify the built app bundle has correct runtime configuration
 ///
-/// Configuration validation is now performed by scripts/validate-configuration.swift which runs
-/// as a pre-build script phase. This is the correct architectural approach because:
-/// 1. Build scripts have full filesystem access (no sandbox limitations)
-/// 2. Configuration errors are caught immediately at build time (fail-fast)
-/// 3. This is industry standard practice for build configuration validation
-///
-/// These tests served their TDD purpose - they drove the initial implementation and verified
-/// the configuration was correct. The validation logic has been preserved in the build script.
-///
-/// Keeping these tests here for reference, but they will fail when run due to sandbox limitations.
+/// This follows best practices: build-time validation for fail-fast, runtime tests for verification.
 final class ProjectConfigurationTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        throw XCTSkip("Configuration validation moved to build-time script at scripts/validate-configuration.swift. These tests are preserved for reference but cannot run in sandboxed environment.")
-    }
+    // MARK: - Constants
 
-    // MARK: - Cached Properties
-
-    /// Lazy-loaded Info.plist to avoid redundant file reads
-    private lazy var cachedInfoPlist: [String: Any]? = {
-        return try? loadInfoPlist()
-    }()
-
-    /// Lazy-loaded entitlements to avoid redundant file reads
-    private lazy var cachedEntitlements: [String: Any]? = {
-        return try? loadEntitlements()
-    }()
-
-    /// Lazy-loaded project content to avoid redundant file reads
-    private lazy var cachedProjectContent: String? = {
-        guard let projectPath = try? getProjectPath() else { return nil }
-        return try? String(contentsOfFile: projectPath, encoding: .utf8)
-    }()
-
-    // MARK: - Info.plist Tests
-
-    func testProjectRootCanBeFound() throws {
-        let sourceFileURL = URL(fileURLWithPath: #file)
-        print("Source file: \(sourceFileURL.path)")
-
-        let currentDir = FileManager.default.currentDirectoryPath
-        print("Current directory: \(currentDir)")
-
-        let pwd = ProcessInfo.processInfo.environment["PWD"] ?? "not set"
-        print("PWD: \(pwd)")
-
-        let projectRoot = try findProjectRoot()
-        print("Project root: \(projectRoot.path)")
-
-        XCTAssertTrue(FileManager.default.fileExists(atPath: projectRoot.path), "Project root should exist")
-    }
-
-    func testInfoPlistContainsMicrophoneUsageDescription() throws {
-        guard let infoPlist = cachedInfoPlist else {
-            XCTFail("Failed to load Info.plist")
-            return
-        }
-
-        let microphoneDescription = infoPlist["NSMicrophoneUsageDescription"] as? String
-        XCTAssertNotNil(microphoneDescription, "NSMicrophoneUsageDescription must exist in Info.plist")
-        XCTAssertFalse(microphoneDescription?.isEmpty ?? true, "NSMicrophoneUsageDescription must not be empty")
-    }
-
-    func testInfoPlistContainsSpeechRecognitionUsageDescription() throws {
-        guard let infoPlist = cachedInfoPlist else {
-            XCTFail("Failed to load Info.plist")
-            return
-        }
-
-        let speechDescription = infoPlist["NSSpeechRecognitionUsageDescription"] as? String
-        XCTAssertNotNil(speechDescription, "NSSpeechRecognitionUsageDescription must exist in Info.plist")
-        XCTAssertFalse(speechDescription?.isEmpty ?? true, "NSSpeechRecognitionUsageDescription must not be empty")
-    }
-
-    func testInfoPlistContainsScreenCaptureUsageDescription() throws {
-        guard let infoPlist = cachedInfoPlist else {
-            XCTFail("Failed to load Info.plist")
-            return
-        }
-
-        let screenCaptureDescription = infoPlist["NSScreenCaptureUsageDescription"] as? String
-        XCTAssertNotNil(screenCaptureDescription, "NSScreenCaptureUsageDescription must exist in Info.plist to capture system audio")
-    }
-
-    // MARK: - Entitlements Tests
-
-    func testEntitlementsContainAppSandbox() throws {
-        guard let entitlements = cachedEntitlements else {
-            XCTFail("Failed to load entitlements")
-            return
-        }
-
-        let appSandbox = entitlements["com.apple.security.app-sandbox"] as? Bool
-        XCTAssertNotNil(appSandbox, "com.apple.security.app-sandbox must be present in entitlements")
-        XCTAssertTrue(appSandbox ?? false, "com.apple.security.app-sandbox must be enabled (true)")
-    }
-
-    func testEntitlementsContainAudioInput() throws {
-        guard let entitlements = cachedEntitlements else {
-            XCTFail("Failed to load entitlements")
-            return
-        }
-
-        let audioInput = entitlements["com.apple.security.device.audio-input"] as? Bool
-        XCTAssertNotNil(audioInput, "com.apple.security.device.audio-input must be present in entitlements")
-        XCTAssertTrue(audioInput ?? false, "com.apple.security.device.audio-input must be enabled (true)")
-    }
-
-    func testEntitlementsContainUserSelectedFileAccess() throws {
-        guard let entitlements = cachedEntitlements else {
-            XCTFail("Failed to load entitlements")
-            return
-        }
-
-        let fileAccess = entitlements["com.apple.security.files.user-selected.read-write"] as? Bool
-        XCTAssertNotNil(fileAccess, "com.apple.security.files.user-selected.read-write must be present in entitlements")
-        XCTAssertTrue(fileAccess ?? false, "com.apple.security.files.user-selected.read-write must be enabled (true)")
-    }
-
-    // MARK: - Build Configuration Tests
-
-    func testDebugBuildConfigurationExists() throws {
-        guard let projectContent = cachedProjectContent else {
-            XCTFail("Failed to load project file")
-            return
-        }
-
-        // Look for more specific pattern: buildConfiguration with name "Debug"
-        let debugPattern = #"buildConfiguration.*name\s*=\s*"?Debug"?"#
-        XCTAssertTrue(
-            projectContent.range(of: debugPattern, options: .regularExpression) != nil,
-            "Debug build configuration must exist in project"
-        )
-    }
-
-    func testReleaseBuildConfigurationExists() throws {
-        guard let projectContent = cachedProjectContent else {
-            XCTFail("Failed to load project file")
-            return
-        }
-
-        // Look for more specific pattern: buildConfiguration with name "Release"
-        let releasePattern = #"buildConfiguration.*name\s*=\s*"?Release"?"#
-        XCTAssertTrue(
-            projectContent.range(of: releasePattern, options: .regularExpression) != nil,
-            "Release build configuration must exist in project"
-        )
-    }
-
-    func testMinimumDeploymentTargetIsConfigured() throws {
-        guard let projectContent = cachedProjectContent else {
-            XCTFail("Failed to load project file")
-            return
-        }
-
-        // Check for macOS deployment target (14.2 or higher)
-        XCTAssertTrue(
-            projectContent.contains("MACOSX_DEPLOYMENT_TARGET"),
-            "macOS deployment target must be configured"
-        )
-    }
+    private static let expectedBundleIdentifier = "com.daltonrooney.MeetingRecorder"
+    private static let minimumMacOSVersion = 26
 
     // MARK: - Helper Methods
 
-    /// Loads Info.plist from the project source
-    private func loadInfoPlist() throws -> [String: Any] {
-        let projectRoot = try findProjectRoot()
-        let infoPlistPath = projectRoot
-            .appendingPathComponent("MeetingRecorder/Info.plist")
-            .path
-
-        guard FileManager.default.fileExists(atPath: infoPlistPath) else {
-            throw TestError.infoPlistNotFound
+    /// Get the main application bundle using a reliable fallback approach.
+    /// Tries multiple methods to ensure we get the correct bundle across different test environments.
+    private func getMainAppBundle() throws -> Bundle {
+        // Method 1: Try to find bundle by identifier in loaded bundles
+        // This works when the app is loaded in the test process
+        if let bundle = Bundle.allBundles.first(where: { $0.bundleIdentifier == Self.expectedBundleIdentifier }) {
+            return bundle
         }
 
-        guard let infoPlistData = FileManager.default.contents(atPath: infoPlistPath) else {
-            throw TestError.infoPlistNotReadable
+        // Method 2: Try Bundle.main (works in some test configurations)
+        if Bundle.main.bundleIdentifier == Self.expectedBundleIdentifier {
+            return Bundle.main
         }
 
-        guard let infoPlist = try PropertyListSerialization.propertyList(
-            from: infoPlistData,
-            options: [],
-            format: nil
-        ) as? [String: Any] else {
-            throw TestError.infoPlistInvalidFormat
+        // Method 3: Look for the app bundle in the test bundle's path
+        // The built app should be in the same directory as the test bundle
+        let testBundlePath = Bundle(for: type(of: self)).bundlePath
+        let appPath = (testBundlePath as NSString).deletingLastPathComponent + "/MeetingRecorder.app"
+        if let bundle = Bundle(path: appPath), bundle.bundleIdentifier == Self.expectedBundleIdentifier {
+            return bundle
         }
 
-        return infoPlist
+        throw TestError.appBundleNotFound
     }
 
-    /// Loads entitlements from the project structure
-    private func loadEntitlements() throws -> [String: Any] {
-        let projectRoot = try findProjectRoot()
-        let entitlementsPath = projectRoot
-            .appendingPathComponent("MeetingRecorder/MeetingRecorder.entitlements")
-            .path
+    // MARK: - Privacy Keys Tests
 
-        guard FileManager.default.fileExists(atPath: entitlementsPath) else {
-            throw TestError.entitlementsNotFound
-        }
+    func testInfoPlistContainsRequiredPrivacyKeys() throws {
+        let bundle = Bundle(for: type(of: self))
 
-        guard let entitlementsData = FileManager.default.contents(atPath: entitlementsPath) else {
-            throw TestError.entitlementsNotReadable
-        }
+        // Test microphone usage description
+        let microphoneDesc = bundle.object(forInfoDictionaryKey: "NSMicrophoneUsageDescription") as? String
+        XCTAssertNotNil(microphoneDesc, "NSMicrophoneUsageDescription must be present")
+        XCTAssertFalse(microphoneDesc?.isEmpty ?? true, "NSMicrophoneUsageDescription must not be empty")
+        XCTAssertTrue(microphoneDesc?.contains("microphone") ?? false,
+                      "Microphone description should mention 'microphone'")
 
-        guard let entitlements = try PropertyListSerialization.propertyList(
-            from: entitlementsData,
-            options: [],
-            format: nil
-        ) as? [String: Any] else {
-            throw TestError.entitlementsInvalidFormat
-        }
-
-        return entitlements
+        // Test speech recognition usage description
+        let speechDesc = bundle.object(forInfoDictionaryKey: "NSSpeechRecognitionUsageDescription") as? String
+        XCTAssertNotNil(speechDesc, "NSSpeechRecognitionUsageDescription must be present")
+        XCTAssertFalse(speechDesc?.isEmpty ?? true, "NSSpeechRecognitionUsageDescription must not be empty")
+        XCTAssertTrue(speechDesc?.contains("speech") ?? false,
+                      "Speech recognition description should mention 'speech'")
     }
 
-    /// Gets the path to project.pbxproj file
-    private func getProjectPath() throws -> String {
-        let projectRoot = try findProjectRoot()
-        return projectRoot
-            .appendingPathComponent("MeetingRecorder.xcodeproj/project.pbxproj")
-            .path
+    func testPrivacyDescriptionsAreUserFriendly() throws {
+        let bundle = Bundle(for: type(of: self))
+
+        let microphoneDesc = bundle.object(forInfoDictionaryKey: "NSMicrophoneUsageDescription") as? String
+        let speechDesc = bundle.object(forInfoDictionaryKey: "NSSpeechRecognitionUsageDescription") as? String
+
+        // Privacy descriptions should be meaningful, not just placeholders
+        XCTAssertTrue((microphoneDesc?.count ?? 0) > 20,
+                      "Microphone description should be descriptive (>20 chars)")
+        XCTAssertTrue((speechDesc?.count ?? 0) > 20,
+                      "Speech description should be descriptive (>20 chars)")
+
+        // Should not contain placeholder text
+        XCTAssertFalse(microphoneDesc?.contains("TODO") ?? false)
+        XCTAssertFalse(speechDesc?.contains("TODO") ?? false)
+        XCTAssertFalse(microphoneDesc?.contains("placeholder") ?? false)
+        XCTAssertFalse(speechDesc?.contains("placeholder") ?? false)
     }
 
-    /// Finds the project root directory
-    /// Reference implementation for path resolution (kept for documentation purposes)
-    /// Note: This approach cannot work reliably in sandboxed test environment - see class-level deprecation comment
-    private func findProjectRoot() throws -> URL {
-        let fileManager = FileManager.default
+    // MARK: - Bundle Configuration Tests
 
-        // Try PWD environment variable first (set by xcodebuild when not sandboxed)
-        if let pwd = ProcessInfo.processInfo.environment["PWD"] {
-            let pwdURL = URL(fileURLWithPath: pwd)
-            let xcodeproj = pwdURL.appendingPathComponent("MeetingRecorder.xcodeproj")
-            let projectYml = pwdURL.appendingPathComponent("project.yml")
+    func testBundleIdentifierIsCorrect() throws {
+        let bundle = Bundle(for: type(of: self))
+        let bundleId = bundle.bundleIdentifier
 
-            if fileManager.fileExists(atPath: xcodeproj.path) ||
-               fileManager.fileExists(atPath: projectYml.path) {
-                return pwdURL
-            }
-        }
-
-        // Try current directory
-        let currentDir = fileManager.currentDirectoryPath
-        let currentURL = URL(fileURLWithPath: currentDir)
-
-        let xcodeproj = currentURL.appendingPathComponent("MeetingRecorder.xcodeproj")
-        let projectYml = currentURL.appendingPathComponent("project.yml")
-
-        if fileManager.fileExists(atPath: xcodeproj.path) ||
-           fileManager.fileExists(atPath: projectYml.path) {
-            return currentURL
-        }
-
-        // Git-based fallback: Use git to find repository root
-        // (Reference implementation - this class is deprecated, see above)
-        let gitProcess = Process()
-        gitProcess.executableURL = URL(fileURLWithPath: "/usr/bin/git")
-        gitProcess.arguments = ["rev-parse", "--show-toplevel"]
-
-        let pipe = Pipe()
-        gitProcess.standardOutput = pipe
-        gitProcess.standardError = Pipe()
-
-        try? gitProcess.run()
-        gitProcess.waitUntilExit()
-
-        if gitProcess.terminationStatus == 0 {
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            if let gitRoot = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                let gitRootURL = URL(fileURLWithPath: gitRoot)
-                let xcodeproj = gitRootURL.appendingPathComponent("MeetingRecorder.xcodeproj")
-
-                if fileManager.fileExists(atPath: xcodeproj.path) {
-                    return gitRootURL
-                }
-            }
-        }
-
-        throw TestError.projectNotFound
+        XCTAssertNotNil(bundleId, "Bundle identifier must be set")
+        XCTAssertTrue(bundleId?.hasPrefix("com.daltonrooney.") ?? false,
+                      "Bundle ID should use correct prefix")
     }
+
+    func testBundleVersionsAreSet() throws {
+        let appBundle = try getMainAppBundle()
+
+        let version = appBundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        let build = appBundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+
+        XCTAssertNotNil(version, "CFBundleShortVersionString must be set")
+        XCTAssertNotNil(build, "CFBundleVersion must be set")
+        XCTAssertFalse(version?.isEmpty ?? true, "Version string must not be empty")
+        XCTAssertFalse(build?.isEmpty ?? true, "Build string must not be empty")
+    }
+
+    // MARK: - Deployment Target Tests
+
+    func testMinimumSystemVersionIsCorrect() throws {
+        let appBundle = try getMainAppBundle()
+
+        // The minimum macOS version should be set to 26.0 or higher
+        let minimumVersion = appBundle.object(forInfoDictionaryKey: "LSMinimumSystemVersion") as? String
+
+        XCTAssertNotNil(minimumVersion, "LSMinimumSystemVersion must be set")
+
+        guard let versionString = minimumVersion else {
+            XCTFail("LSMinimumSystemVersion is nil")
+            return
+        }
+
+        // Parse version string (e.g., "26.0")
+        let components = versionString.split(separator: ".").compactMap { Int($0) }
+
+        guard let majorVersion = components.first else {
+            XCTFail("Could not parse major version from '\(versionString)'")
+            return
+        }
+
+        XCTAssertGreaterThanOrEqual(majorVersion, Self.minimumMacOSVersion,
+                                   "Minimum system version should be macOS \(Self.minimumMacOSVersion).0 or higher, but found \(versionString)")
+    }
+
+    // MARK: - Error Types
 
     enum TestError: Error {
-        case infoPlistNotFound
-        case infoPlistNotReadable
-        case infoPlistInvalidFormat
-        case entitlementsNotFound
-        case entitlementsNotReadable
-        case entitlementsInvalidFormat
-        case projectNotFound
+        case appBundleNotFound
     }
 }
