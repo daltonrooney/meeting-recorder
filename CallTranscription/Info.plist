@@ -19,10 +19,10 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Meeting Recorder needs microphone access to record your audio during meetings.</string>
+	<string>Olive - Call Transcription needs microphone access to record your audio during calls.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Meeting Recorder uses speech recognition to transcribe meeting audio in real-time.</string>
+	<string>Olive - Call Transcription uses speech recognition to transcribe call audio in real-time.</string>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>Meeting Recorder needs access to system audio to record other participants and system sounds.</string>
+	<string>Olive - Call Transcription needs access to system audio to record other participants and system sounds.</string>
 </dict>
 </plist>

@@ -11,7 +11,7 @@ final class ProjectConfigurationTests: XCTestCase {
 
     // MARK: - Constants
 
-    private static let expectedBundleIdentifier = "com.daltonrooney.MeetingRecorder"
+    private static let expectedBundleIdentifier = "dev.rygn.CallTranscription"
     private static let minimumMacOSVersion = 26
 
     // MARK: - Helper Methods
@@ -33,7 +33,7 @@ final class ProjectConfigurationTests: XCTestCase {
         // Method 3: Look for the app bundle in the test bundle's path
         // The built app should be in the same directory as the test bundle
         let testBundlePath = Bundle(for: type(of: self)).bundlePath
-        let appPath = (testBundlePath as NSString).deletingLastPathComponent + "/MeetingRecorder.app"
+        let appPath = (testBundlePath as NSString).deletingLastPathComponent + "/CallTranscription.app"
         if let bundle = Bundle(path: appPath), bundle.bundleIdentifier == Self.expectedBundleIdentifier {
             return bundle
         }
@@ -87,7 +87,7 @@ final class ProjectConfigurationTests: XCTestCase {
         let bundleId = bundle.bundleIdentifier
 
         XCTAssertNotNil(bundleId, "Bundle identifier must be set")
-        XCTAssertTrue(bundleId?.hasPrefix("com.daltonrooney.") ?? false,
+        XCTAssertTrue(bundleId?.hasPrefix("dev.rygn.") ?? false,
                       "Bundle ID should use correct prefix")
     }
 
