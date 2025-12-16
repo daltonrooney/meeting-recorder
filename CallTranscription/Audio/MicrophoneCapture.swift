@@ -7,6 +7,9 @@ import AVFoundation
 /// with low latency (1024 buffer size). Audio buffers are delivered asynchronously
 /// via the `audioBufferHandler` closure.
 ///
+/// - Important: This class is only available on macOS. On other platforms, permission
+///   checks will always return false and capture will not function.
+///
 /// Example usage:
 /// ```swift
 /// let capture = MicrophoneCapture()
@@ -68,8 +71,10 @@ public final class MicrophoneCapture {
         let format = inputNode.outputFormat(forBus: 0)
 
         // Install tap with specified buffer size
-        inputNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { [weak self] buffer, time in
-            self?.audioBufferHandler?(buffer)
+        // Capture handler to avoid race conditions with main thread
+        let handler = audioBufferHandler
+        inputNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, time in
+            handler?(buffer)
         }
 
         // Start the audio engine
