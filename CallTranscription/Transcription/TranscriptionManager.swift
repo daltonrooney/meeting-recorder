@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 import Speech
+import OSLog
 
 /// Result from transcription containing text and finality status.
 public struct TranscriptionResult {
@@ -46,9 +47,13 @@ public final class TranscriptionManager {
     /// Callback invoked when transcription results are available.
     public var onTranscriptionResult: (@MainActor (TranscriptionResult) -> Void)?
 
+    /// Callback invoked when transcription errors occur.
+    public var onTranscriptionError: (@MainActor (Error) -> Void)?
+
     // MARK: - Private Properties
 
     private let locale: Locale
+    private let logger = Logger(subsystem: "dev.rygn.CallTranscription", category: "TranscriptionManager")
     private var analyzer: SpeechAnalyzer?
     private var transcriber: SpeechTranscriber?
     private var inputContinuation: AsyncStream<AnalyzerInput>.Continuation?
@@ -64,8 +69,16 @@ public final class TranscriptionManager {
     ///
     /// - Parameter locale: The locale for transcription (defaults to system locale)
     public init(locale: Locale = Locale.current) {
-        // Normalize locale identifier (en_US -> en-US) for compatibility with SpeechFramework
-        self.locale = Locale(identifier: locale.identifier.replacingOccurrences(of: "_", with: "-"))
+        // Normalize locale for Speech framework compatibility
+        // Speech framework uses standard BCP 47 format (e.g., "en-US")
+        // Construct normalized locale from language and region components to preserve locale properties
+        if let languageCode = locale.language.languageCode?.identifier,
+           let regionCode = locale.region?.identifier {
+            self.locale = Locale(identifier: "\(languageCode)-\(regionCode)")
+        } else {
+            // Fallback to simple normalization if components unavailable
+            self.locale = Locale(identifier: locale.identifier.replacingOccurrences(of: "_", with: "-"))
+        }
     }
 
     deinit {
@@ -121,7 +134,6 @@ public final class TranscriptionManager {
         try await ensureModelAvailable()
 
         // Create transcriber for the locale using preset optimized for real-time
-        // Temporarily not catching errors to see what's actually failing
         let transcriber = SpeechTranscriber(
             locale: locale,
             preset: .transcription
@@ -155,18 +167,23 @@ public final class TranscriptionManager {
                     self.onTranscriptionResult?(transcriptionResult)
                 }
             } catch {
-                // Handle result streaming errors silently
-                // Stream may end normally when analysis finishes
+                // Log error and notify user if result streaming fails unexpectedly
+                self.logger.error("Result streaming failed: \(error.localizedDescription)")
+                self.onTranscriptionError?(error)
             }
         }
 
         // Start analysis task
-        analysisTask = Task {
+        analysisTask = Task { [weak self] in
+            guard let self else { return }
             do {
                 try await analyzer.start(inputSequence: stream)
             } catch {
-                // Handle analysis errors
-                // Analysis may fail if input stream ends prematurely
+                // Log error - analysis failure typically means input stream issues
+                await MainActor.run {
+                    self.logger.error("Analysis failed: \(error.localizedDescription)")
+                    self.onTranscriptionError?(error)
+                }
             }
         }
 
@@ -176,6 +193,7 @@ public final class TranscriptionManager {
     /// Feeds an audio buffer to the transcription system.
     ///
     /// - Parameter buffer: The audio buffer to process
+    /// - Note: This method must be called from the MainActor context
     public func feedAudio(_ buffer: AVAudioPCMBuffer) async {
         guard isTranscribing, let continuation = inputContinuation, let analyzerFormat = analyzerFormat else {
             return
@@ -189,13 +207,18 @@ public final class TranscriptionManager {
             // Create converter if needed
             if audioConverter == nil || audioConverter?.inputFormat != buffer.format {
                 guard let converter = AVAudioConverter(from: buffer.format, to: analyzerFormat) else {
+                    logger.error("Failed to create audio converter from \(buffer.format.sampleRate)Hz to \(analyzerFormat.sampleRate)Hz")
                     return
                 }
                 audioConverter = converter
             }
 
-            // Convert buffer
-            guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: analyzerFormat, frameCapacity: buffer.frameCapacity) else {
+            // Calculate output buffer capacity based on sample rate ratio
+            let sampleRateRatio = analyzerFormat.sampleRate / buffer.format.sampleRate
+            let outputCapacity = AVAudioFrameCount(Double(buffer.frameLength) * sampleRateRatio)
+
+            guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: analyzerFormat, frameCapacity: outputCapacity) else {
+                logger.error("Failed to create output buffer with capacity \(outputCapacity)")
                 return
             }
 
@@ -206,6 +229,7 @@ public final class TranscriptionManager {
             }
 
             guard status != .error, error == nil else {
+                logger.error("Audio conversion failed: \(error?.localizedDescription ?? "unknown error")")
                 return
             }
 
