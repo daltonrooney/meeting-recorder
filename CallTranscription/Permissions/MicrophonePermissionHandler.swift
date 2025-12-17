@@ -54,6 +54,10 @@ public final class MicrophonePermissionHandler {
     /// Automatically requests permission if not yet determined.
     /// Throws an error if permission is denied or restricted.
     ///
+    /// **Note**: The `.notDetermined` case is included in the error cases because after calling
+    /// `requestPermission()`, the status should only be `.notDetermined` if the user dismissed
+    /// the permission dialog without choosing. This is treated as a denial for app functionality.
+    ///
     /// - Throws: `CallTranscriptionError.microphonePermissionDenied` if permission denied or restricted.
     public func ensurePermission() async throws {
         let status = await requestPermission()
@@ -62,6 +66,8 @@ public final class MicrophonePermissionHandler {
         case .authorized:
             return
         case .denied, .restricted, .notDetermined:
+            // .notDetermined should not occur after requestPermission(), but if it does,
+            // treat it as denied since the user didn't explicitly grant permission
             throw CallTranscriptionError.microphonePermissionDenied
         @unknown default:
             throw CallTranscriptionError.microphonePermissionDenied
@@ -73,7 +79,7 @@ public final class MicrophonePermissionHandler {
     /// Gets the URL for opening System Settings to the Microphone privacy pane.
     ///
     /// - Returns: The URL to open System Settings, or `nil` if unavailable.
-    public func getSystemSettingsURL() async -> URL? {
+    public func getSystemSettingsURL() -> URL? {
         // macOS 13+ uses x-apple.systemsettings, earlier versions use x-apple.systempreferences
         // Privacy & Security > Microphone
         if #available(macOS 13.0, *) {
@@ -87,8 +93,8 @@ public final class MicrophonePermissionHandler {
     ///
     /// This method attempts to open System Settings to the relevant privacy settings
     /// where the user can grant microphone access to the application.
-    public func openSystemSettings() async {
-        guard let settingsURL = await getSystemSettingsURL() else {
+    public func openSystemSettings() {
+        guard let settingsURL = getSystemSettingsURL() else {
             return
         }
 

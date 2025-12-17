@@ -286,12 +286,12 @@ final class MicrophonePermissionHandlerTests: XCTestCase {
 
     func testCanOpenSystemSettings() async throws {
         // Verify we can construct System Settings URL
-        let settingsURL = await permissionHandler.getSystemSettingsURL()
+        let settingsURL = permissionHandler.getSystemSettingsURL()
         XCTAssertNotNil(settingsURL, "Should provide System Settings URL")
     }
 
     func testSystemSettingsURLIsValid() async throws {
-        let settingsURL = await permissionHandler.getSystemSettingsURL()
+        let settingsURL = permissionHandler.getSystemSettingsURL()
 
         if let url = settingsURL {
             // URL should use the correct scheme
@@ -306,7 +306,7 @@ final class MicrophonePermissionHandlerTests: XCTestCase {
     func testOpenSystemSettingsDoesNotCrash() async throws {
         // This test just verifies the method exists and doesn't crash
         // We cannot actually open System Settings in unit tests
-        await permissionHandler.openSystemSettings()
+        permissionHandler.openSystemSettings()
     }
 
     // MARK: - Integration with Audio Capture Tests
