@@ -8,6 +8,10 @@ import Speech
 /// - Verifying locale support for speech recognition
 /// - Checking model availability and initiating downloads
 /// - Ensuring all requirements are met before transcription
+///
+/// **Thread Safety**: This class is marked `@MainActor` because `SFSpeechRecognizer`
+/// requires main thread access for authorization requests and some configuration operations.
+/// All public methods must be called from the main actor context.
 @available(macOS 26.0, *)
 @MainActor
 public final class SpeechPermissionHandler {
@@ -102,13 +106,19 @@ public final class SpeechPermissionHandler {
         return recognizer.isAvailable
     }
 
-    /// Downloads the speech recognition model for the configured locale.
+    /// Waits for the speech recognition model to become available for the configured locale.
     ///
     /// Returns immediately if the model is already available.
-    /// Initiates download if the model is not present.
+    /// Waits up to 5 seconds for the model to become available.
+    ///
+    /// **Note**: On macOS 26.0+, speech recognition models are downloaded automatically by the system
+    /// when first needed. This method cannot programmatically trigger downloads; it only waits for
+    /// availability. If the model is not available after the timeout, users must download it manually
+    /// via System Settings > General > Keyboard > Dictation, or by using any system speech recognition
+    /// feature for the first time.
     ///
     /// - Throws: `CallTranscriptionError.localeNotSupported` if locale is not supported.
-    /// - Throws: `CallTranscriptionError.speechRecognitionUnavailable` if download fails.
+    /// - Throws: `CallTranscriptionError.speechRecognitionUnavailable` if model unavailable after timeout.
     public func downloadModel() async throws {
         // Check if locale is supported
         guard await checkLocaleSupport() else {
@@ -124,14 +134,9 @@ public final class SpeechPermissionHandler {
             throw CallTranscriptionError.localeNotSupported(locale)
         }
 
-        // Attempt to prepare the recognizer (triggers model download if needed)
-        // On macOS 26.0+, the system handles model downloads automatically
-        // when the recognizer is used. We just need to verify availability.
-
-        // Wait a short time for the recognizer to become available
-        // In practice, if model is not present, this will fail and user needs
-        // to ensure model is downloaded via system settings or first use
-        let maxAttempts = 10
+        // Wait up to 5 seconds for the recognizer to become available
+        // The system may be downloading the model in the background
+        let maxAttempts = 50  // 50 attempts × 100ms = 5 seconds total
         for _ in 0..<maxAttempts {
             if recognizer.isAvailable {
                 return
@@ -139,7 +144,7 @@ public final class SpeechPermissionHandler {
             try await Task.sleep(for: .milliseconds(100))
         }
 
-        // If still not available after waiting, throw error
+        // If still not available after 5 seconds, the model needs manual download
         throw CallTranscriptionError.speechRecognitionUnavailable
     }
 
