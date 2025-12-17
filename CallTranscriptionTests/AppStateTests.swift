@@ -1197,9 +1197,12 @@ final class AppStateTests: XCTestCase {
             }
             .store(in: &cancellables)
 
-        // Change the value (this will only work once implementation exists)
-        // For now, this tests the property is published
-        testAppState.isPaused = true
+        Task {
+            // Start recording first (sync version for state only)
+            testAppState.startRecording()
+            // Now pause it
+            try? await testAppState.pauseRecording()
+        }
 
         wait(for: [expectation], timeout: 2.0)
         XCTAssertEqual(receivedValues, [true],

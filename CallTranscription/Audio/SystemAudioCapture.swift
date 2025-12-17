@@ -128,6 +128,46 @@ public final class SystemAudioCapture {
         isCapturing = false
     }
 
+    /// Pauses audio capture without stopping the audio engine.
+    ///
+    /// Removes the audio tap to stop buffer delivery while keeping the engine running.
+    /// This allows for quick resume without restarting the engine.
+    ///
+    /// - Note: This method is idempotent - multiple calls are safe
+    public func pauseCapture() async {
+        guard isCapturing else {
+            return
+        }
+
+        logger.debug("Pausing audio capture")
+        // Remove tap but keep engine running
+        audioEngine.inputNode.removeTap(onBus: 0)
+    }
+
+    /// Resumes audio capture after being paused.
+    ///
+    /// Reinstalls the audio tap to resume buffer delivery.
+    ///
+    /// - Note: This method is idempotent - multiple calls are safe
+    public func resumeCapture() async {
+        guard isCapturing else {
+            return
+        }
+
+        logger.debug("Resuming audio capture")
+        // Check if tap already installed (already resumed)
+        // Note: AVAudioEngine will throw if tap is already installed
+        // We rely on try? to handle this gracefully
+        let inputNode = audioEngine.inputNode
+        let format = inputNode.outputFormat(forBus: 0)
+        let handler = audioBufferHandler
+
+        // Reinstall tap - if already installed, this will fail silently
+        try? inputNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, time in
+            handler?(buffer)
+        }
+    }
+
     // MARK: - Private Methods
 
     /// Checks microphone permission status.

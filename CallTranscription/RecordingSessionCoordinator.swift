@@ -165,9 +165,29 @@ public final class RecordingSessionCoordinator {
     /// This method pauses audio capture while maintaining the recording session.
     /// Call `resumeRecording()` to continue.
     public func pauseRecording() async throws {
-        // TODO: Implement pause functionality
-        // For now, this is a stub to allow compilation
-        logger.info("Pause recording called (stub implementation)")
+        guard isRecording else {
+            throw CallTranscriptionError.notRecording
+        }
+
+        logger.info("Pausing recording session")
+
+        // Pause audio capture sources
+        if let micCapture = microphoneCapture {
+            nonisolated(unsafe) let unsafeMicCapture = micCapture
+            await unsafeMicCapture.pauseCapture()
+            logger.debug("Microphone capture paused")
+        }
+
+        if let sysCapture = systemAudioCapture {
+            nonisolated(unsafe) let unsafeSysCapture = sysCapture
+            await unsafeSysCapture.pauseCapture()
+            logger.debug("System audio capture paused")
+        }
+
+        // Note: We don't pause transcription manager - we simply stop feeding it audio
+        // When we resume, audio will continue to flow and transcription will continue
+
+        logger.info("Recording session paused successfully")
     }
 
     /// Resumes the current recording session after being paused.
@@ -176,9 +196,28 @@ public final class RecordingSessionCoordinator {
     ///
     /// This method resumes audio capture after a pause.
     public func resumeRecording() async throws {
-        // TODO: Implement resume functionality
-        // For now, this is a stub to allow compilation
-        logger.info("Resume recording called (stub implementation)")
+        guard isRecording else {
+            throw CallTranscriptionError.notRecording
+        }
+
+        logger.info("Resuming recording session")
+
+        // Resume audio capture sources
+        if let micCapture = microphoneCapture {
+            nonisolated(unsafe) let unsafeMicCapture = micCapture
+            await unsafeMicCapture.resumeCapture()
+            logger.debug("Microphone capture resumed")
+        }
+
+        if let sysCapture = systemAudioCapture {
+            nonisolated(unsafe) let unsafeSysCapture = sysCapture
+            await unsafeSysCapture.resumeCapture()
+            logger.debug("System audio capture resumed")
+        }
+
+        // Audio will automatically start flowing to transcription manager again
+
+        logger.info("Recording session resumed successfully")
     }
 
     // MARK: - Private Methods - Validation
