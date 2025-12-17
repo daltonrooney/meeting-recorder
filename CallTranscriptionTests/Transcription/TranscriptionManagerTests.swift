@@ -4,6 +4,7 @@ import Speech
 @testable import CallTranscription
 
 @available(macOS 26.0, *)
+@MainActor
 final class TranscriptionManagerTests: XCTestCase {
     var transcriptionManager: TranscriptionManager!
 
