@@ -9,6 +9,7 @@ public final class SettingsManager: ObservableObject {
         static let postRecordingScript = "postRecordingScript"
         static let captureSystemAudio = "captureSystemAudio"
         static let captureMicrophone = "captureMicrophone"
+        static let hasAcceptedConsentDialog = "hasAcceptedConsentDialog"
     }
 
     // Default values
@@ -16,12 +17,14 @@ public final class SettingsManager: ObservableObject {
     public static let defaultPostRecordingScript = ""
     public static let defaultCaptureSystemAudio = true
     public static let defaultCaptureMicrophone = true
+    public static let defaultHasAcceptedConsentDialog = false
 
     // Published properties
     @Published public var outputFolder: String
     @Published public var postRecordingScript: String
     @Published public var captureSystemAudio: Bool
     @Published public var captureMicrophone: Bool
+    @Published public var hasAcceptedConsentDialog: Bool
 
     private let userDefaults: UserDefaults
     private var cancellables = Set<AnyCancellable>()
@@ -46,6 +49,12 @@ public final class SettingsManager: ObservableObject {
             self.captureMicrophone = userDefaults.bool(forKey: Keys.captureMicrophone)
         } else {
             self.captureMicrophone = Self.defaultCaptureMicrophone
+        }
+
+        if userDefaults.objectExists(forKey: Keys.hasAcceptedConsentDialog) {
+            self.hasAcceptedConsentDialog = userDefaults.bool(forKey: Keys.hasAcceptedConsentDialog)
+        } else {
+            self.hasAcceptedConsentDialog = Self.defaultHasAcceptedConsentDialog
         }
 
         // Set up observers to persist changes to UserDefaults
@@ -82,6 +91,14 @@ public final class SettingsManager: ObservableObject {
             .dropFirst() // Skip initial value
             .sink { [weak self] newValue in
                 self?.userDefaults.set(newValue, forKey: Keys.captureMicrophone)
+            }
+            .store(in: &cancellables)
+
+        // Persist hasAcceptedConsentDialog changes
+        $hasAcceptedConsentDialog
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.hasAcceptedConsentDialog)
             }
             .store(in: &cancellables)
     }

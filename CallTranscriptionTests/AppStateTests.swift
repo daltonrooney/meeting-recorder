@@ -859,4 +859,145 @@ final class AppStateTests: XCTestCase {
         cancellable.cancel()
         _ = try await testAppState.stopActualRecording()
     }
+
+    // MARK: - Consent Dialog Tests
+
+    func testShowConsentDialogIsTrueWhenConsentNotAccepted() {
+        // Setup - create settings with consent not accepted
+        let settings = SettingsManager()
+        settings.hasAcceptedConsentDialog = false
+
+        // Create AppState
+        let testAppState = AppState(settingsManager: settings)
+
+        // Assert
+        XCTAssertTrue(testAppState.showConsentDialog,
+                     "showConsentDialog should be true when consent not accepted")
+    }
+
+    func testShowConsentDialogIsFalseWhenConsentAlreadyAccepted() {
+        // Setup - create settings with consent accepted
+        let settings = SettingsManager()
+        settings.hasAcceptedConsentDialog = true
+
+        // Create AppState
+        let testAppState = AppState(settingsManager: settings)
+
+        // Assert
+        XCTAssertFalse(testAppState.showConsentDialog,
+                      "showConsentDialog should be false when consent already accepted")
+    }
+
+    func testShowConsentDialogCanBeDismissed() {
+        // Setup
+        let settings = SettingsManager()
+        settings.hasAcceptedConsentDialog = false
+        let testAppState = AppState(settingsManager: settings)
+
+        // Verify initially true
+        XCTAssertTrue(testAppState.showConsentDialog)
+
+        // Act - dismiss dialog
+        testAppState.dismissConsentDialog(rememberChoice: false)
+
+        // Assert
+        XCTAssertFalse(testAppState.showConsentDialog,
+                      "showConsentDialog should be false after dismissal")
+    }
+
+    func testDismissConsentDialogWithRememberChoicePersistsToSettings() {
+        // Setup
+        let settings = SettingsManager()
+        settings.hasAcceptedConsentDialog = false
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act - dismiss with remember choice
+        testAppState.dismissConsentDialog(rememberChoice: true)
+
+        // Assert
+        XCTAssertTrue(settings.hasAcceptedConsentDialog,
+                     "Dismissing with rememberChoice should update settings")
+        XCTAssertFalse(testAppState.showConsentDialog,
+                      "showConsentDialog should be false after dismissal")
+    }
+
+    func testDismissConsentDialogWithoutRememberChoiceDoesNotPersist() {
+        // Setup
+        let settings = SettingsManager()
+        settings.hasAcceptedConsentDialog = false
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act - dismiss without remember choice
+        testAppState.dismissConsentDialog(rememberChoice: false)
+
+        // Assert
+        XCTAssertFalse(settings.hasAcceptedConsentDialog,
+                      "Dismissing without rememberChoice should not update settings")
+        XCTAssertFalse(testAppState.showConsentDialog,
+                      "showConsentDialog should still be false after dismissal")
+    }
+
+    func testShowConsentDialogPropertyIsPublished() {
+        // Setup
+        let settings = SettingsManager()
+        settings.hasAcceptedConsentDialog = false
+        let testAppState = AppState(settingsManager: settings)
+
+        let expectation = expectation(description: "showConsentDialog change should be published")
+        var receivedValues: [Bool] = []
+
+        testAppState.$showConsentDialog
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        // Act - dismiss dialog
+        testAppState.dismissConsentDialog(rememberChoice: false)
+
+        // Assert
+        wait(for: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues, [false],
+                      "showConsentDialog change should be published")
+    }
+
+    func testConsentDialogAppearsAgainAfterDismissalWithoutRememberChoice() {
+        // Setup
+        let settings = SettingsManager()
+        settings.hasAcceptedConsentDialog = false
+        let testAppState1 = AppState(settingsManager: settings)
+
+        // Dismiss without remembering
+        testAppState1.dismissConsentDialog(rememberChoice: false)
+        XCTAssertFalse(testAppState1.showConsentDialog)
+
+        // Create new app state instance (simulating app restart)
+        let testAppState2 = AppState(settingsManager: settings)
+
+        // Assert - dialog should appear again
+        XCTAssertTrue(testAppState2.showConsentDialog,
+                     "Consent dialog should appear again on next launch if not remembered")
+    }
+
+    func testConsentDialogDoesNotAppearAfterDismissalWithRememberChoice() {
+        // Setup
+        let settings = SettingsManager()
+        settings.hasAcceptedConsentDialog = false
+        let testAppState1 = AppState(settingsManager: settings)
+
+        // Dismiss with remembering
+        testAppState1.dismissConsentDialog(rememberChoice: true)
+        XCTAssertFalse(testAppState1.showConsentDialog)
+
+        // Create new app state instance (simulating app restart)
+        let testAppState2 = AppState(settingsManager: settings)
+
+        // Assert - dialog should NOT appear again
+        XCTAssertFalse(testAppState2.showConsentDialog,
+                      "Consent dialog should not appear again if user chose to remember")
+    }
 }

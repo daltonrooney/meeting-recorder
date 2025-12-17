@@ -165,7 +165,7 @@ final class AudioMixerTests: XCTestCase {
         if let channelData = receivedBuffer?.floatChannelData {
             let mixedValue = channelData[0][0]
             let expected = (0.4 * 0.5) + (0.6 * 0.5)
-            XCTAssertEqual(mixedValue, expected, accuracy: 0.01)
+            XCTAssertEqual(Double(mixedValue), expected, accuracy: 0.01)
         }
     }
 
@@ -190,7 +190,7 @@ final class AudioMixerTests: XCTestCase {
         if let channelData = receivedBuffer?.floatChannelData {
             let mixedValue = channelData[0][0]
             let expected = (0.5 * 0.8) + (0.5 * 0.2)
-            XCTAssertEqual(mixedValue, expected, accuracy: 0.01)
+            XCTAssertEqual(Double(mixedValue), expected, accuracy: 0.01)
         }
     }
 
@@ -343,7 +343,7 @@ final class AudioMixerTests: XCTestCase {
         try await mixer.feedMicrophoneBuffer(buffer)
 
         // Should deliver almost immediately (within 100ms)
-        wait(for: [expectation], timeout: 0.1)
+        await fulfillment(of: [expectation], timeout: 0.1)
     }
 
     // MARK: - Configuration Tests
@@ -440,8 +440,8 @@ final class AudioMixerTests: XCTestCase {
 
         await withTaskGroup(of: Void.self) { group in
             for _ in 0..<10 {
-                group.addTask {
-                    let buffer = self.createTestBuffer()
+                group.addTask { @MainActor in
+                    let buffer = await self.createTestBuffer()
                     try? await self.mixer.feedMicrophoneBuffer(buffer)
                 }
             }

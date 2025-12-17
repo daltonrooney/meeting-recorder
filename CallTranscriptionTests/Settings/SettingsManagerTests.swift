@@ -325,4 +325,95 @@ final class SettingsManagerTests: XCTestCase {
         XCTAssertEqual(newManager.outputFolder, "/persistent/folder",
                       "Changes should persist to new instances via UserDefaults")
     }
+
+    // MARK: - Consent Dialog Tests
+
+    func testDefaultHasAcceptedConsentDialogIsFalse() {
+        XCTAssertFalse(settingsManager.hasAcceptedConsentDialog,
+                      "Default hasAcceptedConsentDialog should be false for first-run detection")
+    }
+
+    func testHasAcceptedConsentDialogCanBeSetToTrue() {
+        settingsManager.hasAcceptedConsentDialog = true
+        XCTAssertTrue(settingsManager.hasAcceptedConsentDialog,
+                     "Should be able to set hasAcceptedConsentDialog to true")
+    }
+
+    func testHasAcceptedConsentDialogCanBeSetToFalse() {
+        settingsManager.hasAcceptedConsentDialog = true
+        settingsManager.hasAcceptedConsentDialog = false
+        XCTAssertFalse(settingsManager.hasAcceptedConsentDialog,
+                      "Should be able to set hasAcceptedConsentDialog to false")
+    }
+
+    func testHasAcceptedConsentDialogPersistsAcrossInstances() {
+        // Set to true
+        settingsManager.hasAcceptedConsentDialog = true
+
+        // Force save to UserDefaults
+        testUserDefaults.set(true, forKey: "hasAcceptedConsentDialog")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertTrue(newManager.hasAcceptedConsentDialog,
+                     "hasAcceptedConsentDialog should persist across instances")
+    }
+
+    func testHasAcceptedConsentDialogPropertyIsPublished() async {
+        let expectation = expectation(description: "hasAcceptedConsentDialog change should be published")
+        var receivedValues: [Bool] = []
+
+        settingsManager.$hasAcceptedConsentDialog
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        // Change the value
+        settingsManager.hasAcceptedConsentDialog = true
+
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues, [true],
+                      "hasAcceptedConsentDialog change should be published")
+    }
+
+    func testHasAcceptedConsentDialogWritesToUserDefaults() async {
+        // Set value
+        settingsManager.hasAcceptedConsentDialog = true
+
+        // Give Combine pipeline time to write
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Check UserDefaults directly
+        let storedValue = testUserDefaults.bool(forKey: "hasAcceptedConsentDialog")
+        XCTAssertTrue(storedValue,
+                     "hasAcceptedConsentDialog should write to UserDefaults")
+    }
+
+    func testHasAcceptedConsentDialogReadsFromUserDefaults() {
+        // Set value directly in UserDefaults
+        testUserDefaults.set(true, forKey: "hasAcceptedConsentDialog")
+        testUserDefaults.synchronize()
+
+        // Create new instance - should read from UserDefaults
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertTrue(newManager.hasAcceptedConsentDialog,
+                     "Should read hasAcceptedConsentDialog from UserDefaults on init")
+    }
+
+    func testHasAcceptedConsentDialogDefaultValueWhenNotInUserDefaults() {
+        // Ensure key doesn't exist in UserDefaults
+        testUserDefaults.removeObject(forKey: "hasAcceptedConsentDialog")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertFalse(newManager.hasAcceptedConsentDialog,
+                      "Should default to false when not in UserDefaults")
+    }
 }
