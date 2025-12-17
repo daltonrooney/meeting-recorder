@@ -36,6 +36,9 @@ public enum CallTranscriptionError: LocalizedError {
     /// Failed to create output directory.
     case outputFolderCreationFailed(String, Error)
 
+    /// Attempted to write to a transcript that has already been finalized.
+    case transcriptAlreadyFinalized
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -69,6 +72,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .outputFolderCreationFailed(let path, _):
             return "Failed to create output folder at \(path)."
+
+        case .transcriptAlreadyFinalized:
+            return "Cannot modify a finalized transcript."
         }
     }
 
@@ -103,6 +109,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .outputFolderCreationFailed(let path, let error):
             return "Could not create directory at \(path): \(error.localizedDescription)"
+
+        case .transcriptAlreadyFinalized:
+            return "The transcript file has been finalized and can no longer be modified."
         }
     }
 
@@ -137,6 +146,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .outputFolderCreationFailed:
             return "Check folder permissions and ensure you have access to create directories at this location."
+
+        case .transcriptAlreadyFinalized:
+            return "Create a new transcript writer if you need to write more content."
         }
     }
 }
@@ -166,6 +178,8 @@ extension CallTranscriptionError: Equatable {
             return lhsTimeout == rhsTimeout
         case (.outputFolderCreationFailed(let lhsPath, _), .outputFolderCreationFailed(let rhsPath, _)):
             return lhsPath == rhsPath
+        case (.transcriptAlreadyFinalized, .transcriptAlreadyFinalized):
+            return true
         default:
             return false
         }
