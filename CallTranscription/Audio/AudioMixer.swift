@@ -96,6 +96,13 @@ public final class AudioMixer {
     }
 
     /// Mixes available buffers and delivers output.
+    ///
+    /// Mixing behavior:
+    /// - When both sources have buffers: Mixes them together and clears both (prevents duplication)
+    /// - When only one source has buffer: Outputs that source scaled by its level
+    ///
+    /// Single-source buffers are preserved for future mixing until replaced by new buffer
+    /// from same source. This ensures continuous output even when sources are intermittent.
     private func deliverMixedOutput() throws {
         // Mix buffers if we have at least one source
         guard lastMicrophoneBuffer != nil || lastSystemAudioBuffer != nil else {
@@ -105,13 +112,15 @@ public final class AudioMixer {
         let mixedBuffer: AVAudioPCMBuffer
 
         if let micBuffer = lastMicrophoneBuffer, let sysBuffer = lastSystemAudioBuffer {
-            // Mix both sources
+            // Mix both sources and clear to avoid duplication in subsequent mixes
             mixedBuffer = try mixBuffers(micBuffer, sysBuffer)
+            lastMicrophoneBuffer = nil
+            lastSystemAudioBuffer = nil
         } else if let micBuffer = lastMicrophoneBuffer {
-            // Only microphone
+            // Only microphone - keep buffer for future mixing
             mixedBuffer = scaleBuffer(micBuffer, level: microphoneLevel)
         } else if let sysBuffer = lastSystemAudioBuffer {
-            // Only system audio
+            // Only system audio - keep buffer for future mixing
             mixedBuffer = scaleBuffer(sysBuffer, level: systemAudioLevel)
         } else {
             return
@@ -165,9 +174,9 @@ public final class AudioMixer {
             throw NSError(domain: "AudioMixer", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create audio converter"])
         }
 
-        // Calculate output frame count based on sample rate ratio
+        // Calculate output frame count with safety margin for sample rate conversion
         let ratio = targetFormat.sampleRate / buffer.format.sampleRate
-        let outputFrameCount = AVAudioFrameCount(Double(buffer.frameLength) * ratio)
+        let outputFrameCount = AVAudioFrameCount(ceil(Double(buffer.frameLength) * ratio) * 1.1)
 
         guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: outputFrameCount) else {
             logger.error("Failed to create output buffer")
