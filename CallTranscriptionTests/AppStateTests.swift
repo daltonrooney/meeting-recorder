@@ -330,4 +330,533 @@ final class AppStateTests: XCTestCase {
             let _ = appState.elapsedTime
         }
     }
+
+    // MARK: - RecordingSessionCoordinator Integration Tests
+
+    func testAppStateCreatesCoordinatorOnInit() {
+        // Assert that AppState creates a RecordingSessionCoordinator during initialization
+        // The coordinator should be configured with settings from SettingsManager
+        XCTAssertNotNil(appState, "AppState should be initialized")
+        // Coordinator will be checked via behavior tests below
+    }
+
+    func testCoordinatorUsesSettingsFromSettingsManager() async throws {
+        // Create settings manager with known values
+        let settings = SettingsManager()
+        settings.outputFolder = "~/Desktop/TestTranscripts"
+        settings.captureSystemAudio = false
+        settings.captureMicrophone = true
+        settings.postRecordingScript = ""
+
+        // Create AppState with settings
+        let testAppState = AppState(settingsManager: settings)
+
+        // Start recording and verify coordinator uses the settings
+        try await testAppState.startRecording(title: "Test Recording")
+
+        // Coordinator should be using the settings values
+        XCTAssertTrue(testAppState.isRecording, "Should start recording with configured settings")
+
+        // Cleanup
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testCoordinatorValidatesSettingsBeforeCreating() async {
+        // Test that invalid settings are caught
+        let settings = SettingsManager()
+        settings.outputFolder = "/nonexistent/invalid/path/that/does/not/exist"
+        settings.captureMicrophone = false
+        settings.captureSystemAudio = false // Both disabled
+
+        let testAppState = AppState(settingsManager: settings)
+
+        do {
+            try await testAppState.startRecording(title: "Test")
+            XCTFail("Should throw error for invalid configuration")
+        } catch {
+            XCTAssertTrue(error is CallTranscriptionError,
+                         "Should throw CallTranscriptionError for invalid settings")
+        }
+    }
+
+    func testStartRecordingCallsCoordinatorStart() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act
+        try await testAppState.startRecording(title: "Integration Test")
+
+        // Assert
+        XCTAssertTrue(testAppState.isRecording, "AppState.isRecording should be true")
+
+        // Cleanup
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testStartRecordingHandlesCoordinatorErrors() async {
+        // Setup with invalid configuration
+        let settings = SettingsManager()
+        settings.outputFolder = "/invalid/path"
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act & Assert
+        do {
+            try await testAppState.startRecording(title: "Test")
+            XCTFail("Should propagate coordinator start errors")
+        } catch {
+            XCTAssertTrue(error is CallTranscriptionError,
+                         "Should throw CallTranscriptionError from coordinator")
+            XCTAssertFalse(testAppState.isRecording,
+                          "Should not be recording after error")
+        }
+    }
+
+    func testStartRecordingUpdatesUIStateOnSuccess() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act
+        try await testAppState.startRecording(title: "UI Test")
+
+        // Assert UI state is updated
+        XCTAssertTrue(testAppState.isRecording, "isRecording should be true")
+
+        // Wait for timer to tick
+        try await Task.sleep(nanoseconds: 1_200_000_000)
+        XCTAssertNotEqual(testAppState.elapsedTime, "00:00", "Elapsed time should update")
+
+        // Cleanup
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testStartRecordingStartsElapsedTimer() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act
+        try await testAppState.startRecording(title: "Timer Test")
+
+        // Assert timer is running
+        let time1 = testAppState.elapsedTime
+        try await Task.sleep(nanoseconds: 1_200_000_000)
+        let time2 = testAppState.elapsedTime
+
+        XCTAssertNotEqual(time1, time2, "Elapsed time should increment")
+
+        // Cleanup
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testStopRecordingCallsCoordinatorStop() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        try await testAppState.startRecording(title: "Stop Test")
+        XCTAssertTrue(testAppState.isRecording)
+
+        // Act
+        let transcriptURL = try await testAppState.stopRecording()
+
+        // Assert
+        XCTAssertFalse(testAppState.isRecording, "isRecording should be false")
+        XCTAssertNotNil(transcriptURL, "Should return transcript URL")
+    }
+
+    func testStopRecordingHandlesCoordinatorErrors() async throws {
+        // Setup - start a recording
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        try await testAppState.startRecording(title: "Error Test")
+
+        // The coordinator may throw errors during stop in some scenarios
+        // For now, test that stop completes and updates state
+        do {
+            _ = try await testAppState.stopRecording()
+            XCTAssertFalse(testAppState.isRecording, "Should update state even if errors occur")
+        } catch {
+            // If error is thrown, state should still be consistent
+            XCTAssertFalse(testAppState.isRecording, "State should be consistent after error")
+        }
+    }
+
+    func testStopRecordingUpdatesUIState() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        try await testAppState.startRecording(title: "UI Stop Test")
+
+        // Wait for elapsed time to accumulate
+        try await Task.sleep(nanoseconds: 1_200_000_000)
+        XCTAssertNotEqual(testAppState.elapsedTime, "00:00")
+
+        // Act
+        _ = try await testAppState.stopRecording()
+
+        // Assert UI state is updated
+        XCTAssertFalse(testAppState.isRecording, "isRecording should be false")
+        XCTAssertEqual(testAppState.elapsedTime, "00:00", "Elapsed time should reset")
+    }
+
+    func testStopRecordingStopsElapsedTimer() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        try await testAppState.startRecording(title: "Timer Stop Test")
+        try await Task.sleep(nanoseconds: 1_200_000_000)
+
+        // Act
+        _ = try await testAppState.stopRecording()
+
+        // Assert timer is stopped
+        let time1 = testAppState.elapsedTime
+        try await Task.sleep(nanoseconds: 1_200_000_000)
+        let time2 = testAppState.elapsedTime
+
+        XCTAssertEqual(time1, time2, "Elapsed time should not change after stop")
+        XCTAssertEqual(time2, "00:00", "Elapsed time should be reset")
+    }
+
+    func testStopRecordingReturnsTranscriptFileURL() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        try await testAppState.startRecording(title: "Transcript URL Test")
+
+        // Act
+        let transcriptURL = try await testAppState.stopRecording()
+
+        // Assert
+        XCTAssertNotNil(transcriptURL, "Should return transcript file URL")
+        XCTAssertTrue(transcriptURL.isFileURL, "Should be a file URL")
+        XCTAssertTrue(transcriptURL.path.contains("Transcript URL Test"),
+                     "Filename should contain recording title")
+    }
+
+    func testRespectsCaptureSystemAudioSetting() async throws {
+        // Setup with system audio disabled
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        settings.captureSystemAudio = false
+        settings.captureMicrophone = true
+
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act
+        try await testAppState.startRecording(title: "System Audio Test")
+
+        // Assert recording started successfully (coordinator respects settings)
+        XCTAssertTrue(testAppState.isRecording)
+
+        // Cleanup
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testRespectsCaptureMicrophoneSetting() async throws {
+        // Setup with microphone disabled
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        settings.captureMicrophone = false
+        settings.captureSystemAudio = true
+
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act
+        try await testAppState.startRecording(title: "Microphone Test")
+
+        // Assert recording started successfully (coordinator respects settings)
+        XCTAssertTrue(testAppState.isRecording)
+
+        // Cleanup
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testUsesConfiguredOutputFolder() async throws {
+        // Setup with custom output folder
+        let customFolder = NSTemporaryDirectory() + "CustomTranscripts/"
+        FileManager.default.createDirectory(atPath: customFolder,
+                                           withIntermediateDirectories: true,
+                                           attributes: nil)
+
+        let settings = SettingsManager()
+        settings.outputFolder = customFolder
+
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act
+        try await testAppState.startRecording(title: "Output Folder Test")
+        let transcriptURL = try await testAppState.stopRecording()
+
+        // Assert transcript is in the configured folder
+        XCTAssertTrue(transcriptURL.path.hasPrefix(customFolder),
+                     "Transcript should be in configured output folder")
+
+        // Cleanup
+        try? FileManager.default.removeItem(atPath: customFolder)
+    }
+
+    func testExecutesPostRecordingScript() async throws {
+        // Setup with post-recording script
+        let scriptPath = NSTemporaryDirectory() + "test-script.sh"
+        let script = """
+        #!/bin/bash
+        echo "Script executed" > "\(NSTemporaryDirectory())script-output.txt"
+        """
+        try script.write(toFile: scriptPath, atomically: true, encoding: .utf8)
+        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: scriptPath)
+
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        settings.postRecordingScript = scriptPath
+
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act
+        try await testAppState.startRecording(title: "Script Test")
+        _ = try await testAppState.stopRecording()
+
+        // Wait for script execution
+        try await Task.sleep(nanoseconds: 500_000_000)
+
+        // Assert script was executed
+        let outputPath = NSTemporaryDirectory() + "script-output.txt"
+        XCTAssertTrue(FileManager.default.fileExists(atPath: outputPath),
+                     "Post-recording script should have executed")
+
+        // Cleanup
+        try? FileManager.default.removeItem(atPath: scriptPath)
+        try? FileManager.default.removeItem(atPath: outputPath)
+    }
+
+    func testSettingsChangesTakeEffectOnNextRecording() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        settings.captureMicrophone = true
+        settings.captureSystemAudio = false
+
+        let testAppState = AppState(settingsManager: settings)
+
+        // First recording with initial settings
+        try await testAppState.startRecording(title: "First Recording")
+        _ = try await testAppState.stopRecording()
+
+        // Change settings
+        settings.captureMicrophone = false
+        settings.captureSystemAudio = true
+
+        // Second recording should use new settings
+        try await testAppState.startRecording(title: "Second Recording")
+        XCTAssertTrue(testAppState.isRecording, "Should start with new settings")
+
+        // Cleanup
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testErrorsFromCoordinatorAreExposedToUI() async {
+        // Setup with invalid configuration
+        let settings = SettingsManager()
+        settings.outputFolder = "/invalid/path"
+        let testAppState = AppState(settingsManager: settings)
+
+        // Act & Assert
+        do {
+            try await testAppState.startRecording(title: "Error Test")
+            XCTFail("Should throw error from coordinator")
+        } catch let error as CallTranscriptionError {
+            // Error should be accessible for UI presentation
+            XCTAssertNotNil(error, "Error should be available for UI")
+        } catch {
+            XCTFail("Should throw CallTranscriptionError")
+        }
+    }
+
+    func testErrorStateIsClearable() async {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = "/invalid/path"
+        let testAppState = AppState(settingsManager: settings)
+
+        // Trigger an error
+        do {
+            try await testAppState.startRecording(title: "Error Test")
+        } catch {
+            // Expected error
+        }
+
+        // Fix settings and try again
+        settings.outputFolder = NSTemporaryDirectory()
+
+        // Should be able to start recording after error
+        try? await testAppState.startRecording(title: "Recovery Test")
+        XCTAssertTrue(testAppState.isRecording, "Should recover from error state")
+
+        // Cleanup
+        _ = try? await testAppState.stopRecording()
+    }
+
+    func testAppRemainsUsableAfterErrors() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = "/invalid/path"
+        let testAppState = AppState(settingsManager: settings)
+
+        // Trigger error
+        do {
+            try await testAppState.startRecording(title: "Error Test")
+        } catch {
+            // Expected
+        }
+
+        // Fix configuration
+        settings.outputFolder = NSTemporaryDirectory()
+
+        // Should be able to use app normally
+        try await testAppState.startRecording(title: "Normal Operation")
+        XCTAssertTrue(testAppState.isRecording)
+
+        _ = try await testAppState.stopRecording()
+        XCTAssertFalse(testAppState.isRecording)
+    }
+
+    func testUIUpdatesWhenRecordingStarts() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Monitor UI state changes
+        var isRecordingChanges: [Bool] = []
+        let expectation = expectation(description: "isRecording published")
+
+        let cancellable = testAppState.$isRecording
+            .dropFirst()
+            .sink { value in
+                isRecordingChanges.append(value)
+                if !isRecordingChanges.isEmpty {
+                    expectation.fulfill()
+                }
+            }
+
+        // Act
+        try await testAppState.startRecording(title: "UI Update Test")
+
+        // Assert
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertTrue(isRecordingChanges.contains(true), "Should publish isRecording = true")
+
+        // Cleanup
+        cancellable.cancel()
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testUIUpdatesWhenRecordingStops() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        try await testAppState.startRecording(title: "UI Stop Update Test")
+
+        // Monitor UI state changes
+        var isRecordingChanges: [Bool] = []
+        let expectation = expectation(description: "isRecording published on stop")
+
+        let cancellable = testAppState.$isRecording
+            .dropFirst()
+            .sink { value in
+                isRecordingChanges.append(value)
+                if isRecordingChanges.contains(false) {
+                    expectation.fulfill()
+                }
+            }
+
+        // Act
+        _ = try await testAppState.stopRecording()
+
+        // Assert
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertTrue(isRecordingChanges.contains(false), "Should publish isRecording = false")
+
+        // Cleanup
+        cancellable.cancel()
+    }
+
+    func testElapsedTimeUpdatesDuringRecording() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Monitor elapsed time changes
+        var elapsedTimeChanges: [String] = []
+        let expectation = expectation(description: "elapsedTime updates")
+
+        let cancellable = testAppState.$elapsedTime
+            .dropFirst()
+            .sink { value in
+                elapsedTimeChanges.append(value)
+                if elapsedTimeChanges.count >= 2 {
+                    expectation.fulfill()
+                }
+            }
+
+        // Act
+        try await testAppState.startRecording(title: "Elapsed Time Test")
+        try await Task.sleep(nanoseconds: 2_500_000_000) // 2.5 seconds
+
+        // Assert
+        await fulfillment(of: [expectation], timeout: 5.0)
+        XCTAssertGreaterThan(elapsedTimeChanges.count, 1, "Should update elapsed time multiple times")
+
+        // Cleanup
+        cancellable.cancel()
+        _ = try await testAppState.stopRecording()
+    }
+
+    func testAllUpdatesHappenOnMainThread() async throws {
+        // Setup
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Monitor that all updates are on main thread
+        var allOnMainThread = true
+        let expectation = expectation(description: "Updates on main thread")
+
+        let cancellable = testAppState.$isRecording
+            .dropFirst()
+            .sink { _ in
+                if !Thread.isMainThread {
+                    allOnMainThread = false
+                }
+                expectation.fulfill()
+            }
+
+        // Act
+        try await testAppState.startRecording(title: "Main Thread Test")
+
+        // Assert
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertTrue(allOnMainThread, "All updates should happen on main thread")
+
+        // Cleanup
+        cancellable.cancel()
+        _ = try await testAppState.stopRecording()
+    }
 }

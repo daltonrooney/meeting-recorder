@@ -282,11 +282,7 @@ public final class RecordingSessionCoordinator {
 
         // Check permission
         let permissionHandler = await MicrophonePermissionHandler()
-        let hasPermission = await permissionHandler.checkPermission()
-        guard hasPermission else {
-            logger.error("Microphone permission denied")
-            throw CallTranscriptionError.microphonePermissionDenied
-        }
+        try await permissionHandler.ensurePermission()
 
         // Create and start capture
         microphoneCapture = MicrophoneCapture()
@@ -297,18 +293,21 @@ public final class RecordingSessionCoordinator {
         }
 
         // Route microphone audio to mixer
-        microphoneCapture.audioBufferHandler = { [weak self, weak audioMixer] buffer in
+        microphoneCapture.audioBufferHandler = { @Sendable [weak self, weak audioMixer] buffer in
             guard let self = self, let audioMixer = audioMixer else { return }
-            Task { @MainActor in
+            nonisolated(unsafe) let unsafeBuffer = buffer
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
                 do {
-                    try await audioMixer.feedMicrophoneBuffer(buffer)
+                    try await audioMixer.feedMicrophoneBuffer(unsafeBuffer)
                 } catch {
                     self.logger.error("Failed to feed microphone buffer: \(error.localizedDescription)")
                 }
             }
         }
 
-        try await microphoneCapture.startCapture()
+        nonisolated(unsafe) let unsafeMicCapture = microphoneCapture
+        try await unsafeMicCapture.startCapture()
         logger.debug("Microphone capture started")
     }
 
@@ -323,18 +322,21 @@ public final class RecordingSessionCoordinator {
         }
 
         // Route system audio to mixer
-        systemAudioCapture.audioBufferHandler = { [weak self, weak audioMixer] buffer in
+        systemAudioCapture.audioBufferHandler = { @Sendable [weak self, weak audioMixer] buffer in
             guard let self = self, let audioMixer = audioMixer else { return }
-            Task { @MainActor in
+            nonisolated(unsafe) let unsafeBuffer = buffer
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
                 do {
-                    try await audioMixer.feedSystemAudioBuffer(buffer)
+                    try await audioMixer.feedSystemAudioBuffer(unsafeBuffer)
                 } catch {
                     self.logger.error("Failed to feed system audio buffer: \(error.localizedDescription)")
                 }
             }
         }
 
-        try await systemAudioCapture.startCapture()
+        nonisolated(unsafe) let unsafeSysCapture = systemAudioCapture
+        try await unsafeSysCapture.startCapture()
         logger.debug("System audio capture started")
     }
 
@@ -342,11 +344,13 @@ public final class RecordingSessionCoordinator {
         logger.debug("Stopping audio capture")
 
         if let microphoneCapture = microphoneCapture {
-            await microphoneCapture.stopCapture()
+            nonisolated(unsafe) let unsafeMicCapture = microphoneCapture
+            await unsafeMicCapture.stopCapture()
         }
 
         if let systemAudioCapture = systemAudioCapture {
-            await systemAudioCapture.stopCapture()
+            nonisolated(unsafe) let unsafeSysCapture = systemAudioCapture
+            await unsafeSysCapture.stopCapture()
         }
 
         logger.debug("Audio capture stopped")
@@ -376,7 +380,7 @@ public final class RecordingSessionCoordinator {
 
         // Write to file
         do {
-            try await transcriptWriter.append(text: result.text, timestamp: timestamp)
+            try await transcriptWriter.append(result.text, timestamp: timestamp)
             logger.debug("Wrote transcription: \(result.text)")
         } catch {
             logger.error("Failed to write transcription: \(error.localizedDescription)")
@@ -393,8 +397,8 @@ public final class RecordingSessionCoordinator {
 
         let executor = ShellScriptExecutor()
         do {
-            let result = try await executor.executeScript(
-                at: scriptPath,
+            let result = try await executor.execute(
+                scriptPath: scriptPath,
                 transcriptPath: transcriptPath
             )
 
@@ -404,8 +408,8 @@ public final class RecordingSessionCoordinator {
                 logger.warning("Post-recording script exited with code \(result.exitCode)")
             }
 
-            if !result.output.isEmpty {
-                logger.debug("Script output: \(result.output)")
+            if let output = result.standardOutput, !output.isEmpty {
+                logger.debug("Script output: \(output)")
             }
 
         } catch {

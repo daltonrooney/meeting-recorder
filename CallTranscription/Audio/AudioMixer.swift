@@ -184,9 +184,10 @@ public final class AudioMixer {
         }
 
         var error: NSError?
+        nonisolated(unsafe) let unsafeBuffer = buffer
         let inputBlock: AVAudioConverterInputBlock = { inNumPackets, outStatus in
             outStatus.pointee = .haveData
-            return buffer
+            return unsafeBuffer
         }
 
         converter.convert(to: outputBuffer, error: &error, withInputFrom: inputBlock)
