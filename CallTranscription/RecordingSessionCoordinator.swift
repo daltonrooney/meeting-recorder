@@ -50,6 +50,7 @@ public final class RecordingSessionCoordinator {
     private var audioMixer: AudioMixer?
     private var transcriptionManager: TranscriptionManager?
     private var transcriptWriter: TranscriptWriter?
+    private var silenceDetector: SilenceDetector?
     private let outputFolderManager = OutputFolderManager()
 
     // Session state
@@ -264,6 +265,10 @@ public final class RecordingSessionCoordinator {
             title: currentTitle
         )
 
+        // Create silence detector
+        silenceDetector = SilenceDetector(threshold: configuration.silencePauseThreshold)
+        setupSilenceDetection()
+
         logger.debug("Components initialized")
     }
 
@@ -274,9 +279,16 @@ public final class RecordingSessionCoordinator {
             return
         }
 
-        // Route mixed audio to transcription
+        // Route mixed audio to transcription and silence detector
         audioMixer.mixedBufferHandler = { [weak self] buffer in
             guard let self = self else { return }
+
+            // Feed to silence detector for analysis
+            if let silenceDetector = self.silenceDetector {
+                silenceDetector.processAudioBuffer(buffer)
+            }
+
+            // Feed to transcription manager
             Task { @MainActor in
                 do {
                     try await transcriptionManager.feedAudio(buffer)
@@ -310,6 +322,41 @@ public final class RecordingSessionCoordinator {
         }
 
         logger.debug("Transcription handling configured")
+    }
+
+    private func setupSilenceDetection() {
+        guard let silenceDetector = silenceDetector else {
+            logger.error("Cannot setup silence detection: missing silence detector")
+            return
+        }
+
+        // Handle silence threshold exceeded (auto-pause)
+        silenceDetector.onSilenceThresholdExceeded = { @Sendable [weak self] in
+            guard let self = self else { return }
+            Task { @MainActor in
+                do {
+                    try await self.pauseRecording()
+                    self.logger.info("Auto-paused recording due to silence")
+                } catch {
+                    self.logger.error("Failed to auto-pause: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        // Handle audio detected after silence (auto-resume)
+        silenceDetector.onAudioDetectedAfterSilence = { @Sendable [weak self] in
+            guard let self = self else { return }
+            Task { @MainActor in
+                do {
+                    try await self.resumeRecording()
+                    self.logger.info("Auto-resumed recording after audio detected")
+                } catch {
+                    self.logger.error("Failed to auto-resume: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        logger.debug("Silence detection configured")
     }
 
     // MARK: - Private Methods - Component Control
@@ -485,11 +532,15 @@ public final class RecordingSessionCoordinator {
     private func cleanup() async {
         logger.debug("Cleaning up resources")
 
+        // Reset silence detector state
+        silenceDetector?.reset()
+
         microphoneCapture = nil
         systemAudioCapture = nil
         audioMixer = nil
         transcriptionManager = nil
         transcriptWriter = nil
+        silenceDetector = nil
         recordingStartTime = nil
         currentTitle = nil
 

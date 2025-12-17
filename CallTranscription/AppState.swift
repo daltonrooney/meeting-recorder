@@ -110,7 +110,8 @@ public final class AppState: ObservableObject {
             locale: Locale(identifier: "en-US"),
             microphoneEnabled: settingsManager.captureMicrophone,
             systemAudioEnabled: settingsManager.captureSystemAudio,
-            postRecordingScriptPath: settingsManager.postRecordingScript.isEmpty ? nil : settingsManager.expandedPostRecordingScriptPath()
+            postRecordingScriptPath: settingsManager.postRecordingScript.isEmpty ? nil : settingsManager.expandedPostRecordingScriptPath(),
+            silencePauseThreshold: settingsManager.silencePauseThreshold
         )
 
         // Create coordinator locally first
