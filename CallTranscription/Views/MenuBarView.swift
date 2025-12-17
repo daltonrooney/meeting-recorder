@@ -26,6 +26,13 @@ struct MenuBarView: View {
         } message: {
             Text(errorMessage ?? "An unknown error occurred")
         }
+        .sheet(isPresented: Binding(
+            get: { appState.showConsentDialog },
+            set: { _ in }
+        )) {
+            ConsentDialogView()
+                .environmentObject(appState)
+        }
 
         if appState.isRecording {
             Divider()

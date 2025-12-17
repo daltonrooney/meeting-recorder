@@ -16,6 +16,9 @@ public final class AppState: ObservableObject {
     /// The elapsed time of the current recording in MM:SS or HH:MM:SS format.
     @Published public private(set) var elapsedTime: String = "00:00"
 
+    /// Whether the consent dialog should be shown.
+    @Published public private(set) var showConsentDialog: Bool = false
+
     // MARK: - Private Properties
 
     /// Settings manager for accessing user preferences.
@@ -38,6 +41,8 @@ public final class AppState: ObservableObject {
     ///   Defaults to a new instance if not provided.
     public init(settingsManager: SettingsManager = SettingsManager()) {
         self.settingsManager = settingsManager
+        // Show consent dialog if user hasn't accepted it yet
+        self.showConsentDialog = !settingsManager.hasAcceptedConsentDialog
     }
 
     nonisolated deinit {
@@ -184,6 +189,18 @@ public final class AppState: ObservableObject {
             elapsedTime = "00:00"
             self.coordinator = nil
             throw error
+        }
+    }
+
+    /// Dismisses the consent dialog.
+    ///
+    /// - Parameter rememberChoice: If true, the user's acceptance is persisted to settings
+    ///   and the dialog won't be shown again. If false, the dialog is dismissed for this session
+    ///   but will appear again on next app launch.
+    public func dismissConsentDialog(rememberChoice: Bool) {
+        showConsentDialog = false
+        if rememberChoice {
+            settingsManager.hasAcceptedConsentDialog = true
         }
     }
 

@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		0A321F58A5AD851409D1D4FF /* SystemAudioCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF927FFCBF3ED2A8705D2167 /* SystemAudioCapture.swift */; };
 		0B4992F7E4F7DD77C4B46F53 /* CallTranscriptionErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709DC7C782FDBDC6AD96DDF /* CallTranscriptionErrorTests.swift */; };
+		0D924E9DD39F3B191B7A750A /* ConsentDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F4038F8CA0D84C95415EC /* ConsentDialogView.swift */; };
 		141A26D081CE2CE2A813D8FF /* SpeechPermissionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D7D124BF24FEB111A229F5 /* SpeechPermissionHandler.swift */; };
 		278660E2D5779AA7644FA9A3 /* TranscriptionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04ECBC14BE8C8B42CE2F66E3 /* TranscriptionManagerTests.swift */; };
 		2E0FD06B713004A37AFF7CCC /* RecordingSessionCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD9F73D226417E47F34625 /* RecordingSessionCoordinatorTests.swift */; };
+		2F4BF7AE8A4ED976CF230198 /* ConsentDialogViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636D651C7351E134169A7FC7 /* ConsentDialogViewTests.swift */; };
 		32F37637558779CDE091F796 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C271E6DA5902D32B25006F0 /* AppState.swift */; };
 		39420B8ECE0BD8628BFE8147 /* OutputFolderManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D95D7AC3013358801CF505 /* OutputFolderManagerTests.swift */; };
 		3A19581E4C0751F9354CF7C5 /* SpeechPermissionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D59A8B0C5FA8D1141576C0 /* SpeechPermissionHandlerTests.swift */; };
@@ -67,6 +69,7 @@
 		41BB01769B57BC5597D4228A /* CallTranscriptionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionApp.swift; sourceTree = "<group>"; };
 		55892B251E0868C2B08ACFB9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5D7798DA4EA130CBD473DDC1 /* TranscriptWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptWriterTests.swift; sourceTree = "<group>"; };
+		636D651C7351E134169A7FC7 /* ConsentDialogViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDialogViewTests.swift; sourceTree = "<group>"; };
 		63760A7627F95E5F5C94BC93 /* AppStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateTests.swift; sourceTree = "<group>"; };
 		6628C72ECC1EC5D4FEC6D2EE /* SystemAudioCaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemAudioCaptureTests.swift; sourceTree = "<group>"; };
 		680C5C418C37810D643E187F /* CallTranscriptionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallTranscriptionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +80,7 @@
 		7C01FD18BE02FEBF100E8663 /* SettingsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManagerTests.swift; sourceTree = "<group>"; };
 		8078BBBFD512A08B75218933 /* MenuBarViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewTests.swift; sourceTree = "<group>"; };
 		8D66F579A9F13A699C80B212 /* TranscriptWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptWriter.swift; sourceTree = "<group>"; };
+		927F4038F8CA0D84C95415EC /* ConsentDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDialogView.swift; sourceTree = "<group>"; };
 		9709DC7C782FDBDC6AD96DDF /* CallTranscriptionErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionErrorTests.swift; sourceTree = "<group>"; };
 		B682E98A0BD9C0CCF0C98ABC /* MicrophoneCaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneCaptureTests.swift; sourceTree = "<group>"; };
 		BE6F2A45114A47E651C8E6E2 /* AudioMixerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMixerTests.swift; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 		5839E957DA9B53D9F71D56AA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				927F4038F8CA0D84C95415EC /* ConsentDialogView.swift */,
 				0F7908CF14B93BA595ACEA3C /* MenuBarView.swift */,
 			);
 			path = Views;
@@ -254,6 +259,7 @@
 		F32C0BC6EB3AE20B492470E2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				636D651C7351E134169A7FC7 /* ConsentDialogViewTests.swift */,
 				8078BBBFD512A08B75218933 /* MenuBarViewTests.swift */,
 			);
 			path = UI;
@@ -376,6 +382,7 @@
 				3BC8EF36E7898CD472C4C664 /* AppStateTests.swift in Sources */,
 				CB44AC7602F4D6F4535F52A1 /* AudioMixerTests.swift in Sources */,
 				0B4992F7E4F7DD77C4B46F53 /* CallTranscriptionErrorTests.swift in Sources */,
+				2F4BF7AE8A4ED976CF230198 /* ConsentDialogViewTests.swift in Sources */,
 				EC1E5C596C8D7369647D5CFB /* MenuBarViewTests.swift in Sources */,
 				F038DE3B07B81320D678EAF9 /* MicrophoneCaptureTests.swift in Sources */,
 				892F292CFB365A2EC7ADBE70 /* MicrophonePermissionHandlerTests.swift in Sources */,
@@ -399,6 +406,7 @@
 				5E070ADB95AFF4517751940A /* AudioMixer.swift in Sources */,
 				8869D04B8F22E78E5BC3A5C7 /* CallTranscriptionApp.swift in Sources */,
 				892538670FEEB9B0A611ECE2 /* CallTranscriptionError.swift in Sources */,
+				0D924E9DD39F3B191B7A750A /* ConsentDialogView.swift in Sources */,
 				C418BC7B6572197689C1176B /* MenuBarView.swift in Sources */,
 				BFFD1150A8AC224B642A4C4B /* MicrophoneCapture.swift in Sources */,
 				B65046A4A4A8C513F6F3041A /* MicrophonePermissionHandler.swift in Sources */,
