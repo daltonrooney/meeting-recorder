@@ -722,26 +722,3 @@ final class RecordingSessionCoordinatorTests: XCTestCase {
         }
     }
 }
-
-/// Configuration for recording session
-struct RecordingConfiguration {
-    let outputFolder: String
-    let locale: Locale
-    let microphoneEnabled: Bool
-    let systemAudioEnabled: Bool
-    let postRecordingScriptPath: String?
-
-    init(
-        outputFolder: String,
-        locale: Locale,
-        microphoneEnabled: Bool = true,
-        systemAudioEnabled: Bool = false,
-        postRecordingScriptPath: String? = nil
-    ) {
-        self.outputFolder = outputFolder
-        self.locale = locale
-        self.microphoneEnabled = microphoneEnabled
-        self.systemAudioEnabled = systemAudioEnabled
-        self.postRecordingScriptPath = postRecordingScriptPath
-    }
-}

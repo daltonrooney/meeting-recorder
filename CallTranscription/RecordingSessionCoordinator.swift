@@ -1,0 +1,432 @@
+import Foundation
+import AVFoundation
+import os.log
+
+/// Coordinates the complete recording workflow, integrating all recording components.
+///
+/// RecordingSessionCoordinator manages:
+/// - Audio capture from microphone and system audio
+/// - Audio mixing and routing to transcription
+/// - Speech transcription and result handling
+/// - Transcript file writing with timestamps
+/// - Post-recording script execution
+///
+/// The coordinator implements a strict lifecycle:
+/// 1. Start: Initialize and start all components in sequence
+/// 2. Record: Route audio and handle transcription results
+/// 3. Stop: Stop components, finalize transcript, execute script
+///
+/// Example usage:
+/// ```swift
+/// let config = RecordingConfiguration(
+///     outputFolder: "/path/to/output",
+///     locale: Locale(identifier: "en-US"),
+///     microphoneEnabled: true
+/// )
+///
+/// let coordinator = RecordingSessionCoordinator(configuration: config)
+/// try await coordinator.startRecording(title: "Meeting Notes")
+///
+/// // ... recording happens ...
+///
+/// let transcriptURL = try await coordinator.stopRecording()
+/// ```
+@MainActor
+public final class RecordingSessionCoordinator {
+
+    // MARK: - Public Properties
+
+    /// Whether a recording session is currently active
+    public private(set) var isRecording: Bool = false
+
+    // MARK: - Private Properties
+
+    private let configuration: RecordingConfiguration
+    private let logger = Logger(subsystem: "dev.rygn.CallTranscription", category: "RecordingSessionCoordinator")
+
+    // Components
+    private var microphoneCapture: MicrophoneCapture?
+    private var systemAudioCapture: SystemAudioCapture?
+    private var audioMixer: AudioMixer?
+    private var transcriptionManager: TranscriptionManager?
+    private var transcriptWriter: TranscriptWriter?
+    private let outputFolderManager = OutputFolderManager()
+
+    // Session state
+    private var recordingStartTime: Date?
+    private var currentTitle: String?
+
+    // Callbacks
+    private var transcriptionResultHandler: ((String, Bool) -> Void)?
+
+    // MARK: - Initialization
+
+    /// Creates a new recording session coordinator with the specified configuration.
+    ///
+    /// - Parameter configuration: Recording configuration specifying output folder, locale, and enabled sources
+    public init(configuration: RecordingConfiguration) {
+        self.configuration = configuration
+        logger.debug("RecordingSessionCoordinator initialized")
+    }
+
+    // MARK: - Public Methods
+
+    /// Registers a callback to be invoked when transcription results are available.
+    ///
+    /// - Parameter handler: Callback receiving transcription text and whether it's final
+    public func onTranscriptionResult(_ handler: @escaping (String, Bool) -> Void) {
+        transcriptionResultHandler = handler
+    }
+
+    /// Starts a new recording session.
+    ///
+    /// - Parameter title: Title for the recording session (appears in transcript header)
+    /// - Throws: CallTranscriptionError if unable to start recording
+    public func startRecording(title: String) async throws {
+        guard !isRecording else {
+            logger.error("Cannot start: already recording")
+            throw CallTranscriptionError.featureNotImplemented("Already recording")
+        }
+
+        logger.info("Starting recording: \(title)")
+        currentTitle = title
+        recordingStartTime = Date()
+
+        do {
+            // Validate configuration
+            try await validateConfiguration()
+
+            // Initialize components
+            try await initializeComponents()
+
+            // Start recording
+            try await startComponents()
+
+            isRecording = true
+            logger.info("Recording started successfully")
+
+        } catch {
+            logger.error("Failed to start recording: \(error.localizedDescription)")
+            await cleanup()
+            throw error
+        }
+    }
+
+    /// Stops the current recording session.
+    ///
+    /// - Returns: URL of the finalized transcript file
+    /// - Throws: CallTranscriptionError if no recording is active or unable to stop
+    public func stopRecording() async throws -> URL {
+        guard isRecording else {
+            logger.error("Cannot stop: not recording")
+            throw CallTranscriptionError.featureNotImplemented("Not currently recording")
+        }
+
+        logger.info("Stopping recording")
+
+        do {
+            // Stop audio capture
+            await stopAudioCapture()
+
+            // Stop transcription
+            await stopTranscription()
+
+            // Finalize transcript
+            guard let transcriptWriter = transcriptWriter else {
+                throw CallTranscriptionError.featureNotImplemented("Transcript writer not available")
+            }
+            let transcriptURL = try await transcriptWriter.finalize()
+
+            // Execute post-recording script if configured
+            if let scriptPath = configuration.postRecordingScriptPath {
+                await executePostRecordingScript(scriptPath: scriptPath, transcriptPath: transcriptURL.path)
+            }
+
+            // Cleanup
+            await cleanup()
+
+            isRecording = false
+            logger.info("Recording stopped successfully")
+
+            return transcriptURL
+
+        } catch {
+            logger.error("Failed to stop recording: \(error.localizedDescription)")
+            await cleanup()
+            isRecording = false
+            throw error
+        }
+    }
+
+    // MARK: - Private Methods - Validation
+
+    private func validateConfiguration() async throws {
+        logger.debug("Validating configuration")
+
+        // Validate output folder
+        let _ = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder)
+
+        // Ensure at least one audio source is enabled
+        guard configuration.microphoneEnabled || configuration.systemAudioEnabled else {
+            throw CallTranscriptionError.featureNotImplemented("At least one audio source must be enabled")
+        }
+
+        logger.debug("Configuration validated")
+    }
+
+    // MARK: - Private Methods - Component Initialization
+
+    private func initializeComponents() async throws {
+        logger.debug("Initializing components")
+
+        // Create audio mixer
+        audioMixer = AudioMixer(
+            microphoneLevel: configuration.microphoneEnabled ? 0.5 : 0.0,
+            systemAudioLevel: configuration.systemAudioEnabled ? 0.5 : 0.0
+        )
+
+        // Create transcription manager
+        transcriptionManager = TranscriptionManager(locale: configuration.locale)
+
+        // Set up audio routing
+        setupAudioRouting()
+
+        // Set up transcription handling
+        setupTranscriptionHandling()
+
+        // Create transcript writer
+        let outputFolderURL = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder)
+        transcriptWriter = try await TranscriptWriter(
+            outputFolder: outputFolderURL,
+            filename: nil, // Auto-generate with timestamp
+            title: currentTitle
+        )
+
+        logger.debug("Components initialized")
+    }
+
+    private func setupAudioRouting() {
+        guard let audioMixer = audioMixer,
+              let transcriptionManager = transcriptionManager else {
+            logger.error("Cannot setup audio routing: missing components")
+            return
+        }
+
+        // Route mixed audio to transcription
+        audioMixer.mixedBufferHandler = { [weak self] buffer in
+            guard let self = self else { return }
+            Task { @MainActor in
+                do {
+                    try await transcriptionManager.feedAudio(buffer)
+                } catch {
+                    self.logger.error("Failed to feed audio to transcription: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        logger.debug("Audio routing configured")
+    }
+
+    private func setupTranscriptionHandling() {
+        guard let transcriptionManager = transcriptionManager else {
+            logger.error("Cannot setup transcription handling: missing transcription manager")
+            return
+        }
+
+        // Handle transcription results
+        transcriptionManager.onTranscriptionResult = { [weak self] result in
+            guard let self = self else { return }
+            Task { @MainActor in
+                await self.handleTranscriptionResult(result)
+            }
+        }
+
+        // Handle transcription errors
+        transcriptionManager.onTranscriptionError = { [weak self] error in
+            guard let self = self else { return }
+            self.logger.error("Transcription error: \(error.localizedDescription)")
+        }
+
+        logger.debug("Transcription handling configured")
+    }
+
+    // MARK: - Private Methods - Component Control
+
+    private func startComponents() async throws {
+        logger.debug("Starting components")
+
+        // Ensure model is available
+        guard let transcriptionManager = transcriptionManager else {
+            throw CallTranscriptionError.featureNotImplemented("Transcription manager not available")
+        }
+        try await transcriptionManager.ensureModelAvailable()
+
+        // Start transcription
+        try await transcriptionManager.startTranscription()
+
+        // Start microphone if enabled
+        if configuration.microphoneEnabled {
+            try await startMicrophone()
+        }
+
+        // Start system audio if enabled
+        if configuration.systemAudioEnabled {
+            try await startSystemAudio()
+        }
+
+        logger.debug("Components started")
+    }
+
+    private func startMicrophone() async throws {
+        logger.debug("Starting microphone capture")
+
+        // Check permission
+        let permissionHandler = await MicrophonePermissionHandler()
+        let hasPermission = await permissionHandler.checkPermission()
+        guard hasPermission else {
+            logger.error("Microphone permission denied")
+            throw CallTranscriptionError.microphonePermissionDenied
+        }
+
+        // Create and start capture
+        microphoneCapture = MicrophoneCapture()
+
+        guard let microphoneCapture = microphoneCapture,
+              let audioMixer = audioMixer else {
+            throw CallTranscriptionError.featureNotImplemented("Microphone capture or mixer not available")
+        }
+
+        // Route microphone audio to mixer
+        microphoneCapture.audioBufferHandler = { [weak self, weak audioMixer] buffer in
+            guard let self = self, let audioMixer = audioMixer else { return }
+            Task { @MainActor in
+                do {
+                    try await audioMixer.feedMicrophoneBuffer(buffer)
+                } catch {
+                    self.logger.error("Failed to feed microphone buffer: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        try await microphoneCapture.startCapture()
+        logger.debug("Microphone capture started")
+    }
+
+    private func startSystemAudio() async throws {
+        logger.debug("Starting system audio capture")
+
+        systemAudioCapture = SystemAudioCapture()
+
+        guard let systemAudioCapture = systemAudioCapture,
+              let audioMixer = audioMixer else {
+            throw CallTranscriptionError.featureNotImplemented("System audio capture or mixer not available")
+        }
+
+        // Route system audio to mixer
+        systemAudioCapture.audioBufferHandler = { [weak self, weak audioMixer] buffer in
+            guard let self = self, let audioMixer = audioMixer else { return }
+            Task { @MainActor in
+                do {
+                    try await audioMixer.feedSystemAudioBuffer(buffer)
+                } catch {
+                    self.logger.error("Failed to feed system audio buffer: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        try await systemAudioCapture.startCapture()
+        logger.debug("System audio capture started")
+    }
+
+    private func stopAudioCapture() async {
+        logger.debug("Stopping audio capture")
+
+        if let microphoneCapture = microphoneCapture {
+            await microphoneCapture.stopCapture()
+        }
+
+        if let systemAudioCapture = systemAudioCapture {
+            await systemAudioCapture.stopCapture()
+        }
+
+        logger.debug("Audio capture stopped")
+    }
+
+    private func stopTranscription() async {
+        logger.debug("Stopping transcription")
+
+        if let transcriptionManager = transcriptionManager {
+            await transcriptionManager.stopTranscription()
+        }
+
+        logger.debug("Transcription stopped")
+    }
+
+    // MARK: - Private Methods - Transcription Handling
+
+    private func handleTranscriptionResult(_ result: TranscriptionResult) async {
+        guard let transcriptWriter = transcriptWriter,
+              let recordingStartTime = recordingStartTime else {
+            logger.error("Cannot handle transcription: missing writer or start time")
+            return
+        }
+
+        // Calculate timestamp relative to recording start
+        let timestamp = Date().timeIntervalSince(recordingStartTime)
+
+        // Write to file
+        do {
+            try await transcriptWriter.append(text: result.text, timestamp: timestamp)
+            logger.debug("Wrote transcription: \(result.text)")
+        } catch {
+            logger.error("Failed to write transcription: \(error.localizedDescription)")
+        }
+
+        // Notify callback
+        transcriptionResultHandler?(result.text, result.isFinal)
+    }
+
+    // MARK: - Private Methods - Script Execution
+
+    private func executePostRecordingScript(scriptPath: String, transcriptPath: String) async {
+        logger.info("Executing post-recording script: \(scriptPath)")
+
+        let executor = ShellScriptExecutor()
+        do {
+            let result = try await executor.executeScript(
+                at: scriptPath,
+                transcriptPath: transcriptPath
+            )
+
+            if result.exitCode == 0 {
+                logger.info("Post-recording script completed successfully")
+            } else {
+                logger.warning("Post-recording script exited with code \(result.exitCode)")
+            }
+
+            if !result.output.isEmpty {
+                logger.debug("Script output: \(result.output)")
+            }
+
+        } catch {
+            logger.error("Post-recording script failed: \(error.localizedDescription)")
+            // Don't throw - script failure shouldn't prevent transcript from being available
+        }
+    }
+
+    // MARK: - Private Methods - Cleanup
+
+    private func cleanup() async {
+        logger.debug("Cleaning up resources")
+
+        microphoneCapture = nil
+        systemAudioCapture = nil
+        audioMixer = nil
+        transcriptionManager = nil
+        transcriptWriter = nil
+        recordingStartTime = nil
+        currentTitle = nil
+
+        logger.debug("Cleanup complete")
+    }
+}
