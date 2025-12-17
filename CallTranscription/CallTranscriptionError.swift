@@ -5,7 +5,7 @@ import AVFoundation
 ///
 /// All errors provide user-friendly descriptions through LocalizedError conformance,
 /// with actionable guidance on how to resolve the issue.
-public enum CallTranscriptionError: LocalizedError, Equatable {
+public enum CallTranscriptionError: LocalizedError {
     /// Microphone permission was denied by the user.
     case microphonePermissionDenied
 
@@ -32,6 +32,9 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
     /// Post-recording script exceeded timeout.
     case postRecordingScriptTimeout(TimeInterval)
+
+    /// Failed to create output directory.
+    case outputFolderCreationFailed(String, Error)
 
     // MARK: - LocalizedError Conformance
 
@@ -63,6 +66,9 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .postRecordingScriptTimeout(let timeout):
             return "Post-recording script exceeded timeout of \(timeout) seconds."
+
+        case .outputFolderCreationFailed(let path, _):
+            return "Failed to create output folder at \(path)."
         }
     }
 
@@ -94,6 +100,9 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .postRecordingScriptTimeout(let timeout):
             return "The script did not complete within \(timeout) seconds."
+
+        case .outputFolderCreationFailed(let path, let error):
+            return "Could not create directory at \(path): \(error.localizedDescription)"
         }
     }
 
@@ -125,6 +134,40 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .postRecordingScriptTimeout:
             return "Ensure your script completes in a reasonable time, or increase the timeout setting."
+
+        case .outputFolderCreationFailed:
+            return "Check folder permissions and ensure you have access to create directories at this location."
+        }
+    }
+}
+
+// MARK: - Equatable Conformance
+
+extension CallTranscriptionError: Equatable {
+    public static func == (lhs: CallTranscriptionError, rhs: CallTranscriptionError) -> Bool {
+        switch (lhs, rhs) {
+        case (.microphonePermissionDenied, .microphonePermissionDenied):
+            return true
+        case (.speechRecognitionUnavailable, .speechRecognitionUnavailable):
+            return true
+        case (.localeNotSupported(let lhsLocale), .localeNotSupported(let rhsLocale)):
+            return lhsLocale == rhsLocale
+        case (.outputFolderNotWritable(let lhsURL), .outputFolderNotWritable(let rhsURL)):
+            return lhsURL == rhsURL
+        case (.audioTapCreationFailed(let lhsStatus), .audioTapCreationFailed(let rhsStatus)):
+            return lhsStatus == rhsStatus
+        case (.featureNotImplemented(let lhsFeature), .featureNotImplemented(let rhsFeature)):
+            return lhsFeature == rhsFeature
+        case (.postRecordingScriptNotFound(let lhsPath), .postRecordingScriptNotFound(let rhsPath)):
+            return lhsPath == rhsPath
+        case (.postRecordingScriptNotExecutable(let lhsPath), .postRecordingScriptNotExecutable(let rhsPath)):
+            return lhsPath == rhsPath
+        case (.postRecordingScriptTimeout(let lhsTimeout), .postRecordingScriptTimeout(let rhsTimeout)):
+            return lhsTimeout == rhsTimeout
+        case (.outputFolderCreationFailed(let lhsPath, _), .outputFolderCreationFailed(let rhsPath, _)):
+            return lhsPath == rhsPath
+        default:
+            return false
         }
     }
 }
