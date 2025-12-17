@@ -24,6 +24,15 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
     /// Requested feature is not yet implemented.
     case featureNotImplemented(String)
 
+    /// Post-recording script was not found at the specified path.
+    case postRecordingScriptNotFound(String)
+
+    /// Post-recording script exists but is not executable.
+    case postRecordingScriptNotExecutable(String)
+
+    /// Post-recording script exceeded timeout.
+    case postRecordingScriptTimeout(TimeInterval)
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -45,6 +54,15 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .featureNotImplemented(let feature):
             return "\(feature) is not yet implemented."
+
+        case .postRecordingScriptNotFound(let path):
+            return "Post-recording script not found at \(path)."
+
+        case .postRecordingScriptNotExecutable(let path):
+            return "Post-recording script at \(path) is not executable."
+
+        case .postRecordingScriptTimeout(let timeout):
+            return "Post-recording script exceeded timeout of \(timeout) seconds."
         }
     }
 
@@ -67,6 +85,15 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .featureNotImplemented(let feature):
             return "\(feature) functionality has not been implemented yet."
+
+        case .postRecordingScriptNotFound(let path):
+            return "The script file could not be found at the specified path: \(path)."
+
+        case .postRecordingScriptNotExecutable(let path):
+            return "The script file exists but does not have execute permissions."
+
+        case .postRecordingScriptTimeout(let timeout):
+            return "The script did not complete within \(timeout) seconds."
         }
     }
 
@@ -89,6 +116,15 @@ public enum CallTranscriptionError: LocalizedError, Equatable {
 
         case .featureNotImplemented:
             return "This feature will be available in a future version."
+
+        case .postRecordingScriptNotFound(let path):
+            return "Check that the script path '\(path)' is correct and the file exists."
+
+        case .postRecordingScriptNotExecutable(let path):
+            return "Make the script executable by running: chmod +x '\(path)'"
+
+        case .postRecordingScriptTimeout:
+            return "Ensure your script completes in a reasonable time, or increase the timeout setting."
         }
     }
 }

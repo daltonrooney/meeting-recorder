@@ -342,11 +342,12 @@ final class MicrophonePermissionHandlerTests: XCTestCase {
     // MARK: - Concurrent Access Tests
 
     func testMultipleConcurrentStatusChecks() async throws {
+        let handler = permissionHandler!
         await withTaskGroup(of: AVAuthorizationStatus.self) { group in
             // Launch multiple concurrent status checks
             for _ in 0..<10 {
                 group.addTask {
-                    await self.permissionHandler.checkAuthorizationStatus()
+                    await handler.checkAuthorizationStatus()
                 }
             }
 
