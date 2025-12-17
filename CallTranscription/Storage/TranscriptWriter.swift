@@ -107,12 +107,12 @@ public final class TranscriptWriter {
     public func append(_ text: String, timestamp: TimeInterval) async throws {
         guard !isFinalized else {
             logger.error("Cannot append after finalization")
-            throw CallTranscriptionError.featureNotImplemented("Cannot append to finalized transcript")
+            throw CallTranscriptionError.transcriptAlreadyFinalized
         }
 
         guard let fileHandle = fileHandle else {
             logger.error("File handle is nil")
-            throw CallTranscriptionError.featureNotImplemented("File handle not available")
+            throw CallTranscriptionError.transcriptAlreadyFinalized
         }
 
         // Format timestamp
