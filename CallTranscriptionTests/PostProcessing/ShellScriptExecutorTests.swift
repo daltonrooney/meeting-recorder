@@ -144,7 +144,7 @@ final class ShellScriptExecutorTests: XCTestCase {
         try FileManager.default.setAttributes(attributes, ofItemAtPath: scriptURL.path)
 
         let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
-        let tildePath = "~/.test-scripts-\(scriptDir.lastPathComponent)/test.sh"
+        let tildePath = "~/\(scriptDir.lastPathComponent)/test.sh"
 
         let result = try await executor.execute(scriptPath: tildePath, transcriptPath: transcriptURL.path)
 
@@ -419,7 +419,7 @@ final class ShellScriptExecutorTests: XCTestCase {
 
     func testDoesNotAllowCommandInjection() async throws {
         // Try to inject a command via transcript path
-        let maliciousTranscriptPath = "; rm -rf /tmp/should-not-be-deleted; echo "
+        let maliciousTranscriptPath = "; rm -rf /tmp/should-not-be-deleted; echo test"
 
         let outputFile = tempDirectory.appendingPathComponent("output.txt")
         let scriptContent = """
