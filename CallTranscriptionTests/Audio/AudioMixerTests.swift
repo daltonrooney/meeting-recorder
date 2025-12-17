@@ -4,6 +4,7 @@ import AVFoundation
 
 /// Tests for AudioMixer following TDD methodology.
 /// Tests are written FIRST before implementation.
+@MainActor
 final class AudioMixerTests: XCTestCase {
     var mixer: AudioMixer!
     let sampleRate: Double = 48000.0

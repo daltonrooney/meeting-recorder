@@ -39,6 +39,9 @@ public enum CallTranscriptionError: LocalizedError {
     /// Attempted to write to a transcript that has already been finalized.
     case transcriptAlreadyFinalized
 
+    /// Attempted to stop recording when not currently recording.
+    case notRecording
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -75,6 +78,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .transcriptAlreadyFinalized:
             return "Cannot modify a finalized transcript."
+
+        case .notRecording:
+            return "No recording session is currently active."
         }
     }
 
@@ -112,6 +118,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .transcriptAlreadyFinalized:
             return "The transcript file has been finalized and can no longer be modified."
+
+        case .notRecording:
+            return "Cannot stop recording because no recording session is active."
         }
     }
 
@@ -149,6 +158,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .transcriptAlreadyFinalized:
             return "Create a new transcript writer if you need to write more content."
+
+        case .notRecording:
+            return "Start a recording session before attempting to stop it."
         }
     }
 }
@@ -179,6 +191,8 @@ extension CallTranscriptionError: Equatable {
         case (.outputFolderCreationFailed(let lhsPath, _), .outputFolderCreationFailed(let rhsPath, _)):
             return lhsPath == rhsPath
         case (.transcriptAlreadyFinalized, .transcriptAlreadyFinalized):
+            return true
+        case (.notRecording, .notRecording):
             return true
         default:
             return false
