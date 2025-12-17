@@ -19,6 +19,9 @@ public final class AppState: ObservableObject {
     /// Whether the consent dialog should be shown.
     @Published public private(set) var showConsentDialog: Bool = false
 
+    /// Whether the recording is currently paused.
+    @Published public private(set) var isPaused: Bool = false
+
     // MARK: - Private Properties
 
     /// Settings manager for accessing user preferences.
@@ -32,6 +35,12 @@ public final class AppState: ObservableObject {
 
     /// Start time of the current recording.
     private var startTime: Date?
+
+    /// Total paused duration to subtract from elapsed time.
+    private var totalPausedDuration: TimeInterval = 0
+
+    /// Time when recording was paused (for tracking paused duration).
+    private var pauseStartTime: Date?
 
     // MARK: - Initialization
 
@@ -114,7 +123,10 @@ public final class AppState: ObservableObject {
             // Only update state after successful start
             self.coordinator = newCoordinator
             isRecording = true
+            isPaused = false
             startTime = Date()
+            totalPausedDuration = 0
+            pauseStartTime = nil
             startTimer()
         } catch {
             // Coordinator failed to start, ensure it's not retained
@@ -176,8 +188,11 @@ public final class AppState: ObservableObject {
             // Cleanup state after success
             stopTimer()
             isRecording = false
+            isPaused = false
             startTime = nil
             elapsedTime = "00:00"
+            totalPausedDuration = 0
+            pauseStartTime = nil
             self.coordinator = nil
 
             return transcriptURL
@@ -185,8 +200,11 @@ public final class AppState: ObservableObject {
             // Ensure cleanup even on error to keep app usable
             stopTimer()
             isRecording = false
+            isPaused = false
             startTime = nil
             elapsedTime = "00:00"
+            totalPausedDuration = 0
+            pauseStartTime = nil
             self.coordinator = nil
             throw error
         }
@@ -202,6 +220,59 @@ public final class AppState: ObservableObject {
         if rememberChoice {
             settingsManager.hasAcceptedConsentDialog = true
         }
+    }
+
+    /// Pauses the current recording session.
+    ///
+    /// - Throws: `CallTranscriptionError.notRecording` if not currently recording.
+    ///
+    /// Pausing stops the timer and pauses audio capture while maintaining the recording session.
+    /// Call `resumeRecording()` to continue.
+    public func pauseRecording() async throws {
+        guard isRecording else {
+            throw CallTranscriptionError.notRecording
+        }
+
+        // Idempotent - if already paused, do nothing
+        guard !isPaused else {
+            return
+        }
+
+        // Pause the coordinator
+        try await coordinator?.pauseRecording()
+
+        // Update state
+        isPaused = true
+        pauseStartTime = Date()
+
+        // Stop the timer while paused
+        stopTimer()
+    }
+
+    /// Resumes the current recording session after being paused.
+    ///
+    /// - Throws: `CallTranscriptionError.notPaused` if not currently paused.
+    ///
+    /// Resumes audio capture and restarts the elapsed time timer.
+    public func resumeRecording() async throws {
+        guard isPaused else {
+            throw CallTranscriptionError.notPaused
+        }
+
+        // Calculate paused duration
+        if let pauseStart = pauseStartTime {
+            totalPausedDuration += Date().timeIntervalSince(pauseStart)
+            pauseStartTime = nil
+        }
+
+        // Resume the coordinator
+        try await coordinator?.resumeRecording()
+
+        // Update state
+        isPaused = false
+
+        // Restart the timer
+        startTimer()
     }
 
     // MARK: - Private Methods
@@ -236,11 +307,12 @@ public final class AppState: ObservableObject {
             return
         }
 
-        // Calculate total seconds elapsed
-        let elapsed = Date().timeIntervalSince(startTime)
+        // Calculate total elapsed time excluding paused duration
+        let totalElapsed = Date().timeIntervalSince(startTime)
+        let activeElapsed = totalElapsed - totalPausedDuration
 
         // Format the time
-        elapsedTime = formatTime(seconds: Int(elapsed))
+        elapsedTime = formatTime(seconds: Int(activeElapsed))
     }
 
     /// Formats seconds into a time string (MM:SS or HH:MM:SS).

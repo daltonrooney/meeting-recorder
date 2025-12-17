@@ -10,6 +10,7 @@ public final class SettingsManager: ObservableObject {
         static let captureSystemAudio = "captureSystemAudio"
         static let captureMicrophone = "captureMicrophone"
         static let hasAcceptedConsentDialog = "hasAcceptedConsentDialog"
+        static let silencePauseThreshold = "silencePauseThreshold"
     }
 
     // Default values
@@ -18,6 +19,7 @@ public final class SettingsManager: ObservableObject {
     public static let defaultCaptureSystemAudio = true
     public static let defaultCaptureMicrophone = true
     public static let defaultHasAcceptedConsentDialog = false
+    public static let defaultSilencePauseThreshold = SilencePauseThreshold.never
 
     // Published properties
     @Published public var outputFolder: String
@@ -25,6 +27,7 @@ public final class SettingsManager: ObservableObject {
     @Published public var captureSystemAudio: Bool
     @Published public var captureMicrophone: Bool
     @Published public var hasAcceptedConsentDialog: Bool
+    @Published public var silencePauseThreshold: SilencePauseThreshold
 
     private let userDefaults: UserDefaults
     private var cancellables = Set<AnyCancellable>()
@@ -55,6 +58,14 @@ public final class SettingsManager: ObservableObject {
             self.hasAcceptedConsentDialog = userDefaults.bool(forKey: Keys.hasAcceptedConsentDialog)
         } else {
             self.hasAcceptedConsentDialog = Self.defaultHasAcceptedConsentDialog
+        }
+
+        // Initialize silencePauseThreshold from UserDefaults or default
+        if let rawValue = userDefaults.string(forKey: Keys.silencePauseThreshold),
+           let threshold = SilencePauseThreshold(rawValue: rawValue) {
+            self.silencePauseThreshold = threshold
+        } else {
+            self.silencePauseThreshold = Self.defaultSilencePauseThreshold
         }
 
         // Set up observers to persist changes to UserDefaults
@@ -99,6 +110,14 @@ public final class SettingsManager: ObservableObject {
             .dropFirst() // Skip initial value
             .sink { [weak self] newValue in
                 self?.userDefaults.set(newValue, forKey: Keys.hasAcceptedConsentDialog)
+            }
+            .store(in: &cancellables)
+
+        // Persist silencePauseThreshold changes
+        $silencePauseThreshold
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue.rawValue, forKey: Keys.silencePauseThreshold)
             }
             .store(in: &cancellables)
     }

@@ -41,6 +41,7 @@
 		E47BFBD3C927D2B54AD26D82 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D768B922F268100D8748CC6 /* SettingsManager.swift */; };
 		EC1E5C596C8D7369647D5CFB /* MenuBarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8078BBBFD512A08B75218933 /* MenuBarViewTests.swift */; };
 		F038DE3B07B81320D678EAF9 /* MicrophoneCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682E98A0BD9C0CCF0C98ABC /* MicrophoneCaptureTests.swift */; };
+		F664788D8888B9DA46A7B97D /* SilencePauseThreshold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A7BC12244E6E7D92FF9651 /* SilencePauseThreshold.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		78EAE7F95C5408EE1D357204 /* RecordingSessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSessionCoordinator.swift; sourceTree = "<group>"; };
 		7C01FD18BE02FEBF100E8663 /* SettingsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManagerTests.swift; sourceTree = "<group>"; };
 		8078BBBFD512A08B75218933 /* MenuBarViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewTests.swift; sourceTree = "<group>"; };
+		89A7BC12244E6E7D92FF9651 /* SilencePauseThreshold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilencePauseThreshold.swift; sourceTree = "<group>"; };
 		8D66F579A9F13A699C80B212 /* TranscriptWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptWriter.swift; sourceTree = "<group>"; };
 		927F4038F8CA0D84C95415EC /* ConsentDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDialogView.swift; sourceTree = "<group>"; };
 		9709DC7C782FDBDC6AD96DDF /* CallTranscriptionErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionErrorTests.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			children = (
 				0D768B922F268100D8748CC6 /* SettingsManager.swift */,
 				55892B251E0868C2B08ACFB9 /* SettingsView.swift */,
+				89A7BC12244E6E7D92FF9651 /* SilencePauseThreshold.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				E47BFBD3C927D2B54AD26D82 /* SettingsManager.swift in Sources */,
 				450939468A1ABC5DBE14C33A /* SettingsView.swift in Sources */,
 				CACDDD85C8FEFC34A91FD694 /* ShellScriptExecutor.swift in Sources */,
+				F664788D8888B9DA46A7B97D /* SilencePauseThreshold.swift in Sources */,
 				141A26D081CE2CE2A813D8FF /* SpeechPermissionHandler.swift in Sources */,
 				0A321F58A5AD851409D1D4FF /* SystemAudioCapture.swift in Sources */,
 				C640F2D5444725328FB2C741 /* TranscriptWriter.swift in Sources */,

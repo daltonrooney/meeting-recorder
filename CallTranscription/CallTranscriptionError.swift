@@ -42,6 +42,9 @@ public enum CallTranscriptionError: LocalizedError {
     /// Attempted to stop recording when not currently recording.
     case notRecording
 
+    /// Attempted to resume recording when not paused.
+    case notPaused
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -81,6 +84,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .notRecording:
             return "No recording session is currently active."
+
+        case .notPaused:
+            return "Recording is not currently paused."
         }
     }
 
@@ -121,6 +127,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .notRecording:
             return "Cannot stop recording because no recording session is active."
+
+        case .notPaused:
+            return "Cannot resume because recording is not paused."
         }
     }
 
@@ -161,6 +170,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .notRecording:
             return "Start a recording session before attempting to stop it."
+
+        case .notPaused:
+            return "Pause the recording first before attempting to resume."
         }
     }
 }
@@ -193,6 +205,8 @@ extension CallTranscriptionError: Equatable {
         case (.transcriptAlreadyFinalized, .transcriptAlreadyFinalized):
             return true
         case (.notRecording, .notRecording):
+            return true
+        case (.notPaused, .notPaused):
             return true
         default:
             return false

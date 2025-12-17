@@ -158,6 +158,29 @@ public final class RecordingSessionCoordinator {
         }
     }
 
+    /// Pauses the current recording session.
+    ///
+    /// - Throws: An error if pausing fails.
+    ///
+    /// This method pauses audio capture while maintaining the recording session.
+    /// Call `resumeRecording()` to continue.
+    public func pauseRecording() async throws {
+        // TODO: Implement pause functionality
+        // For now, this is a stub to allow compilation
+        logger.info("Pause recording called (stub implementation)")
+    }
+
+    /// Resumes the current recording session after being paused.
+    ///
+    /// - Throws: An error if resuming fails.
+    ///
+    /// This method resumes audio capture after a pause.
+    public func resumeRecording() async throws {
+        // TODO: Implement resume functionality
+        // For now, this is a stub to allow compilation
+        logger.info("Resume recording called (stub implementation)")
+    }
+
     // MARK: - Private Methods - Validation
 
     private func validateConfiguration() async throws {
