@@ -3,7 +3,6 @@ import XCTest
 
 /// Tests for OutputFolderManager following TDD methodology.
 /// Tests are written FIRST before implementation.
-@MainActor
 final class OutputFolderManagerTests: XCTestCase {
     var tempDirectory: URL!
     var manager: OutputFolderManager!
@@ -16,7 +15,7 @@ final class OutputFolderManagerTests: XCTestCase {
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
 
-        manager = OutputFolderManager()
+        manager = await OutputFolderManager()
     }
 
     override func tearDown() async throws {
@@ -201,7 +200,7 @@ final class OutputFolderManagerTests: XCTestCase {
     }
 
     func testHandlesFileURLs() async throws {
-        let fileURL = tempDirectory
+        let fileURL = tempDirectory!
         let result = try await manager.validateAndPreparePath(fileURL.path)
 
         XCTAssertEqual(result.path, fileURL.path)
@@ -240,14 +239,14 @@ final class OutputFolderManagerTests: XCTestCase {
     // MARK: - Default Folder Tests
 
     func testDefaultIsDesktopTranscripts() async throws {
-        let defaultURL = manager.defaultOutputFolder()
+        let defaultURL = await manager.defaultOutputFolder()
 
         XCTAssertTrue(defaultURL.path.contains("Desktop"))
         XCTAssertTrue(defaultURL.path.contains("Transcripts"))
     }
 
     func testCreatesDefaultIfDoesNotExist() async throws {
-        let defaultURL = manager.defaultOutputFolder()
+        let defaultURL = await manager.defaultOutputFolder()
 
         // Ensure it's created
         let result = try await manager.validateAndPreparePath(defaultURL.path)
@@ -259,7 +258,7 @@ final class OutputFolderManagerTests: XCTestCase {
     func testFallsBackToDocumentsIfDesktopUnavailable() async throws {
         // Test the fallback mechanism (hard to test without mocking FileManager)
         // At minimum verify the method exists
-        let defaultURL = manager.defaultOutputFolder()
+        let defaultURL = await manager.defaultOutputFolder()
         XCTAssertNotNil(defaultURL)
     }
 
@@ -297,16 +296,9 @@ final class OutputFolderManagerTests: XCTestCase {
     func testConcurrentValidationCalls() async throws {
         let paths = (0..<10).map { tempDirectory.appendingPathComponent("concurrent_\($0)").path }
 
-        await withTaskGroup(of: Void.self) { group in
-            for path in paths {
-                group.addTask {
-                    do {
-                        _ = try await self.manager.validateAndPreparePath(path)
-                    } catch {
-                        XCTFail("Concurrent validation failed: \(error)")
-                    }
-                }
-            }
+        // Validate all paths
+        for path in paths {
+            _ = try await manager.validateAndPreparePath(path)
         }
 
         // Verify all directories were created

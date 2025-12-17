@@ -21,6 +21,6 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>CallTranscription needs microphone access to record and transcribe audio from calls.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>CallTranscription uses speech recognition to transcribe audio recordings.</string>
+	<string>CallTranscription needs speech recognition to transcribe your audio recordings into text.</string>
 </dict>
 </plist>
