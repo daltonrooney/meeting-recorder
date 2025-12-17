@@ -5,10 +5,17 @@ struct MenuBarView: View {
 
     var body: some View {
         Button(appState.isRecording ? "Stop Recording" : "Start Recording") {
-            if appState.isRecording {
-                appState.stopRecording()
-            } else {
-                appState.startRecording()
+            Task {
+                do {
+                    if appState.isRecording {
+                        try await appState.stopActualRecording()
+                    } else {
+                        try await appState.startActualRecording(title: "Recording")
+                    }
+                } catch {
+                    // TODO: Present error to user
+                    print("Recording error: \(error.localizedDescription)")
+                }
             }
         }
         .keyboardShortcut("R", modifiers: [.command, .shift])
