@@ -49,11 +49,6 @@ public final class SilenceDetector {
     private var wasInSilence = false
     private let lock = NSLock()
 
-    // Track buffer timing for accurate duration calculation
-    private var lastBufferTime: Date?
-    private let sampleRate: Double = 44100.0 // Standard sample rate
-    private let bufferSize: Double = 1024.0 // Standard buffer size
-
     // MARK: - Initialization
 
     /// Creates a new silence detector.
@@ -61,6 +56,7 @@ public final class SilenceDetector {
     /// - Parameters:
     ///   - threshold: Silence pause threshold from settings
     ///   - silenceDBThreshold: dB level below which audio is considered silent (default: -40.0)
+    ///     -40 dB is industry standard for room silence detection
     public init(threshold: SilencePauseThreshold, silenceDBThreshold: Float = -40.0) {
         self.thresholdSeconds = threshold.timeInterval
         self.silenceDBThreshold = silenceDBThreshold
@@ -81,10 +77,9 @@ public final class SilenceDetector {
         // Analyze buffer
         let isSilent = AudioLevelAnalyzer.isSilent(buffer, threshold: silenceDBThreshold)
 
-        // Calculate time since last buffer
-        let now = Date()
-        let bufferDuration = Double(buffer.frameLength) / sampleRate
-        lastBufferTime = now
+        // Calculate buffer duration from actual sample rate
+        // Extract sample rate from buffer format instead of hardcoding
+        let bufferDuration = Double(buffer.frameLength) / buffer.format.sampleRate
 
         if isSilent {
             // Accumulate silence duration
@@ -125,7 +120,7 @@ public final class SilenceDetector {
     /// Resets the detector state.
     ///
     /// Clears accumulated silence duration and callback trigger state.
-    /// Use this when starting a new recording session.
+    /// Use this when starting a new recording session or when manually pausing.
     public func reset() {
         lock.lock()
         defer { lock.unlock() }
@@ -133,6 +128,5 @@ public final class SilenceDetector {
         currentSilenceDuration = 0.0
         hasTriggeredSilenceCallback = false
         wasInSilence = false
-        lastBufferTime = nil
     }
 }

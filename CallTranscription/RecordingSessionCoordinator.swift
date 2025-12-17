@@ -185,6 +185,12 @@ public final class RecordingSessionCoordinator {
             logger.debug("System audio capture paused")
         }
 
+        // Reset silence detector to prevent unexpected auto-pause after manual resume
+        // Without this, accumulated silence duration before pause could trigger auto-pause
+        // shortly after resuming (e.g., 1:50 accumulated + 10s after resume = auto-pause)
+        silenceDetector?.reset()
+        logger.debug("Silence detector reset")
+
         // Note: We don't pause transcription manager - we simply stop feeding it audio
         // When we resume, audio will continue to flow and transcription will continue
 

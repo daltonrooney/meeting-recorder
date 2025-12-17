@@ -25,6 +25,10 @@ public struct AudioLevelAnalyzer {
     }
 
     /// Default silence threshold in dB (below this is considered silence)
+    ///
+    /// -40 dB is an industry-standard threshold for detecting room silence.
+    /// This represents approximately 1% of full-scale amplitude and effectively
+    /// captures the ambient noise floor in typical quiet environments.
     public static let defaultSilenceThreshold: Float = -40.0
 
     // MARK: - Public Methods
