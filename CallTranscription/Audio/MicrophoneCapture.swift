@@ -126,16 +126,23 @@ public final class MicrophoneCapture {
             return
         }
 
-        // Check if tap already installed (already resumed)
-        // Note: AVAudioEngine will throw if tap is already installed
-        // We rely on try? to handle this gracefully
         let inputNode = audioEngine.inputNode
         let format = inputNode.outputFormat(forBus: 0)
         let handler = audioBufferHandler
 
-        // Reinstall tap - if already installed, this will fail silently
-        try? inputNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, time in
-            handler?(buffer)
+        // Reinstall tap
+        // Note: This may fail if tap is already installed (expected during idempotent calls)
+        // or due to other issues (format mismatch, resource exhaustion) which we log
+        do {
+            try inputNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, time in
+                handler?(buffer)
+            }
+        } catch {
+            // Log the error but don't throw - this is a best-effort operation
+            // Most common case: tap already installed (idempotent call)
+            #if DEBUG
+            print("MicrophoneCapture: Failed to reinstall tap during resume: \(error)")
+            #endif
         }
     }
 

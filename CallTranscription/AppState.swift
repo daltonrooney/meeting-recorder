@@ -239,8 +239,13 @@ public final class AppState: ObservableObject {
             return
         }
 
+        // Ensure coordinator exists
+        guard let coordinator = coordinator else {
+            throw CallTranscriptionError.notRecording
+        }
+
         // Pause the coordinator
-        try await coordinator?.pauseRecording()
+        try await coordinator.pauseRecording()
 
         // Update state
         isPaused = true
@@ -260,6 +265,11 @@ public final class AppState: ObservableObject {
             throw CallTranscriptionError.notPaused
         }
 
+        // Ensure coordinator exists
+        guard let coordinator = coordinator else {
+            throw CallTranscriptionError.notRecording
+        }
+
         // Calculate paused duration
         if let pauseStart = pauseStartTime {
             totalPausedDuration += Date().timeIntervalSince(pauseStart)
@@ -267,7 +277,7 @@ public final class AppState: ObservableObject {
         }
 
         // Resume the coordinator
-        try await coordinator?.resumeRecording()
+        try await coordinator.resumeRecording()
 
         // Update state
         isPaused = false

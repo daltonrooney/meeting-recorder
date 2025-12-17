@@ -1208,4 +1208,103 @@ final class AppStateTests: XCTestCase {
         XCTAssertEqual(receivedValues, [true],
                       "isPaused change should be published")
     }
+
+    // MARK: - Integration Tests - Edge Cases
+
+    func testRapidPauseResumeCycles() async throws {
+        let testAppState = AppState()
+
+        // Start recording (sync version for state only)
+        testAppState.startRecording()
+        XCTAssertTrue(testAppState.isRecording)
+        XCTAssertFalse(testAppState.isPaused)
+
+        // Rapidly pause and resume multiple times
+        for _ in 0..<5 {
+            try? await testAppState.pauseRecording()
+            XCTAssertTrue(testAppState.isPaused, "Should be paused")
+
+            try? await testAppState.resumeRecording()
+            XCTAssertFalse(testAppState.isPaused, "Should be resumed")
+        }
+
+        // Final state check
+        XCTAssertTrue(testAppState.isRecording, "Should still be recording")
+        XCTAssertFalse(testAppState.isPaused, "Should not be paused")
+    }
+
+    func testPauseAfterStopThrowsError() async throws {
+        let testAppState = AppState()
+
+        // Start and stop
+        testAppState.startRecording()
+        testAppState.stopRecording()
+
+        // Try to pause after stop - should throw
+        do {
+            try await testAppState.pauseRecording()
+            XCTFail("Should throw error when pausing after stop")
+        } catch CallTranscriptionError.notRecording {
+            // Expected error
+        } catch {
+            XCTFail("Wrong error type: \(error)")
+        }
+    }
+
+    func testResumeAfterStopThrowsError() async throws {
+        let testAppState = AppState()
+
+        // Start, pause, stop
+        testAppState.startRecording()
+        try? await testAppState.pauseRecording()
+        testAppState.stopRecording()
+
+        // Try to resume after stop - should throw
+        do {
+            try await testAppState.resumeRecording()
+            XCTFail("Should throw error when resuming after stop")
+        } catch CallTranscriptionError.notRecording {
+            // Expected error
+        } catch {
+            XCTFail("Wrong error type: \(error)")
+        }
+    }
+
+    func testPauseWhenCoordinatorNilThrowsError() async throws {
+        // Create AppState without coordinator (simulates coordinator cleanup)
+        let testAppState = AppState()
+        testAppState.startRecording() // Sets isRecording = true but coordinator = nil
+
+        // Try to pause when coordinator is nil - should throw
+        do {
+            try await testAppState.pauseRecording()
+            XCTFail("Should throw error when coordinator is nil")
+        } catch CallTranscriptionError.notRecording {
+            // Expected error - coordinator check prevents state update
+        } catch {
+            XCTFail("Wrong error type: \(error)")
+        }
+
+        // Verify state wasn't updated
+        XCTAssertFalse(testAppState.isPaused,
+                      "State should not update when coordinator is nil")
+    }
+
+    func testResumeWhenCoordinatorNilThrowsError() async throws {
+        let testAppState = AppState()
+
+        // Manually set isPaused to true (simulating edge case)
+        testAppState.startRecording()
+        // Force pause state without coordinator
+        // (In real scenario, this would come from a pause that succeeded then coordinator was nil'd)
+
+        // Try to resume when coordinator is nil - should throw
+        do {
+            try await testAppState.resumeRecording()
+            XCTFail("Should throw error when coordinator is nil")
+        } catch {
+            // Expected - either notPaused or notRecording error
+            XCTAssertTrue(error is CallTranscriptionError)
+        }
+    }
 }

@@ -334,6 +334,12 @@ public final class RecordingSessionCoordinator {
         silenceDetector.onSilenceThresholdExceeded = { @Sendable [weak self] in
             guard let self = self else { return }
             Task { @MainActor in
+                // Guard against race: check state is valid for pause
+                guard self.isRecording else {
+                    self.logger.debug("Ignoring auto-pause: recording already stopped")
+                    return
+                }
+
                 do {
                     try await self.pauseRecording()
                     self.logger.info("Auto-paused recording due to silence")
@@ -347,6 +353,12 @@ public final class RecordingSessionCoordinator {
         silenceDetector.onAudioDetectedAfterSilence = { @Sendable [weak self] in
             guard let self = self else { return }
             Task { @MainActor in
+                // Guard against race: check recording is active and paused
+                guard self.isRecording else {
+                    self.logger.debug("Ignoring auto-resume: recording already stopped")
+                    return
+                }
+
                 do {
                     try await self.resumeRecording()
                     self.logger.info("Auto-resumed recording after audio detected")
