@@ -17,6 +17,20 @@ public final class OutputFolderManager {
 
     public init() {}
 
+    // MARK: - Security Validation
+
+    /// Validates that a path is within allowed directories (security check).
+    ///
+    /// Prevents path traversal attacks by ensuring the resolved path starts with
+    /// an allowed prefix (user home directory or temp directory).
+    private func isPathSafe(_ url: URL) -> Bool {
+        let allowedPrefixes = [
+            NSHomeDirectory(),
+            fileManager.temporaryDirectory.path,
+        ]
+        return allowedPrefixes.contains { url.path.hasPrefix($0) }
+    }
+
     // MARK: - Path Validation and Preparation
 
     /// Validates a path and prepares it for use by creating the directory if needed.
@@ -53,6 +67,18 @@ public final class OutputFolderManager {
         // Standardize path (removes .., ., //)
         url = url.standardizedFileURL
 
+        // Resolve symlinks to prevent symlink-based path traversal
+        let resolvedURL = url.resolvingSymlinksInPath()
+
+        // Security check: Ensure path is within allowed directories
+        guard isPathSafe(resolvedURL) else {
+            logger.error("Path traversal detected or path outside allowed directories: \(url.path)")
+            throw CallTranscriptionError.outputFolderNotWritable(url)
+        }
+
+        // Use resolved URL for all subsequent operations
+        url = resolvedURL
+
         // Check if directory exists
         var isDirectory: ObjCBool = false
         let exists = fileManager.fileExists(atPath: url.path, isDirectory: &isDirectory)
@@ -72,33 +98,18 @@ public final class OutputFolderManager {
 
             logger.debug("Using existing directory: \(url.path)")
         } else {
-            // Directory doesn't exist - need to create it
-            // First check if parent directory is writable
-            let parentURL = url.deletingLastPathComponent()
-            if fileManager.fileExists(atPath: parentURL.path) {
-                guard fileManager.isWritableFile(atPath: parentURL.path) else {
-                    logger.error("Parent directory is not writable: \(parentURL.path)")
-                    throw CallTranscriptionError.outputFolderNotWritable(url)
-                }
-            }
-
-            // Create directory with intermediate directories
+            // Directory doesn't exist - create it
+            // Use user-only permissions (0o700) for security - transcripts may contain sensitive data
             do {
                 try fileManager.createDirectory(
                     at: url,
                     withIntermediateDirectories: true,
-                    attributes: [.posixPermissions: 0o755]
+                    attributes: [.posixPermissions: 0o700]
                 )
                 logger.info("Created output directory: \(url.path)")
             } catch {
                 logger.error("Failed to create directory at \(url.path): \(error.localizedDescription)")
                 throw CallTranscriptionError.outputFolderCreationFailed(url.path, error)
-            }
-
-            // Verify it was created successfully
-            guard fileManager.fileExists(atPath: url.path) else {
-                logger.error("Directory creation succeeded but path doesn't exist: \(url.path)")
-                throw CallTranscriptionError.outputFolderNotWritable(url)
             }
         }
 
