@@ -2,6 +2,8 @@ import SwiftUI
 
 struct MenuBarView: View {
     @EnvironmentObject var appState: AppState
+    @State private var errorMessage: String?
+    @State private var showError = false
 
     var body: some View {
         Button(appState.isRecording ? "Stop Recording" : "Start Recording") {
@@ -13,12 +15,17 @@ struct MenuBarView: View {
                         try await appState.startActualRecording(title: "Recording")
                     }
                 } catch {
-                    // TODO: Present error to user
-                    print("Recording error: \(error.localizedDescription)")
+                    errorMessage = error.localizedDescription
+                    showError = true
                 }
             }
         }
         .keyboardShortcut("R", modifiers: [.command, .shift])
+        .alert("Recording Error", isPresented: $showError) {
+            Button("OK") { showError = false }
+        } message: {
+            Text(errorMessage ?? "An unknown error occurred")
+        }
 
         if appState.isRecording {
             Divider()

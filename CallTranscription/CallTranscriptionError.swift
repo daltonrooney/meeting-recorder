@@ -192,6 +192,8 @@ extension CallTranscriptionError: Equatable {
             return lhsPath == rhsPath
         case (.transcriptAlreadyFinalized, .transcriptAlreadyFinalized):
             return true
+        case (.notRecording, .notRecording):
+            return true
         default:
             return false
         }

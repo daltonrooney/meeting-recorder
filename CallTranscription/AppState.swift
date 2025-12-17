@@ -99,18 +99,23 @@ public final class AppState: ObservableObject {
             postRecordingScriptPath: settingsManager.postRecordingScript.isEmpty ? nil : settingsManager.expandedPostRecordingScriptPath()
         )
 
-        // Create coordinator
-        coordinator = RecordingSessionCoordinator(configuration: configuration)
+        // Create coordinator locally first
+        let newCoordinator = RecordingSessionCoordinator(configuration: configuration)
 
-        // Start recording through coordinator
-        try await coordinator?.startRecording(title: title)
+        do {
+            // Try to start recording
+            try await newCoordinator.startRecording(title: title)
 
-        // Update UI state
-        isRecording = true
-        startTime = Date()
-
-        // Start timer for elapsed time tracking
-        startTimer()
+            // Only update state after successful start
+            self.coordinator = newCoordinator
+            isRecording = true
+            startTime = Date()
+            startTimer()
+        } catch {
+            // Coordinator failed to start, ensure it's not retained
+            // No cleanup needed since we haven't assigned to self.coordinator yet
+            throw error
+        }
     }
 
     /// Stops the current recording session (UI state only - for testing).
@@ -160,18 +165,26 @@ public final class AppState: ObservableObject {
             throw CallTranscriptionError.notRecording
         }
 
-        let transcriptURL = try await coordinator.stopRecording()
+        do {
+            let transcriptURL = try await coordinator.stopRecording()
 
-        // Stop timer
-        stopTimer()
+            // Cleanup state after success
+            stopTimer()
+            isRecording = false
+            startTime = nil
+            elapsedTime = "00:00"
+            self.coordinator = nil
 
-        // Reset state
-        isRecording = false
-        startTime = nil
-        elapsedTime = "00:00"
-        self.coordinator = nil
-
-        return transcriptURL
+            return transcriptURL
+        } catch {
+            // Ensure cleanup even on error to keep app usable
+            stopTimer()
+            isRecording = false
+            startTime = nil
+            elapsedTime = "00:00"
+            self.coordinator = nil
+            throw error
+        }
     }
 
     // MARK: - Private Methods
