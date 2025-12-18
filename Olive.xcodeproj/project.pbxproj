@@ -16,6 +16,7 @@
 		355A16907F2EF67A79BA08E4 /* MenuBarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7902940F09F84F685C1EE40 /* MenuBarViewTests.swift */; };
 		35801BF24D60AF75A758E0AF /* CallTranscriptionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1507D82FC70B697ADB891DF6 /* CallTranscriptionApp.swift */; };
 		3A2462BD7D9EF2BDDE330B66 /* MicrophonePermissionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA2244C883B92416DE4803C /* MicrophonePermissionHandler.swift */; };
+		3C238951121DF430C44200C6 /* SettingsViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E60458111E8E42D057137 /* SettingsViewUITests.swift */; };
 		45F7253F3E3CA0D9887D15D7 /* ConsentDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106F623C49C22E447C38C0A5 /* ConsentDialogView.swift */; };
 		47CE13A6B71D647D54BD84DE /* CallTranscriptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0657F96D2E40E3389E766B07 /* CallTranscriptionError.swift */; };
 		4DD997AC21F137568A88FD79 /* ShellScriptExecutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1235EA4033020F640692F879 /* ShellScriptExecutorTests.swift */; };
@@ -66,6 +67,13 @@
 			remoteGlobalIDString = B28EBDD175DE8393D7795B4B;
 			remoteInfo = CallTranscription;
 		};
+		F5781712CEFE78DED0318E45 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 105D377AC1DABA1E21ED2E59 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B28EBDD175DE8393D7795B4B;
+			remoteInfo = CallTranscription;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -82,9 +90,11 @@
 		2AA2244C883B92416DE4803C /* MicrophonePermissionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophonePermissionHandler.swift; sourceTree = "<group>"; };
 		313D538D7EB1D0E45613B4ED /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		3E442F96EB088404DD4DAF1E /* SilenceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilenceDetector.swift; sourceTree = "<group>"; };
+		458FDA1A73A927505B55F74D /* CallTranscriptionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallTranscriptionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4777782B3B8224DE61225D48 /* SpeechPermissionHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechPermissionHandlerTests.swift; sourceTree = "<group>"; };
 		48956BE463D64897BAACB155 /* SystemAudioCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemAudioCapture.swift; sourceTree = "<group>"; };
 		505AB35CBBAFC38A3F994C27 /* SettingsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManagerTests.swift; sourceTree = "<group>"; };
+		539E60458111E8E42D057137 /* SettingsViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewUITests.swift; sourceTree = "<group>"; };
 		5402519B03BCFDD48BA7E0B9 /* AudioLevelAnalyzerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLevelAnalyzerTests.swift; sourceTree = "<group>"; };
 		564F2A521BDBF6210D695200 /* TranscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionManager.swift; sourceTree = "<group>"; };
 		5762BC9ACB64399002352CBC /* TranscriptWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptWriterTests.swift; sourceTree = "<group>"; };
@@ -218,8 +228,17 @@
 			children = (
 				F9FF7E1FDA260CA3B51BAB0D /* CallTranscription.app */,
 				A92E9C84DD6666FB57E1F970 /* CallTranscriptionTests.xctest */,
+				458FDA1A73A927505B55F74D /* CallTranscriptionUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3EB6DBD9D82CD1AA10FD28BD /* CallTranscriptionUITests */ = {
+			isa = PBXGroup;
+			children = (
+				539E60458111E8E42D057137 /* SettingsViewUITests.swift */,
+			);
+			path = CallTranscriptionUITests;
 			sourceTree = "<group>";
 		};
 		580AD3ACE9D66E6A9785A00C /* Audio */ = {
@@ -321,6 +340,7 @@
 			children = (
 				2002D1D1B9C323A0F45096C7 /* CallTranscription */,
 				BFDC54EA1625ABC6F5B61DEC /* CallTranscriptionTests */,
+				3EB6DBD9D82CD1AA10FD28BD /* CallTranscriptionUITests */,
 				3AF6B30753CC0B26AD7B98F7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -373,6 +393,24 @@
 			productReference = A92E9C84DD6666FB57E1F970 /* CallTranscriptionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		ED03AE34585D684E4B06C5C9 /* CallTranscriptionUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E56D59695A8337646BB555A4 /* Build configuration list for PBXNativeTarget "CallTranscriptionUITests" */;
+			buildPhases = (
+				F5F9BCE458A1BE87EB1A4DFD /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CBCA355FD5F9E9BCBD8CE699 /* PBXTargetDependency */,
+			);
+			name = CallTranscriptionUITests;
+			packageProductDependencies = (
+			);
+			productName = CallTranscriptionUITests;
+			productReference = 458FDA1A73A927505B55F74D /* CallTranscriptionUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -389,6 +427,11 @@
 					C1D114913E4B12CEFB3836A3 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
+					};
+					ED03AE34585D684E4B06C5C9 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+						TestTargetID = B28EBDD175DE8393D7795B4B;
 					};
 				};
 			};
@@ -408,6 +451,7 @@
 			targets = (
 				B28EBDD175DE8393D7795B4B /* CallTranscription */,
 				C1D114913E4B12CEFB3836A3 /* CallTranscriptionTests */,
+				ED03AE34585D684E4B06C5C9 /* CallTranscriptionUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -499,9 +543,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F5F9BCE458A1BE87EB1A4DFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C238951121DF430C44200C6 /* SettingsViewUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		CBCA355FD5F9E9BCBD8CE699 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B28EBDD175DE8393D7795B4B /* CallTranscription */;
+			targetProxy = F5781712CEFE78DED0318E45 /* PBXContainerItemProxy */;
+		};
 		FA491859582B4F60E0900877 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B28EBDD175DE8393D7795B4B /* CallTranscription */;
@@ -530,6 +587,25 @@
 			};
 			name = Release;
 		};
+		8E2F8C24C746DB54BB2805E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscriptionUITests;
+				PRODUCT_MODULE_NAME = CallTranscriptionUITests;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TEST_TARGET_NAME = CallTranscription;
+			};
+			name = Release;
+		};
 		957D1135C469994B353725F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -548,6 +624,26 @@
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Olive.app/Contents/MacOS/Olive";
+			};
+			name = Debug;
+		};
+		AC70427DC809102E33004460 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscriptionUITests;
+				PRODUCT_MODULE_NAME = CallTranscriptionUITests;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_TARGET_NAME = CallTranscription;
 			};
 			name = Debug;
 		};
@@ -751,6 +847,15 @@
 			buildConfigurations = (
 				D2F5D5BE718962FE0255A35C /* Debug */,
 				F50B62B9A5F4B05658A0F798 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E56D59695A8337646BB555A4 /* Build configuration list for PBXNativeTarget "CallTranscriptionUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC70427DC809102E33004460 /* Debug */,
+				8E2F8C24C746DB54BB2805E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
