@@ -13,6 +13,7 @@ struct SettingsView: View {
     @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
 
     @State private var availableShortcuts: [String] = []
+    @State private var isLoadingShortcuts: Bool = false
 
     var body: some View {
         Form {
@@ -111,17 +112,32 @@ struct SettingsView: View {
 
             // Show shortcut picker when shortcut is selected
             if PostRecordingActionType(rawValue: postRecordingActionTypeRaw) == .shortcut {
-                Picker("Shortcut:", selection: $shortcutIdentifier) {
-                    Text("Select a shortcut...").tag("")
-                    ForEach(availableShortcuts, id: \.self) { shortcut in
-                        Text(shortcut).tag(shortcut)
+                if isLoadingShortcuts {
+                    HStack {
+                        ProgressView()
+                            .scaleEffect(0.7)
+                        Text("Loading shortcuts...")
+                            .foregroundColor(.secondary)
+                    }
+                } else {
+                    Picker("Shortcut:", selection: $shortcutIdentifier) {
+                        Text("Select a shortcut...").tag("")
+                        ForEach(availableShortcuts, id: \.self) { shortcut in
+                            Text(shortcut).tag(shortcut)
+                        }
+                    }
+                    .pickerStyle(.menu)
+
+                    if availableShortcuts.isEmpty {
+                        Text("No shortcuts found. Create shortcuts in the Shortcuts app first.")
+                            .font(.caption)
+                            .foregroundColor(.orange)
+                    } else {
+                        Text("The shortcut receives the transcript file path as input")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
                 }
-                .pickerStyle(.menu)
-
-                Text("The shortcut receives the transcript file path as input")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
             }
         }
         .onAppear {
@@ -177,8 +193,10 @@ struct SettingsView: View {
 
     private func loadAvailableShortcuts() {
         Task {
+            isLoadingShortcuts = true
             let executor = ShortcutExecutor()
             availableShortcuts = await executor.listAvailableShortcuts()
+            isLoadingShortcuts = false
         }
     }
 }
