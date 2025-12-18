@@ -11,7 +11,8 @@ final class ProjectConfigurationTests: XCTestCase {
 
     // MARK: - Constants
 
-    private static let expectedBundleIdentifier = "dev.rygn.CallTranscription"
+    private static let expectedBundleIdentifier = "dev.rygn.Olive"
+    private static let expectedProductName = "Olive"
     private static let minimumMacOSVersion = 26
 
     // MARK: - Helper Methods
@@ -33,7 +34,7 @@ final class ProjectConfigurationTests: XCTestCase {
         // Method 3: Look for the app bundle in the test bundle's path
         // The built app should be in the same directory as the test bundle
         let testBundlePath = Bundle(for: type(of: self)).bundlePath
-        let appPath = (testBundlePath as NSString).deletingLastPathComponent + "/CallTranscription.app"
+        let appPath = (testBundlePath as NSString).deletingLastPathComponent + "/Olive.app"
         if let bundle = Bundle(path: appPath), bundle.bundleIdentifier == Self.expectedBundleIdentifier {
             return bundle
         }
@@ -87,8 +88,28 @@ final class ProjectConfigurationTests: XCTestCase {
         let bundleId = bundle.bundleIdentifier
 
         XCTAssertNotNil(bundleId, "Bundle identifier must be set")
+        XCTAssertEqual(bundleId, Self.expectedBundleIdentifier,
+                      "Bundle identifier should be '\(Self.expectedBundleIdentifier)'")
         XCTAssertTrue(bundleId?.hasPrefix("dev.rygn.") ?? false,
                       "Bundle ID should use correct prefix")
+    }
+
+    func testProductNameIsOlive() throws {
+        let bundle = try getMainAppBundle()
+        let productName = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String
+
+        XCTAssertNotNil(productName, "Product name (CFBundleName) must be set")
+        XCTAssertEqual(productName, Self.expectedProductName,
+                      "Product name should be '\(Self.expectedProductName)' for Activity Monitor and menu bar")
+    }
+
+    func testExecutableNameIsOlive() throws {
+        let bundle = try getMainAppBundle()
+        let executableName = bundle.object(forInfoDictionaryKey: "CFBundleExecutable") as? String
+
+        XCTAssertNotNil(executableName, "Executable name must be set")
+        XCTAssertEqual(executableName, Self.expectedProductName,
+                      "Executable name should be '\(Self.expectedProductName)'")
     }
 
     func testBundleVersionsAreSet() throws {
