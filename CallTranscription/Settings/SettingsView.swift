@@ -14,6 +14,9 @@ struct SettingsView: View {
 
     @State private var availableShortcuts: [String] = []
     @State private var isLoadingShortcuts: Bool = false
+    // Cache persists across view updates (not recreations) due to @State
+    // SettingsView is typically a singleton in the app, so this provides adequate caching
+    @State private var shortcutsCache = SettingsViewCache()
 
     var body: some View {
         Form {
@@ -194,10 +197,20 @@ struct SettingsView: View {
 
     private func loadAvailableShortcuts() {
         guard !isLoadingShortcuts else { return } // Prevent concurrent loads
+
+        // Use cached shortcuts if not expired
+        if !shortcutsCache.isCacheExpired() {
+            availableShortcuts = shortcutsCache.getCachedShortcuts()
+            return
+        }
+
+        // Load fresh shortcuts if cache expired
         Task {
             isLoadingShortcuts = true
             let executor = ShortcutExecutor()
-            availableShortcuts = await executor.listAvailableShortcuts()
+            let shortcuts = await executor.listAvailableShortcuts()
+            availableShortcuts = shortcuts
+            shortcutsCache.updateCache(shortcuts: shortcuts)
             isLoadingShortcuts = false
         }
     }

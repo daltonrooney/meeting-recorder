@@ -19,8 +19,8 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone access is required to record audio during meetings and calls.</string>
+	<string>Olive needs access to your microphone to record audio for transcription.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Speech recognition is used to transcribe meeting audio in real-time.</string>
+	<string>Olive uses speech recognition to transcribe your recorded audio into text.</string>
 </dict>
 </plist>
