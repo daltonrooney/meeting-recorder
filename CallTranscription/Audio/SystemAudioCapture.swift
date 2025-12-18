@@ -39,6 +39,10 @@ public final class SystemAudioCapture {
     /// Called on the audio rendering thread for each buffer.
     public var audioBufferHandler: ((AVAudioPCMBuffer) -> Void)?
 
+    /// Indicates whether audio capture is currently paused.
+    /// `true` when pauseCapture() has been called, `false` when active or stopped.
+    public private(set) var isPaused = false
+
     // MARK: - Private Properties
 
     private let audioEngine = AVAudioEngine()
@@ -126,6 +130,7 @@ public final class SystemAudioCapture {
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         isCapturing = false
+        isPaused = false
     }
 
     /// Pauses audio capture without stopping the audio engine.
@@ -142,6 +147,7 @@ public final class SystemAudioCapture {
         logger.debug("Pausing audio capture")
         // Remove tap but keep engine running
         audioEngine.inputNode.removeTap(onBus: 0)
+        isPaused = true
     }
 
     /// Resumes audio capture after being paused.
@@ -167,6 +173,7 @@ public final class SystemAudioCapture {
             try inputNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, time in
                 handler?(buffer)
             }
+            isPaused = false
         } catch {
             // Log the error but don't throw - this is a best-effort operation
             // Most common case: tap already installed (idempotent call)
