@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import Accelerate
 import os.log
 
 /// Mixes audio buffers from microphone and system audio sources into a unified stream.
@@ -129,7 +130,7 @@ public final class AudioMixer {
         mixedBufferHandler?(mixedBuffer)
     }
 
-    /// Mixes two buffers together with configured levels.
+    /// Mixes two buffers together with configured levels and clipping protection.
     private func mixBuffers(_ buffer1: AVAudioPCMBuffer, _ buffer2: AVAudioPCMBuffer) throws -> AVAudioPCMBuffer {
         // Use the shorter length
         let frameLength = min(buffer1.frameLength, buffer2.frameLength)
@@ -140,20 +141,59 @@ public final class AudioMixer {
 
         outputBuffer.frameLength = frameLength
 
-        // Mix samples
+        // Mix samples with soft limiting to prevent clipping
+        // Use Accelerate framework for SIMD performance
         if let data1 = buffer1.floatChannelData,
            let data2 = buffer2.floatChannelData,
            let outputData = outputBuffer.floatChannelData {
             for channel in 0..<Int(outputFormat.channelCount) {
+                let sourceChannel1 = min(channel, Int(buffer1.format.channelCount) - 1)
+                let sourceChannel2 = min(channel, Int(buffer2.format.channelCount) - 1)
+
+                // Scale buffer1 by microphoneLevel: data1[channel] * microphoneLevel -> output
+                var micLevel = microphoneLevel
+                vDSP_vsmul(data1[sourceChannel1], 1, &micLevel, outputData[channel], 1, vDSP_Length(frameLength))
+
+                // Scale buffer2 by systemAudioLevel and add to output: output + (data2[channel] * systemAudioLevel)
+                var sysLevel = systemAudioLevel
+                vDSP_vsma(data2[sourceChannel2], 1, &sysLevel, outputData[channel], 1, outputData[channel], 1, vDSP_Length(frameLength))
+
+                // Apply soft limiting to each sample
                 for frame in 0..<Int(frameLength) {
-                    let sample1 = data1[min(channel, Int(buffer1.format.channelCount) - 1)][frame]
-                    let sample2 = data2[min(channel, Int(buffer2.format.channelCount) - 1)][frame]
-                    outputData[channel][frame] = (sample1 * microphoneLevel) + (sample2 * systemAudioLevel)
+                    outputData[channel][frame] = softLimit(outputData[channel][frame])
                 }
             }
         }
 
         return outputBuffer
+    }
+
+    /// Applies soft limiting to prevent clipping while preserving signal dynamics.
+    ///
+    /// Uses a smooth tanh-like curve that:
+    /// - Passes through signals below threshold unchanged (linear region)
+    /// - Gradually compresses signals approaching ±1.0 (soft limiting region)
+    /// - Never exceeds ±1.0 (hard limit)
+    ///
+    /// - Parameter sample: Input sample value
+    /// - Returns: Limited sample value within [-1.0, 1.0]
+    private func softLimit(_ sample: Float) -> Float {
+        let threshold: Float = 0.8
+        let absValue = abs(sample)
+
+        if absValue <= threshold {
+            // Below threshold - pass through unchanged
+            return sample
+        } else if absValue < 1.0 {
+            // Between threshold and 1.0 - apply soft compression
+            // Use smooth curve that asymptotically approaches 1.0
+            let excess = absValue - threshold
+            let compressed = threshold + (excess * (1.0 - threshold) / (excess + (1.0 - threshold)))
+            return sample < 0 ? -compressed : compressed
+        } else {
+            // At or above 1.0 - hard limit
+            return sample < 0 ? -1.0 : 1.0
+        }
     }
 
     // MARK: - Private Methods
@@ -214,12 +254,16 @@ public final class AudioMixer {
 
         outputBuffer.frameLength = buffer.frameLength
 
-        // Scale samples
+        // Scale samples using Accelerate framework for SIMD performance
         if let inputData = buffer.floatChannelData,
            let outputData = outputBuffer.floatChannelData {
+            var scaleFactor = level
             for channel in 0..<Int(buffer.format.channelCount) {
+                vDSP_vsmul(inputData[channel], 1, &scaleFactor, outputData[channel], 1, vDSP_Length(buffer.frameLength))
+
+                // Apply soft limiting to prevent clipping
                 for frame in 0..<Int(buffer.frameLength) {
-                    outputData[channel][frame] = inputData[channel][frame] * level
+                    outputData[channel][frame] = softLimit(outputData[channel][frame])
                 }
             }
         }

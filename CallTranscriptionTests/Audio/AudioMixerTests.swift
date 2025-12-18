@@ -374,6 +374,154 @@ final class AudioMixerTests: XCTestCase {
         }
     }
 
+    // MARK: - Clipping Protection Tests
+
+    func testPreventsClippingWhenBothSourcesAreLoud() async throws {
+        let mixer = AudioMixer(microphoneLevel: 0.8, systemAudioLevel: 0.8)
+
+        // Both sources at maximum safe level
+        let micBuffer = createTestBuffer(fillValue: 0.9)
+        let sysBuffer = createTestBuffer(fillValue: 0.9)
+
+        var receivedBuffer: AVAudioPCMBuffer?
+        mixer.mixedBufferHandler = { buffer in
+            receivedBuffer = buffer
+        }
+
+        try await mixer.feedMicrophoneBuffer(micBuffer)
+        try await mixer.feedSystemAudioBuffer(sysBuffer)
+
+        XCTAssertNotNil(receivedBuffer)
+
+        // Check all samples are within valid range [-1.0, 1.0]
+        if let channelData = receivedBuffer?.floatChannelData {
+            for frame in 0..<Int(receivedBuffer!.frameLength) {
+                let sample = channelData[0][frame]
+                XCTAssertLessThanOrEqual(sample, 1.0, "Sample \(frame) exceeds 1.0: \(sample)")
+                XCTAssertGreaterThanOrEqual(sample, -1.0, "Sample \(frame) below -1.0: \(sample)")
+            }
+        }
+    }
+
+    func testPreventsClippingWithMaximumInputLevels() async throws {
+        let mixer = AudioMixer(microphoneLevel: 1.0, systemAudioLevel: 1.0)
+
+        // Maximum possible input values
+        let micBuffer = createTestBuffer(fillValue: 1.0)
+        let sysBuffer = createTestBuffer(fillValue: 1.0)
+
+        var receivedBuffer: AVAudioPCMBuffer?
+        mixer.mixedBufferHandler = { buffer in
+            receivedBuffer = buffer
+        }
+
+        try await mixer.feedMicrophoneBuffer(micBuffer)
+        try await mixer.feedSystemAudioBuffer(sysBuffer)
+
+        XCTAssertNotNil(receivedBuffer)
+
+        // Output must not exceed 1.0 even with maximum inputs
+        if let channelData = receivedBuffer?.floatChannelData {
+            for frame in 0..<Int(receivedBuffer!.frameLength) {
+                let sample = channelData[0][frame]
+                XCTAssertLessThanOrEqual(sample, 1.0, "Clipping detected at frame \(frame): \(sample)")
+            }
+        }
+    }
+
+    func testAppliesSoftLimitingGraduallyNearClippingThreshold() async throws {
+        let mixer = AudioMixer(microphoneLevel: 0.7, systemAudioLevel: 0.7)
+
+        // Test progressive limiting as we approach clipping threshold
+        let testValues: [(Float, Float)] = [
+            (0.5, 0.5),   // Below threshold - no limiting
+            (0.8, 0.8),   // Near threshold - soft limiting starts
+            (0.95, 0.95)  // At threshold - full limiting
+        ]
+
+        for (micValue, sysValue) in testValues {
+            let micBuffer = createTestBuffer(fillValue: micValue)
+            let sysBuffer = createTestBuffer(fillValue: sysValue)
+
+            var receivedBuffer: AVAudioPCMBuffer?
+            mixer.mixedBufferHandler = { buffer in
+                receivedBuffer = buffer
+            }
+
+            try await mixer.feedMicrophoneBuffer(micBuffer)
+            try await mixer.feedSystemAudioBuffer(sysBuffer)
+
+            XCTAssertNotNil(receivedBuffer)
+
+            if let channelData = receivedBuffer?.floatChannelData {
+                let outputValue = channelData[0][0]
+                XCTAssertLessThanOrEqual(outputValue, 1.0, "Output \(outputValue) exceeds 1.0 for inputs (\(micValue), \(sysValue))")
+
+                // When both inputs are high, output should be limited but still responsive
+                if micValue > 0.8 && sysValue > 0.8 {
+                    XCTAssertGreaterThan(outputValue, 0.8, "Soft limiting should preserve signal strength")
+                }
+            }
+        }
+    }
+
+    func testHandlesNegativeValuesWithoutClipping() async throws {
+        let mixer = AudioMixer(microphoneLevel: 0.8, systemAudioLevel: 0.8)
+
+        // Negative values can also clip below -1.0
+        let micBuffer = createTestBuffer(fillValue: -0.9)
+        let sysBuffer = createTestBuffer(fillValue: -0.9)
+
+        var receivedBuffer: AVAudioPCMBuffer?
+        mixer.mixedBufferHandler = { buffer in
+            receivedBuffer = buffer
+        }
+
+        try await mixer.feedMicrophoneBuffer(micBuffer)
+        try await mixer.feedSystemAudioBuffer(sysBuffer)
+
+        XCTAssertNotNil(receivedBuffer)
+
+        // Check negative clipping protection
+        if let channelData = receivedBuffer?.floatChannelData {
+            for frame in 0..<Int(receivedBuffer!.frameLength) {
+                let sample = channelData[0][frame]
+                XCTAssertGreaterThanOrEqual(sample, -1.0, "Negative clipping at frame \(frame): \(sample)")
+            }
+        }
+    }
+
+    func testPreventsSingleSourceClipping() async throws {
+        // Test that soft limiting is applied even when only one source is active
+        let mixer = AudioMixer(microphoneLevel: 1.0, systemAudioLevel: 1.0)
+
+        // Single source with high input value that would clip without limiting
+        let micBuffer = createTestBuffer(fillValue: 0.95)
+
+        var receivedBuffer: AVAudioPCMBuffer?
+        mixer.mixedBufferHandler = { buffer in
+            receivedBuffer = buffer
+        }
+
+        // Feed only microphone (single source scenario)
+        try await mixer.feedMicrophoneBuffer(micBuffer)
+
+        XCTAssertNotNil(receivedBuffer)
+
+        // Output must not exceed 1.0 even with single high-level source
+        if let channelData = receivedBuffer?.floatChannelData {
+            for frame in 0..<Int(receivedBuffer!.frameLength) {
+                let sample = channelData[0][frame]
+                XCTAssertLessThanOrEqual(sample, 1.0, "Single-source clipping at frame \(frame): \(sample)")
+                XCTAssertGreaterThanOrEqual(sample, -1.0, "Single-source clipping at frame \(frame): \(sample)")
+            }
+
+            // Verify that soft limiting preserves signal strength
+            let outputValue = channelData[0][0]
+            XCTAssertGreaterThan(outputValue, 0.8, "Soft limiting should preserve signal strength")
+        }
+    }
+
     // MARK: - Error Handling Tests
 
     func testHandlesNilBufferHandler() async throws {
