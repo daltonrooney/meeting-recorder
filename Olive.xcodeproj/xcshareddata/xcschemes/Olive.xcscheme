@@ -35,6 +35,20 @@
                ReferencedContainer = "container:Olive.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ED03AE34585D684E4B06C5C9"
+               BuildableName = "CallTranscriptionUITests.xctest"
+               BlueprintName = "CallTranscriptionUITests"
+               ReferencedContainer = "container:Olive.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -61,6 +75,17 @@
                BlueprintIdentifier = "C1D114913E4B12CEFB3836A3"
                BuildableName = "CallTranscriptionTests.xctest"
                BlueprintName = "CallTranscriptionTests"
+               ReferencedContainer = "container:Olive.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ED03AE34585D684E4B06C5C9"
+               BuildableName = "CallTranscriptionUITests.xctest"
+               BlueprintName = "CallTranscriptionUITests"
                ReferencedContainer = "container:Olive.xcodeproj">
             </BuildableReference>
          </TestableReference>
