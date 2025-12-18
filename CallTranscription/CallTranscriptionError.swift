@@ -48,6 +48,18 @@ public enum CallTranscriptionError: LocalizedError {
     /// Audio processing failed during transcription.
     case audioProcessingFailed(String)
 
+    /// Path traversal attack detected in file path.
+    case pathTraversalDetected(String, reason: String)
+
+    /// Path is outside allowed directories.
+    case pathOutsideAllowedDirectories(String, allowedDirectories: [String])
+
+    /// Symlink attack detected - symlink points outside allowed directories.
+    case symlinkAttackDetected(String, resolvedPath: String)
+
+    /// Invalid path provided.
+    case invalidPath(String, reason: String)
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -93,6 +105,19 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .audioProcessingFailed(let reason):
             return "Audio processing failed: \(reason)"
+
+        case .pathTraversalDetected(let path, let reason):
+            return "Path traversal attack detected in '\(path)': \(reason)"
+
+        case .pathOutsideAllowedDirectories(let path, let allowedDirs):
+            let dirList = allowedDirs.joined(separator: ", ")
+            return "Path '\(path)' is outside allowed directories: \(dirList)"
+
+        case .symlinkAttackDetected(let path, let resolvedPath):
+            return "Symlink attack detected: '\(path)' resolves to '\(resolvedPath)' which is outside allowed directories"
+
+        case .invalidPath(let path, let reason):
+            return "Invalid path '\(path)': \(reason)"
         }
     }
 
@@ -139,6 +164,18 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .audioProcessingFailed(let reason):
             return "Audio processing encountered an error: \(reason)"
+
+        case .pathTraversalDetected(let path, let reason):
+            return "The path '\(path)' contains path traversal sequences that attempt to access directories outside the allowed scope: \(reason)"
+
+        case .pathOutsideAllowedDirectories(let path, _):
+            return "The path '\(path)' is not within any of the allowed base directories for this operation."
+
+        case .symlinkAttackDetected(let path, let resolvedPath):
+            return "The symlink at '\(path)' points to '\(resolvedPath)', which is outside the allowed directories, potentially indicating a security attack."
+
+        case .invalidPath(let path, let reason):
+            return "The path '\(path)' is not valid: \(reason)"
         }
     }
 
@@ -185,6 +222,19 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .audioProcessingFailed:
             return "Check audio format compatibility and ensure transcription is running."
+
+        case .pathTraversalDetected:
+            return "Use a path within the allowed directories without '..' or other traversal sequences."
+
+        case .pathOutsideAllowedDirectories(_, let allowedDirs):
+            let dirList = allowedDirs.joined(separator: "\n  - ")
+            return "Choose a location within one of these allowed directories:\n  - \(dirList)"
+
+        case .symlinkAttackDetected:
+            return "Use a direct path or ensure symlinks only point to locations within allowed directories."
+
+        case .invalidPath:
+            return "Provide a valid file path without special characters or forbidden sequences."
         }
     }
 }
@@ -222,6 +272,14 @@ extension CallTranscriptionError: Equatable {
             return true
         case (.audioProcessingFailed(let lhsReason), .audioProcessingFailed(let rhsReason)):
             return lhsReason == rhsReason
+        case (.pathTraversalDetected(let lhsPath, let lhsReason), .pathTraversalDetected(let rhsPath, let rhsReason)):
+            return lhsPath == rhsPath && lhsReason == rhsReason
+        case (.pathOutsideAllowedDirectories(let lhsPath, let lhsDirs), .pathOutsideAllowedDirectories(let rhsPath, let rhsDirs)):
+            return lhsPath == rhsPath && lhsDirs == rhsDirs
+        case (.symlinkAttackDetected(let lhsPath, let lhsResolved), .symlinkAttackDetected(let rhsPath, let rhsResolved)):
+            return lhsPath == rhsPath && lhsResolved == rhsResolved
+        case (.invalidPath(let lhsPath, let lhsReason), .invalidPath(let rhsPath, let rhsReason)):
+            return lhsPath == rhsPath && lhsReason == rhsReason
         default:
             return false
         }
