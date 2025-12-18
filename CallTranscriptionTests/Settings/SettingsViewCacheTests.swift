@@ -3,6 +3,7 @@ import XCTest
 
 /// Tests for shortcut caching behavior in SettingsView
 /// These tests verify that shortcuts are not reloaded on every Settings view appearance
+@MainActor
 final class SettingsViewCacheTests: XCTestCase {
     var sut: SettingsViewCache!
 
