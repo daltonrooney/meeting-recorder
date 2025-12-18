@@ -8,7 +8,13 @@ struct CallTranscriptionApp: App {
     init() {
         let settings = SettingsManager()
         _settingsManager = StateObject(wrappedValue: settings)
-        _appState = StateObject(wrappedValue: AppState(settingsManager: settings))
+        let state = AppState(settingsManager: settings)
+        _appState = StateObject(wrappedValue: state)
+
+        // Register AppState and SettingsManager for App Intents access
+        Task { @MainActor in
+            AppStateContainer.shared.setAppState(state, settingsManager: settings)
+        }
     }
 
     var body: some Scene {

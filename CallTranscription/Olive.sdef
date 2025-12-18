@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="Olive Terminology">
+	<suite name="Olive Suite" code="Oliv" description="Commands and classes for controlling Olive recording">
+
+		<!-- Application Class -->
+		<class name="application" code="capp" description="Olive application">
+			<cocoa class="NSApplication"/>
+
+			<!-- Recording State Properties -->
+			<property name="isRecording" code="isRc" type="boolean" access="r" description="Whether a recording session is currently active">
+				<cocoa key="isRecording"/>
+			</property>
+
+			<property name="elapsedTime" code="elTm" type="text" access="r" description="Elapsed time of current recording in MM:SS or HH:MM:SS format">
+				<cocoa key="elapsedTime"/>
+			</property>
+
+			<property name="isPaused" code="isPa" type="boolean" access="r" description="Whether the recording is currently paused">
+				<cocoa key="isPaused"/>
+			</property>
+
+			<!-- Settings Properties -->
+			<property name="outputFolder" code="outF" type="text" description="Path to folder where transcripts are saved">
+				<cocoa key="outputFolder"/>
+			</property>
+
+			<property name="captureMicrophone" code="capM" type="boolean" description="Whether to capture microphone audio">
+				<cocoa key="captureMicrophone"/>
+			</property>
+
+			<property name="captureSystemAudio" code="capS" type="boolean" description="Whether to capture system audio">
+				<cocoa key="captureSystemAudio"/>
+			</property>
+
+			<!-- Start Recording Command -->
+			<responds-to command="start recording">
+				<cocoa method="handleStartRecording:"/>
+			</responds-to>
+
+			<!-- Stop Recording Command -->
+			<responds-to command="stop recording">
+				<cocoa method="handleStopRecording:"/>
+			</responds-to>
+
+			<!-- Get Status Command -->
+			<responds-to command="get status">
+				<cocoa method="handleGetStatus:"/>
+			</responds-to>
+		</class>
+
+		<!-- Start Recording Command Definition -->
+		<command name="start recording" code="OlivStRc" description="Start a new recording session">
+			<cocoa class="StartRecordingCommand"/>
+			<parameter name="with title" code="titl" type="text" optional="yes" description="Optional title for the recording">
+				<cocoa key="title"/>
+			</parameter>
+			<result type="boolean" description="Returns true if recording started successfully"/>
+		</command>
+
+		<!-- Stop Recording Command Definition -->
+		<command name="stop recording" code="OlivSpRc" description="Stop the current recording session">
+			<cocoa class="StopRecordingCommand"/>
+			<result type="text" description="File path of the saved transcript"/>
+		</command>
+
+		<!-- Get Status Command Definition -->
+		<command name="get status" code="OlivGtSt" description="Get the current recording status">
+			<cocoa class="GetStatusCommand"/>
+			<result type="record" description="Recording status information">
+				<property name="isRecording" code="isRc" type="boolean" description="Whether currently recording"/>
+				<property name="elapsedTime" code="elTm" type="text" description="Elapsed time"/>
+				<property name="isPaused" code="isPa" type="boolean" description="Whether paused"/>
+			</result>
+		</command>
+
+	</suite>
+</dictionary>
