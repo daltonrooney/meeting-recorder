@@ -11,38 +11,41 @@ extension NSApplication {
 
     /// AppleScript accessor for isRecording property
     @objc var isRecording: Bool {
-        var result = false
+        final class ResultBox { var value = false }
+        let box = ResultBox()
         DispatchQueue.main.sync {
             guard let appState = try? AppStateContainer.shared.requireAppState() else {
                 return
             }
-            result = appState.isRecording
+            box.value = appState.isRecording
         }
-        return result
+        return box.value
     }
 
     /// AppleScript accessor for elapsedTime property
     @objc var elapsedTime: String {
-        var result = "00:00"
+        final class ResultBox { var value = "00:00" }
+        let box = ResultBox()
         DispatchQueue.main.sync {
             guard let appState = try? AppStateContainer.shared.requireAppState() else {
                 return
             }
-            result = appState.elapsedTime
+            box.value = appState.elapsedTime
         }
-        return result
+        return box.value
     }
 
     /// AppleScript accessor for isPaused property
     @objc var isPaused: Bool {
-        var result = false
+        final class ResultBox { var value = false }
+        let box = ResultBox()
         DispatchQueue.main.sync {
             guard let appState = try? AppStateContainer.shared.requireAppState() else {
                 return
             }
-            result = appState.isPaused
+            box.value = appState.isPaused
         }
-        return result
+        return box.value
     }
 
     // MARK: - Settings Properties
@@ -50,14 +53,15 @@ extension NSApplication {
     /// AppleScript accessor for outputFolder property
     @objc var outputFolder: String {
         get {
-            var result = "~/Desktop/Transcripts"
+            final class ResultBox { var value = "~/Desktop/Transcripts" }
+            let box = ResultBox()
             DispatchQueue.main.sync {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
                     return
                 }
-                result = settingsManager.outputFolder
+                box.value = settingsManager.outputFolder
             }
-            return result
+            return box.value
         }
         set {
             DispatchQueue.main.async {
@@ -72,14 +76,15 @@ extension NSApplication {
     /// AppleScript accessor for captureMicrophone property
     @objc var captureMicrophone: Bool {
         get {
-            var result = true
+            final class ResultBox { var value = true }
+            let box = ResultBox()
             DispatchQueue.main.sync {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
                     return
                 }
-                result = settingsManager.captureMicrophone
+                box.value = settingsManager.captureMicrophone
             }
-            return result
+            return box.value
         }
         set {
             DispatchQueue.main.async {
@@ -94,14 +99,15 @@ extension NSApplication {
     /// AppleScript accessor for captureSystemAudio property
     @objc var captureSystemAudio: Bool {
         get {
-            var result = true
+            final class ResultBox { var value = true }
+            let box = ResultBox()
             DispatchQueue.main.sync {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
                     return
                 }
-                result = settingsManager.captureSystemAudio
+                box.value = settingsManager.captureSystemAudio
             }
-            return result
+            return box.value
         }
         set {
             DispatchQueue.main.async {

@@ -36,10 +36,16 @@ final class StartRecordingCommand: NSScriptCommand {
 @preconcurrency @objc(StopRecordingCommand)
 final class StopRecordingCommand: NSScriptCommand {
     override func performDefaultImplementation() -> Any? {
-        var result: String?
-        var errorToSet: Error?
-
+        // Use a continuation to safely bridge async/await with synchronous return
         let semaphore = DispatchSemaphore(value: 0)
+
+        // Use a class to wrap the result (classes are reference types)
+        // @unchecked Sendable because we're using semaphore for synchronization
+        final class ResultBox: @unchecked Sendable {
+            var path: String?
+            var error: Error?
+        }
+        let resultBox = ResultBox()
 
         // Execute on main thread
         DispatchQueue.main.async {
@@ -49,14 +55,14 @@ final class StopRecordingCommand: NSScriptCommand {
                 Task { @MainActor in
                     do {
                         let transcriptURL = try await appState.stopActualRecording()
-                        result = transcriptURL.path
+                        resultBox.path = transcriptURL.path
                     } catch {
-                        errorToSet = error
+                        resultBox.error = error
                     }
                     semaphore.signal()
                 }
             } catch {
-                errorToSet = error
+                resultBox.error = error
                 semaphore.signal()
             }
         }
@@ -64,7 +70,7 @@ final class StopRecordingCommand: NSScriptCommand {
         // Wait for async operation (timeout after 5 seconds)
         _ = semaphore.wait(timeout: .now() + 5.0)
 
-        if let error = errorToSet {
+        if let error = resultBox.error {
             if let transcriptionError = error as? CallTranscriptionError, transcriptionError == .notRecording {
                 self.scriptErrorNumber = -1728 // errAENoSuchObject
                 self.scriptErrorString = "No recording session is currently active"
@@ -75,7 +81,7 @@ final class StopRecordingCommand: NSScriptCommand {
             return nil
         }
 
-        return result
+        return resultBox.path
     }
 }
 
@@ -83,24 +89,35 @@ final class StopRecordingCommand: NSScriptCommand {
 @preconcurrency @objc(GetStatusCommand)
 final class GetStatusCommand: NSScriptCommand {
     override func performDefaultImplementation() -> Any? {
-        var status: NSDictionary?
+        // Use a class to wrap the result
+        // @unchecked Sendable because we're using DispatchQueue.main.sync for synchronization
+        final class ResultBox: @unchecked Sendable {
+            var status: NSDictionary?
+            var error: Error?
+        }
+        let resultBox = ResultBox()
 
         // Execute on main thread synchronously
         DispatchQueue.main.sync {
             do {
                 let appState = try AppStateContainer.shared.requireAppState()
 
-                status = [
+                resultBox.status = [
                     "isRecording": appState.isRecording,
                     "elapsedTime": appState.elapsedTime,
                     "isPaused": appState.isPaused
                 ]
             } catch {
-                self.scriptErrorNumber = -1743 // errOSACantAccess
-                self.scriptErrorString = error.localizedDescription
+                resultBox.error = error
             }
         }
 
-        return status
+        if let error = resultBox.error {
+            self.scriptErrorNumber = -1743 // errOSACantAccess
+            self.scriptErrorString = error.localizedDescription
+            return nil
+        }
+
+        return resultBox.status
     }
 }
