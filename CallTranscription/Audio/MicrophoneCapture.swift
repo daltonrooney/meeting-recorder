@@ -30,6 +30,10 @@ public final class MicrophoneCapture {
     /// Called on the audio rendering thread for each buffer.
     public var audioBufferHandler: ((AVAudioPCMBuffer) -> Void)?
 
+    /// Indicates whether audio capture is currently paused.
+    /// `true` when pauseCapture() has been called, `false` when active or stopped.
+    public private(set) var isPaused = false
+
     // MARK: - Private Properties
 
     private let audioEngine = AVAudioEngine()
@@ -99,6 +103,7 @@ public final class MicrophoneCapture {
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         isCapturing = false
+        isPaused = false
     }
 
     /// Pauses microphone capture without stopping the audio engine.
@@ -114,6 +119,7 @@ public final class MicrophoneCapture {
 
         // Remove tap but keep engine running
         audioEngine.inputNode.removeTap(onBus: 0)
+        isPaused = true
     }
 
     /// Resumes microphone capture after being paused.
@@ -129,6 +135,10 @@ public final class MicrophoneCapture {
         let inputNode = audioEngine.inputNode
         let format = inputNode.outputFormat(forBus: 0)
         let handler = audioBufferHandler
+
+        // User called resume, so mark as no longer paused regardless of tap installation success
+        // This reflects user intent and avoids inconsistent state
+        isPaused = false
 
         // Reinstall tap
         // Note: This may fail if tap is already installed (expected during idempotent calls)

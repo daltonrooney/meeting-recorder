@@ -161,6 +161,72 @@ final class MicrophoneCaptureTests: XCTestCase {
         // Should not crash - stopping without starting is safe
     }
 
+    // MARK: - Pause/Resume State Tests
+
+    func testIsPausedIsFalseInitially() {
+        XCTAssertFalse(microphoneCapture.isPaused, "isPaused should be false initially")
+    }
+
+    func testIsPausedIsFalseAfterStart() async throws {
+        try await microphoneCapture.startCapture()
+        XCTAssertFalse(microphoneCapture.isPaused, "isPaused should be false after start")
+    }
+
+    func testIsPausedIsTrueAfterPause() async throws {
+        try await microphoneCapture.startCapture()
+        await microphoneCapture.pauseCapture()
+        XCTAssertTrue(microphoneCapture.isPaused, "isPaused should be true after pause")
+    }
+
+    func testIsPausedIsFalseAfterResume() async throws {
+        try await microphoneCapture.startCapture()
+        await microphoneCapture.pauseCapture()
+        await microphoneCapture.resumeCapture()
+        XCTAssertFalse(microphoneCapture.isPaused, "isPaused should be false after resume")
+    }
+
+    func testIsPausedIsFalseAfterStop() async throws {
+        try await microphoneCapture.startCapture()
+        await microphoneCapture.pauseCapture()
+        await microphoneCapture.stopCapture()
+        XCTAssertFalse(microphoneCapture.isPaused, "isPaused should be false after stop")
+    }
+
+    func testIsPausedRemainsConsistentThroughMultipleCycles() async throws {
+        // Start
+        try await microphoneCapture.startCapture()
+        XCTAssertFalse(microphoneCapture.isPaused, "Should not be paused after start")
+
+        // Pause
+        await microphoneCapture.pauseCapture()
+        XCTAssertTrue(microphoneCapture.isPaused, "Should be paused after pause")
+
+        // Resume
+        await microphoneCapture.resumeCapture()
+        XCTAssertFalse(microphoneCapture.isPaused, "Should not be paused after resume")
+
+        // Pause again
+        await microphoneCapture.pauseCapture()
+        XCTAssertTrue(microphoneCapture.isPaused, "Should be paused after second pause")
+
+        // Stop
+        await microphoneCapture.stopCapture()
+        XCTAssertFalse(microphoneCapture.isPaused, "Should not be paused after stop")
+    }
+
+    func testIsPausedRemainsUnaffectedWhenPausingWithoutStart() async {
+        // Calling pause when not started should have no effect
+        await microphoneCapture.pauseCapture()
+        XCTAssertFalse(microphoneCapture.isPaused, "isPaused should remain false when pausing without start")
+    }
+
+    func testIsPausedRemainsUnaffectedWhenResumingWithoutPause() async throws {
+        // Calling resume when not paused should have no effect
+        try await microphoneCapture.startCapture()
+        await microphoneCapture.resumeCapture()
+        XCTAssertFalse(microphoneCapture.isPaused, "isPaused should remain false when resuming without pause")
+    }
+
     // MARK: - Error Scenario Tests
 
     func testPermissionDeniedThrowsCorrectError() async {
