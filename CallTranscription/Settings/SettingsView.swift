@@ -5,10 +5,14 @@ struct SettingsView: View {
     // Direct @AppStorage bindings for automatic persistence
     @AppStorage("outputFolder") private var outputFolder: String = SettingsManager.defaultOutputFolder
     @AppStorage("postRecordingScript") private var postRecordingScript: String = SettingsManager.defaultPostRecordingScript
+    @AppStorage("postRecordingActionType") private var postRecordingActionTypeRaw: String = SettingsManager.defaultPostRecordingActionType.rawValue
+    @AppStorage("shortcutIdentifier") private var shortcutIdentifier: String = SettingsManager.defaultShortcutIdentifier
     @AppStorage("captureSystemAudio") private var captureSystemAudio: Bool = SettingsManager.defaultCaptureSystemAudio
     @AppStorage("captureMicrophone") private var captureMicrophone: Bool = SettingsManager.defaultCaptureMicrophone
     @AppStorage("silencePauseThreshold") private var silencePauseThresholdRaw: String = SettingsManager.defaultSilencePauseThreshold.rawValue
     @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
+
+    @State private var availableShortcuts: [String] = []
 
     var body: some View {
         Form {
@@ -78,19 +82,50 @@ struct SettingsView: View {
     // MARK: - Post-Recording Section
 
     private var postRecordingSection: some View {
-        Section("Post-Recording Script") {
-            HStack {
-                TextField("Shell Script Path (optional)", text: $postRecordingScript)
-                    .textFieldStyle(.roundedBorder)
+        Section("Post-Recording Action") {
+            Picker("After recording:", selection: Binding(
+                get: { PostRecordingActionType(rawValue: postRecordingActionTypeRaw) ?? .doNothing },
+                set: { postRecordingActionTypeRaw = $0.rawValue }
+            )) {
+                Text("Do nothing").tag(PostRecordingActionType.doNothing)
+                Text("Run a script").tag(PostRecordingActionType.script)
+                Text("Run a shortcut").tag(PostRecordingActionType.shortcut)
+            }
+            .pickerStyle(.radioGroup)
 
-                Button("Browse...") {
-                    selectPostRecordingScript()
+            // Show script picker when script is selected
+            if PostRecordingActionType(rawValue: postRecordingActionTypeRaw) == .script {
+                HStack {
+                    TextField("Shell Script Path", text: $postRecordingScript)
+                        .textFieldStyle(.roundedBorder)
+
+                    Button("Browse...") {
+                        selectPostRecordingScript()
+                    }
                 }
+
+                Text("Script receives transcript path as $1")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
 
-            Text("Script receives transcript path as $1")
-                .font(.caption)
-                .foregroundColor(.secondary)
+            // Show shortcut picker when shortcut is selected
+            if PostRecordingActionType(rawValue: postRecordingActionTypeRaw) == .shortcut {
+                Picker("Shortcut:", selection: $shortcutIdentifier) {
+                    Text("Select a shortcut...").tag("")
+                    ForEach(availableShortcuts, id: \.self) { shortcut in
+                        Text(shortcut).tag(shortcut)
+                    }
+                }
+                .pickerStyle(.menu)
+
+                Text("The shortcut receives the transcript file path as input")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .onAppear {
+            loadAvailableShortcuts()
         }
     }
 
@@ -135,6 +170,15 @@ struct SettingsView: View {
 
         if panel.runModal() == .OK, let url = panel.url {
             postRecordingScript = url.path
+        }
+    }
+
+    // MARK: - Shortcuts Integration
+
+    private func loadAvailableShortcuts() {
+        Task {
+            let executor = ShortcutExecutor()
+            availableShortcuts = await executor.listAvailableShortcuts()
         }
     }
 }

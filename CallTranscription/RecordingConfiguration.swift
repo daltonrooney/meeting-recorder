@@ -6,7 +6,7 @@ import Foundation
 /// - Output folder for transcript files
 /// - Locale for speech recognition
 /// - Which audio sources are enabled
-/// - Optional post-recording script path
+/// - Post-recording action configuration
 public struct RecordingConfiguration {
     /// Path to output folder for transcript files
     public let outputFolder: String
@@ -20,8 +20,14 @@ public struct RecordingConfiguration {
     /// Whether to capture system audio
     public let systemAudioEnabled: Bool
 
-    /// Optional path to script to execute after recording completes
+    /// Type of action to perform after recording completes
+    public let postRecordingActionType: PostRecordingActionType
+
+    /// Optional path to script to execute after recording completes (when actionType is .script)
     public let postRecordingScriptPath: String?
+
+    /// Optional shortcut identifier to execute after recording completes (when actionType is .shortcut)
+    public let shortcutIdentifier: String?
 
     /// Silence detection threshold for automatic pause
     public let silencePauseThreshold: SilencePauseThreshold
@@ -33,21 +39,27 @@ public struct RecordingConfiguration {
     ///   - locale: Locale for speech recognition
     ///   - microphoneEnabled: Whether to capture microphone audio (default: true)
     ///   - systemAudioEnabled: Whether to capture system audio (default: false)
+    ///   - postRecordingActionType: Type of post-recording action (default: .doNothing)
     ///   - postRecordingScriptPath: Optional path to post-recording script (default: nil)
+    ///   - shortcutIdentifier: Optional shortcut identifier (default: nil)
     ///   - silencePauseThreshold: Silence detection threshold (default: .never)
     public init(
         outputFolder: String,
         locale: Locale,
         microphoneEnabled: Bool = true,
         systemAudioEnabled: Bool = false,
+        postRecordingActionType: PostRecordingActionType = .doNothing,
         postRecordingScriptPath: String? = nil,
+        shortcutIdentifier: String? = nil,
         silencePauseThreshold: SilencePauseThreshold = .never
     ) {
         self.outputFolder = outputFolder
         self.locale = locale
         self.microphoneEnabled = microphoneEnabled
         self.systemAudioEnabled = systemAudioEnabled
+        self.postRecordingActionType = postRecordingActionType
         self.postRecordingScriptPath = postRecordingScriptPath
+        self.shortcutIdentifier = shortcutIdentifier
         self.silencePauseThreshold = silencePauseThreshold
     }
 }

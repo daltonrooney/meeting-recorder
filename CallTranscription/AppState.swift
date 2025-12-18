@@ -110,7 +110,9 @@ public final class AppState: ObservableObject {
             locale: Locale(identifier: "en-US"),
             microphoneEnabled: settingsManager.captureMicrophone,
             systemAudioEnabled: settingsManager.captureSystemAudio,
+            postRecordingActionType: settingsManager.postRecordingActionType,
             postRecordingScriptPath: settingsManager.postRecordingScript.isEmpty ? nil : settingsManager.expandedPostRecordingScriptPath(),
+            shortcutIdentifier: settingsManager.shortcutIdentifier.isEmpty ? nil : settingsManager.shortcutIdentifier,
             silencePauseThreshold: settingsManager.silencePauseThreshold
         )
 

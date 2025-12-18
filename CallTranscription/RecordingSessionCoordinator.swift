@@ -139,10 +139,8 @@ public final class RecordingSessionCoordinator {
             }
             let transcriptURL = try await transcriptWriter.finalize()
 
-            // Execute post-recording script if configured
-            if let scriptPath = configuration.postRecordingScriptPath {
-                await executePostRecordingScript(scriptPath: scriptPath, transcriptPath: transcriptURL.path)
-            }
+            // Execute post-recording action based on configuration
+            await executePostRecordingAction(transcriptPath: transcriptURL.path)
 
             // Cleanup
             await cleanup()
@@ -526,7 +524,28 @@ public final class RecordingSessionCoordinator {
         transcriptionResultHandler?(result.text, result.isFinal)
     }
 
-    // MARK: - Private Methods - Script Execution
+    // MARK: - Private Methods - Post-Recording Actions
+
+    private func executePostRecordingAction(transcriptPath: String) async {
+        switch configuration.postRecordingActionType {
+        case .doNothing:
+            logger.debug("No post-recording action configured")
+
+        case .script:
+            if let scriptPath = configuration.postRecordingScriptPath, !scriptPath.isEmpty {
+                await executePostRecordingScript(scriptPath: scriptPath, transcriptPath: transcriptPath)
+            } else {
+                logger.warning("Post-recording action set to script but no script path configured")
+            }
+
+        case .shortcut:
+            if let shortcutIdentifier = configuration.shortcutIdentifier, !shortcutIdentifier.isEmpty {
+                await executePostRecordingShortcut(shortcutName: shortcutIdentifier, transcriptPath: transcriptPath)
+            } else {
+                logger.warning("Post-recording action set to shortcut but no shortcut configured")
+            }
+        }
+    }
 
     private func executePostRecordingScript(scriptPath: String, transcriptPath: String) async {
         logger.info("Executing post-recording script: \(scriptPath)")
@@ -551,6 +570,26 @@ public final class RecordingSessionCoordinator {
         } catch {
             logger.error("Post-recording script failed: \(error.localizedDescription)")
             // Don't throw - script failure shouldn't prevent transcript from being available
+        }
+    }
+
+    private func executePostRecordingShortcut(shortcutName: String, transcriptPath: String) async {
+        logger.info("Executing post-recording shortcut: \(shortcutName)")
+
+        let executor = ShortcutExecutor()
+        let result = await executor.execute(
+            shortcutName: shortcutName,
+            transcriptPath: transcriptPath
+        )
+
+        if result.success {
+            logger.info("Post-recording shortcut completed successfully")
+            if let output = result.output, !output.isEmpty {
+                logger.debug("Shortcut output: \(output)")
+            }
+        } else {
+            logger.error("Post-recording shortcut failed: \(result.errorMessage ?? "Unknown error")")
+            // Don't throw - shortcut failure shouldn't prevent transcript from being available
         }
     }
 
