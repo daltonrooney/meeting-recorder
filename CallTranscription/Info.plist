@@ -18,9 +18,11 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>26.0</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app needs access to your microphone to record and transcribe conversations. You must obtain consent from all parties before recording.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This app uses speech recognition to transcribe recorded conversations into text.</string>
+	<string>Olive uses on-device speech recognition to transcribe your calls in real-time. Your audio never leaves your Mac.</string>
 </dict>
 </plist>
