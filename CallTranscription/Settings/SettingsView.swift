@@ -176,9 +176,10 @@ struct SettingsView: View {
     // MARK: - Shortcuts Integration
 
     private func loadAvailableShortcuts() {
-        // This will be implemented with ShortcutExecutor
-        // For now, provide placeholder functionality
-        availableShortcuts = []
+        Task {
+            let executor = ShortcutExecutor()
+            availableShortcuts = await executor.listAvailableShortcuts()
+        }
     }
 }
 
