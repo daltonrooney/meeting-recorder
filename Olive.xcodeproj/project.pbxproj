@@ -50,6 +50,7 @@
 		A1C59421C0AA40A8B1589B98 /* ConfigureSettingsIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837EB55A7B5FA3FCC3F48B0C /* ConfigureSettingsIntentTests.swift */; };
 		A3E16D97897C092E8CA6B4A7 /* AudioMixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B771836D4E7099E97A3CCDD /* AudioMixer.swift */; };
 		A60DD92FFE0109CBEBAB38FD /* MicrophonePermissionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B422AA672952D72BE7C03543 /* MicrophonePermissionHandlerTests.swift */; };
+		B389554621A06C69E8D96312 /* SettingsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8EDECC3E117D2BC547E9BC3 /* SettingsViewTests.swift */; };
 		B3FD3C7687B0155E2E51ADC5 /* CallTranscriptionErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143FA64342B9D7E610046B7E /* CallTranscriptionErrorTests.swift */; };
 		B9293BE03032849F5F480414 /* SilenceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442F96EB088404DD4DAF1E /* SilenceDetector.swift */; };
 		BCA18FC8211BBED1A8EBFA2E /* RecordingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB4D4EEBFD4A3E9A5D0024F /* RecordingConfiguration.swift */; };
@@ -126,6 +127,7 @@
 		9DA8803714DCC07DE2BE7968 /* ShellScriptExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellScriptExecutor.swift; sourceTree = "<group>"; };
 		9EB4D4EEBFD4A3E9A5D0024F /* RecordingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingConfiguration.swift; sourceTree = "<group>"; };
 		A7F6EAB05A984DD0715379AA /* ScriptableApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptableApplication.swift; sourceTree = "<group>"; };
+		A8EDECC3E117D2BC547E9BC3 /* SettingsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTests.swift; sourceTree = "<group>"; };
 		A92E9C84DD6666FB57E1F970 /* CallTranscriptionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallTranscriptionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB7B8EFF1D85E68D2829EB8 /* ProjectConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfigurationTests.swift; sourceTree = "<group>"; };
 		AF0454A6A94BD1B2C55C9CA5 /* AppleScriptCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScriptCommands.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 			children = (
 				505AB35CBBAFC38A3F994C27 /* SettingsManagerTests.swift */,
 				E8CD4216B9C3A5370BCC0C34 /* SettingsViewCacheTests.swift */,
+				A8EDECC3E117D2BC547E9BC3 /* SettingsViewTests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 				0A15875862C8EB1A86E3C792 /* RecordingSessionCoordinatorTests.swift in Sources */,
 				8540D429DC2F0F7244CFED02 /* SettingsManagerTests.swift in Sources */,
 				C3C9EB6DEB88192A2315379B /* SettingsViewCacheTests.swift in Sources */,
+				B389554621A06C69E8D96312 /* SettingsViewTests.swift in Sources */,
 				4DD997AC21F137568A88FD79 /* ShellScriptExecutorTests.swift in Sources */,
 				864FCECF141EE8467DD83EC6 /* ShortcutExecutorTests.swift in Sources */,
 				CDEC22DE30999B85093C5F68 /* SilenceDetectorTests.swift in Sources */,

@@ -22,13 +22,5 @@
 	<string>Olive needs access to your microphone to record audio for transcription.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Olive uses speech recognition to transcribe your recorded audio into text.</string>
-	<key>NSAppleScriptEnabled</key>
-	<true/>
-	<key>OSAScriptingDefinition</key>
-	<string>Olive.sdef</string>
-	<key>NSSupportsAutomaticTermination</key>
-	<false/>
-	<key>NSSupportsSuddenTermination</key>
-	<false/>
 </dict>
 </plist>

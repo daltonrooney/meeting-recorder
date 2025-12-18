@@ -12,7 +12,6 @@ final class SettingsViewTests: XCTestCase {
 
         // Create ephemeral UserDefaults for testing
         testUserDefaults = UserDefaults(suiteName: "test.\(UUID().uuidString)")
-        UserDefaults.standard = testUserDefaults
     }
 
     override func tearDown() async throws {
