@@ -8,6 +8,7 @@ struct SettingsView: View {
     @AppStorage("captureSystemAudio") private var captureSystemAudio: Bool = SettingsManager.defaultCaptureSystemAudio
     @AppStorage("captureMicrophone") private var captureMicrophone: Bool = SettingsManager.defaultCaptureMicrophone
     @AppStorage("silencePauseThreshold") private var silencePauseThresholdRaw: String = SettingsManager.defaultSilencePauseThreshold.rawValue
+    @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
 
     var body: some View {
         Form {
@@ -33,7 +34,9 @@ struct SettingsView: View {
                 }
             }
 
-            Text("Transcripts will be saved to this folder")
+            Toggle("Save Original Audio File", isOn: $saveOriginalAudio)
+
+            Text("Transcripts will be saved to this folder. When enabled, original audio recordings will also be saved in M4A format.")
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
