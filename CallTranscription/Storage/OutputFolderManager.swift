@@ -14,22 +14,9 @@ import os.log
 public final class OutputFolderManager {
     private let fileManager = FileManager.default
     private let logger = Logger(subsystem: "com.olive.CallTranscription", category: "OutputFolderManager")
+    private let pathValidator = PathValidator()
 
     public init() {}
-
-    // MARK: - Security Validation
-
-    /// Validates that a path is within allowed directories (security check).
-    ///
-    /// Prevents path traversal attacks by ensuring the resolved path starts with
-    /// an allowed prefix (user home directory or temp directory).
-    private func isPathSafe(_ url: URL) -> Bool {
-        let allowedPrefixes = [
-            NSHomeDirectory(),
-            fileManager.temporaryDirectory.path,
-        ]
-        return allowedPrefixes.contains { url.path.hasPrefix($0) }
-    }
 
     // MARK: - Path Validation and Preparation
 
@@ -37,7 +24,7 @@ public final class OutputFolderManager {
     ///
     /// This method:
     /// 1. Expands tilde (~) to user home directory
-    /// 2. Converts relative paths to absolute paths
+    /// 2. Validates path for security (no path traversal, within allowed directories)
     /// 3. Creates the directory if it doesn't exist
     /// 4. Verifies write permissions
     ///
@@ -53,31 +40,10 @@ public final class OutputFolderManager {
         // Expand tilde in path
         let expandedPath = (pathToUse as NSString).expandingTildeInPath
 
-        // Convert to URL
-        var url: URL
-        if expandedPath.hasPrefix("/") {
-            // Absolute path
-            url = URL(fileURLWithPath: expandedPath)
-        } else {
-            // Relative path - make it relative to current directory
-            let currentDir = fileManager.currentDirectoryPath
-            url = URL(fileURLWithPath: currentDir).appendingPathComponent(expandedPath)
-        }
-
-        // Standardize path (removes .., ., //)
-        url = url.standardizedFileURL
-
-        // Resolve symlinks to prevent symlink-based path traversal
-        let resolvedURL = url.resolvingSymlinksInPath()
-
-        // Security check: Ensure path is within allowed directories
-        guard isPathSafe(resolvedURL) else {
-            logger.error("Path traversal detected or path outside allowed directories: \(url.path)")
-            throw CallTranscriptionError.outputFolderNotWritable(url)
-        }
-
-        // Use resolved URL for all subsequent operations
-        url = resolvedURL
+        // Validate path for security using PathValidator
+        // This checks for path traversal, symlink attacks, and ensures path is within allowed directories
+        let url = try pathValidator.validateForFileOutput(path: expandedPath)
+        logger.debug("Path validated: \(url.path)")
 
         // Check if directory exists
         var isDirectory: ObjCBool = false
