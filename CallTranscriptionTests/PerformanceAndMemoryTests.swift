@@ -218,15 +218,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
 
         // WHEN: Recording with transcription
         measure(metrics: [XCTMemoryMetric()]) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "Transcription Memory Test")
-            }
-
-            Thread.sleep(forTimeInterval: 10.0)
+            let expectation = expectation(description: "Transcription recording")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "Transcription Memory Test")
+                    try await Task.sleep(for: .seconds(10))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 15.0)
         }
 
         // THEN: Memory should be stable despite transcription results
@@ -251,16 +256,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
 
         // WHEN: Recording with file writing
         measure(metrics: [XCTMemoryMetric()]) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "File Writing Memory Test")
-            }
-
-            // Longer recording to generate more transcription writes
-            Thread.sleep(forTimeInterval: 15.0)
+            let expectation = expectation(description: "File writing recording")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "File Writing Memory Test")
+                    try await Task.sleep(for: .seconds(15))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 20.0)
         }
 
         // THEN: Memory should be stable
@@ -291,15 +300,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
         options.iterationCount = 5
 
         measure(metrics: [XCTCPUMetric()], options: options) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "CPU Usage Test")
-            }
-
-            Thread.sleep(forTimeInterval: 10.0)
+            let expectation = expectation(description: "CPU measurement")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "CPU Usage Test")
+                    try await Task.sleep(for: .seconds(10))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 15.0)
         }
 
         // THEN: CPU usage baseline is established
@@ -325,16 +339,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
 
         // WHEN: Measuring CPU during audio processing
         measure(metrics: [XCTCPUMetric(), XCTClockMetric()]) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "Audio Processing Efficiency Test")
-            }
-
-            // Process audio for 10 seconds
-            Thread.sleep(forTimeInterval: 10.0)
+            let expectation = expectation(description: "Audio processing")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "Audio Processing Efficiency Test")
+                    try await Task.sleep(for: .seconds(10))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 15.0)
         }
 
         // THEN: CPU time and wall clock time should be reasonable
@@ -359,15 +377,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
 
         // WHEN: Measuring CPU with transcription enabled
         measure(metrics: [XCTCPUMetric()]) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "Transcription Efficiency Test")
-            }
-
-            Thread.sleep(forTimeInterval: 10.0)
+            let expectation = expectation(description: "Transcription efficiency")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "Transcription Efficiency Test")
+                    try await Task.sleep(for: .seconds(10))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 15.0)
         }
 
         // THEN: CPU usage should be acceptable
@@ -403,16 +426,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
         options.iterationCount = 1  // Single long run
 
         measure(metrics: [XCTMemoryMetric(), XCTCPUMetric()], options: options) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "1-Hour Stability Test")
-            }
-
-            // Record for 1 hour
-            Thread.sleep(forTimeInterval: 3600.0)
+            let expectation = expectation(description: "1-hour recording")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "1-Hour Stability Test")
+                    try await Task.sleep(for: .seconds(3600))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 3700.0)
         }
 
         // THEN: Recording should complete without crashes or memory issues
@@ -445,16 +472,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
         options.iterationCount = 1  // Single long run
 
         measure(metrics: [XCTMemoryMetric(), XCTCPUMetric()], options: options) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "2-Hour Endurance Test")
-            }
-
-            // Record for 2 hours
-            Thread.sleep(forTimeInterval: 7200.0)
+            let expectation = expectation(description: "2-hour recording")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "2-Hour Endurance Test")
+                    try await Task.sleep(for: .seconds(7200))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 7300.0)
         }
 
         // THEN: System should remain stable throughout
@@ -478,16 +509,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
 
         // WHEN: Recording for an extended period
         measure(metrics: [XCTMemoryMetric(), XCTClockMetric()]) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "Buffer Stability Test")
-            }
-
-            // Record for 30 seconds to test buffer consistency
-            Thread.sleep(forTimeInterval: 30.0)
+            let expectation = expectation(description: "Buffer stability")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "Buffer Stability Test")
+                    try await Task.sleep(for: .seconds(30))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 35.0)
         }
 
         // THEN: Wall clock time should match recording duration
@@ -577,15 +612,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
         options.iterationCount = 10
 
         measure(metrics: [XCTMemoryMetric()], options: options) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "Cycle Test")
-            }
-
-            Thread.sleep(forTimeInterval: 2.0)
+            let expectation = expectation(description: "Record/stop cycle")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "Cycle Test")
+                    try await Task.sleep(for: .seconds(2))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 5.0)
         }
 
         // THEN: Memory should be stable across iterations
@@ -612,15 +652,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
 
         // WHEN: Measuring processing time
         measure(metrics: [XCTClockMetric()]) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "Buffer Processing Test")
-            }
-
-            Thread.sleep(forTimeInterval: 10.0)
+            let expectation = expectation(description: "Buffer processing")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "Buffer Processing Test")
+                    try await Task.sleep(for: .seconds(10))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 15.0)
         }
 
         // THEN: Wall clock time should be close to sleep duration
@@ -645,16 +690,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
 
         // WHEN: Measuring CPU and time under sustained load
         measure(metrics: [XCTCPUMetric(), XCTClockMetric()]) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "Real-Time Processing Test")
-            }
-
-            // Sustained recording for 30 seconds
-            Thread.sleep(forTimeInterval: 30.0)
+            let expectation = expectation(description: "Real-time processing")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "Real-Time Processing Test")
+                    try await Task.sleep(for: .seconds(30))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 35.0)
         }
 
         // THEN: CPU usage and timing should be consistent
