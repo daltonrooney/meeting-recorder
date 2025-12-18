@@ -18,13 +18,14 @@ struct CallTranscriptionApp: App {
                 .environmentObject(settingsManager)
         } label: {
             // Show different icon based on recording state
-            // Use custom SVG: monochrome when inactive, color when recording/paused
-            if appState.isRecording || appState.isPaused {
-                Image("MenuBarIconRecording")
-                    .renderingMode(.original) // Preserve colors
+            if appState.isPaused {
+                Image(systemName: "pause.circle.fill")
+                    .foregroundColor(.orange)
+            } else if appState.isRecording {
+                Image(systemName: "record.circle")
+                    .foregroundColor(.red)
             } else {
-                Image("MenuBarIconInactive")
-                    .renderingMode(.template) // Allow system tinting
+                Image(systemName: "stop.circle")
             }
         }
 
