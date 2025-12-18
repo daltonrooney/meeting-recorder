@@ -62,11 +62,8 @@ public final class MicrophoneCapture {
             return
         }
 
-        // Check microphone permission
-        let permission = await checkMicrophonePermission()
-        guard permission else {
-            throw CallTranscriptionError.microphonePermissionDenied
-        }
+        // Check microphone permission using shared handler
+        try await MicrophonePermissionHandler().ensurePermission()
 
         // Get input node and format
         let inputNode = audioEngine.inputNode
@@ -146,25 +143,4 @@ public final class MicrophoneCapture {
         }
     }
 
-    // MARK: - Private Methods
-
-    private func checkMicrophonePermission() async -> Bool {
-        #if os(macOS)
-        // macOS 14+ permission handling
-        let status = AVCaptureDevice.authorizationStatus(for: .audio)
-
-        switch status {
-        case .authorized:
-            return true
-        case .notDetermined:
-            return await AVCaptureDevice.requestAccess(for: .audio)
-        case .denied, .restricted:
-            return false
-        @unknown default:
-            return false
-        }
-        #else
-        return false
-        #endif
-    }
 }
