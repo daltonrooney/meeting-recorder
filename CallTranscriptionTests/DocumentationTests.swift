@@ -168,28 +168,16 @@ final class DocumentationTests: XCTestCase {
     // MARK: - Helper Methods
 
     private var projectRoot: URL {
-        // Try getting from source file path first (if absolute)
-        let sourceFile = #file
-        if sourceFile.hasPrefix("/") {
-            // Absolute path - we can use it
-            var url = URL(fileURLWithPath: sourceFile)
-            url.deleteLastPathComponent() // Remove DocumentationTests.swift
-            url.deleteLastPathComponent() // Remove CallTranscriptionTests
-            return url
-        }
+        // Use source file path (#file) to locate project root
+        // This works reliably in Xcode and command-line builds
+        let sourceFile = #filePath
+        var url = URL(fileURLWithPath: sourceFile)
 
-        // Fallback: navigate up from current directory
-        var fallbackURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        while fallbackURL.path != "/" {
-            let testPath = fallbackURL.appendingPathComponent("README.md")
-            if FileManager.default.fileExists(atPath: testPath.path) {
-                return fallbackURL
-            }
-            fallbackURL.deleteLastPathComponent()
-        }
+        // Navigate up from CallTranscriptionTests/DocumentationTests.swift to project root
+        url.deleteLastPathComponent() // Remove DocumentationTests.swift
+        url.deleteLastPathComponent() // Remove CallTranscriptionTests directory
 
-        // Last resort: assume we're in the project directory
-        return URL(fileURLWithPath: "/Users/dalton/Dev/olive-call-transcription")
+        return url
     }
 
     private func readREADME() throws -> String {

@@ -27,7 +27,7 @@ Olive is a macOS menu bar application that records and transcribes audio from bo
 
 ## Requirements
 
-- **macOS 26.0 or later** (required for SpeechTranscriber API)
+- **macOS 26.0 or later** (required for SpeechTranscriber API - currently in beta/developer preview)
 - **Swift 6** / SwiftUI
 - **Xcode 16+** for building from source
 - **XcodeGen** for project generation (optional, for development)
@@ -209,7 +209,7 @@ All features follow strict TDD methodology:
 2. Implement minimal code to pass tests
 3. Refactor while keeping tests green
 
-See [CLAUDE.md](CLAUDE.md) for TDD requirements.
+See [claude.md](claude.md) for TDD requirements.
 
 ## Contributing
 
