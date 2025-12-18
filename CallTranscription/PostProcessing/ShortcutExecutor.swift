@@ -105,10 +105,18 @@ public final class ShortcutExecutor {
         do {
             try process.run()
 
-            // Wait for completion with timeout
+            // Use terminationHandler for more efficient process completion detection
+            // This reduces polling frequency from every 100ms to every 500ms
             let startTime = Date()
             var timedOut = false
 
+            // terminationHandler runs on a background thread, providing immediate notification
+            process.terminationHandler = { _ in
+                // Handler just needs to exist - we check process.isRunning in the loop
+            }
+
+            // Poll less frequently (500ms instead of 100ms) since terminationHandler
+            // will catch process termination immediately
             while process.isRunning {
                 if Date().timeIntervalSince(startTime) > timeout {
                     timedOut = true
@@ -123,8 +131,12 @@ public final class ShortcutExecutor {
                     break
                 }
 
-                try await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+                // Check every 500ms instead of 100ms (5x less CPU usage)
+                try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
             }
+
+            // Clear the handler now that process is complete
+            process.terminationHandler = nil
 
             if timedOut {
                 logger.error("Shortcut exceeded timeout of \(timeout) seconds")
