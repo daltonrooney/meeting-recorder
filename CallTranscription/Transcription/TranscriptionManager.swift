@@ -207,7 +207,9 @@ public final class TranscriptionManager {
             // Create converter if needed
             if audioConverter == nil || audioConverter?.inputFormat != buffer.format {
                 guard let converter = AVAudioConverter(from: buffer.format, to: analyzerFormat) else {
+                    let error = CallTranscriptionError.audioProcessingFailed("Failed to create audio converter from \(buffer.format.sampleRate)Hz to \(analyzerFormat.sampleRate)Hz")
                     logger.error("Failed to create audio converter from \(buffer.format.sampleRate)Hz to \(analyzerFormat.sampleRate)Hz")
+                    onTranscriptionError?(error)
                     return
                 }
                 audioConverter = converter
@@ -218,7 +220,9 @@ public final class TranscriptionManager {
             let outputCapacity = AVAudioFrameCount(Double(buffer.frameLength) * sampleRateRatio)
 
             guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: analyzerFormat, frameCapacity: outputCapacity) else {
-                logger.error("Failed to create output buffer with capacity \(outputCapacity)")
+                let error = CallTranscriptionError.audioProcessingFailed("Failed to create output buffer with capacity \(outputCapacity) for format \(analyzerFormat.sampleRate)Hz")
+                logger.error("Failed to create output buffer with capacity \(outputCapacity) for format \(analyzerFormat.sampleRate)Hz")
+                onTranscriptionError?(error)
                 return
             }
 
@@ -229,7 +233,9 @@ public final class TranscriptionManager {
             }
 
             guard status != .error, error == nil else {
+                let conversionError = CallTranscriptionError.audioProcessingFailed("Audio conversion failed: \(error?.localizedDescription ?? "unknown error")")
                 logger.error("Audio conversion failed: \(error?.localizedDescription ?? "unknown error")")
+                onTranscriptionError?(conversionError)
                 return
             }
 
