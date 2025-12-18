@@ -1,4 +1,4 @@
-name: CallTranscription
+name: Olive
 options:
   bundleIdPrefix: dev.rygn
   deploymentTarget:
@@ -8,8 +8,8 @@ options:
 
 settings:
   base:
-    PRODUCT_NAME: CallTranscription
-    PRODUCT_BUNDLE_IDENTIFIER: dev.rygn.CallTranscription
+    PRODUCT_NAME: Olive
+    PRODUCT_BUNDLE_IDENTIFIER: dev.rygn.Olive
     MACOSX_DEPLOYMENT_TARGET: "26.0"
     SWIFT_VERSION: "6.0"
     ENABLE_PREVIEWS: YES
@@ -42,7 +42,7 @@ targets:
         basedOnDependencyAnalysis: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.rygn.CallTranscription
+        PRODUCT_BUNDLE_IDENTIFIER: dev.rygn.Olive
         PRODUCT_MODULE_NAME: CallTranscription
         INFOPLIST_FILE: CallTranscription/Info.plist
         CODE_SIGN_ENTITLEMENTS: CallTranscription/CallTranscription.entitlements
@@ -71,6 +71,7 @@ targets:
         PRODUCT_MODULE_NAME: CallTranscriptionTests
         CODE_SIGN_ENTITLEMENTS: CallTranscriptionTests/CallTranscriptionTests.entitlements
         GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Olive.app/Contents/MacOS/Olive"
       configs:
         Debug:
           SWIFT_OPTIMIZATION_LEVEL: "-Onone"
@@ -79,7 +80,7 @@ targets:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
 
 schemes:
-  CallTranscription:
+  Olive:
     build:
       targets:
         CallTranscription: all

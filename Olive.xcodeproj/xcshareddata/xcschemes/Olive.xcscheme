@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1601182A1F385775828F8B89"
-               BuildableName = "Olive.app"
-               BlueprintName = "Olive"
+               BlueprintIdentifier = "B28EBDD175DE8393D7795B4B"
+               BuildableName = "CallTranscription.app"
+               BlueprintName = "CallTranscription"
                ReferencedContainer = "container:Olive.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,7 +29,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0870270C8F53E4DBA523951A"
+               BlueprintIdentifier = "C1D114913E4B12CEFB3836A3"
                BuildableName = "CallTranscriptionTests.xctest"
                BlueprintName = "CallTranscriptionTests"
                ReferencedContainer = "container:Olive.xcodeproj">
@@ -46,9 +46,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1601182A1F385775828F8B89"
-            BuildableName = "Olive.app"
-            BlueprintName = "Olive"
+            BlueprintIdentifier = "B28EBDD175DE8393D7795B4B"
+            BuildableName = "CallTranscription.app"
+            BlueprintName = "CallTranscription"
             ReferencedContainer = "container:Olive.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -58,7 +58,7 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0870270C8F53E4DBA523951A"
+               BlueprintIdentifier = "C1D114913E4B12CEFB3836A3"
                BuildableName = "CallTranscriptionTests.xctest"
                BlueprintName = "CallTranscriptionTests"
                ReferencedContainer = "container:Olive.xcodeproj">
@@ -82,9 +82,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1601182A1F385775828F8B89"
-            BuildableName = "Olive.app"
-            BlueprintName = "Olive"
+            BlueprintIdentifier = "B28EBDD175DE8393D7795B4B"
+            BuildableName = "CallTranscription.app"
+            BlueprintName = "CallTranscription"
             ReferencedContainer = "container:Olive.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -101,9 +101,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1601182A1F385775828F8B89"
-            BuildableName = "Olive.app"
-            BlueprintName = "Olive"
+            BlueprintIdentifier = "B28EBDD175DE8393D7795B4B"
+            BuildableName = "CallTranscription.app"
+            BlueprintName = "CallTranscription"
             ReferencedContainer = "container:Olive.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
