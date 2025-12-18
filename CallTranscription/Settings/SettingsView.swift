@@ -97,11 +97,8 @@ struct SettingsView: View {
                 set: { postRecordingActionTypeRaw = $0.rawValue }
             )) {
                 Text("Do nothing").tag(PostRecordingActionType.doNothing)
-                    .accessibilityIdentifier("postRecordingActionDoNothing")
                 Text("Run a script").tag(PostRecordingActionType.script)
-                    .accessibilityIdentifier("postRecordingActionScript")
                 Text("Run a shortcut").tag(PostRecordingActionType.shortcut)
-                    .accessibilityIdentifier("postRecordingActionShortcut")
             }
             .pickerStyle(.radioGroup)
             .accessibilityIdentifier("postRecordingActionPicker")
