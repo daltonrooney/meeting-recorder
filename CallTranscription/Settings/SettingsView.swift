@@ -116,6 +116,7 @@ struct SettingsView: View {
                     HStack {
                         ProgressView()
                             .scaleEffect(0.7)
+                            .accessibilityLabel("Loading shortcuts")
                         Text("Loading shortcuts...")
                             .foregroundColor(.secondary)
                     }
@@ -192,6 +193,7 @@ struct SettingsView: View {
     // MARK: - Shortcuts Integration
 
     private func loadAvailableShortcuts() {
+        guard !isLoadingShortcuts else { return } // Prevent concurrent loads
         Task {
             isLoadingShortcuts = true
             let executor = ShortcutExecutor()
