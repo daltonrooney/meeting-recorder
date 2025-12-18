@@ -1,6 +1,18 @@
 import AppKit
 import Foundation
 
+/// Helper function to safely execute code on main thread, avoiding deadlock.
+/// If already on main thread, uses MainActor.assumeIsolated. Otherwise uses DispatchQueue.main.sync.
+private func executeOnMainThread<T: Sendable>(_ block: @MainActor () -> T) -> T {
+    if Thread.isMainThread {
+        return MainActor.assumeIsolated(block)
+    } else {
+        return DispatchQueue.main.sync {
+            MainActor.assumeIsolated(block)
+        }
+    }
+}
+
 /// Extension to NSApplication to provide AppleScript access to app properties.
 ///
 /// This extension makes AppState properties accessible via AppleScript,
@@ -13,7 +25,7 @@ extension NSApplication {
     @objc var isRecording: Bool {
         final class ResultBox { var value = false }
         let box = ResultBox()
-        DispatchQueue.main.sync {
+        executeOnMainThread {
             guard let appState = try? AppStateContainer.shared.requireAppState() else {
                 return
             }
@@ -26,7 +38,7 @@ extension NSApplication {
     @objc var elapsedTime: String {
         final class ResultBox { var value = "00:00" }
         let box = ResultBox()
-        DispatchQueue.main.sync {
+        executeOnMainThread {
             guard let appState = try? AppStateContainer.shared.requireAppState() else {
                 return
             }
@@ -39,7 +51,7 @@ extension NSApplication {
     @objc var isPaused: Bool {
         final class ResultBox { var value = false }
         let box = ResultBox()
-        DispatchQueue.main.sync {
+        executeOnMainThread {
             guard let appState = try? AppStateContainer.shared.requireAppState() else {
                 return
             }
@@ -55,7 +67,7 @@ extension NSApplication {
         get {
             final class ResultBox { var value = "~/Desktop/Transcripts" }
             let box = ResultBox()
-            DispatchQueue.main.sync {
+            executeOnMainThread {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
                     return
                 }
@@ -64,8 +76,9 @@ extension NSApplication {
             return box.value
         }
         set {
-            DispatchQueue.main.async {
+            executeOnMainThread {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
+                    NSLog("AppleScript: Failed to set outputFolder - SettingsManager not available")
                     return
                 }
                 settingsManager.outputFolder = newValue
@@ -78,7 +91,7 @@ extension NSApplication {
         get {
             final class ResultBox { var value = true }
             let box = ResultBox()
-            DispatchQueue.main.sync {
+            executeOnMainThread {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
                     return
                 }
@@ -87,8 +100,9 @@ extension NSApplication {
             return box.value
         }
         set {
-            DispatchQueue.main.async {
+            executeOnMainThread {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
+                    NSLog("AppleScript: Failed to set captureMicrophone - SettingsManager not available")
                     return
                 }
                 settingsManager.captureMicrophone = newValue
@@ -101,7 +115,7 @@ extension NSApplication {
         get {
             final class ResultBox { var value = true }
             let box = ResultBox()
-            DispatchQueue.main.sync {
+            executeOnMainThread {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
                     return
                 }
@@ -110,8 +124,9 @@ extension NSApplication {
             return box.value
         }
         set {
-            DispatchQueue.main.async {
+            executeOnMainThread {
                 guard let settingsManager = try? AppStateContainer.shared.requireSettingsManager() else {
+                    NSLog("AppleScript: Failed to set captureSystemAudio - SettingsManager not available")
                     return
                 }
                 settingsManager.captureSystemAudio = newValue

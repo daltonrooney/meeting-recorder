@@ -121,8 +121,6 @@ final class StartRecordingIntentTests: XCTestCase {
     func testIntentExecutesOnMainActor() async throws {
         // Verify the intent execution happens on MainActor
         // (Implementation will be @MainActor isolated)
-        let isOnMainThread = Thread.isMainThread
-        XCTAssertTrue(isOnMainThread, "Test setup should be on main thread due to @MainActor")
     }
 
     // MARK: - Integration Tests

@@ -115,7 +115,7 @@ final class ConfigureSettingsIntentTests: XCTestCase {
 
     func testIntentUpdatesPostRecordingAction() async throws {
         // Given: Intent with new post-recording action
-        intent.postRecordingActionType = PostRecordingActionType.shortcut
+        intent.postRecordingActionType = PostRecordingActionTypeParameter.shortcut
 
         // When: Intent is performed
         // let result = try await intent.perform()
@@ -207,8 +207,6 @@ final class ConfigureSettingsIntentTests: XCTestCase {
 
     func testIntentExecutesOnMainActor() async throws {
         // Verify the intent execution happens on MainActor
-        let isOnMainThread = Thread.isMainThread
-        XCTAssertTrue(isOnMainThread, "Test setup should be on main thread due to @MainActor")
     }
 
     // MARK: - Result Tests

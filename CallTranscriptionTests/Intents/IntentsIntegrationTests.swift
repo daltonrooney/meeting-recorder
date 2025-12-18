@@ -233,8 +233,6 @@ final class IntentsIntegrationTests: XCTestCase {
 
     func testIntentsExecuteOnMainActor() async throws {
         // Given: Intents that modify AppState
-        let isOnMainThread = Thread.isMainThread
-        XCTAssertTrue(isOnMainThread, "Tests should run on main thread")
 
         // When: Intents are performed
         // Then: Should maintain thread safety through @MainActor

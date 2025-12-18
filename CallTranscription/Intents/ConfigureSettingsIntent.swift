@@ -1,6 +1,79 @@
 import AppIntents
 import Foundation
 
+/// Helper function to validate and expand folder paths for security
+private func validateFolderPath(_ path: String) throws -> String {
+    // Expand tilde and standardize path
+    let expandedPath = (path as NSString).expandingTildeInPath
+    let standardizedPath = (expandedPath as NSString).standardizingPath
+
+    // Prevent path traversal and system directory access
+    let dangerousPaths = ["/System", "/Library", "/bin", "/sbin", "/usr", "/etc", "/var", "/private"]
+    for dangerousPath in dangerousPaths {
+        if standardizedPath.hasPrefix(dangerousPath) {
+            throw IntentError.configurationFailed("Cannot use system directories: \(standardizedPath)")
+        }
+    }
+
+    // Check if path contains path traversal sequences
+    if standardizedPath.contains("..") {
+        throw IntentError.configurationFailed("Path contains invalid traversal sequences")
+    }
+
+    let fileManager = FileManager.default
+    var isDirectory: ObjCBool = false
+
+    // Check if path exists
+    if fileManager.fileExists(atPath: standardizedPath, isDirectory: &isDirectory) {
+        // Ensure it's a directory
+        guard isDirectory.boolValue else {
+            throw IntentError.configurationFailed("Path exists but is not a directory: \(standardizedPath)")
+        }
+
+        // Check if writable
+        guard fileManager.isWritableFile(atPath: standardizedPath) else {
+            throw IntentError.configurationFailed("Directory is not writable: \(standardizedPath)")
+        }
+    } else {
+        // Path doesn't exist - try to create it
+        do {
+            try fileManager.createDirectory(atPath: standardizedPath, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            throw IntentError.configurationFailed("Cannot create directory: \(standardizedPath) - \(error.localizedDescription)")
+        }
+    }
+
+    return standardizedPath
+}
+
+/// Helper function to validate script paths
+private func validateScriptPath(_ path: String) throws -> String {
+    // Expand tilde and standardize path
+    let expandedPath = (path as NSString).expandingTildeInPath
+    let standardizedPath = (expandedPath as NSString).standardizingPath
+
+    let fileManager = FileManager.default
+
+    // Check if file exists
+    guard fileManager.fileExists(atPath: standardizedPath) else {
+        throw IntentError.configurationFailed("Script file does not exist: \(standardizedPath)")
+    }
+
+    // Check if it's a regular file (not a directory)
+    var isDirectory: ObjCBool = false
+    fileManager.fileExists(atPath: standardizedPath, isDirectory: &isDirectory)
+    guard !isDirectory.boolValue else {
+        throw IntentError.configurationFailed("Script path is a directory, not a file: \(standardizedPath)")
+    }
+
+    // Check if executable
+    guard fileManager.isExecutableFile(atPath: standardizedPath) else {
+        throw IntentError.configurationFailed("Script file is not executable: \(standardizedPath)")
+    }
+
+    return standardizedPath
+}
+
 /// App Intent for configuring app settings programmatically.
 ///
 /// This intent allows users to modify app settings through Shortcuts,
@@ -39,11 +112,9 @@ struct ConfigureSettingsIntent: AppIntent {
 
         // Update only the provided settings (nil values are ignored)
         if let outputFolder = outputFolder, !outputFolder.isEmpty {
-            // Basic validation: ensure path doesn't contain obvious path traversal
-            if outputFolder.contains("..") {
-                throw IntentError.configurationFailed("Output folder path contains invalid sequences")
-            }
-            settingsManager.outputFolder = outputFolder
+            // Validate and expand the path, checking for security issues
+            let validatedPath = try validateFolderPath(outputFolder)
+            settingsManager.outputFolder = validatedPath
         }
 
         if let captureMicrophone = captureMicrophone {
@@ -63,7 +134,9 @@ struct ConfigureSettingsIntent: AppIntent {
         }
 
         if let postRecordingScript = postRecordingScript, !postRecordingScript.isEmpty {
-            settingsManager.postRecordingScript = postRecordingScript
+            // Validate that the script exists and is executable
+            let validatedScriptPath = try validateScriptPath(postRecordingScript)
+            settingsManager.postRecordingScript = validatedScriptPath
         }
 
         return .result()

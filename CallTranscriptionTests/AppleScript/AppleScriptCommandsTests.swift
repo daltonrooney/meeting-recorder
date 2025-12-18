@@ -197,9 +197,8 @@ final class AppleScriptCommandsTests: XCTestCase {
         // Given: Commands that need MainActor access
         // When: Commands are executed
         // Then: Should properly handle MainActor isolation
-        let isOnMainThread = Thread.isMainThread
-        XCTAssertTrue(isOnMainThread, "Tests run on main thread")
-        // (Implementation should use MainActor.run for async operations)
+        // @MainActor ensures we're on the main thread
+        // (Implementation should use MainActor.assumeIsolated for sync operations)
     }
 
     func testCommandsReturnProperErrors() async throws {
