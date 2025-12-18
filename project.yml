@@ -35,8 +35,15 @@ targets:
       - CallTranscription/icon.icon
     info:
       path: CallTranscription/Info.plist
+      properties:
+        NSMicrophoneUsageDescription: "Olive needs access to your microphone to record audio for transcription."
+        NSSpeechRecognitionUsageDescription: "Olive uses speech recognition to transcribe your recorded audio into text."
     entitlements:
       path: CallTranscription/CallTranscription.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.device.audio-input: true
+        com.apple.security.files.user-selected.read-write: true
     preBuildScripts:
       - name: Validate Configuration
         script: |
