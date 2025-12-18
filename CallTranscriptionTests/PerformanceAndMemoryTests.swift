@@ -102,18 +102,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
         options.iterationCount = 5  // Multiple iterations for baseline
 
         measure(metrics: [XCTMemoryMetric()], options: options) {
-            // Start recording (measured for memory)
+            let expectation = expectation(description: "Recording cycle")
+
             Task { @MainActor in
-                try? await coordinator.startRecording(title: "Memory Stability Test")
+                do {
+                    try await coordinator.startRecording(title: "Memory Stability Test")
+                    try await Task.sleep(for: .seconds(10))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
 
-            // Run for 10 seconds
-            Thread.sleep(forTimeInterval: 10.0)
-
-            // Stop recording (measured for memory)
-            Task { @MainActor in
-                try? await coordinator.stopRecording()
-            }
+            wait(for: [expectation], timeout: 15.0)
         }
 
         // THEN: Memory usage should be stable (baseline established for comparison)
@@ -173,16 +175,20 @@ final class PerformanceAndMemoryTests: XCTestCase {
         options.iterationCount = 10  // More iterations for buffer processing
 
         measure(metrics: [XCTMemoryMetric()], options: options) {
-            Task { @MainActor in
-                try? await coordinator.startRecording(title: "Buffer Memory Test")
-            }
-
-            // Let buffers process for 5 seconds
-            Thread.sleep(forTimeInterval: 5.0)
+            let expectation = expectation(description: "Buffer processing")
 
             Task { @MainActor in
-                try? await coordinator.stopRecording()
+                do {
+                    try await coordinator.startRecording(title: "Buffer Memory Test")
+                    try await Task.sleep(for: .seconds(5))
+                    try await coordinator.stopRecording()
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Recording failed: \(error)")
+                }
             }
+
+            wait(for: [expectation], timeout: 10.0)
         }
 
         // THEN: Memory should not grow with each iteration
