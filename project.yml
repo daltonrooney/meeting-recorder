@@ -28,11 +28,13 @@ targets:
         excludes:
           - "*.plist"
           - "*.entitlements"
+          - "*.sdef"
           - "Assets.xcassets"
           - "icon.icon"
     resources:
       - CallTranscription/Assets.xcassets
       - CallTranscription/icon.icon
+      - CallTranscription/Olive.sdef
     info:
       path: CallTranscription/Info.plist
       properties:

@@ -151,6 +151,80 @@ final class ProjectConfigurationTests: XCTestCase {
                                    "Minimum system version should be macOS \(Self.minimumMacOSVersion).0 or higher, but found \(versionString)")
     }
 
+    // MARK: - AppleScript Configuration Tests (Issue #44)
+
+    func testInfoPlistContainsAppleScriptEnabled() throws {
+        let bundle = try getMainAppBundle()
+
+        let appleScriptEnabled = bundle.object(forInfoDictionaryKey: "NSAppleScriptEnabled") as? Bool
+        XCTAssertNotNil(appleScriptEnabled, "NSAppleScriptEnabled must be present for AppleScript support")
+        XCTAssertTrue(appleScriptEnabled ?? false, "NSAppleScriptEnabled must be true to enable AppleScript")
+    }
+
+    func testInfoPlistContainsScriptingDefinition() throws {
+        let bundle = try getMainAppBundle()
+
+        let scriptingDefinition = bundle.object(forInfoDictionaryKey: "OSAScriptingDefinition") as? String
+        XCTAssertNotNil(scriptingDefinition, "OSAScriptingDefinition must be present for AppleScript support")
+        XCTAssertEqual(scriptingDefinition, "Olive.sdef", "OSAScriptingDefinition should point to Olive.sdef")
+    }
+
+    func testScriptingDefinitionFileExists() throws {
+        let bundle = try getMainAppBundle()
+
+        let sdefPath = bundle.path(forResource: "Olive", ofType: "sdef")
+        XCTAssertNotNil(sdefPath, "Olive.sdef file must exist in app bundle resources")
+
+        guard let path = sdefPath else {
+            XCTFail("Olive.sdef path is nil")
+            return
+        }
+
+        XCTAssertTrue(FileManager.default.fileExists(atPath: path),
+                     "Olive.sdef file must exist at path: \(path)")
+    }
+
+    func testScriptingDefinitionIsValidXML() throws {
+        let bundle = try getMainAppBundle()
+
+        guard let sdefPath = bundle.path(forResource: "Olive", ofType: "sdef") else {
+            XCTFail("Olive.sdef file not found in bundle")
+            return
+        }
+
+        let sdefData = try Data(contentsOf: URL(fileURLWithPath: sdefPath))
+        XCTAssertGreaterThan(sdefData.count, 0, "Olive.sdef file must not be empty")
+
+        // Verify it's valid XML
+        let xmlParser = XMLParser(data: sdefData)
+        XCTAssertTrue(xmlParser.parse(), "Olive.sdef must be valid XML")
+    }
+
+    // MARK: - App Intents Configuration Tests (Issue #44)
+
+    // NOTE: App Intents target membership is implicitly tested by the dedicated intent test files
+    // (StartRecordingIntentTests, StopRecordingIntentTests, etc.) which successfully use these types.
+    // Explicit compile-time type checks are skipped here to avoid Swift 6 availability issues.
+
+    func testAppSupportsBackgroundModes() throws {
+        let bundle = try getMainAppBundle()
+
+        // Verify termination settings are appropriate for automation
+        let supportsAutoTermination = bundle.object(forInfoDictionaryKey: "NSSupportsAutomaticTermination") as? Bool
+        let supportsSuddenTermination = bundle.object(forInfoDictionaryKey: "NSSupportsSuddenTermination") as? Bool
+
+        // For automation support, automatic termination should be disabled
+        // to prevent the app from being terminated while handling intents/scripts
+        XCTAssertNotNil(supportsAutoTermination, "NSSupportsAutomaticTermination should be set")
+        XCTAssertNotNil(supportsSuddenTermination, "NSSupportsSuddenTermination should be set")
+
+        // Both should be false to ensure app stays alive for automation
+        XCTAssertFalse(supportsAutoTermination ?? true,
+                      "NSSupportsAutomaticTermination should be false for automation support")
+        XCTAssertFalse(supportsSuddenTermination ?? true,
+                      "NSSupportsSuddenTermination should be false for automation support")
+    }
+
     // MARK: - Error Types
 
     enum TestError: Error {
