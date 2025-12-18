@@ -630,4 +630,199 @@ final class SettingsManagerTests: XCTestCase {
         XCTAssertFalse(newManager.saveOriginalAudio,
                       "Should default to false when not in UserDefaults")
     }
+
+    // MARK: - Post-Recording Action Type Tests
+
+    func testDefaultPostRecordingActionTypeIsDoNothing() {
+        XCTAssertEqual(settingsManager.postRecordingActionType, .doNothing,
+                      "Default post-recording action type should be .doNothing")
+    }
+
+    func testPostRecordingActionTypeCanBeSetToScript() {
+        settingsManager.postRecordingActionType = .script
+        XCTAssertEqual(settingsManager.postRecordingActionType, .script,
+                     "Should be able to set post-recording action type to .script")
+    }
+
+    func testPostRecordingActionTypeCanBeSetToShortcut() {
+        settingsManager.postRecordingActionType = .shortcut
+        XCTAssertEqual(settingsManager.postRecordingActionType, .shortcut,
+                     "Should be able to set post-recording action type to .shortcut")
+    }
+
+    func testPostRecordingActionTypePersistsAcrossInstances() {
+        // Set to shortcut
+        settingsManager.postRecordingActionType = .shortcut
+
+        // Force save to UserDefaults
+        testUserDefaults.set("shortcut", forKey: "postRecordingActionType")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.postRecordingActionType, .shortcut,
+                     "Post-recording action type should persist across instances")
+    }
+
+    func testPostRecordingActionTypePropertyIsPublished() async {
+        let expectation = expectation(description: "postRecordingActionType change should be published")
+        var receivedValues: [PostRecordingActionType] = []
+
+        settingsManager.$postRecordingActionType
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        // Change the value
+        settingsManager.postRecordingActionType = .script
+
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues, [.script],
+                      "postRecordingActionType change should be published")
+    }
+
+    func testPostRecordingActionTypeWritesToUserDefaults() async {
+        // Set value
+        settingsManager.postRecordingActionType = .shortcut
+
+        // Give Combine pipeline time to write
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Check UserDefaults directly
+        let storedValue = testUserDefaults.string(forKey: "postRecordingActionType")
+        XCTAssertEqual(storedValue, "shortcut",
+                     "postRecordingActionType should write to UserDefaults")
+    }
+
+    func testPostRecordingActionTypeReadsFromUserDefaults() {
+        // Set value directly in UserDefaults
+        testUserDefaults.set("script", forKey: "postRecordingActionType")
+        testUserDefaults.synchronize()
+
+        // Create new instance - should read from UserDefaults
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.postRecordingActionType, .script,
+                     "Should read postRecordingActionType from UserDefaults on init")
+    }
+
+    func testPostRecordingActionTypeDefaultValueWhenNotInUserDefaults() {
+        // Ensure key doesn't exist in UserDefaults
+        testUserDefaults.removeObject(forKey: "postRecordingActionType")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.postRecordingActionType, .doNothing,
+                      "Should default to .doNothing when not in UserDefaults")
+    }
+
+    // MARK: - Shortcut Identifier Tests
+
+    func testDefaultShortcutIdentifierIsEmpty() {
+        XCTAssertEqual(settingsManager.shortcutIdentifier, "",
+                      "Default shortcut identifier should be empty string")
+    }
+
+    func testShortcutIdentifierCanBeSet() {
+        let testIdentifier = "my-shortcut-id"
+        settingsManager.shortcutIdentifier = testIdentifier
+        XCTAssertEqual(settingsManager.shortcutIdentifier, testIdentifier,
+                     "Should be able to set shortcut identifier")
+    }
+
+    func testShortcutIdentifierPersistsAcrossInstances() {
+        let testIdentifier = "persistent-shortcut"
+        settingsManager.shortcutIdentifier = testIdentifier
+
+        // Force save to UserDefaults
+        testUserDefaults.set(testIdentifier, forKey: "shortcutIdentifier")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.shortcutIdentifier, testIdentifier,
+                     "Shortcut identifier should persist across instances")
+    }
+
+    func testShortcutIdentifierPropertyIsPublished() async {
+        let expectation = expectation(description: "shortcutIdentifier change should be published")
+        var receivedValues: [String] = []
+
+        settingsManager.$shortcutIdentifier
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        // Change the value
+        settingsManager.shortcutIdentifier = "test-shortcut"
+
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues, ["test-shortcut"],
+                      "shortcutIdentifier change should be published")
+    }
+
+    func testShortcutIdentifierWritesToUserDefaults() async {
+        let testIdentifier = "write-test-shortcut"
+        settingsManager.shortcutIdentifier = testIdentifier
+
+        // Give Combine pipeline time to write
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Check UserDefaults directly
+        let storedValue = testUserDefaults.string(forKey: "shortcutIdentifier")
+        XCTAssertEqual(storedValue, testIdentifier,
+                     "shortcutIdentifier should write to UserDefaults")
+    }
+
+    func testShortcutIdentifierReadsFromUserDefaults() {
+        let testIdentifier = "read-test-shortcut"
+        testUserDefaults.set(testIdentifier, forKey: "shortcutIdentifier")
+        testUserDefaults.synchronize()
+
+        // Create new instance - should read from UserDefaults
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.shortcutIdentifier, testIdentifier,
+                     "Should read shortcutIdentifier from UserDefaults on init")
+    }
+
+    // MARK: - Backward Compatibility Tests
+
+    func testBackwardCompatibilityWithExistingScriptPath() {
+        // Simulate existing installation with postRecordingScript set
+        testUserDefaults.set("/path/to/script.sh", forKey: "postRecordingScript")
+        testUserDefaults.synchronize()
+
+        // Create new instance - should default to doNothing but preserve script path
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.postRecordingActionType, .doNothing,
+                     "Should default to doNothing for backward compatibility")
+        XCTAssertEqual(newManager.postRecordingScript, "/path/to/script.sh",
+                     "Should preserve existing script path")
+    }
+
+    func testMigratingFromScriptToActionType() async {
+        // Set existing script path
+        settingsManager.postRecordingScript = "/path/to/script.sh"
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // User updates to use the new action type
+        settingsManager.postRecordingActionType = .script
+
+        // Give pipeline time
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Both should be set
+        XCTAssertEqual(settingsManager.postRecordingActionType, .script)
+        XCTAssertEqual(settingsManager.postRecordingScript, "/path/to/script.sh")
+    }
 }
