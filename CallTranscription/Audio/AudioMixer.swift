@@ -260,6 +260,11 @@ public final class AudioMixer {
             var scaleFactor = level
             for channel in 0..<Int(buffer.format.channelCount) {
                 vDSP_vsmul(inputData[channel], 1, &scaleFactor, outputData[channel], 1, vDSP_Length(buffer.frameLength))
+
+                // Apply soft limiting to prevent clipping
+                for frame in 0..<Int(buffer.frameLength) {
+                    outputData[channel][frame] = softLimit(outputData[channel][frame])
+                }
             }
         }
 

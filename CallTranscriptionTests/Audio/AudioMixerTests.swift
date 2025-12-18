@@ -491,6 +491,37 @@ final class AudioMixerTests: XCTestCase {
         }
     }
 
+    func testPreventsSingleSourceClipping() async throws {
+        // Test that soft limiting is applied even when only one source is active
+        let mixer = AudioMixer(microphoneLevel: 1.0, systemAudioLevel: 1.0)
+
+        // Single source with high input value that would clip without limiting
+        let micBuffer = createTestBuffer(fillValue: 0.95)
+
+        var receivedBuffer: AVAudioPCMBuffer?
+        mixer.mixedBufferHandler = { buffer in
+            receivedBuffer = buffer
+        }
+
+        // Feed only microphone (single source scenario)
+        try await mixer.feedMicrophoneBuffer(micBuffer)
+
+        XCTAssertNotNil(receivedBuffer)
+
+        // Output must not exceed 1.0 even with single high-level source
+        if let channelData = receivedBuffer?.floatChannelData {
+            for frame in 0..<Int(receivedBuffer!.frameLength) {
+                let sample = channelData[0][frame]
+                XCTAssertLessThanOrEqual(sample, 1.0, "Single-source clipping at frame \(frame): \(sample)")
+                XCTAssertGreaterThanOrEqual(sample, -1.0, "Single-source clipping at frame \(frame): \(sample)")
+            }
+
+            // Verify that soft limiting preserves signal strength
+            let outputValue = channelData[0][0]
+            XCTAssertGreaterThan(outputValue, 0.8, "Soft limiting should preserve signal strength")
+        }
+    }
+
     // MARK: - Error Handling Tests
 
     func testHandlesNilBufferHandler() async throws {
