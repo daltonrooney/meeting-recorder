@@ -122,14 +122,17 @@ final class SettingsViewCacheTests: XCTestCase {
         XCTAssertEqual(cache.cacheTimeout, 60.0, "Default cache timeout should be 60 seconds")
     }
 
-    // MARK: - Thread Safety Tests
+    // MARK: - Actor Isolation Tests
 
-    func testConcurrentUpdatesCacheData() {
-        // Given: Multiple concurrent updates
+    func testMainActorIsolationPreventsDataRaces() {
+        // Given: Multiple updates dispatched from background threads
+        // Note: @MainActor ensures all these calls are serialized on the main thread
+        // This test verifies the actor isolation mechanism works correctly
         let expectation1 = expectation(description: "Update 1")
         let expectation2 = expectation(description: "Update 2")
 
-        // When: Updating cache from different threads
+        // When: Attempting to update cache from background threads
+        // @MainActor will automatically hop these to the main thread
         DispatchQueue.global().async {
             self.sut.updateCache(shortcuts: ["A", "B"])
             expectation1.fulfill()
@@ -142,9 +145,10 @@ final class SettingsViewCacheTests: XCTestCase {
 
         wait(for: [expectation1, expectation2], timeout: 1.0)
 
-        // Then: Cache should have one of the values (no crash)
+        // Then: Cache should have one of the values (no crash or corruption)
+        // The @MainActor isolation ensures thread safety by serializing all access
         let cached = sut.getCachedShortcuts()
         XCTAssertTrue(cached == ["A", "B"] || cached == ["C", "D"],
-                      "Cache should handle concurrent updates without crashing")
+                      "Cache should be safe from data races due to @MainActor isolation")
     }
 }

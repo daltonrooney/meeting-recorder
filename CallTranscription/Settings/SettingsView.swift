@@ -14,6 +14,8 @@ struct SettingsView: View {
 
     @State private var availableShortcuts: [String] = []
     @State private var isLoadingShortcuts: Bool = false
+    // Cache persists across view updates (not recreations) due to @State
+    // SettingsView is typically a singleton in the app, so this provides adequate caching
     @State private var shortcutsCache = SettingsViewCache()
 
     var body: some View {
