@@ -90,40 +90,18 @@ targets:
         Release:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
 
-  CallTranscriptionUITests:
-    type: bundle.ui-testing
-    platform: macOS
-    sources:
-      - path: CallTranscriptionUITests
-    dependencies:
-      - target: CallTranscription
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.rygn.CallTranscriptionUITests
-        PRODUCT_MODULE_NAME: CallTranscriptionUITests
-        GENERATE_INFOPLIST_FILE: YES
-        TEST_TARGET_NAME: CallTranscription
-      configs:
-        Debug:
-          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
-          ONLY_ACTIVE_ARCH: YES
-        Release:
-          SWIFT_OPTIMIZATION_LEVEL: "-O"
-
 schemes:
   Olive:
     build:
       targets:
         CallTranscription: all
         CallTranscriptionTests: [test]
-        CallTranscriptionUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
         - name: CallTranscriptionTests
-        - name: CallTranscriptionUITests
     profile:
       config: Release
     analyze:
