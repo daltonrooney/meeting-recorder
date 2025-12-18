@@ -21,7 +21,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>26.0</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Olive needs microphone access to record and transcribe your side of the conversation during calls. All audio processing happens on-device.</string>
+	<string>This app needs access to your microphone to record and transcribe conversations. You must obtain consent from all parties before recording.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Olive uses on-device speech recognition to transcribe your calls in real-time. Your audio never leaves your Mac.</string>
 </dict>
