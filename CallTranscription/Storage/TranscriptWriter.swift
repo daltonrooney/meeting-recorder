@@ -16,6 +16,7 @@ public final class TranscriptWriter {
     private var fileHandle: FileHandle?
     private var isFinalized = false
     private let logger = Logger(subsystem: "com.olive.CallTranscription", category: "TranscriptWriter")
+    private let pathValidator = PathValidator()
 
     // MARK: - Initialization
 
@@ -29,25 +30,34 @@ public final class TranscriptWriter {
     public init(outputFolder: URL, filename: String? = nil, title: String? = nil) async throws {
         logger.debug("Initializing TranscriptWriter in folder: \(outputFolder.path)")
 
+        // Validate output folder path for security
+        let validatedFolder = try pathValidator.validateForFileOutput(path: outputFolder.path)
+        logger.debug("Output folder validated: \(validatedFolder.path)")
+
         // Validate output folder is writable
-        guard FileManager.default.isWritableFile(atPath: outputFolder.path) else {
-            logger.error("Output folder is not writable: \(outputFolder.path)")
-            throw CallTranscriptionError.outputFolderNotWritable(outputFolder)
+        guard FileManager.default.isWritableFile(atPath: validatedFolder.path) else {
+            logger.error("Output folder is not writable: \(validatedFolder.path)")
+            throw CallTranscriptionError.outputFolderNotWritable(validatedFolder)
         }
 
         // Generate filename if not provided
         let actualFilename: String
         if let filename = filename {
+            // Validate filename doesn't contain path traversal
+            if filename.contains("../") || filename.contains("..\\") || filename.contains("/") {
+                logger.error("Filename contains invalid path characters: \(filename)")
+                throw CallTranscriptionError.invalidPath(filename, reason: "Filename must not contain path separators or traversal sequences")
+            }
             actualFilename = filename
         } else {
             // Generate ISO 8601 timestamp-based filename
             let dateFormatter = ISO8601DateFormatter()
-            dateFormatter.formatOptions = [.withYear, .withMonth, .withDay, .withTime, .withColonSeparatorInTime]
+            dateFormatter.formatOptions = [.withYear, .withMonth, .withDay, .withTime, .withColonSeparatorInTime, .withDashSeparatorInDate]
             let timestamp = dateFormatter.string(from: Date()).replacingOccurrences(of: ":", with: "_")
             actualFilename = "transcript_\(timestamp).txt"
         }
 
-        self.fileURL = outputFolder.appendingPathComponent(actualFilename)
+        self.fileURL = validatedFolder.appendingPathComponent(actualFilename)
 
         // Create file with header
         do {
@@ -58,7 +68,7 @@ public final class TranscriptWriter {
             logger.error("Failed to create transcript file: \(error.localizedDescription)")
             // Clean up any partial file
             try? FileManager.default.removeItem(at: fileURL)
-            throw CallTranscriptionError.outputFolderNotWritable(outputFolder)
+            throw CallTranscriptionError.outputFolderNotWritable(validatedFolder)
         }
 
         // Open file handle for appending
@@ -69,7 +79,7 @@ public final class TranscriptWriter {
             logger.error("Failed to open file handle: \(error.localizedDescription)")
             // Clean up file
             try? FileManager.default.removeItem(at: fileURL)
-            throw CallTranscriptionError.outputFolderNotWritable(outputFolder)
+            throw CallTranscriptionError.outputFolderNotWritable(validatedFolder)
         }
     }
 

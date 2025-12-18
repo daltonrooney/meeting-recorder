@@ -31,6 +31,8 @@ public final class ShellScriptExecutor {
     /// Default timeout for script execution (5 minutes).
     public static let defaultTimeout: TimeInterval = 300.0
 
+    private let pathValidator = PathValidator()
+
     public init() {}
 
     /// Executes a shell script with the given transcript path as argument.
@@ -47,6 +49,7 @@ public final class ShellScriptExecutor {
     ///   - `CallTranscriptionError.postRecordingScriptNotFound` if script doesn't exist
     ///   - `CallTranscriptionError.postRecordingScriptNotExecutable` if script lacks execute permission
     ///   - `CallTranscriptionError.postRecordingScriptTimeout` if script exceeds timeout
+    ///   - Security errors if script path is outside allowed directories or contains traversal attacks
     ///
     /// - Note: This method waits for the script to complete. Non-zero exit codes are logged
     ///         but do not throw - they return a result with the exit code for the caller to handle.
@@ -69,26 +72,32 @@ public final class ShellScriptExecutor {
         // Expand tilde in script path
         let expandedScriptPath = NSString(string: scriptPath).expandingTildeInPath
 
+        // Validate script path for security
+        // Ensures script is within allowed directories (user home) and prevents path traversal/symlink attacks
+        let validatedScriptURL = try pathValidator.validateForScriptExecution(path: expandedScriptPath)
+        let validatedScriptPath = validatedScriptURL.path
+        logger.debug("Script path validated: \(validatedScriptPath)")
+
         // Validate script exists
         let fileManager = FileManager.default
-        guard fileManager.fileExists(atPath: expandedScriptPath) else {
-            logger.error("Post-recording script not found at path: \(expandedScriptPath)")
-            throw CallTranscriptionError.postRecordingScriptNotFound(expandedScriptPath)
+        guard fileManager.fileExists(atPath: validatedScriptPath) else {
+            logger.error("Post-recording script not found at path: \(validatedScriptPath)")
+            throw CallTranscriptionError.postRecordingScriptNotFound(validatedScriptPath)
         }
 
         // Validate script is executable
-        guard fileManager.isExecutableFile(atPath: expandedScriptPath) else {
-            logger.error("Post-recording script is not executable: \(expandedScriptPath)")
-            throw CallTranscriptionError.postRecordingScriptNotExecutable(expandedScriptPath)
+        guard fileManager.isExecutableFile(atPath: validatedScriptPath) else {
+            logger.error("Post-recording script is not executable: \(validatedScriptPath)")
+            throw CallTranscriptionError.postRecordingScriptNotExecutable(validatedScriptPath)
         }
 
-        logger.info("Executing post-recording script: \(expandedScriptPath)")
+        logger.info("Executing post-recording script: \(validatedScriptPath)")
         logger.debug("Transcript path argument: \(transcriptPath)")
 
         // Create process
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/bin/bash")
-        process.arguments = [expandedScriptPath, transcriptPath]
+        process.arguments = [validatedScriptPath, transcriptPath]
 
         // Set up pipes for capturing output
         let stdoutPipe = Pipe()
