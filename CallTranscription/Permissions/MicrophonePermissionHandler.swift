@@ -14,7 +14,7 @@ import AppKit
 /// requests may trigger UI (permission dialogs) and System Settings opening
 /// requires main thread access. All public methods must be called from the
 /// main actor context.
-@available(macOS 26.0, *)
+@available(macOS 14.0, *)
 @MainActor
 public final class MicrophonePermissionHandler {
 

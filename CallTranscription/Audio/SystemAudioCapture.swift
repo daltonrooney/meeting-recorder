@@ -31,6 +31,7 @@ import OSLog
 /// // ... later ...
 /// await capture.stopCapture()
 /// ```
+@available(macOS 14.0, *)
 public final class SystemAudioCapture {
 
     // MARK: - Public Properties
@@ -85,11 +86,8 @@ public final class SystemAudioCapture {
             throw CallTranscriptionError.featureNotImplemented("Process filtering")
         }
 
-        // Check microphone permission (since we're currently using inputNode)
-        let permission = await checkMicrophonePermission()
-        guard permission else {
-            throw CallTranscriptionError.microphonePermissionDenied
-        }
+        // Check microphone permission using shared handler (since we're currently using inputNode)
+        try await MicrophonePermissionHandler().ensurePermission()
 
         // Set up audio input tap
         // CURRENT BEHAVIOR: Uses inputNode (microphone)
@@ -174,28 +172,4 @@ public final class SystemAudioCapture {
         }
     }
 
-    // MARK: - Private Methods
-
-    /// Checks microphone permission status.
-    ///
-    /// - Returns: `true` if permission is granted, `false` otherwise
-    private func checkMicrophonePermission() async -> Bool {
-        #if os(macOS)
-        // macOS 14+ permission handling
-        let status = AVCaptureDevice.authorizationStatus(for: .audio)
-
-        switch status {
-        case .authorized:
-            return true
-        case .notDetermined:
-            return await AVCaptureDevice.requestAccess(for: .audio)
-        case .denied, .restricted:
-            return false
-        @unknown default:
-            return false
-        }
-        #else
-        return false
-        #endif
-    }
 }
