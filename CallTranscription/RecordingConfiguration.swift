@@ -23,6 +23,9 @@ public struct RecordingConfiguration {
     /// Optional path to script to execute after recording completes
     public let postRecordingScriptPath: String?
 
+    /// Silence detection threshold for automatic pause
+    public let silencePauseThreshold: SilencePauseThreshold
+
     /// Creates a new recording configuration.
     ///
     /// - Parameters:
@@ -31,17 +34,20 @@ public struct RecordingConfiguration {
     ///   - microphoneEnabled: Whether to capture microphone audio (default: true)
     ///   - systemAudioEnabled: Whether to capture system audio (default: false)
     ///   - postRecordingScriptPath: Optional path to post-recording script (default: nil)
+    ///   - silencePauseThreshold: Silence detection threshold (default: .never)
     public init(
         outputFolder: String,
         locale: Locale,
         microphoneEnabled: Bool = true,
         systemAudioEnabled: Bool = false,
-        postRecordingScriptPath: String? = nil
+        postRecordingScriptPath: String? = nil,
+        silencePauseThreshold: SilencePauseThreshold = .never
     ) {
         self.outputFolder = outputFolder
         self.locale = locale
         self.microphoneEnabled = microphoneEnabled
         self.systemAudioEnabled = systemAudioEnabled
         self.postRecordingScriptPath = postRecordingScriptPath
+        self.silencePauseThreshold = silencePauseThreshold
     }
 }

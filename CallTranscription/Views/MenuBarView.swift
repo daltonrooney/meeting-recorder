@@ -6,21 +6,64 @@ struct MenuBarView: View {
     @State private var showError = false
 
     var body: some View {
-        Button(appState.isRecording ? "Stop Recording" : "Start Recording") {
-            Task {
-                do {
-                    if appState.isRecording {
-                        try await appState.stopActualRecording()
-                    } else {
-                        try await appState.startActualRecording(title: "Recording")
+        Group {
+            // Main recording control button
+            if !appState.isRecording {
+                // Not recording - show start button
+                Button("Start Recording") {
+                    Task {
+                        do {
+                            try await appState.startActualRecording(title: "Recording")
+                        } catch {
+                            errorMessage = error.localizedDescription
+                            showError = true
+                        }
                     }
-                } catch {
-                    errorMessage = error.localizedDescription
-                    showError = true
                 }
+                .keyboardShortcut("R", modifiers: [.command, .shift])
+            } else if appState.isPaused {
+                // Recording but paused - show resume button
+                Button("Resume Recording") {
+                    Task {
+                        do {
+                            try await appState.resumeRecording()
+                        } catch {
+                            errorMessage = error.localizedDescription
+                            showError = true
+                        }
+                    }
+                }
+                .keyboardShortcut("R", modifiers: [.command, .shift])
+            } else {
+                // Recording and active - show pause button
+                Button("Pause Recording") {
+                    Task {
+                        do {
+                            try await appState.pauseRecording()
+                        } catch {
+                            errorMessage = error.localizedDescription
+                            showError = true
+                        }
+                    }
+                }
+                .keyboardShortcut("P", modifiers: [.command, .shift])
+            }
+
+            // Stop button (always available when recording)
+            if appState.isRecording {
+                Button("Stop Recording") {
+                    Task {
+                        do {
+                            try await appState.stopActualRecording()
+                        } catch {
+                            errorMessage = error.localizedDescription
+                            showError = true
+                        }
+                    }
+                }
+                .keyboardShortcut("S", modifiers: [.command, .shift])
             }
         }
-        .keyboardShortcut("R", modifiers: [.command, .shift])
         .alert("Recording Error", isPresented: $showError) {
             Button("OK") { showError = false }
         } message: {
@@ -36,8 +79,13 @@ struct MenuBarView: View {
 
         if appState.isRecording {
             Divider()
-            Text("Recording: \(appState.elapsedTime)")
-                .foregroundColor(.secondary)
+            if appState.isPaused {
+                Text("Paused: \(appState.elapsedTime)")
+                    .foregroundColor(.orange)
+            } else {
+                Text("Recording: \(appState.elapsedTime)")
+                    .foregroundColor(.secondary)
+            }
         }
 
         Divider()

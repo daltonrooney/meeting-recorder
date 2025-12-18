@@ -17,7 +17,16 @@ struct CallTranscriptionApp: App {
                 .environmentObject(appState)
                 .environmentObject(settingsManager)
         } label: {
-            Image(systemName: appState.isRecording ? "waveform.circle.fill" : "waveform.circle")
+            // Show different icon based on recording state
+            if appState.isPaused {
+                Image(systemName: "pause.circle.fill")
+                    .foregroundColor(.orange)
+            } else if appState.isRecording {
+                Image(systemName: "waveform.circle.fill")
+                    .foregroundColor(.red)
+            } else {
+                Image(systemName: "waveform.circle")
+            }
         }
 
         Settings {

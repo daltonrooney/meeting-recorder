@@ -7,11 +7,13 @@ struct SettingsView: View {
     @AppStorage("postRecordingScript") private var postRecordingScript: String = SettingsManager.defaultPostRecordingScript
     @AppStorage("captureSystemAudio") private var captureSystemAudio: Bool = SettingsManager.defaultCaptureSystemAudio
     @AppStorage("captureMicrophone") private var captureMicrophone: Bool = SettingsManager.defaultCaptureMicrophone
+    @AppStorage("silencePauseThreshold") private var silencePauseThresholdRaw: String = SettingsManager.defaultSilencePauseThreshold.rawValue
 
     var body: some View {
         Form {
             outputSection
             audioSourcesSection
+            silenceDetectionSection
             postRecordingSection
         }
         .padding()
@@ -45,6 +47,26 @@ struct SettingsView: View {
             Toggle("Capture Microphone Input", isOn: $captureMicrophone)
 
             Text("At least one audio source must be enabled")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+    }
+
+    // MARK: - Silence Detection Section
+
+    private var silenceDetectionSection: some View {
+        Section("Silence Detection") {
+            Picker("Auto-pause after silence:", selection: Binding(
+                get: { SilencePauseThreshold(rawValue: silencePauseThresholdRaw) ?? .never },
+                set: { silencePauseThresholdRaw = $0.rawValue }
+            )) {
+                ForEach(SilencePauseThreshold.allCases, id: \.self) { threshold in
+                    Text(threshold.displayName).tag(threshold)
+                }
+            }
+            .pickerStyle(.menu)
+
+            Text("Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected.")
                 .font(.caption)
                 .foregroundColor(.secondary)
         }

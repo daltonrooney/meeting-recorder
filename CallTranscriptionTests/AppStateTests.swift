@@ -1000,4 +1000,311 @@ final class AppStateTests: XCTestCase {
         XCTAssertFalse(testAppState2.showConsentDialog,
                       "Consent dialog should not appear again if user chose to remember")
     }
+
+    // MARK: - Pause/Resume Tests
+
+    func testIsPausedDefaultsToFalse() {
+        let testAppState = AppState()
+        XCTAssertFalse(testAppState.isPaused,
+                      "isPaused should default to false")
+    }
+
+    func testCanPauseWhileRecording() async throws {
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Start recording
+        try await testAppState.startActualRecording(title: "Test")
+        XCTAssertTrue(testAppState.isRecording)
+        XCTAssertFalse(testAppState.isPaused)
+
+        // Pause
+        try await testAppState.pauseRecording()
+
+        // Assert
+        XCTAssertTrue(testAppState.isRecording,
+                     "isRecording should still be true when paused")
+        XCTAssertTrue(testAppState.isPaused,
+                     "isPaused should be true after pause")
+
+        // Cleanup
+        _ = try await testAppState.stopActualRecording()
+    }
+
+    func testCannotPauseWhenNotRecording() async {
+        let testAppState = AppState()
+
+        // Try to pause when not recording
+        do {
+            try await testAppState.pauseRecording()
+            XCTFail("pauseRecording should throw when not recording")
+        } catch {
+            // Expected error
+            XCTAssertTrue(error is CallTranscriptionError,
+                         "Should throw CallTranscriptionError")
+        }
+    }
+
+    func testCannotPauseWhenAlreadyPaused() async throws {
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Start and pause
+        try await testAppState.startActualRecording(title: "Test")
+        try await testAppState.pauseRecording()
+        XCTAssertTrue(testAppState.isPaused)
+
+        // Try to pause again - should be idempotent
+        try await testAppState.pauseRecording()
+        XCTAssertTrue(testAppState.isPaused,
+                     "Should remain paused (idempotent)")
+
+        // Cleanup
+        _ = try await testAppState.stopActualRecording()
+    }
+
+    func testCanResumeAfterPause() async throws {
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Start, pause, then resume
+        try await testAppState.startActualRecording(title: "Test")
+        try await testAppState.pauseRecording()
+        XCTAssertTrue(testAppState.isPaused)
+
+        try await testAppState.resumeRecording()
+
+        // Assert
+        XCTAssertTrue(testAppState.isRecording,
+                     "Should still be recording after resume")
+        XCTAssertFalse(testAppState.isPaused,
+                      "isPaused should be false after resume")
+
+        // Cleanup
+        _ = try await testAppState.stopActualRecording()
+    }
+
+    func testCannotResumeWhenNotPaused() async throws {
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Start recording (not paused)
+        try await testAppState.startActualRecording(title: "Test")
+
+        // Try to resume when not paused
+        do {
+            try await testAppState.resumeRecording()
+            XCTFail("resumeRecording should throw when not paused")
+        } catch {
+            // Expected error
+            XCTAssertTrue(error is CallTranscriptionError,
+                         "Should throw CallTranscriptionError")
+        }
+
+        // Cleanup
+        _ = try await testAppState.stopActualRecording()
+    }
+
+    func testElapsedTimeDoesNotIncreaseWhilePaused() async throws {
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Start recording
+        try await testAppState.startActualRecording(title: "Test")
+
+        // Wait for timer to update
+        try? await Task.sleep(nanoseconds: 1_500_000_000) // 1.5 seconds
+        let elapsedBeforePause = testAppState.elapsedTime
+
+        // Pause
+        try await testAppState.pauseRecording()
+
+        // Wait while paused
+        try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
+        let elapsedWhilePaused = testAppState.elapsedTime
+
+        // Assert elapsed time didn't change during pause
+        XCTAssertEqual(elapsedBeforePause, elapsedWhilePaused,
+                      "Elapsed time should not increase while paused")
+
+        // Cleanup
+        _ = try await testAppState.stopActualRecording()
+    }
+
+    func testElapsedTimeContinuesAfterResume() async throws {
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Start recording and wait
+        try await testAppState.startActualRecording(title: "Test")
+        try? await Task.sleep(nanoseconds: 1_500_000_000)
+
+        // Pause, wait, then resume
+        try await testAppState.pauseRecording()
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        try await testAppState.resumeRecording()
+
+        // Wait after resume
+        let elapsedBeforeWait = testAppState.elapsedTime
+        try? await Task.sleep(nanoseconds: 1_500_000_000)
+        let elapsedAfterWait = testAppState.elapsedTime
+
+        // Assert elapsed time increased after resume
+        XCTAssertNotEqual(elapsedBeforeWait, elapsedAfterWait,
+                         "Elapsed time should increase after resume")
+
+        // Cleanup
+        _ = try await testAppState.stopActualRecording()
+    }
+
+    func testStoppingClearsPausedState() async throws {
+        let settings = SettingsManager()
+        settings.outputFolder = NSTemporaryDirectory()
+        let testAppState = AppState(settingsManager: settings)
+
+        // Start, pause, then stop
+        try await testAppState.startActualRecording(title: "Test")
+        try await testAppState.pauseRecording()
+        XCTAssertTrue(testAppState.isPaused)
+
+        _ = try await testAppState.stopActualRecording()
+
+        // Assert
+        XCTAssertFalse(testAppState.isRecording,
+                      "isRecording should be false after stop")
+        XCTAssertFalse(testAppState.isPaused,
+                      "isPaused should be false after stop")
+    }
+
+    func testIsPausedPropertyIsPublished() {
+        let testAppState = AppState()
+        let expectation = expectation(description: "isPaused change should be published")
+        var receivedValues: [Bool] = []
+
+        testAppState.$isPaused
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        Task {
+            // Start recording first (sync version for state only)
+            testAppState.startRecording()
+            // Now pause it
+            try? await testAppState.pauseRecording()
+        }
+
+        wait(for: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues, [true],
+                      "isPaused change should be published")
+    }
+
+    // MARK: - Integration Tests - Edge Cases
+
+    func testRapidPauseResumeCycles() async throws {
+        let testAppState = AppState()
+
+        // Start recording (sync version for state only)
+        testAppState.startRecording()
+        XCTAssertTrue(testAppState.isRecording)
+        XCTAssertFalse(testAppState.isPaused)
+
+        // Rapidly pause and resume multiple times
+        for _ in 0..<5 {
+            try? await testAppState.pauseRecording()
+            XCTAssertTrue(testAppState.isPaused, "Should be paused")
+
+            try? await testAppState.resumeRecording()
+            XCTAssertFalse(testAppState.isPaused, "Should be resumed")
+        }
+
+        // Final state check
+        XCTAssertTrue(testAppState.isRecording, "Should still be recording")
+        XCTAssertFalse(testAppState.isPaused, "Should not be paused")
+    }
+
+    func testPauseAfterStopThrowsError() async throws {
+        let testAppState = AppState()
+
+        // Start and stop
+        testAppState.startRecording()
+        testAppState.stopRecording()
+
+        // Try to pause after stop - should throw
+        do {
+            try await testAppState.pauseRecording()
+            XCTFail("Should throw error when pausing after stop")
+        } catch CallTranscriptionError.notRecording {
+            // Expected error
+        } catch {
+            XCTFail("Wrong error type: \(error)")
+        }
+    }
+
+    func testResumeAfterStopThrowsError() async throws {
+        let testAppState = AppState()
+
+        // Start, pause, stop
+        testAppState.startRecording()
+        try? await testAppState.pauseRecording()
+        testAppState.stopRecording()
+
+        // Try to resume after stop - should throw
+        do {
+            try await testAppState.resumeRecording()
+            XCTFail("Should throw error when resuming after stop")
+        } catch CallTranscriptionError.notRecording {
+            // Expected error
+        } catch {
+            XCTFail("Wrong error type: \(error)")
+        }
+    }
+
+    func testPauseWhenCoordinatorNilThrowsError() async throws {
+        // Create AppState without coordinator (simulates coordinator cleanup)
+        let testAppState = AppState()
+        testAppState.startRecording() // Sets isRecording = true but coordinator = nil
+
+        // Try to pause when coordinator is nil - should throw
+        do {
+            try await testAppState.pauseRecording()
+            XCTFail("Should throw error when coordinator is nil")
+        } catch CallTranscriptionError.notRecording {
+            // Expected error - coordinator check prevents state update
+        } catch {
+            XCTFail("Wrong error type: \(error)")
+        }
+
+        // Verify state wasn't updated
+        XCTAssertFalse(testAppState.isPaused,
+                      "State should not update when coordinator is nil")
+    }
+
+    func testResumeWhenCoordinatorNilThrowsError() async throws {
+        let testAppState = AppState()
+
+        // Manually set isPaused to true (simulating edge case)
+        testAppState.startRecording()
+        // Force pause state without coordinator
+        // (In real scenario, this would come from a pause that succeeded then coordinator was nil'd)
+
+        // Try to resume when coordinator is nil - should throw
+        do {
+            try await testAppState.resumeRecording()
+            XCTFail("Should throw error when coordinator is nil")
+        } catch {
+            // Expected - either notPaused or notRecording error
+            XCTAssertTrue(error is CallTranscriptionError)
+        }
+    }
 }

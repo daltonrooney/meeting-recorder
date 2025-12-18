@@ -416,4 +416,127 @@ final class SettingsManagerTests: XCTestCase {
         XCTAssertFalse(newManager.hasAcceptedConsentDialog,
                       "Should default to false when not in UserDefaults")
     }
+
+    // MARK: - Silence Detection Settings Tests
+
+    func testDefaultSilencePauseThresholdIsNever() {
+        XCTAssertEqual(settingsManager.silencePauseThreshold, .never,
+                      "Default silencePauseThreshold should be .never (disabled)")
+    }
+
+    func testSilencePauseThresholdCanBeSetToTwoMinutes() {
+        settingsManager.silencePauseThreshold = .twoMinutes
+        XCTAssertEqual(settingsManager.silencePauseThreshold, .twoMinutes,
+                     "Should be able to set silencePauseThreshold to .twoMinutes")
+    }
+
+    func testSilencePauseThresholdCanBeSetToFiveMinutes() {
+        settingsManager.silencePauseThreshold = .fiveMinutes
+        XCTAssertEqual(settingsManager.silencePauseThreshold, .fiveMinutes,
+                     "Should be able to set silencePauseThreshold to .fiveMinutes")
+    }
+
+    func testSilencePauseThresholdCanBeSetToTenMinutes() {
+        settingsManager.silencePauseThreshold = .tenMinutes
+        XCTAssertEqual(settingsManager.silencePauseThreshold, .tenMinutes,
+                     "Should be able to set silencePauseThreshold to .tenMinutes")
+    }
+
+    func testSilencePauseThresholdCanBeSetToNever() {
+        settingsManager.silencePauseThreshold = .twoMinutes
+        settingsManager.silencePauseThreshold = .never
+        XCTAssertEqual(settingsManager.silencePauseThreshold, .never,
+                     "Should be able to set silencePauseThreshold back to .never")
+    }
+
+    func testSilencePauseThresholdPersistsAcrossInstances() {
+        // Set to five minutes
+        settingsManager.silencePauseThreshold = .fiveMinutes
+
+        // Force save to UserDefaults
+        testUserDefaults.set("fiveMinutes", forKey: "silencePauseThreshold")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.silencePauseThreshold, .fiveMinutes,
+                     "silencePauseThreshold should persist across instances")
+    }
+
+    func testSilencePauseThresholdPropertyIsPublished() async {
+        let expectation = expectation(description: "silencePauseThreshold change should be published")
+        var receivedValues: [SilencePauseThreshold] = []
+
+        settingsManager.$silencePauseThreshold
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        // Change the value
+        settingsManager.silencePauseThreshold = .twoMinutes
+
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues, [.twoMinutes],
+                      "silencePauseThreshold change should be published")
+    }
+
+    func testSilencePauseThresholdWritesToUserDefaults() async {
+        // Set value
+        settingsManager.silencePauseThreshold = .tenMinutes
+
+        // Give Combine pipeline time to write
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Check UserDefaults directly
+        let storedValue = testUserDefaults.string(forKey: "silencePauseThreshold")
+        XCTAssertEqual(storedValue, "tenMinutes",
+                     "silencePauseThreshold should write to UserDefaults")
+    }
+
+    func testSilencePauseThresholdReadsFromUserDefaults() {
+        // Set value directly in UserDefaults
+        testUserDefaults.set("twoMinutes", forKey: "silencePauseThreshold")
+        testUserDefaults.synchronize()
+
+        // Create new instance - should read from UserDefaults
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.silencePauseThreshold, .twoMinutes,
+                     "Should read silencePauseThreshold from UserDefaults on init")
+    }
+
+    func testSilencePauseThresholdDefaultValueWhenNotInUserDefaults() {
+        // Ensure key doesn't exist in UserDefaults
+        testUserDefaults.removeObject(forKey: "silencePauseThreshold")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.silencePauseThreshold, .never,
+                      "Should default to .never when not in UserDefaults")
+    }
+
+    func testSilencePauseThresholdTimeIntervalForTwoMinutes() {
+        XCTAssertEqual(SilencePauseThreshold.twoMinutes.timeInterval, 120.0,
+                      "twoMinutes should return 120 seconds")
+    }
+
+    func testSilencePauseThresholdTimeIntervalForFiveMinutes() {
+        XCTAssertEqual(SilencePauseThreshold.fiveMinutes.timeInterval, 300.0,
+                      "fiveMinutes should return 300 seconds")
+    }
+
+    func testSilencePauseThresholdTimeIntervalForTenMinutes() {
+        XCTAssertEqual(SilencePauseThreshold.tenMinutes.timeInterval, 600.0,
+                      "tenMinutes should return 600 seconds")
+    }
+
+    func testSilencePauseThresholdTimeIntervalForNever() {
+        XCTAssertNil(SilencePauseThreshold.never.timeInterval,
+                    "never should return nil (disabled)")
+    }
 }

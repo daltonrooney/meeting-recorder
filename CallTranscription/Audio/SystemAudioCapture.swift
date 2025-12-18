@@ -128,6 +128,52 @@ public final class SystemAudioCapture {
         isCapturing = false
     }
 
+    /// Pauses audio capture without stopping the audio engine.
+    ///
+    /// Removes the audio tap to stop buffer delivery while keeping the engine running.
+    /// This allows for quick resume without restarting the engine.
+    ///
+    /// - Note: This method is idempotent - multiple calls are safe
+    public func pauseCapture() async {
+        guard isCapturing else {
+            return
+        }
+
+        logger.debug("Pausing audio capture")
+        // Remove tap but keep engine running
+        audioEngine.inputNode.removeTap(onBus: 0)
+    }
+
+    /// Resumes audio capture after being paused.
+    ///
+    /// Reinstalls the audio tap to resume buffer delivery.
+    ///
+    /// - Note: This method is idempotent - multiple calls are safe
+    public func resumeCapture() async {
+        guard isCapturing else {
+            return
+        }
+
+        logger.debug("Resuming audio capture")
+
+        let inputNode = audioEngine.inputNode
+        let format = inputNode.outputFormat(forBus: 0)
+        let handler = audioBufferHandler
+
+        // Reinstall tap
+        // Note: This may fail if tap is already installed (expected during idempotent calls)
+        // or due to other issues (format mismatch, resource exhaustion) which we log
+        do {
+            try inputNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, time in
+                handler?(buffer)
+            }
+        } catch {
+            // Log the error but don't throw - this is a best-effort operation
+            // Most common case: tap already installed (idempotent call)
+            logger.debug("Failed to reinstall tap during resume: \(error.localizedDescription)")
+        }
+    }
+
     // MARK: - Private Methods
 
     /// Checks microphone permission status.

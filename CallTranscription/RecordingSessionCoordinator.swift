@@ -50,11 +50,13 @@ public final class RecordingSessionCoordinator {
     private var audioMixer: AudioMixer?
     private var transcriptionManager: TranscriptionManager?
     private var transcriptWriter: TranscriptWriter?
+    private var silenceDetector: SilenceDetector?
     private let outputFolderManager = OutputFolderManager()
 
     // Session state
     private var recordingStartTime: Date?
     private var currentTitle: String?
+    private var isPaused: Bool = false
 
     // Callbacks
     private var transcriptionResultHandler: ((String, Bool) -> Void)?
@@ -158,6 +160,86 @@ public final class RecordingSessionCoordinator {
         }
     }
 
+    /// Pauses the current recording session.
+    ///
+    /// - Throws: An error if pausing fails.
+    ///
+    /// This method pauses audio capture while maintaining the recording session.
+    /// Call `resumeRecording()` to continue.
+    public func pauseRecording() async throws {
+        guard isRecording else {
+            throw CallTranscriptionError.notRecording
+        }
+
+        guard !isPaused else {
+            logger.warning("Cannot pause: already paused")
+            throw CallTranscriptionError.featureNotImplemented("Recording is already paused")
+        }
+
+        logger.info("Pausing recording session")
+
+        // Pause audio capture sources
+        if let micCapture = microphoneCapture {
+            nonisolated(unsafe) let unsafeMicCapture = micCapture
+            await unsafeMicCapture.pauseCapture()
+            logger.debug("Microphone capture paused")
+        }
+
+        if let sysCapture = systemAudioCapture {
+            nonisolated(unsafe) let unsafeSysCapture = sysCapture
+            await unsafeSysCapture.pauseCapture()
+            logger.debug("System audio capture paused")
+        }
+
+        // Reset silence detector to prevent unexpected auto-pause after manual resume
+        // Without this, accumulated silence duration before pause could trigger auto-pause
+        // shortly after resuming (e.g., 1:50 accumulated + 10s after resume = auto-pause)
+        silenceDetector?.reset()
+        logger.debug("Silence detector reset")
+
+        // Note: We don't pause transcription manager - we simply stop feeding it audio
+        // When we resume, audio will continue to flow and transcription will continue
+
+        isPaused = true
+        logger.info("Recording session paused successfully")
+    }
+
+    /// Resumes the current recording session after being paused.
+    ///
+    /// - Throws: An error if resuming fails.
+    ///
+    /// This method resumes audio capture after a pause.
+    public func resumeRecording() async throws {
+        guard isRecording else {
+            throw CallTranscriptionError.notRecording
+        }
+
+        guard isPaused else {
+            logger.warning("Cannot resume: not paused")
+            throw CallTranscriptionError.featureNotImplemented("Recording is not paused")
+        }
+
+        logger.info("Resuming recording session")
+
+        // Resume audio capture sources
+        if let micCapture = microphoneCapture {
+            nonisolated(unsafe) let unsafeMicCapture = micCapture
+            await unsafeMicCapture.resumeCapture()
+            logger.debug("Microphone capture resumed")
+        }
+
+        if let sysCapture = systemAudioCapture {
+            nonisolated(unsafe) let unsafeSysCapture = sysCapture
+            await unsafeSysCapture.resumeCapture()
+            logger.debug("System audio capture resumed")
+        }
+
+        // Audio will automatically start flowing to transcription manager again
+
+        isPaused = false
+        logger.info("Recording session resumed successfully")
+    }
+
     // MARK: - Private Methods - Validation
 
     private func validateConfiguration() async throws {
@@ -202,6 +284,10 @@ public final class RecordingSessionCoordinator {
             title: currentTitle
         )
 
+        // Create silence detector
+        silenceDetector = SilenceDetector(threshold: configuration.silencePauseThreshold)
+        setupSilenceDetection()
+
         logger.debug("Components initialized")
     }
 
@@ -212,9 +298,16 @@ public final class RecordingSessionCoordinator {
             return
         }
 
-        // Route mixed audio to transcription
+        // Route mixed audio to transcription and silence detector
         audioMixer.mixedBufferHandler = { [weak self] buffer in
             guard let self = self else { return }
+
+            // Feed to silence detector for analysis
+            if let silenceDetector = self.silenceDetector {
+                silenceDetector.processAudioBuffer(buffer)
+            }
+
+            // Feed to transcription manager
             Task { @MainActor in
                 do {
                     try await transcriptionManager.feedAudio(buffer)
@@ -248,6 +341,53 @@ public final class RecordingSessionCoordinator {
         }
 
         logger.debug("Transcription handling configured")
+    }
+
+    private func setupSilenceDetection() {
+        guard let silenceDetector = silenceDetector else {
+            logger.error("Cannot setup silence detection: missing silence detector")
+            return
+        }
+
+        // Handle silence threshold exceeded (auto-pause)
+        silenceDetector.onSilenceThresholdExceeded = { @Sendable [weak self] in
+            guard let self = self else { return }
+            Task { @MainActor in
+                // Guard against race: check state is valid for pause
+                guard self.isRecording else {
+                    self.logger.debug("Ignoring auto-pause: recording already stopped")
+                    return
+                }
+
+                do {
+                    try await self.pauseRecording()
+                    self.logger.info("Auto-paused recording due to silence")
+                } catch {
+                    self.logger.error("Failed to auto-pause: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        // Handle audio detected after silence (auto-resume)
+        silenceDetector.onAudioDetectedAfterSilence = { @Sendable [weak self] in
+            guard let self = self else { return }
+            Task { @MainActor in
+                // Guard against race: check recording is active and paused
+                guard self.isRecording else {
+                    self.logger.debug("Ignoring auto-resume: recording already stopped")
+                    return
+                }
+
+                do {
+                    try await self.resumeRecording()
+                    self.logger.info("Auto-resumed recording after audio detected")
+                } catch {
+                    self.logger.error("Failed to auto-resume: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        logger.debug("Silence detection configured")
     }
 
     // MARK: - Private Methods - Component Control
@@ -423,13 +563,18 @@ public final class RecordingSessionCoordinator {
     private func cleanup() async {
         logger.debug("Cleaning up resources")
 
+        // Reset silence detector state
+        silenceDetector?.reset()
+
         microphoneCapture = nil
         systemAudioCapture = nil
         audioMixer = nil
         transcriptionManager = nil
         transcriptWriter = nil
+        silenceDetector = nil
         recordingStartTime = nil
         currentTitle = nil
+        isPaused = false
 
         logger.debug("Cleanup complete")
     }
