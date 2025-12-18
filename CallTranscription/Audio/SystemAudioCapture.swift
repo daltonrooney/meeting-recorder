@@ -166,6 +166,10 @@ public final class SystemAudioCapture {
         let format = inputNode.outputFormat(forBus: 0)
         let handler = audioBufferHandler
 
+        // User called resume, so mark as no longer paused regardless of tap installation success
+        // This reflects user intent and avoids inconsistent state
+        isPaused = false
+
         // Reinstall tap
         // Note: This may fail if tap is already installed (expected during idempotent calls)
         // or due to other issues (format mismatch, resource exhaustion) which we log
@@ -173,7 +177,6 @@ public final class SystemAudioCapture {
             try inputNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, time in
                 handler?(buffer)
             }
-            isPaused = false
         } catch {
             // Log the error but don't throw - this is a best-effort operation
             // Most common case: tap already installed (idempotent call)

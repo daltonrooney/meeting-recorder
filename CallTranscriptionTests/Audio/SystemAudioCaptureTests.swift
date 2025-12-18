@@ -335,6 +335,19 @@ final class SystemAudioCaptureTests: XCTestCase {
         XCTAssertFalse(systemAudioCapture.isPaused, "Should not be paused after stop")
     }
 
+    func testIsPausedRemainsUnaffectedWhenPausingWithoutStart() async {
+        // Calling pause when not started should have no effect
+        await systemAudioCapture.pauseCapture()
+        XCTAssertFalse(systemAudioCapture.isPaused, "isPaused should remain false when pausing without start")
+    }
+
+    func testIsPausedRemainsUnaffectedWhenResumingWithoutPause() async throws {
+        // Calling resume when not paused should have no effect
+        try await systemAudioCapture.startCapture()
+        await systemAudioCapture.resumeCapture()
+        XCTAssertFalse(systemAudioCapture.isPaused, "isPaused should remain false when resuming without pause")
+    }
+
     // MARK: - Error Scenario Tests
 
     func testThrowsAudioTapCreationFailedOnCoreAudioError() async {
