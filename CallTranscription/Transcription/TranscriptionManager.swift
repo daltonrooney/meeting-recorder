@@ -220,8 +220,8 @@ public final class TranscriptionManager {
             let outputCapacity = AVAudioFrameCount(Double(buffer.frameLength) * sampleRateRatio)
 
             guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: analyzerFormat, frameCapacity: outputCapacity) else {
-                let error = CallTranscriptionError.audioProcessingFailed("Failed to create output buffer with capacity \(outputCapacity)")
-                logger.error("Failed to create output buffer with capacity \(outputCapacity)")
+                let error = CallTranscriptionError.audioProcessingFailed("Failed to create output buffer with capacity \(outputCapacity) for format \(analyzerFormat.sampleRate)Hz")
+                logger.error("Failed to create output buffer with capacity \(outputCapacity) for format \(analyzerFormat.sampleRate)Hz")
                 onTranscriptionError?(error)
                 return
             }
