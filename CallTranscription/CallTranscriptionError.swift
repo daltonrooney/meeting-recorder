@@ -45,6 +45,9 @@ public enum CallTranscriptionError: LocalizedError {
     /// Attempted to resume recording when not paused.
     case notPaused
 
+    /// Audio processing failed during transcription.
+    case audioProcessingFailed(String)
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -87,6 +90,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .notPaused:
             return "Recording is not currently paused."
+
+        case .audioProcessingFailed(let reason):
+            return "Audio processing failed: \(reason)"
         }
     }
 
@@ -130,6 +136,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .notPaused:
             return "Cannot resume because recording is not paused."
+
+        case .audioProcessingFailed(let reason):
+            return "Audio processing encountered an error: \(reason)"
         }
     }
 
@@ -173,6 +182,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .notPaused:
             return "Pause the recording first before attempting to resume."
+
+        case .audioProcessingFailed:
+            return "Check audio format compatibility and ensure transcription is running."
         }
     }
 }
@@ -208,6 +220,8 @@ extension CallTranscriptionError: Equatable {
             return true
         case (.notPaused, .notPaused):
             return true
+        case (.audioProcessingFailed(let lhsReason), .audioProcessingFailed(let rhsReason)):
+            return lhsReason == rhsReason
         default:
             return false
         }

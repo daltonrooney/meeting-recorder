@@ -309,11 +309,7 @@ public final class RecordingSessionCoordinator {
 
             // Feed to transcription manager
             Task { @MainActor in
-                do {
-                    try await transcriptionManager.feedAudio(buffer)
-                } catch {
-                    self.logger.error("Failed to feed audio to transcription: \(error.localizedDescription)")
-                }
+                await transcriptionManager.feedAudio(buffer)
             }
         }
 
