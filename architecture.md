@@ -1,8 +1,8 @@
-# MeetingRecorder: Architecture Document
+# Olive: Architecture Document
 
 ## Overview
 
-MeetingRecorder is a macOS menu bar application that captures audio from both sides of a Zoom call (or any other application producing system audio), transcribes it using Apple's native Speech framework, and saves the transcript to a user-defined folder.
+Olive is a macOS menu bar application that captures audio from both sides of a Zoom call (or any other application producing system audio), transcribes it using Apple's native Speech framework, and saves the transcript to a user-defined folder.
 
 **Critical Requirement**: Audio capture must be completely non-invasive. The application taps into audio streams passively—no interruption, no delay, no quality degradation to the actual audio being played or recorded.
 
@@ -27,8 +27,8 @@ MeetingRecorder is a macOS menu bar application that captures audio from both si
 ### 1. App Structure
 
 ```
-MeetingRecorder/
-├── MeetingRecorderApp.swift          # App entry point, MenuBarExtra
+Olive/
+├── OliveApp.swift                    # App entry point, MenuBarExtra
 ├── Models/
 │   └── AppState.swift           # Observable recording state
 ├── Audio/
@@ -178,9 +178,9 @@ Use SwiftUI's `MenuBarExtra` for a native menu bar presence:
 
 ```swift
 @main
-struct MeetingRecorderApp: App {
+struct OliveApp: App {
     @StateObject private var appState = AppState()
-    
+
     var body: some Scene {
         MenuBarExtra {
             MenuBarView()
@@ -188,7 +188,7 @@ struct MeetingRecorderApp: App {
         } label: {
             Image(systemName: appState.isRecording ? "waveform.circle.fill" : "waveform.circle")
         }
-        
+
         Settings {
             SettingsView()
                 .environmentObject(appState)
@@ -277,7 +277,7 @@ struct SettingsView: View {
 Save transcripts as plain text with timestamps:
 
 ```
-MeetingRecorder Transcript
+Olive Transcript
 Date: 2025-12-15 14:30:00
 Duration: 45:23
 
@@ -302,11 +302,11 @@ class TranscriptWriter {
         
         // Create file with header
         let header = """
-        MeetingRecorder Transcript
+        Olive Transcript
         Date: \(Date().formatted())
-        
+
         ---
-        
+
         """
         try header.write(to: outputURL, atomically: true, encoding: .utf8)
         fileHandle = try FileHandle(forWritingTo: outputURL)
@@ -366,10 +366,10 @@ func executePostRecordingScript(scriptPath: String, transcriptPath: URL) async t
 
 ```xml
 <key>NSMicrophoneUsageDescription</key>
-<string>MeetingRecorder needs microphone access to record and transcribe your side of the conversation during calls. All audio processing happens on-device.</string>
+<string>Olive needs microphone access to record and transcribe your side of the conversation during calls. All audio processing happens on-device.</string>
 
 <key>NSSpeechRecognitionUsageDescription</key>
-<string>MeetingRecorder uses on-device speech recognition to transcribe your calls in real-time. Your audio never leaves your Mac.</string>
+<string>Olive uses on-device speech recognition to transcribe your calls in real-time. Your audio never leaves your Mac.</string>
 ```
 
 ### Entitlements
@@ -406,13 +406,13 @@ func executePostRecordingScript(scriptPath: String, transcriptPath: URL) async t
 5. **Post-recording script not found/not executable**: Log warning, continue
 
 ```swift
-enum MeetingRecorderError: LocalizedError {
+enum OliveError: LocalizedError {
     case microphonePermissionDenied
     case speechRecognitionUnavailable
     case localeNotSupported(Locale)
     case outputFolderNotWritable(URL)
     case audioTapCreationFailed(OSStatus)
-    
+
     var errorDescription: String? {
         switch self {
         case .microphonePermissionDenied:
@@ -448,10 +448,10 @@ enum MeetingRecorderError: LocalizedError {
 
 ```bash
 # Build
-xcodebuild -scheme MeetingRecorder -configuration Debug build
+xcodebuild -scheme Olive -configuration Debug build
 
 # Run
-open ./build/Debug/MeetingRecorder.app
+open ./build/Debug/Olive.app
 ```
 
 ### Release

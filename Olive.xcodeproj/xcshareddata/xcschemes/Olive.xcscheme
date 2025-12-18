@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1601182A1F385775828F8B89"
-               BuildableName = "CallTranscription.app"
-               BlueprintName = "CallTranscription"
-               ReferencedContainer = "container:CallTranscription.xcodeproj">
+               BuildableName = "Olive.app"
+               BlueprintName = "Olive"
+               ReferencedContainer = "container:Olive.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -32,7 +32,7 @@
                BlueprintIdentifier = "0870270C8F53E4DBA523951A"
                BuildableName = "CallTranscriptionTests.xctest"
                BlueprintName = "CallTranscriptionTests"
-               ReferencedContainer = "container:CallTranscription.xcodeproj">
+               ReferencedContainer = "container:Olive.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1601182A1F385775828F8B89"
-            BuildableName = "CallTranscription.app"
-            BlueprintName = "CallTranscription"
-            ReferencedContainer = "container:CallTranscription.xcodeproj">
+            BuildableName = "Olive.app"
+            BlueprintName = "Olive"
+            ReferencedContainer = "container:Olive.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -61,7 +61,7 @@
                BlueprintIdentifier = "0870270C8F53E4DBA523951A"
                BuildableName = "CallTranscriptionTests.xctest"
                BlueprintName = "CallTranscriptionTests"
-               ReferencedContainer = "container:CallTranscription.xcodeproj">
+               ReferencedContainer = "container:Olive.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1601182A1F385775828F8B89"
-            BuildableName = "CallTranscription.app"
-            BlueprintName = "CallTranscription"
-            ReferencedContainer = "container:CallTranscription.xcodeproj">
+            BuildableName = "Olive.app"
+            BlueprintName = "Olive"
+            ReferencedContainer = "container:Olive.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -102,9 +102,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1601182A1F385775828F8B89"
-            BuildableName = "CallTranscription.app"
-            BlueprintName = "CallTranscription"
-            ReferencedContainer = "container:CallTranscription.xcodeproj">
+            BuildableName = "Olive.app"
+            BlueprintName = "Olive"
+            ReferencedContainer = "container:Olive.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>

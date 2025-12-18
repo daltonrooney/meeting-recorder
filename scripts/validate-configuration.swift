@@ -139,7 +139,7 @@ struct ConfigurationValidator {
         print("  • Checking build configurations...")
 
         let projectPath = projectRoot
-            .appendingPathComponent("CallTranscription.xcodeproj/project.pbxproj")
+            .appendingPathComponent("Olive.xcodeproj/project.pbxproj")
             .path
 
         guard FileManager.default.fileExists(atPath: projectPath) else {
@@ -172,7 +172,7 @@ struct ConfigurationValidator {
         print("  • Checking deployment target...")
 
         let projectPath = projectRoot
-            .appendingPathComponent("CallTranscription.xcodeproj/project.pbxproj")
+            .appendingPathComponent("Olive.xcodeproj/project.pbxproj")
             .path
 
         let projectContent: String

@@ -70,7 +70,7 @@
 		13DD9F73D226417E47F34625 /* RecordingSessionCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSessionCoordinatorTests.swift; sourceTree = "<group>"; };
 		19C6A8DD79C9A34E16DD3E91 /* OutputFolderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputFolderManager.swift; sourceTree = "<group>"; };
 		291037EEDD610067766C93A2 /* MicrophonePermissionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophonePermissionHandler.swift; sourceTree = "<group>"; };
-		38D38A046EB7BB650D0DE9AE /* CallTranscription.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallTranscription.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		38D38A046EB7BB650D0DE9AE /* Olive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Olive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41BB01769B57BC5597D4228A /* CallTranscriptionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTranscriptionApp.swift; sourceTree = "<group>"; };
 		55892B251E0868C2B08ACFB9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5D7798DA4EA130CBD473DDC1 /* TranscriptWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptWriterTests.swift; sourceTree = "<group>"; };
@@ -265,7 +265,7 @@
 		EE950FEC795586885DB1B8D6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				38D38A046EB7BB650D0DE9AE /* CallTranscription.app */,
+				38D38A046EB7BB650D0DE9AE /* Olive.app */,
 				680C5C418C37810D643E187F /* CallTranscriptionTests.xctest */,
 			);
 			name = Products;
@@ -320,11 +320,11 @@
 			);
 			dependencies = (
 			);
-			name = CallTranscription;
+			name = Olive;
 			packageProductDependencies = (
 			);
-			productName = CallTranscription;
-			productReference = 38D38A046EB7BB650D0DE9AE /* CallTranscription.app */;
+			productName = Olive;
+			productReference = 38D38A046EB7BB650D0DE9AE /* Olive.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -467,11 +467,11 @@
 					"@loader_path/../Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscriptionTests;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.OliveTests;
 				PRODUCT_MODULE_NAME = CallTranscriptionTests;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CallTranscription.app/Contents/MacOS/CallTranscription";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Olive.app/Contents/MacOS/Olive";
 			};
 			name = Debug;
 		};
@@ -489,7 +489,7 @@
 					"@executable_path/../Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.Olive;
 				PRODUCT_MODULE_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -508,11 +508,11 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscriptionTests;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.OliveTests;
 				PRODUCT_MODULE_NAME = CallTranscriptionTests;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CallTranscription.app/Contents/MacOS/CallTranscription";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Olive.app/Contents/MacOS/Olive";
 			};
 			name = Release;
 		};
@@ -578,8 +578,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
-				PRODUCT_NAME = CallTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.Olive;
+				PRODUCT_NAME = Olive;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -600,7 +600,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.Olive;
 				PRODUCT_MODULE_NAME = CallTranscription;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -662,8 +662,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.CallTranscription;
-				PRODUCT_NAME = CallTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rygn.Olive;
+				PRODUCT_NAME = Olive;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
