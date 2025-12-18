@@ -13,7 +13,6 @@ settings:
     MACOSX_DEPLOYMENT_TARGET: "26.0"
     SWIFT_VERSION: "6.0"
     ENABLE_PREVIEWS: YES
-    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     GENERATE_INFOPLIST_FILE: NO
     INFOPLIST_FILE: CallTranscription/Info.plist
     CODE_SIGN_ENTITLEMENTS: CallTranscription/CallTranscription.entitlements
@@ -29,6 +28,11 @@ targets:
         excludes:
           - "*.plist"
           - "*.entitlements"
+          - "Assets.xcassets"
+          - "icon.icon"
+    resources:
+      - CallTranscription/Assets.xcassets
+      - CallTranscription/icon.icon
     info:
       path: CallTranscription/Info.plist
     entitlements:
