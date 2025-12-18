@@ -320,7 +320,7 @@ public final class AppState: ObservableObject {
 
         // Calculate total elapsed time excluding paused duration
         let totalElapsed = Date().timeIntervalSince(startTime)
-        let activeElapsed = totalElapsed - totalPausedDuration
+        let activeElapsed = max(0, totalElapsed - totalPausedDuration)
 
         // Format the time
         elapsedTime = formatTime(seconds: Int(activeElapsed))

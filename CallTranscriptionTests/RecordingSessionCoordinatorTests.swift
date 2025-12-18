@@ -435,19 +435,35 @@ final class RecordingSessionCoordinatorTests: XCTestCase {
 
         coordinator = await RecordingSessionCoordinator(configuration: config)
 
-        var events: [String] = []
+        actor EventTracker {
+            var events: [String] = []
+
+            func append(_ event: String) {
+                events.append(event)
+            }
+
+            func getAll() -> [String] {
+                return events
+            }
+        }
+
+        let tracker = EventTracker()
 
         await coordinator.onTranscriptionResult { _, _ in
-            events.append("transcription")
+            Task {
+                await tracker.append("transcription")
+            }
         }
 
         try await coordinator.startRecording(title: "Test")
-        events.append("started")
+        await tracker.append("started")
 
         try await Task.sleep(for: .milliseconds(500))
 
         let _ = try await coordinator.stopRecording()
-        events.append("stopped")
+        await tracker.append("stopped")
+
+        let events = await tracker.getAll()
 
         // Verify events occurred in order
         XCTAssertTrue(events.contains("started"))

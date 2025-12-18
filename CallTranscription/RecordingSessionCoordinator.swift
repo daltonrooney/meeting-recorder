@@ -56,6 +56,7 @@ public final class RecordingSessionCoordinator {
     // Session state
     private var recordingStartTime: Date?
     private var currentTitle: String?
+    private var isPaused: Bool = false
 
     // Callbacks
     private var transcriptionResultHandler: ((String, Bool) -> Void)?
@@ -170,6 +171,11 @@ public final class RecordingSessionCoordinator {
             throw CallTranscriptionError.notRecording
         }
 
+        guard !isPaused else {
+            logger.warning("Cannot pause: already paused")
+            throw CallTranscriptionError.featureNotImplemented("Recording is already paused")
+        }
+
         logger.info("Pausing recording session")
 
         // Pause audio capture sources
@@ -194,6 +200,7 @@ public final class RecordingSessionCoordinator {
         // Note: We don't pause transcription manager - we simply stop feeding it audio
         // When we resume, audio will continue to flow and transcription will continue
 
+        isPaused = true
         logger.info("Recording session paused successfully")
     }
 
@@ -205,6 +212,11 @@ public final class RecordingSessionCoordinator {
     public func resumeRecording() async throws {
         guard isRecording else {
             throw CallTranscriptionError.notRecording
+        }
+
+        guard isPaused else {
+            logger.warning("Cannot resume: not paused")
+            throw CallTranscriptionError.featureNotImplemented("Recording is not paused")
         }
 
         logger.info("Resuming recording session")
@@ -224,6 +236,7 @@ public final class RecordingSessionCoordinator {
 
         // Audio will automatically start flowing to transcription manager again
 
+        isPaused = false
         logger.info("Recording session resumed successfully")
     }
 
@@ -561,6 +574,7 @@ public final class RecordingSessionCoordinator {
         silenceDetector = nil
         recordingStartTime = nil
         currentTitle = nil
+        isPaused = false
 
         logger.debug("Cleanup complete")
     }

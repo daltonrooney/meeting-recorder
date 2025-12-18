@@ -53,7 +53,7 @@ final class AudioLevelAnalyzerTests: XCTestCase {
 
         // Then: RMS should be approximately 0.707
         let expectedRMS = 1.0 / sqrt(2.0)
-        XCTAssertEqual(rms, expectedRMS, accuracy: 0.01,
+        XCTAssertEqual(Double(rms), expectedRMS, accuracy: 0.01,
                       "RMS of sine wave should be peak/sqrt(2)")
     }
 

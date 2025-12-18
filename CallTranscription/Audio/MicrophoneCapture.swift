@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import os.log
 
 /// Captures microphone audio using AVAudioEngine and delivers PCM buffers via callback.
 ///
@@ -33,6 +34,7 @@ public final class MicrophoneCapture {
     private let audioEngine = AVAudioEngine()
     private var isCapturing = false
     private let bufferSize: AVAudioFrameCount = 1024
+    private let logger = Logger(subsystem: "dev.rygn.CallTranscription", category: "MicrophoneCapture")
 
     // MARK: - Initialization
 
@@ -140,9 +142,7 @@ public final class MicrophoneCapture {
         } catch {
             // Log the error but don't throw - this is a best-effort operation
             // Most common case: tap already installed (idempotent call)
-            #if DEBUG
-            print("MicrophoneCapture: Failed to reinstall tap during resume: \(error)")
-            #endif
+            logger.debug("Failed to reinstall tap during resume: \(error.localizedDescription)")
         }
     }
 
