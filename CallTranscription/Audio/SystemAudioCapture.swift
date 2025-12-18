@@ -31,6 +31,7 @@ import OSLog
 /// // ... later ...
 /// await capture.stopCapture()
 /// ```
+@available(macOS 14.0, *)
 public final class SystemAudioCapture {
 
     // MARK: - Public Properties

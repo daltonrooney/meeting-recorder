@@ -21,6 +21,7 @@ import os.log
 /// // ... later ...
 /// await capture.stopCapture()
 /// ```
+@available(macOS 14.0, *)
 public final class MicrophoneCapture {
 
     // MARK: - Public Properties
