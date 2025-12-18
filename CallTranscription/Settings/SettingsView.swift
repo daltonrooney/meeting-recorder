@@ -36,13 +36,16 @@ struct SettingsView: View {
             HStack {
                 TextField("Output Folder", text: $outputFolder)
                     .textFieldStyle(.roundedBorder)
+                    .accessibilityIdentifier("outputFolderTextField")
 
                 Button("Browse...") {
                     selectOutputFolder()
                 }
+                .accessibilityIdentifier("outputFolderBrowseButton")
             }
 
             Toggle("Save Original Audio File", isOn: $saveOriginalAudio)
+                .accessibilityIdentifier("saveOriginalAudioToggle")
 
             Text("Transcripts will be saved to this folder. When enabled, original audio recordings will also be saved in M4A format.")
                 .font(.caption)
@@ -55,7 +58,9 @@ struct SettingsView: View {
     private var audioSourcesSection: some View {
         Section("Audio Sources") {
             Toggle("Capture System Audio (Zoom, Teams, etc.)", isOn: $captureSystemAudio)
+                .accessibilityIdentifier("captureSystemAudioToggle")
             Toggle("Capture Microphone Input", isOn: $captureMicrophone)
+                .accessibilityIdentifier("captureMicrophoneToggle")
 
             Text("At least one audio source must be enabled")
                 .font(.caption)
@@ -96,16 +101,19 @@ struct SettingsView: View {
                 Text("Run a shortcut").tag(PostRecordingActionType.shortcut)
             }
             .pickerStyle(.radioGroup)
+            .accessibilityIdentifier("postRecordingActionPicker")
 
             // Show script picker when script is selected
             if PostRecordingActionType(rawValue: postRecordingActionTypeRaw) == .script {
                 HStack {
                     TextField("Shell Script Path", text: $postRecordingScript)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityIdentifier("postRecordingScriptTextField")
 
                     Button("Browse...") {
                         selectPostRecordingScript()
                     }
+                    .accessibilityIdentifier("postRecordingScriptBrowseButton")
                 }
 
                 Text("Script receives transcript path as $1")
@@ -120,6 +128,7 @@ struct SettingsView: View {
                         ProgressView()
                             .scaleEffect(0.7)
                             .accessibilityLabel("Loading shortcuts")
+                            .accessibilityIdentifier("shortcutsLoadingIndicator")
                         Text("Loading shortcuts...")
                             .foregroundColor(.secondary)
                     }
@@ -131,6 +140,7 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(.menu)
+                    .accessibilityIdentifier("shortcutPicker")
 
                     if availableShortcuts.isEmpty {
                         Text("No shortcuts found. Create shortcuts in the Shortcuts app first.")
