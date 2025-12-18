@@ -11,6 +11,7 @@ public final class SettingsManager: ObservableObject {
         static let captureMicrophone = "captureMicrophone"
         static let hasAcceptedConsentDialog = "hasAcceptedConsentDialog"
         static let silencePauseThreshold = "silencePauseThreshold"
+        static let saveOriginalAudio = "saveOriginalAudio"
     }
 
     // Default values
@@ -20,6 +21,7 @@ public final class SettingsManager: ObservableObject {
     public static let defaultCaptureMicrophone = true
     public static let defaultHasAcceptedConsentDialog = false
     public static let defaultSilencePauseThreshold = SilencePauseThreshold.never
+    public static let defaultSaveOriginalAudio = false
 
     // Published properties
     @Published public var outputFolder: String
@@ -28,6 +30,7 @@ public final class SettingsManager: ObservableObject {
     @Published public var captureMicrophone: Bool
     @Published public var hasAcceptedConsentDialog: Bool
     @Published public var silencePauseThreshold: SilencePauseThreshold
+    @Published public var saveOriginalAudio: Bool
 
     private let userDefaults: UserDefaults
     private var cancellables = Set<AnyCancellable>()
@@ -66,6 +69,12 @@ public final class SettingsManager: ObservableObject {
             self.silencePauseThreshold = threshold
         } else {
             self.silencePauseThreshold = Self.defaultSilencePauseThreshold
+        }
+
+        if userDefaults.objectExists(forKey: Keys.saveOriginalAudio) {
+            self.saveOriginalAudio = userDefaults.bool(forKey: Keys.saveOriginalAudio)
+        } else {
+            self.saveOriginalAudio = Self.defaultSaveOriginalAudio
         }
 
         // Set up observers to persist changes to UserDefaults
@@ -118,6 +127,14 @@ public final class SettingsManager: ObservableObject {
             .dropFirst() // Skip initial value
             .sink { [weak self] newValue in
                 self?.userDefaults.set(newValue.rawValue, forKey: Keys.silencePauseThreshold)
+            }
+            .store(in: &cancellables)
+
+        // Persist saveOriginalAudio changes
+        $saveOriginalAudio
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.saveOriginalAudio)
             }
             .store(in: &cancellables)
     }

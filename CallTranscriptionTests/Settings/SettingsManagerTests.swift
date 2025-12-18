@@ -539,4 +539,95 @@ final class SettingsManagerTests: XCTestCase {
         XCTAssertNil(SilencePauseThreshold.never.timeInterval,
                     "never should return nil (disabled)")
     }
+
+    // MARK: - Save Original Audio Tests
+
+    func testDefaultSaveOriginalAudioIsFalse() {
+        XCTAssertFalse(settingsManager.saveOriginalAudio,
+                      "Default saveOriginalAudio should be false")
+    }
+
+    func testSaveOriginalAudioCanBeSetToTrue() {
+        settingsManager.saveOriginalAudio = true
+        XCTAssertTrue(settingsManager.saveOriginalAudio,
+                     "Should be able to set saveOriginalAudio to true")
+    }
+
+    func testSaveOriginalAudioCanBeSetToFalse() {
+        settingsManager.saveOriginalAudio = true
+        settingsManager.saveOriginalAudio = false
+        XCTAssertFalse(settingsManager.saveOriginalAudio,
+                      "Should be able to set saveOriginalAudio to false")
+    }
+
+    func testSaveOriginalAudioPersistsAcrossInstances() {
+        // Set to true
+        settingsManager.saveOriginalAudio = true
+
+        // Force save to UserDefaults
+        testUserDefaults.set(true, forKey: "saveOriginalAudio")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertTrue(newManager.saveOriginalAudio,
+                     "saveOriginalAudio should persist across instances")
+    }
+
+    func testSaveOriginalAudioPropertyIsPublished() async {
+        let expectation = expectation(description: "saveOriginalAudio change should be published")
+        var receivedValues: [Bool] = []
+
+        settingsManager.$saveOriginalAudio
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        // Change the value
+        settingsManager.saveOriginalAudio = true
+
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues, [true],
+                      "saveOriginalAudio change should be published")
+    }
+
+    func testSaveOriginalAudioWritesToUserDefaults() async {
+        // Set value
+        settingsManager.saveOriginalAudio = true
+
+        // Give Combine pipeline time to write
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Check UserDefaults directly
+        let storedValue = testUserDefaults.bool(forKey: "saveOriginalAudio")
+        XCTAssertTrue(storedValue,
+                     "saveOriginalAudio should write to UserDefaults")
+    }
+
+    func testSaveOriginalAudioReadsFromUserDefaults() {
+        // Set value directly in UserDefaults
+        testUserDefaults.set(true, forKey: "saveOriginalAudio")
+        testUserDefaults.synchronize()
+
+        // Create new instance - should read from UserDefaults
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertTrue(newManager.saveOriginalAudio,
+                     "Should read saveOriginalAudio from UserDefaults on init")
+    }
+
+    func testSaveOriginalAudioDefaultValueWhenNotInUserDefaults() {
+        // Ensure key doesn't exist in UserDefaults
+        testUserDefaults.removeObject(forKey: "saveOriginalAudio")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertFalse(newManager.saveOriginalAudio,
+                      "Should default to false when not in UserDefaults")
+    }
 }
