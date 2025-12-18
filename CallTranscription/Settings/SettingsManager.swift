@@ -1,12 +1,21 @@
 import Foundation
 import Combine
 
+/// Type of action to perform after recording completes.
+public enum PostRecordingActionType: String, CaseIterable, Codable {
+    case doNothing = "doNothing"
+    case script = "script"
+    case shortcut = "shortcut"
+}
+
 @MainActor
 public final class SettingsManager: ObservableObject {
     // Keys for UserDefaults
     private enum Keys {
         static let outputFolder = "outputFolder"
         static let postRecordingScript = "postRecordingScript"
+        static let postRecordingActionType = "postRecordingActionType"
+        static let shortcutIdentifier = "shortcutIdentifier"
         static let captureSystemAudio = "captureSystemAudio"
         static let captureMicrophone = "captureMicrophone"
         static let hasAcceptedConsentDialog = "hasAcceptedConsentDialog"
@@ -17,6 +26,8 @@ public final class SettingsManager: ObservableObject {
     // Default values
     public static let defaultOutputFolder = "~/Desktop/Transcripts"
     public static let defaultPostRecordingScript = ""
+    public static let defaultPostRecordingActionType = PostRecordingActionType.doNothing
+    public static let defaultShortcutIdentifier = ""
     public static let defaultCaptureSystemAudio = true
     public static let defaultCaptureMicrophone = true
     public static let defaultHasAcceptedConsentDialog = false
@@ -26,6 +37,8 @@ public final class SettingsManager: ObservableObject {
     // Published properties
     @Published public var outputFolder: String
     @Published public var postRecordingScript: String
+    @Published public var postRecordingActionType: PostRecordingActionType
+    @Published public var shortcutIdentifier: String
     @Published public var captureSystemAudio: Bool
     @Published public var captureMicrophone: Bool
     @Published public var hasAcceptedConsentDialog: Bool
@@ -43,6 +56,17 @@ public final class SettingsManager: ObservableObject {
             ?? Self.defaultOutputFolder
         self.postRecordingScript = userDefaults.string(forKey: Keys.postRecordingScript)
             ?? Self.defaultPostRecordingScript
+
+        // Initialize postRecordingActionType from UserDefaults or default
+        if let rawValue = userDefaults.string(forKey: Keys.postRecordingActionType),
+           let actionType = PostRecordingActionType(rawValue: rawValue) {
+            self.postRecordingActionType = actionType
+        } else {
+            self.postRecordingActionType = Self.defaultPostRecordingActionType
+        }
+
+        self.shortcutIdentifier = userDefaults.string(forKey: Keys.shortcutIdentifier)
+            ?? Self.defaultShortcutIdentifier
 
         // For booleans, check if key exists first to distinguish false from not-set
         if userDefaults.objectExists(forKey: Keys.captureSystemAudio) {
@@ -95,6 +119,22 @@ public final class SettingsManager: ObservableObject {
             .dropFirst() // Skip initial value
             .sink { [weak self] newValue in
                 self?.userDefaults.set(newValue, forKey: Keys.postRecordingScript)
+            }
+            .store(in: &cancellables)
+
+        // Persist postRecordingActionType changes
+        $postRecordingActionType
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue.rawValue, forKey: Keys.postRecordingActionType)
+            }
+            .store(in: &cancellables)
+
+        // Persist shortcutIdentifier changes
+        $shortcutIdentifier
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.shortcutIdentifier)
             }
             .store(in: &cancellables)
 
