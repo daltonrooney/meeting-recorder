@@ -53,11 +53,6 @@ public final class PathValidator {
             throw CallTranscriptionError.invalidPath(path, reason: "No base directories provided for validation")
         }
 
-        // Early check for obvious path traversal patterns
-        if path.contains("../") || path.contains("..\\") {
-            // We'll validate this more carefully below, but flag it
-        }
-
         // Check if the original path string is relative (doesn't start with /)
         let isRelativePath = !path.hasPrefix("/")
 
@@ -82,15 +77,11 @@ public final class PathValidator {
         for baseDir in baseDirectories {
             let resolvedBaseDir = baseDir.standardizedFileURL.resolvingSymlinksInPath()
 
-            // Check if resolved path starts with base directory path
-            if resolvedURL.path.hasPrefix(resolvedBaseDir.path) {
-                // Ensure it's actually a subdirectory, not just a prefix match
-                // e.g., /home shouldn't match /homeother
-                let relativePath = resolvedURL.path.dropFirst(resolvedBaseDir.path.count)
-                if relativePath.isEmpty || relativePath.hasPrefix("/") {
-                    isWithinAllowedDirectory = true
-                    break
-                }
+            // Check if resolved path is within base directory
+            // Must either be exact match or be a subdirectory (followed by /)
+            if resolvedURL.path == resolvedBaseDir.path || resolvedURL.path.hasPrefix(resolvedBaseDir.path + "/") {
+                isWithinAllowedDirectory = true
+                break
             }
         }
 

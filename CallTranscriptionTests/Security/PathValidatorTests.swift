@@ -63,6 +63,20 @@ final class PathValidatorTests: XCTestCase {
         }
     }
 
+    func testRejectsPathWithSimilarPrefix() throws {
+        // Test for path prefix matching bug: /Users/bob should not match /Users/bob-evil
+        // Create a path that has a similar prefix but is not within the base directory
+        let similarPath = testBaseDirectory.path + "-evil/file.txt"
+
+        XCTAssertThrowsError(try pathValidator.validate(path: similarPath, againstBaseDirectories: [testBaseDirectory])) { error in
+            guard let ctError = error as? CallTranscriptionError,
+                  case .pathOutsideAllowedDirectories = ctError else {
+                XCTFail("Expected pathOutsideAllowedDirectories error, got \(error)")
+                return
+            }
+        }
+    }
+
     func testValidatesPathWithSpaces() throws {
         let pathWithSpaces = testBaseDirectory.appendingPathComponent("my document.txt").path
 
