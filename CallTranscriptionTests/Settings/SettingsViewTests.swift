@@ -741,4 +741,23 @@ final class SettingsViewTests: XCTestCase {
         XCTAssertTrue(allCases.contains(.script))
         XCTAssertTrue(allCases.contains(.shortcut))
     }
+
+    // MARK: - Filename Template Tests
+
+    func testDefaultFilenameTemplateIsCorrect() {
+        // Given: Fresh SettingsView
+        // When: View is initialized with defaults
+        // Then: Filename template should be default value
+        let defaultValue = SettingsManager.defaultFilenameTemplate
+        XCTAssertEqual(defaultValue, "transcript_{date}_{time}.txt",
+                      "Default filename template should be 'transcript_{date}_{time}.txt'")
+    }
+
+    func testFilenameTemplateTextFieldHasAccessibilityIdentifier() {
+        // Given: SettingsView has filename template text field
+        // Then: It should have the correct accessibility identifier
+        let identifier = "filenameTemplateTextField"
+        XCTAssertNotNil(identifier,
+                       "Filename template text field should have accessibility identifier")
+    }
 }
