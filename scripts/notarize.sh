@@ -66,19 +66,27 @@ cd - > /dev/null
 echo -e "${YELLOW}Submitting to Apple for notarization...${NC}"
 echo -e "${YELLOW}This may take several minutes...${NC}"
 
-xcrun notarytool submit "$ZIP_PATH" \
+SUBMIT_OUTPUT=$(xcrun notarytool submit "$ZIP_PATH" \
     --apple-id "$APPLE_ID" \
     --team-id "$TEAM_ID" \
     --password "$APP_SPECIFIC_PASSWORD" \
-    --wait
+    --wait 2>&1)
+
+# Extract submission ID from output
+SUBMISSION_ID=$(echo "$SUBMIT_OUTPUT" | grep -o 'id: [a-f0-9-]*' | head -1 | cut -d' ' -f2)
+
+if [ -z "$SUBMISSION_ID" ]; then
+    echo -e "${RED}Failed to get submission ID${NC}"
+    echo "$SUBMIT_OUTPUT"
+    exit 1
+fi
 
 # Check notarization status
-echo -e "${YELLOW}Checking notarization status...${NC}"
-NOTARIZATION_INFO=$(xcrun notarytool info \
+echo -e "${YELLOW}Checking notarization status (ID: $SUBMISSION_ID)...${NC}"
+NOTARIZATION_INFO=$(xcrun notarytool info "$SUBMISSION_ID" \
     --apple-id "$APPLE_ID" \
     --team-id "$TEAM_ID" \
-    --password "$APP_SPECIFIC_PASSWORD" \
-    "$(basename "$ZIP_PATH")")
+    --password "$APP_SPECIFIC_PASSWORD")
 
 if echo "$NOTARIZATION_INFO" | grep -q "status: Accepted"; then
     echo -e "${GREEN}Notarization successful!${NC}"

@@ -51,8 +51,7 @@ jobs:
             -scheme Olive \
             -configuration ${{ matrix.configuration }} \
             -derivedDataPath build \
-            | tee build-${{ matrix.configuration }}.log \
-            | xcpretty || cat build-${{ matrix.configuration }}.log
+            2>&1 | tee build-${{ matrix.configuration }}.log
 
       - name: Run tests
         if: matrix.configuration == 'Debug'
@@ -62,8 +61,7 @@ jobs:
             -scheme Olive \
             -configuration ${{ matrix.configuration }} \
             -derivedDataPath build \
-            | tee test.log \
-            | xcpretty || cat test.log
+            2>&1 | tee test.log
 
       - name: Upload build logs
         if: failure()
