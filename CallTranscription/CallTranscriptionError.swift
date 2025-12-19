@@ -65,176 +65,176 @@ public enum CallTranscriptionError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .microphonePermissionDenied:
-            return "Microphone access is required."
+            return NSLocalizedString("error.microphonePermissionDenied.description", comment: "Microphone permission denied error description")
 
         case .speechRecognitionUnavailable:
-            return "Speech recognition is not available."
+            return NSLocalizedString("error.speechRecognitionUnavailable.description", comment: "Speech recognition unavailable error description")
 
         case .localeNotSupported(let locale):
-            return "Speech recognition is not available for \(locale.identifier)."
+            return String(format: NSLocalizedString("error.localeNotSupported.description", comment: "Locale not supported error description"), locale.identifier)
 
         case .outputFolderNotWritable(let url):
-            return "Cannot write to \(url.path)."
+            return String(format: NSLocalizedString("error.outputFolderNotWritable.description", comment: "Output folder not writable error description"), url.path)
 
         case .audioTapCreationFailed(let status):
-            return "Failed to create audio tap (error \(status))."
+            return String(format: NSLocalizedString("error.audioTapCreationFailed.description", comment: "Audio tap creation failed error description"), status)
 
         case .featureNotImplemented(let feature):
-            return "\(feature) is not yet implemented."
+            return String(format: NSLocalizedString("error.featureNotImplemented.description", comment: "Feature not implemented error description"), feature)
 
         case .postRecordingScriptNotFound(let path):
-            return "Post-recording script not found at \(path)."
+            return String(format: NSLocalizedString("error.postRecordingScriptNotFound.description", comment: "Post-recording script not found error description"), path)
 
         case .postRecordingScriptNotExecutable(let path):
-            return "Post-recording script at \(path) is not executable."
+            return String(format: NSLocalizedString("error.postRecordingScriptNotExecutable.description", comment: "Post-recording script not executable error description"), path)
 
         case .postRecordingScriptTimeout(let timeout):
-            return "Post-recording script exceeded timeout of \(timeout) seconds."
+            return String(format: NSLocalizedString("error.postRecordingScriptTimeout.description", comment: "Post-recording script timeout error description"), timeout)
 
         case .outputFolderCreationFailed(let path, _):
-            return "Failed to create output folder at \(path)."
+            return String(format: NSLocalizedString("error.outputFolderCreationFailed.description", comment: "Output folder creation failed error description"), path)
 
         case .transcriptAlreadyFinalized:
-            return "Cannot modify a finalized transcript."
+            return NSLocalizedString("error.transcriptAlreadyFinalized.description", comment: "Transcript already finalized error description")
 
         case .notRecording:
-            return "No recording session is currently active."
+            return NSLocalizedString("error.notRecording.description", comment: "Not recording error description")
 
         case .notPaused:
-            return "Recording is not currently paused."
+            return NSLocalizedString("error.notPaused.description", comment: "Not paused error description")
 
         case .audioProcessingFailed(let reason):
-            return "Audio processing failed: \(reason)"
+            return String(format: NSLocalizedString("error.audioProcessingFailed.description", comment: "Audio processing failed error description"), reason)
 
         case .pathTraversalDetected(let path, let reason):
-            return "Path traversal attack detected in '\(path)': \(reason)"
+            return String(format: NSLocalizedString("error.pathTraversalDetected.description", comment: "Path traversal attack detected error description"), path, reason)
 
         case .pathOutsideAllowedDirectories(let path, let allowedDirs):
             let dirList = allowedDirs.joined(separator: ", ")
-            return "Path '\(path)' is outside allowed directories: \(dirList)"
+            return String(format: NSLocalizedString("error.pathOutsideAllowedDirectories.description", comment: "Path outside allowed directories error description"), path, dirList)
 
         case .symlinkAttackDetected(let path, let resolvedPath):
-            return "Symlink attack detected: '\(path)' resolves to '\(resolvedPath)' which is outside allowed directories"
+            return String(format: NSLocalizedString("error.symlinkAttackDetected.description", comment: "Symlink attack detected error description"), path, resolvedPath)
 
         case .invalidPath(let path, let reason):
-            return "Invalid path '\(path)': \(reason)"
+            return String(format: NSLocalizedString("error.invalidPath.description", comment: "Invalid path error description"), path, reason)
         }
     }
 
     public var failureReason: String? {
         switch self {
         case .microphonePermissionDenied:
-            return "The app does not have permission to access the microphone."
+            return NSLocalizedString("error.microphonePermissionDenied.failureReason", comment: "Microphone permission denied failure reason")
 
         case .speechRecognitionUnavailable:
-            return "The speech recognition service is unavailable or the language model has not been downloaded."
+            return NSLocalizedString("error.speechRecognitionUnavailable.failureReason", comment: "Speech recognition unavailable failure reason")
 
         case .localeNotSupported(let locale):
-            return "The locale \(locale.identifier) is not supported by the speech recognition service."
+            return String(format: NSLocalizedString("error.localeNotSupported.failureReason", comment: "Locale not supported failure reason"), locale.identifier)
 
         case .outputFolderNotWritable(let url):
-            return "The output folder at \(url.path) is not writable due to permissions or path issues."
+            return String(format: NSLocalizedString("error.outputFolderNotWritable.failureReason", comment: "Output folder not writable failure reason"), url.path)
 
         case .audioTapCreationFailed(let status):
-            return "Core Audio returned error code \(status) when attempting to create a system audio tap."
+            return String(format: NSLocalizedString("error.audioTapCreationFailed.failureReason", comment: "Audio tap creation failed failure reason"), status)
 
         case .featureNotImplemented(let feature):
-            return "\(feature) functionality has not been implemented yet."
+            return String(format: NSLocalizedString("error.featureNotImplemented.failureReason", comment: "Feature not implemented failure reason"), feature)
 
         case .postRecordingScriptNotFound(let path):
-            return "The script file could not be found at the specified path: \(path)."
+            return String(format: NSLocalizedString("error.postRecordingScriptNotFound.failureReason", comment: "Post-recording script not found failure reason"), path)
 
         case .postRecordingScriptNotExecutable(let path):
-            return "The script file exists but does not have execute permissions."
+            return NSLocalizedString("error.postRecordingScriptNotExecutable.failureReason", comment: "Post-recording script not executable failure reason")
 
         case .postRecordingScriptTimeout(let timeout):
-            return "The script did not complete within \(timeout) seconds."
+            return String(format: NSLocalizedString("error.postRecordingScriptTimeout.failureReason", comment: "Post-recording script timeout failure reason"), timeout)
 
         case .outputFolderCreationFailed(let path, let error):
-            return "Could not create directory at \(path): \(error.localizedDescription)"
+            return String(format: NSLocalizedString("error.outputFolderCreationFailed.failureReason", comment: "Output folder creation failed failure reason"), path, error.localizedDescription)
 
         case .transcriptAlreadyFinalized:
-            return "The transcript file has been finalized and can no longer be modified."
+            return NSLocalizedString("error.transcriptAlreadyFinalized.failureReason", comment: "Transcript already finalized failure reason")
 
         case .notRecording:
-            return "Cannot stop recording because no recording session is active."
+            return NSLocalizedString("error.notRecording.failureReason", comment: "Not recording failure reason")
 
         case .notPaused:
-            return "Cannot resume because recording is not paused."
+            return NSLocalizedString("error.notPaused.failureReason", comment: "Not paused failure reason")
 
         case .audioProcessingFailed(let reason):
-            return "Audio processing encountered an error: \(reason)"
+            return String(format: NSLocalizedString("error.audioProcessingFailed.failureReason", comment: "Audio processing failed failure reason"), reason)
 
         case .pathTraversalDetected(let path, let reason):
-            return "The path '\(path)' contains path traversal sequences that attempt to access directories outside the allowed scope: \(reason)"
+            return String(format: NSLocalizedString("error.pathTraversalDetected.failureReason", comment: "Path traversal attack detected failure reason"), path, reason)
 
         case .pathOutsideAllowedDirectories(let path, _):
-            return "The path '\(path)' is not within any of the allowed base directories for this operation."
+            return String(format: NSLocalizedString("error.pathOutsideAllowedDirectories.failureReason", comment: "Path outside allowed directories failure reason"), path)
 
         case .symlinkAttackDetected(let path, let resolvedPath):
-            return "The symlink at '\(path)' points to '\(resolvedPath)', which is outside the allowed directories, potentially indicating a security attack."
+            return String(format: NSLocalizedString("error.symlinkAttackDetected.failureReason", comment: "Symlink attack detected failure reason"), path, resolvedPath)
 
         case .invalidPath(let path, let reason):
-            return "The path '\(path)' is not valid: \(reason)"
+            return String(format: NSLocalizedString("error.invalidPath.failureReason", comment: "Invalid path failure reason"), path, reason)
         }
     }
 
     public var recoverySuggestion: String? {
         switch self {
         case .microphonePermissionDenied:
-            return "Enable microphone access in System Settings > Privacy & Security > Microphone."
+            return NSLocalizedString("error.microphonePermissionDenied.recoverySuggestion", comment: "Microphone permission denied recovery suggestion")
 
         case .speechRecognitionUnavailable:
-            return "Check your internet connection to allow the speech recognition model to download, or try again later."
+            return NSLocalizedString("error.speechRecognitionUnavailable.recoverySuggestion", comment: "Speech recognition unavailable recovery suggestion")
 
         case .localeNotSupported:
-            return "Try selecting a different language or locale that is supported by speech recognition."
+            return NSLocalizedString("error.localeNotSupported.recoverySuggestion", comment: "Locale not supported recovery suggestion")
 
         case .outputFolderNotWritable:
-            return "Select a different folder where you have write permissions, such as your Documents or Desktop folder."
+            return NSLocalizedString("error.outputFolderNotWritable.recoverySuggestion", comment: "Output folder not writable recovery suggestion")
 
         case .audioTapCreationFailed:
-            return "System audio capture is unavailable. Try restarting the app or check for system audio conflicts."
+            return NSLocalizedString("error.audioTapCreationFailed.recoverySuggestion", comment: "Audio tap creation failed recovery suggestion")
 
         case .featureNotImplemented:
-            return "This feature will be available in a future version."
+            return NSLocalizedString("error.featureNotImplemented.recoverySuggestion", comment: "Feature not implemented recovery suggestion")
 
         case .postRecordingScriptNotFound(let path):
-            return "Check that the script path '\(path)' is correct and the file exists."
+            return String(format: NSLocalizedString("error.postRecordingScriptNotFound.recoverySuggestion", comment: "Post-recording script not found recovery suggestion"), path)
 
         case .postRecordingScriptNotExecutable(let path):
-            return "Make the script executable by running: chmod +x '\(path)'"
+            return String(format: NSLocalizedString("error.postRecordingScriptNotExecutable.recoverySuggestion", comment: "Post-recording script not executable recovery suggestion"), path)
 
         case .postRecordingScriptTimeout:
-            return "Ensure your script completes in a reasonable time, or increase the timeout setting."
+            return NSLocalizedString("error.postRecordingScriptTimeout.recoverySuggestion", comment: "Post-recording script timeout recovery suggestion")
 
         case .outputFolderCreationFailed:
-            return "Check folder permissions and ensure you have access to create directories at this location."
+            return NSLocalizedString("error.outputFolderCreationFailed.recoverySuggestion", comment: "Output folder creation failed recovery suggestion")
 
         case .transcriptAlreadyFinalized:
-            return "Create a new transcript writer if you need to write more content."
+            return NSLocalizedString("error.transcriptAlreadyFinalized.recoverySuggestion", comment: "Transcript already finalized recovery suggestion")
 
         case .notRecording:
-            return "Start a recording session before attempting to stop it."
+            return NSLocalizedString("error.notRecording.recoverySuggestion", comment: "Not recording recovery suggestion")
 
         case .notPaused:
-            return "Pause the recording first before attempting to resume."
+            return NSLocalizedString("error.notPaused.recoverySuggestion", comment: "Not paused recovery suggestion")
 
         case .audioProcessingFailed:
-            return "Check audio format compatibility and ensure transcription is running."
+            return NSLocalizedString("error.audioProcessingFailed.recoverySuggestion", comment: "Audio processing failed recovery suggestion")
 
         case .pathTraversalDetected:
-            return "Use a path within the allowed directories without '..' or other traversal sequences."
+            return NSLocalizedString("error.pathTraversalDetected.recoverySuggestion", comment: "Path traversal attack detected recovery suggestion")
 
         case .pathOutsideAllowedDirectories(_, let allowedDirs):
             let dirList = allowedDirs.joined(separator: "\n  - ")
-            return "Choose a location within one of these allowed directories:\n  - \(dirList)"
+            return String(format: NSLocalizedString("error.pathOutsideAllowedDirectories.recoverySuggestion", comment: "Path outside allowed directories recovery suggestion"), dirList)
 
         case .symlinkAttackDetected:
-            return "Use a direct path or ensure symlinks only point to locations within allowed directories."
+            return NSLocalizedString("error.symlinkAttackDetected.recoverySuggestion", comment: "Symlink attack detected recovery suggestion")
 
         case .invalidPath:
-            return "Provide a valid file path without special characters or forbidden sequences."
+            return NSLocalizedString("error.invalidPath.recoverySuggestion", comment: "Invalid path recovery suggestion")
         }
     }
 }

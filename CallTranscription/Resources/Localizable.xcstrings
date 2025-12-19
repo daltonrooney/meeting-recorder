@@ -1254,6 +1254,654 @@
           }
         }
       }
+    },
+    "error.microphonePermissionDenied.description": {
+      "comment": "Microphone permission denied error description",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Microphone access is required."
+          }
+        }
+      }
+    },
+    "error.microphonePermissionDenied.failureReason": {
+      "comment": "Microphone permission denied failure reason",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app does not have permission to access the microphone."
+          }
+        }
+      }
+    },
+    "error.microphonePermissionDenied.recoverySuggestion": {
+      "comment": "Microphone permission denied recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable microphone access in System Settings > Privacy & Security > Microphone."
+          }
+        }
+      }
+    },
+    "error.speechRecognitionUnavailable.description": {
+      "comment": "Speech recognition unavailable error description",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speech recognition is not available."
+          }
+        }
+      }
+    },
+    "error.speechRecognitionUnavailable.failureReason": {
+      "comment": "Speech recognition unavailable failure reason",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The speech recognition service is unavailable or the language model has not been downloaded."
+          }
+        }
+      }
+    },
+    "error.speechRecognitionUnavailable.recoverySuggestion": {
+      "comment": "Speech recognition unavailable recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check your internet connection to allow the speech recognition model to download, or try again later."
+          }
+        }
+      }
+    },
+    "error.localeNotSupported.description": {
+      "comment": "Locale not supported error description (with %@ placeholder for locale)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speech recognition is not available for %@."
+          }
+        }
+      }
+    },
+    "error.localeNotSupported.failureReason": {
+      "comment": "Locale not supported failure reason (with %@ placeholder for locale)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The locale %@ is not supported by the speech recognition service."
+          }
+        }
+      }
+    },
+    "error.localeNotSupported.recoverySuggestion": {
+      "comment": "Locale not supported recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try selecting a different language or locale that is supported by speech recognition."
+          }
+        }
+      }
+    },
+    "error.outputFolderNotWritable.description": {
+      "comment": "Output folder not writable error description (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot write to %@."
+          }
+        }
+      }
+    },
+    "error.outputFolderNotWritable.failureReason": {
+      "comment": "Output folder not writable failure reason (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The output folder at %@ is not writable due to permissions or path issues."
+          }
+        }
+      }
+    },
+    "error.outputFolderNotWritable.recoverySuggestion": {
+      "comment": "Output folder not writable recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a different folder where you have write permissions, such as your Documents or Desktop folder."
+          }
+        }
+      }
+    },
+    "error.audioTapCreationFailed.description": {
+      "comment": "Audio tap creation failed error description (with %d placeholder for error code)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to create audio tap (error %d)."
+          }
+        }
+      }
+    },
+    "error.audioTapCreationFailed.failureReason": {
+      "comment": "Audio tap creation failed failure reason (with %d placeholder for error code)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Core Audio returned error code %d when attempting to create a system audio tap."
+          }
+        }
+      }
+    },
+    "error.audioTapCreationFailed.recoverySuggestion": {
+      "comment": "Audio tap creation failed recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System audio capture is unavailable. Try restarting the app or check for system audio conflicts."
+          }
+        }
+      }
+    },
+    "error.featureNotImplemented.description": {
+      "comment": "Feature not implemented error description (with %@ placeholder for feature name)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ is not yet implemented."
+          }
+        }
+      }
+    },
+    "error.featureNotImplemented.failureReason": {
+      "comment": "Feature not implemented failure reason (with %@ placeholder for feature name)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ functionality has not been implemented yet."
+          }
+        }
+      }
+    },
+    "error.featureNotImplemented.recoverySuggestion": {
+      "comment": "Feature not implemented recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This feature will be available in a future version."
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptNotFound.description": {
+      "comment": "Post-recording script not found error description (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Post-recording script not found at %@."
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptNotFound.failureReason": {
+      "comment": "Post-recording script not found failure reason (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The script file could not be found at the specified path: %@."
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptNotFound.recoverySuggestion": {
+      "comment": "Post-recording script not found recovery suggestion (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check that the script path '%@' is correct and the file exists."
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptNotExecutable.description": {
+      "comment": "Post-recording script not executable error description (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Post-recording script at %@ is not executable."
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptNotExecutable.failureReason": {
+      "comment": "Post-recording script not executable failure reason",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The script file exists but does not have execute permissions."
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptNotExecutable.recoverySuggestion": {
+      "comment": "Post-recording script not executable recovery suggestion (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Make the script executable by running: chmod +x '%@'"
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptTimeout.description": {
+      "comment": "Post-recording script timeout error description (with %.0f placeholder for seconds)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Post-recording script exceeded timeout of %.0f seconds."
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptTimeout.failureReason": {
+      "comment": "Post-recording script timeout failure reason (with %.0f placeholder for seconds)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The script did not complete within %.0f seconds."
+          }
+        }
+      }
+    },
+    "error.postRecordingScriptTimeout.recoverySuggestion": {
+      "comment": "Post-recording script timeout recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ensure your script completes in a reasonable time, or increase the timeout setting."
+          }
+        }
+      }
+    },
+    "error.outputFolderCreationFailed.description": {
+      "comment": "Output folder creation failed error description (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to create output folder at %@."
+          }
+        }
+      }
+    },
+    "error.outputFolderCreationFailed.failureReason": {
+      "comment": "Output folder creation failed failure reason (with %@ placeholder for path and %@ for error)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not create directory at %@: %@"
+          }
+        }
+      }
+    },
+    "error.outputFolderCreationFailed.recoverySuggestion": {
+      "comment": "Output folder creation failed recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check folder permissions and ensure you have access to create directories at this location."
+          }
+        }
+      }
+    },
+    "error.transcriptAlreadyFinalized.description": {
+      "comment": "Transcript already finalized error description",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot modify a finalized transcript."
+          }
+        }
+      }
+    },
+    "error.transcriptAlreadyFinalized.failureReason": {
+      "comment": "Transcript already finalized failure reason",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The transcript file has been finalized and can no longer be modified."
+          }
+        }
+      }
+    },
+    "error.transcriptAlreadyFinalized.recoverySuggestion": {
+      "comment": "Transcript already finalized recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a new transcript writer if you need to write more content."
+          }
+        }
+      }
+    },
+    "error.notRecording.description": {
+      "comment": "Not recording error description",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No recording session is currently active."
+          }
+        }
+      }
+    },
+    "error.notRecording.failureReason": {
+      "comment": "Not recording failure reason",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot stop recording because no recording session is active."
+          }
+        }
+      }
+    },
+    "error.notRecording.recoverySuggestion": {
+      "comment": "Not recording recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start a recording session before attempting to stop it."
+          }
+        }
+      }
+    },
+    "error.notPaused.description": {
+      "comment": "Not paused error description",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording is not currently paused."
+          }
+        }
+      }
+    },
+    "error.notPaused.failureReason": {
+      "comment": "Not paused failure reason",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot resume because recording is not paused."
+          }
+        }
+      }
+    },
+    "error.notPaused.recoverySuggestion": {
+      "comment": "Not paused recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause the recording first before attempting to resume."
+          }
+        }
+      }
+    },
+    "error.audioProcessingFailed.description": {
+      "comment": "Audio processing failed error description (with %@ placeholder for reason)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio processing failed: %@"
+          }
+        }
+      }
+    },
+    "error.audioProcessingFailed.failureReason": {
+      "comment": "Audio processing failed failure reason (with %@ placeholder for reason)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio processing encountered an error: %@"
+          }
+        }
+      }
+    },
+    "error.audioProcessingFailed.recoverySuggestion": {
+      "comment": "Audio processing failed recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check audio format compatibility and ensure transcription is running."
+          }
+        }
+      }
+    },
+    "error.pathTraversalDetected.description": {
+      "comment": "Path traversal attack detected error description (with %@ placeholders for path and reason)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Path traversal attack detected in '%@': %@"
+          }
+        }
+      }
+    },
+    "error.pathTraversalDetected.failureReason": {
+      "comment": "Path traversal attack detected failure reason (with %@ placeholders for path and reason)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The path '%@' contains path traversal sequences that attempt to access directories outside the allowed scope: %@"
+          }
+        }
+      }
+    },
+    "error.pathTraversalDetected.recoverySuggestion": {
+      "comment": "Path traversal attack detected recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use a path within the allowed directories without '..' or other traversal sequences."
+          }
+        }
+      }
+    },
+    "error.pathOutsideAllowedDirectories.description": {
+      "comment": "Path outside allowed directories error description (with %@ placeholders for path and directories)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Path '%@' is outside allowed directories: %@"
+          }
+        }
+      }
+    },
+    "error.pathOutsideAllowedDirectories.failureReason": {
+      "comment": "Path outside allowed directories failure reason (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The path '%@' is not within any of the allowed base directories for this operation."
+          }
+        }
+      }
+    },
+    "error.pathOutsideAllowedDirectories.recoverySuggestion": {
+      "comment": "Path outside allowed directories recovery suggestion (with %@ placeholder for directory list)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a location within one of these allowed directories:\n  - %@"
+          }
+        }
+      }
+    },
+    "error.symlinkAttackDetected.description": {
+      "comment": "Symlink attack detected error description (with %@ placeholders for path and resolved path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symlink attack detected: '%@' resolves to '%@' which is outside allowed directories"
+          }
+        }
+      }
+    },
+    "error.symlinkAttackDetected.failureReason": {
+      "comment": "Symlink attack detected failure reason (with %@ placeholders for path and resolved path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The symlink at '%@' points to '%@', which is outside the allowed directories, potentially indicating a security attack."
+          }
+        }
+      }
+    },
+    "error.symlinkAttackDetected.recoverySuggestion": {
+      "comment": "Symlink attack detected recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use a direct path or ensure symlinks only point to locations within allowed directories."
+          }
+        }
+      }
+    },
+    "error.invalidPath.description": {
+      "comment": "Invalid path error description (with %@ placeholders for path and reason)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid path '%@': %@"
+          }
+        }
+      }
+    },
+    "error.invalidPath.failureReason": {
+      "comment": "Invalid path failure reason (with %@ placeholders for path and reason)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The path '%@' is not valid: %@"
+          }
+        }
+      }
+    },
+    "error.invalidPath.recoverySuggestion": {
+      "comment": "Invalid path recovery suggestion",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provide a valid file path without special characters or forbidden sequences."
+          }
+        }
+      }
     }
   },
   "version": "1.0"
