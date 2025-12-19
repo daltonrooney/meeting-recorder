@@ -27,11 +27,16 @@ struct CallTranscriptionApp: App {
             if appState.isPaused {
                 Image(systemName: "pause.circle.fill")
                     .foregroundColor(.orange)
+                    .accessibilityLabel("Meeting Recorder - Paused")
+                    .accessibilityValue(appState.elapsedTime)
             } else if appState.isRecording {
                 Image(systemName: "record.circle")
                     .foregroundColor(.red)
+                    .accessibilityLabel("Meeting Recorder - Recording")
+                    .accessibilityValue(appState.elapsedTime)
             } else {
                 Image(systemName: "stop.circle")
+                    .accessibilityLabel("Meeting Recorder - Not Recording")
             }
         }
 
