@@ -118,37 +118,37 @@ struct SettingsView: View {
 
     private var postRecordingSection: some View {
         Section {
-            Picker("After recording:", selection: Binding(
+            Picker(LocalizedStringKey("settings.postRecording.afterRecording.label"), selection: Binding(
                 get: { PostRecordingActionType(rawValue: postRecordingActionTypeRaw) ?? .doNothing },
                 set: { postRecordingActionTypeRaw = $0.rawValue }
             )) {
-                Text("Do nothing").tag(PostRecordingActionType.doNothing)
-                Text("Run a script").tag(PostRecordingActionType.script)
-                Text("Run a shortcut").tag(PostRecordingActionType.shortcut)
+                Text(LocalizedStringKey("settings.postRecording.action.doNothing")).tag(PostRecordingActionType.doNothing)
+                Text(LocalizedStringKey("settings.postRecording.action.runScript")).tag(PostRecordingActionType.script)
+                Text(LocalizedStringKey("settings.postRecording.action.runShortcut")).tag(PostRecordingActionType.shortcut)
             }
             .pickerStyle(.radioGroup)
             .accessibilityIdentifier("postRecordingActionPicker")
-            .accessibilityLabel("After recording")
-            .accessibilityHint("Choose what happens when recording stops: do nothing, run a script, or run a shortcut")
+            .accessibilityLabel(LocalizedStringKey("settings.postRecording.afterRecording.accessibility.label"))
+            .accessibilityHint(LocalizedStringKey("settings.postRecording.afterRecording.accessibility.hint"))
 
             // Show script picker when script is selected
             if PostRecordingActionType(rawValue: postRecordingActionTypeRaw) == .script {
                 HStack {
-                    TextField("Shell Script Path", text: $postRecordingScript)
+                    TextField(LocalizedStringKey("settings.postRecording.script.path.label"), text: $postRecordingScript)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityIdentifier("postRecordingScriptTextField")
-                        .accessibilityLabel("Shell Script Path")
-                        .accessibilityHint("Path to shell script that will receive the transcript file path as its first argument")
+                        .accessibilityLabel(LocalizedStringKey("settings.postRecording.script.path.accessibility.label"))
+                        .accessibilityHint(LocalizedStringKey("settings.postRecording.script.path.accessibility.hint"))
 
-                    Button("Browse...") {
+                    Button(LocalizedStringKey("settings.postRecording.script.browseButton")) {
                         selectPostRecordingScript()
                     }
                     .accessibilityIdentifier("postRecordingScriptBrowseButton")
-                    .accessibilityLabel("Browse for Script")
-                    .accessibilityHint("Opens a dialog to select a shell script to run after recording")
+                    .accessibilityLabel(LocalizedStringKey("settings.postRecording.script.browse.accessibility.label"))
+                    .accessibilityHint(LocalizedStringKey("settings.postRecording.script.browse.accessibility.hint"))
                 }
 
-                Text("Script receives transcript path as $1")
+                Text(LocalizedStringKey("settings.postRecording.script.helpText"))
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .accessibilityHidden(true)
@@ -160,31 +160,31 @@ struct SettingsView: View {
                     HStack {
                         ProgressView()
                             .scaleEffect(0.7)
-                            .accessibilityLabel("Loading shortcuts")
+                            .accessibilityLabel(LocalizedStringKey("settings.postRecording.shortcut.loading.accessibility.label"))
                             .accessibilityIdentifier("shortcutsLoadingIndicator")
-                        Text("Loading shortcuts...")
+                        Text(LocalizedStringKey("settings.postRecording.shortcut.loading"))
                             .foregroundColor(.secondary)
                             .accessibilityHidden(true)
                     }
                 } else {
-                    Picker("Shortcut:", selection: $shortcutIdentifier) {
-                        Text("Select a shortcut...").tag("")
+                    Picker(LocalizedStringKey("settings.postRecording.shortcut.picker.label"), selection: $shortcutIdentifier) {
+                        Text(LocalizedStringKey("settings.postRecording.shortcut.placeholder")).tag("")
                         ForEach(availableShortcuts, id: \.self) { shortcut in
                             Text(shortcut).tag(shortcut)
                         }
                     }
                     .pickerStyle(.menu)
                     .accessibilityIdentifier("shortcutPicker")
-                    .accessibilityLabel("Shortcut")
-                    .accessibilityHint("Choose a shortcut that will receive the transcript file path as input")
+                    .accessibilityLabel(LocalizedStringKey("settings.postRecording.shortcut.picker.accessibility.label"))
+                    .accessibilityHint(LocalizedStringKey("settings.postRecording.shortcut.picker.accessibility.hint"))
 
                     if availableShortcuts.isEmpty {
-                        Text("No shortcuts found. Create shortcuts in the Shortcuts app first.")
+                        Text(LocalizedStringKey("settings.postRecording.shortcut.noShortcuts"))
                             .font(.caption)
                             .foregroundColor(.orange)
                             .accessibilityHidden(true)
                     } else {
-                        Text("The shortcut receives the transcript file path as input")
+                        Text(LocalizedStringKey("settings.postRecording.shortcut.helpText"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .accessibilityHidden(true)
@@ -192,7 +192,7 @@ struct SettingsView: View {
                 }
             }
         } header: {
-            Text("Post-Recording Action")
+            Text(LocalizedStringKey("settings.postRecording.header"))
                 .accessibilityAddTraits(.isHeader)
         }
         .onAppear {
@@ -228,8 +228,8 @@ struct SettingsView: View {
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
         panel.allowedContentTypes = [.shellScript, .executable, .unixExecutable]
-        panel.prompt = "Select Script"
-        panel.message = "Choose a shell script to run after recording completes"
+        panel.prompt = NSLocalizedString("settings.postRecording.script.dialog.prompt", comment: "Script dialog prompt")
+        panel.message = NSLocalizedString("settings.postRecording.script.dialog.message", comment: "Script dialog message")
 
         // Set initial directory if current path exists
         if !postRecordingScript.isEmpty {
