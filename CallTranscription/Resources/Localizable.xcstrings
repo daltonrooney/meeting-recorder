@@ -378,6 +378,318 @@
           }
         }
       }
+    },
+    "settings.output.header": {
+      "comment": "Output section header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Output"
+          }
+        }
+      }
+    },
+    "settings.output.folder.label": {
+      "comment": "Output folder text field label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Output Folder"
+          }
+        }
+      }
+    },
+    "settings.output.folder.browseButton": {
+      "comment": "Browse button for output folder",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browse..."
+          }
+        }
+      }
+    },
+    "settings.output.saveOriginalAudio.label": {
+      "comment": "Save original audio toggle label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Original Audio File"
+          }
+        }
+      }
+    },
+    "settings.output.helpText": {
+      "comment": "Output section help text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transcripts will be saved to this folder. When enabled, original audio recordings will also be saved in M4A format."
+          }
+        }
+      }
+    },
+    "settings.output.folder.accessibility.label": {
+      "comment": "Output folder accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Output Folder"
+          }
+        }
+      }
+    },
+    "settings.output.folder.accessibility.hint": {
+      "comment": "Output folder accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Path where transcripts will be saved"
+          }
+        }
+      }
+    },
+    "settings.output.folder.browse.accessibility.label": {
+      "comment": "Browse button accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browse for Output Folder"
+          }
+        }
+      }
+    },
+    "settings.output.folder.browse.accessibility.hint": {
+      "comment": "Browse button accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens a dialog to select where transcripts will be saved"
+          }
+        }
+      }
+    },
+    "settings.output.saveOriginalAudio.accessibility.label": {
+      "comment": "Save original audio accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Original Audio File"
+          }
+        }
+      }
+    },
+    "settings.output.saveOriginalAudio.accessibility.hint": {
+      "comment": "Save original audio accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When enabled, saves original audio recordings in M4A format alongside transcripts"
+          }
+        }
+      }
+    },
+    "settings.output.folder.dialog.prompt": {
+      "comment": "Output folder dialog prompt",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Output Folder"
+          }
+        }
+      }
+    },
+    "settings.output.folder.dialog.message": {
+      "comment": "Output folder dialog message",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose where transcripts will be saved"
+          }
+        }
+      }
+    },
+    "settings.audioSources.header": {
+      "comment": "Audio sources section header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio Sources"
+          }
+        }
+      }
+    },
+    "settings.audioSources.captureSystemAudio.label": {
+      "comment": "Capture system audio toggle label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture System Audio (Zoom, Teams, etc.)"
+          }
+        }
+      }
+    },
+    "settings.audioSources.captureMicrophone.label": {
+      "comment": "Capture microphone toggle label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture Microphone Input"
+          }
+        }
+      }
+    },
+    "settings.audioSources.helpText": {
+      "comment": "Audio sources help text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At least one audio source must be enabled"
+          }
+        }
+      }
+    },
+    "settings.audioSources.captureSystemAudio.accessibility.label": {
+      "comment": "Capture system audio accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture System Audio"
+          }
+        }
+      }
+    },
+    "settings.audioSources.captureSystemAudio.accessibility.hint": {
+      "comment": "Capture system audio accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Records audio from applications like Zoom, Teams, and other system sounds"
+          }
+        }
+      }
+    },
+    "settings.audioSources.captureMicrophone.accessibility.label": {
+      "comment": "Capture microphone accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture Microphone Input"
+          }
+        }
+      }
+    },
+    "settings.audioSources.captureMicrophone.accessibility.hint": {
+      "comment": "Capture microphone accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Records audio from your microphone. At least one audio source must be enabled"
+          }
+        }
+      }
+    },
+    "settings.silenceDetection.header": {
+      "comment": "Silence detection section header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Silence Detection"
+          }
+        }
+      }
+    },
+    "settings.silenceDetection.autoPause.label": {
+      "comment": "Auto-pause picker label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-pause after silence:"
+          }
+        }
+      }
+    },
+    "settings.silenceDetection.helpText": {
+      "comment": "Silence detection help text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected."
+          }
+        }
+      }
+    },
+    "settings.silenceDetection.autoPause.accessibility.label": {
+      "comment": "Auto-pause accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-pause after silence"
+          }
+        }
+      }
+    },
+    "settings.silenceDetection.autoPause.accessibility.hint": {
+      "comment": "Auto-pause accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

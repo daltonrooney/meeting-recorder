@@ -76,6 +76,7 @@
 		E677AD9CE31EA46B860EB01C /* OutputFolderManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4DE81C3FBB277DD83F66AC /* OutputFolderManagerTests.swift */; };
 		EC636BDA3F980B84EB5B1CA6 /* TranscriptionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D6FF52EC1C1B8DED6F095 /* TranscriptionManagerTests.swift */; };
 		ECAC234A1784BE93CA802A10 /* MicrophoneCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661EF16D5EE1366035BC2141 /* MicrophoneCaptureTests.swift */; };
+		F0868F0B3B58B1C8E9B81F93 /* SettingsViewPart1LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C553264E2BEC77EBFDA63D /* SettingsViewPart1LocalizationTests.swift */; };
 		F74E8FFC67136B49D5647BED /* SystemAudioCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8DE56AE6A1D906B04577D /* SystemAudioCaptureTests.swift */; };
 		FF46D0CEF84D6571340AC619 /* ConsentDialogViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC68A1C8D09F5F1981FA49A4 /* ConsentDialogViewTests.swift */; };
 		FF709386F695A885ADE80224 /* RecordingSessionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E28C8E9612924BB5C64308 /* RecordingSessionCoordinator.swift */; };
@@ -131,6 +132,7 @@
 		7E7A54A678DA5B048E710A0E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		837EB55A7B5FA3FCC3F48B0C /* ConfigureSettingsIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureSettingsIntentTests.swift; sourceTree = "<group>"; };
 		83E15EB281B79A6B4C0CC140 /* AudioMixerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMixerTests.swift; sourceTree = "<group>"; };
+		86C553264E2BEC77EBFDA63D /* SettingsViewPart1LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewPart1LocalizationTests.swift; sourceTree = "<group>"; };
 		88F77224D3D8A90FADD99091 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		8CFC3A44160366392EB433DF /* AppShortcutsProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShortcutsProviderTests.swift; sourceTree = "<group>"; };
 		95AC1A98A7166B70D569FCAE /* AppleScriptIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScriptIntegrationTests.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 			children = (
 				6737A13ABCCCBFBB9AA11127 /* LocalizationInfrastructureTests.swift */,
 				3A5C3850689572C9A2C55CE4 /* MenuBarViewLocalizationTests.swift */,
+				86C553264E2BEC77EBFDA63D /* SettingsViewPart1LocalizationTests.swift */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -641,6 +644,7 @@
 				8540D429DC2F0F7244CFED02 /* SettingsManagerTests.swift in Sources */,
 				5D314F676298F5F207DA2409 /* SettingsViewAccessibilityTests.swift in Sources */,
 				C3C9EB6DEB88192A2315379B /* SettingsViewCacheTests.swift in Sources */,
+				F0868F0B3B58B1C8E9B81F93 /* SettingsViewPart1LocalizationTests.swift in Sources */,
 				B389554621A06C69E8D96312 /* SettingsViewTests.swift in Sources */,
 				4DD997AC21F137568A88FD79 /* ShellScriptExecutorTests.swift in Sources */,
 				864FCECF141EE8467DD83EC6 /* ShortcutExecutorTests.swift in Sources */,

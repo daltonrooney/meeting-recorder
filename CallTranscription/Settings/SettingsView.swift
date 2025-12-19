@@ -34,31 +34,31 @@ struct SettingsView: View {
     private var outputSection: some View {
         Section {
             HStack {
-                TextField("Output Folder", text: $outputFolder)
+                TextField(LocalizedStringKey("settings.output.folder.label"), text: $outputFolder)
                     .textFieldStyle(.roundedBorder)
                     .accessibilityIdentifier("outputFolderTextField")
-                    .accessibilityLabel("Output Folder")
-                    .accessibilityHint("Path where transcripts will be saved")
+                    .accessibilityLabel(LocalizedStringKey("settings.output.folder.accessibility.label"))
+                    .accessibilityHint(LocalizedStringKey("settings.output.folder.accessibility.hint"))
 
-                Button("Browse...") {
+                Button(LocalizedStringKey("settings.output.folder.browseButton")) {
                     selectOutputFolder()
                 }
                 .accessibilityIdentifier("outputFolderBrowseButton")
-                .accessibilityLabel("Browse for Output Folder")
-                .accessibilityHint("Opens a dialog to select where transcripts will be saved")
+                .accessibilityLabel(LocalizedStringKey("settings.output.folder.browse.accessibility.label"))
+                .accessibilityHint(LocalizedStringKey("settings.output.folder.browse.accessibility.hint"))
             }
 
-            Toggle("Save Original Audio File", isOn: $saveOriginalAudio)
+            Toggle(LocalizedStringKey("settings.output.saveOriginalAudio.label"), isOn: $saveOriginalAudio)
                 .accessibilityIdentifier("saveOriginalAudioToggle")
-                .accessibilityLabel("Save Original Audio File")
-                .accessibilityHint("When enabled, saves original audio recordings in M4A format alongside transcripts")
+                .accessibilityLabel(LocalizedStringKey("settings.output.saveOriginalAudio.accessibility.label"))
+                .accessibilityHint(LocalizedStringKey("settings.output.saveOriginalAudio.accessibility.hint"))
 
-            Text("Transcripts will be saved to this folder. When enabled, original audio recordings will also be saved in M4A format.")
+            Text(LocalizedStringKey("settings.output.helpText"))
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .accessibilityHidden(true)
         } header: {
-            Text("Output")
+            Text(LocalizedStringKey("settings.output.header"))
                 .accessibilityAddTraits(.isHeader)
         }
     }
@@ -67,22 +67,22 @@ struct SettingsView: View {
 
     private var audioSourcesSection: some View {
         Section {
-            Toggle("Capture System Audio (Zoom, Teams, etc.)", isOn: $captureSystemAudio)
+            Toggle(LocalizedStringKey("settings.audioSources.captureSystemAudio.label"), isOn: $captureSystemAudio)
                 .accessibilityIdentifier("captureSystemAudioToggle")
-                .accessibilityLabel("Capture System Audio")
-                .accessibilityHint("Records audio from applications like Zoom, Teams, and other system sounds")
+                .accessibilityLabel(LocalizedStringKey("settings.audioSources.captureSystemAudio.accessibility.label"))
+                .accessibilityHint(LocalizedStringKey("settings.audioSources.captureSystemAudio.accessibility.hint"))
 
-            Toggle("Capture Microphone Input", isOn: $captureMicrophone)
+            Toggle(LocalizedStringKey("settings.audioSources.captureMicrophone.label"), isOn: $captureMicrophone)
                 .accessibilityIdentifier("captureMicrophoneToggle")
-                .accessibilityLabel("Capture Microphone Input")
-                .accessibilityHint("Records audio from your microphone. At least one audio source must be enabled")
+                .accessibilityLabel(LocalizedStringKey("settings.audioSources.captureMicrophone.accessibility.label"))
+                .accessibilityHint(LocalizedStringKey("settings.audioSources.captureMicrophone.accessibility.hint"))
 
-            Text("At least one audio source must be enabled")
+            Text(LocalizedStringKey("settings.audioSources.helpText"))
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .accessibilityHidden(true)
         } header: {
-            Text("Audio Sources")
+            Text(LocalizedStringKey("settings.audioSources.header"))
                 .accessibilityAddTraits(.isHeader)
         }
     }
@@ -91,7 +91,7 @@ struct SettingsView: View {
 
     private var silenceDetectionSection: some View {
         Section {
-            Picker("Auto-pause after silence:", selection: Binding(
+            Picker(LocalizedStringKey("settings.silenceDetection.autoPause.label"), selection: Binding(
                 get: { SilencePauseThreshold(rawValue: silencePauseThresholdRaw) ?? .never },
                 set: { silencePauseThresholdRaw = $0.rawValue }
             )) {
@@ -101,15 +101,15 @@ struct SettingsView: View {
             }
             .pickerStyle(.menu)
             .accessibilityIdentifier("silencePauseThresholdPicker")
-            .accessibilityLabel("Auto-pause after silence")
-            .accessibilityHint("Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected")
+            .accessibilityLabel(LocalizedStringKey("settings.silenceDetection.autoPause.accessibility.label"))
+            .accessibilityHint(LocalizedStringKey("settings.silenceDetection.autoPause.accessibility.hint"))
 
-            Text("Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected.")
+            Text(LocalizedStringKey("settings.silenceDetection.helpText"))
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .accessibilityHidden(true)
         } header: {
-            Text("Silence Detection")
+            Text(LocalizedStringKey("settings.silenceDetection.header"))
                 .accessibilityAddTraits(.isHeader)
         }
     }
@@ -208,8 +208,8 @@ struct SettingsView: View {
         panel.canChooseDirectories = true
         panel.canCreateDirectories = true
         panel.allowsMultipleSelection = false
-        panel.prompt = "Select Output Folder"
-        panel.message = "Choose where transcripts will be saved"
+        panel.prompt = NSLocalizedString("settings.output.folder.dialog.prompt", comment: "Output folder dialog prompt")
+        panel.message = NSLocalizedString("settings.output.folder.dialog.message", comment: "Output folder dialog message")
 
         // Set initial directory if current path exists
         let expandedPath = NSString(string: outputFolder).expandingTildeInPath
