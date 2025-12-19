@@ -21,6 +21,8 @@ struct MenuBarView: View {
                     }
                 }
                 .keyboardShortcut("R", modifiers: [.command, .shift])
+                .accessibilityLabel("Start Recording")
+                .accessibilityHint("Begins a new recording session. Keyboard shortcut: Command Shift R")
             } else if appState.isPaused {
                 // Recording but paused - show resume button
                 Button("Resume Recording") {
@@ -34,6 +36,8 @@ struct MenuBarView: View {
                     }
                 }
                 .keyboardShortcut("R", modifiers: [.command, .shift])
+                .accessibilityLabel("Resume Recording")
+                .accessibilityHint("Resumes the paused recording. Keyboard shortcut: Command Shift R")
             } else {
                 // Recording and active - show pause button
                 Button("Pause Recording") {
@@ -47,6 +51,8 @@ struct MenuBarView: View {
                     }
                 }
                 .keyboardShortcut("P", modifiers: [.command, .shift])
+                .accessibilityLabel("Pause Recording")
+                .accessibilityHint("Pauses the current recording. Keyboard shortcut: Command Shift P")
             }
 
             // Stop button (always available when recording)
@@ -62,6 +68,8 @@ struct MenuBarView: View {
                     }
                 }
                 .keyboardShortcut("S", modifiers: [.command, .shift])
+                .accessibilityLabel("Stop Recording")
+                .accessibilityHint("Stops the recording and saves the transcript. Keyboard shortcut: Command Shift S")
             }
         }
         .alert("Recording Error", isPresented: $showError) {
@@ -76,15 +84,75 @@ struct MenuBarView: View {
             ConsentDialogView()
                 .environmentObject(appState)
         }
+        .onChange(of: appState.isRecording) { oldValue, newValue in
+            // Announce when recording starts
+            if newValue && !oldValue {
+                DispatchQueue.main.async {
+                    NSAccessibility.post(
+                        element: NSApp as Any,
+                        notification: .announcementRequested,
+                        userInfo: [
+                            .announcement: "Recording started",
+                            .priority: NSAccessibilityPriorityLevel.high.rawValue
+                        ]
+                    )
+                }
+            }
+            // Announce when recording stops
+            else if !newValue && oldValue {
+                DispatchQueue.main.async {
+                    NSAccessibility.post(
+                        element: NSApp as Any,
+                        notification: .announcementRequested,
+                        userInfo: [
+                            .announcement: "Recording stopped",
+                            .priority: NSAccessibilityPriorityLevel.high.rawValue
+                        ]
+                    )
+                }
+            }
+        }
+        .onChange(of: appState.isPaused) { oldValue, newValue in
+            // Announce when recording pauses
+            if newValue && !oldValue {
+                DispatchQueue.main.async {
+                    NSAccessibility.post(
+                        element: NSApp as Any,
+                        notification: .announcementRequested,
+                        userInfo: [
+                            .announcement: "Recording paused",
+                            .priority: NSAccessibilityPriorityLevel.high.rawValue
+                        ]
+                    )
+                }
+            }
+            // Announce when recording resumes
+            else if !newValue && oldValue && appState.isRecording {
+                DispatchQueue.main.async {
+                    NSAccessibility.post(
+                        element: NSApp as Any,
+                        notification: .announcementRequested,
+                        userInfo: [
+                            .announcement: "Recording resumed",
+                            .priority: NSAccessibilityPriorityLevel.high.rawValue
+                        ]
+                    )
+                }
+            }
+        }
 
         if appState.isRecording {
             Divider()
             if appState.isPaused {
                 Text("Paused: \(appState.elapsedTime)")
                     .foregroundColor(.orange)
+                    .accessibilityLabel("Paused duration")
+                    .accessibilityValue(appState.elapsedTime)
             } else {
                 Text("Recording: \(appState.elapsedTime)")
                     .foregroundColor(.secondary)
+                    .accessibilityLabel("Recording duration")
+                    .accessibilityValue(appState.elapsedTime)
             }
         }
 
@@ -94,6 +162,8 @@ struct MenuBarView: View {
             Text("Settings...")
         }
         .keyboardShortcut(",")
+        .accessibilityLabel("Settings")
+        .accessibilityHint("Opens application settings. Keyboard shortcut: Command Comma")
 
         Divider()
 
@@ -101,5 +171,7 @@ struct MenuBarView: View {
             NSApplication.shared.terminate(nil)
         }
         .keyboardShortcut("Q")
+        .accessibilityLabel("Quit")
+        .accessibilityHint("Quits the application. Keyboard shortcut: Command Q")
     }
 }
