@@ -34,11 +34,19 @@ struct SettingsView: View {
     private var outputSection: some View {
         Section {
             HStack {
-                TextField(LocalizedStringKey("settings.output.folder.label"), text: $outputFolder)
-                    .textFieldStyle(.roundedBorder)
-                    .accessibilityIdentifier("outputFolderTextField")
+                Image(systemName: "folder")
+                    .foregroundColor(.secondary)
+                    .accessibilityIdentifier("outputFolderIcon")
+                    .accessibilityHidden(true)
+
+                Text(outputFolder)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .accessibilityIdentifier("outputFolderDisplay")
                     .accessibilityLabel(LocalizedStringKey("settings.output.folder.accessibility.label"))
-                    .accessibilityHint(LocalizedStringKey("settings.output.folder.accessibility.hint"))
+                    .accessibilityValue(outputFolder)
+
+                Spacer()
 
                 Button(LocalizedStringKey("settings.output.folder.browseButton")) {
                     selectOutputFolder()
