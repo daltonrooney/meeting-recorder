@@ -32,46 +32,65 @@ struct SettingsView: View {
     // MARK: - Output Section
 
     private var outputSection: some View {
-        Section("Output") {
+        Section {
             HStack {
                 TextField("Output Folder", text: $outputFolder)
                     .textFieldStyle(.roundedBorder)
                     .accessibilityIdentifier("outputFolderTextField")
+                    .accessibilityLabel("Output Folder")
+                    .accessibilityHint("Path where transcripts will be saved")
 
                 Button("Browse...") {
                     selectOutputFolder()
                 }
                 .accessibilityIdentifier("outputFolderBrowseButton")
+                .accessibilityLabel("Browse for Output Folder")
+                .accessibilityHint("Opens a dialog to select where transcripts will be saved")
             }
 
             Toggle("Save Original Audio File", isOn: $saveOriginalAudio)
                 .accessibilityIdentifier("saveOriginalAudioToggle")
+                .accessibilityLabel("Save Original Audio File")
+                .accessibilityHint("When enabled, saves original audio recordings in M4A format alongside transcripts")
 
             Text("Transcripts will be saved to this folder. When enabled, original audio recordings will also be saved in M4A format.")
                 .font(.caption)
                 .foregroundColor(.secondary)
+                .accessibilityHidden(true)
+        } header: {
+            Text("Output")
+                .accessibilityAddTraits(.isHeader)
         }
     }
 
     // MARK: - Audio Sources Section
 
     private var audioSourcesSection: some View {
-        Section("Audio Sources") {
+        Section {
             Toggle("Capture System Audio (Zoom, Teams, etc.)", isOn: $captureSystemAudio)
                 .accessibilityIdentifier("captureSystemAudioToggle")
+                .accessibilityLabel("Capture System Audio")
+                .accessibilityHint("Records audio from applications like Zoom, Teams, and other system sounds")
+
             Toggle("Capture Microphone Input", isOn: $captureMicrophone)
                 .accessibilityIdentifier("captureMicrophoneToggle")
+                .accessibilityLabel("Capture Microphone Input")
+                .accessibilityHint("Records audio from your microphone. At least one audio source must be enabled")
 
             Text("At least one audio source must be enabled")
                 .font(.caption)
                 .foregroundColor(.secondary)
+                .accessibilityHidden(true)
+        } header: {
+            Text("Audio Sources")
+                .accessibilityAddTraits(.isHeader)
         }
     }
 
     // MARK: - Silence Detection Section
 
     private var silenceDetectionSection: some View {
-        Section("Silence Detection") {
+        Section {
             Picker("Auto-pause after silence:", selection: Binding(
                 get: { SilencePauseThreshold(rawValue: silencePauseThresholdRaw) ?? .never },
                 set: { silencePauseThresholdRaw = $0.rawValue }
@@ -81,17 +100,24 @@ struct SettingsView: View {
                 }
             }
             .pickerStyle(.menu)
+            .accessibilityIdentifier("silencePauseThresholdPicker")
+            .accessibilityLabel("Auto-pause after silence")
+            .accessibilityHint("Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected")
 
             Text("Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected.")
                 .font(.caption)
                 .foregroundColor(.secondary)
+                .accessibilityHidden(true)
+        } header: {
+            Text("Silence Detection")
+                .accessibilityAddTraits(.isHeader)
         }
     }
 
     // MARK: - Post-Recording Section
 
     private var postRecordingSection: some View {
-        Section("Post-Recording Action") {
+        Section {
             Picker("After recording:", selection: Binding(
                 get: { PostRecordingActionType(rawValue: postRecordingActionTypeRaw) ?? .doNothing },
                 set: { postRecordingActionTypeRaw = $0.rawValue }
@@ -102,6 +128,8 @@ struct SettingsView: View {
             }
             .pickerStyle(.radioGroup)
             .accessibilityIdentifier("postRecordingActionPicker")
+            .accessibilityLabel("After recording")
+            .accessibilityHint("Choose what happens when recording stops: do nothing, run a script, or run a shortcut")
 
             // Show script picker when script is selected
             if PostRecordingActionType(rawValue: postRecordingActionTypeRaw) == .script {
@@ -109,16 +137,21 @@ struct SettingsView: View {
                     TextField("Shell Script Path", text: $postRecordingScript)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityIdentifier("postRecordingScriptTextField")
+                        .accessibilityLabel("Shell Script Path")
+                        .accessibilityHint("Path to shell script that will receive the transcript file path as its first argument")
 
                     Button("Browse...") {
                         selectPostRecordingScript()
                     }
                     .accessibilityIdentifier("postRecordingScriptBrowseButton")
+                    .accessibilityLabel("Browse for Script")
+                    .accessibilityHint("Opens a dialog to select a shell script to run after recording")
                 }
 
                 Text("Script receives transcript path as $1")
                     .font(.caption)
                     .foregroundColor(.secondary)
+                    .accessibilityHidden(true)
             }
 
             // Show shortcut picker when shortcut is selected
@@ -131,6 +164,7 @@ struct SettingsView: View {
                             .accessibilityIdentifier("shortcutsLoadingIndicator")
                         Text("Loading shortcuts...")
                             .foregroundColor(.secondary)
+                            .accessibilityHidden(true)
                     }
                 } else {
                     Picker("Shortcut:", selection: $shortcutIdentifier) {
@@ -141,18 +175,25 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.menu)
                     .accessibilityIdentifier("shortcutPicker")
+                    .accessibilityLabel("Shortcut")
+                    .accessibilityHint("Choose a shortcut that will receive the transcript file path as input")
 
                     if availableShortcuts.isEmpty {
                         Text("No shortcuts found. Create shortcuts in the Shortcuts app first.")
                             .font(.caption)
                             .foregroundColor(.orange)
+                            .accessibilityHidden(true)
                     } else {
                         Text("The shortcut receives the transcript file path as input")
                             .font(.caption)
                             .foregroundColor(.secondary)
+                            .accessibilityHidden(true)
                     }
                 }
             }
+        } header: {
+            Text("Post-Recording Action")
+                .accessibilityAddTraits(.isHeader)
         }
         .onAppear {
             loadAvailableShortcuts()
