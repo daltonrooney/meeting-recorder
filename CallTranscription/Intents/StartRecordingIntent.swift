@@ -21,7 +21,7 @@ struct StartRecordingIntent: AppIntent {
     func perform() async throws -> some IntentResult {
         // Get the shared AppState instance
         let appState = try AppStateContainer.shared.requireAppState()
-        let recordingTitle = title ?? "Untitled Recording"
+        let recordingTitle = title ?? NSLocalizedString("intent.recording.defaultTitle", comment: "Default recording title")
 
         do {
             // Use startActualRecording for real recording
@@ -48,13 +48,13 @@ enum IntentError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .appNotAvailable:
-            return "Olive is not available"
+            return NSLocalizedString("intent.error.appNotAvailable", comment: "App not available error description")
         case .recordingFailed(let reason):
-            return "Recording failed: \(reason)"
+            return String(format: NSLocalizedString("intent.error.recordingFailed", comment: "Recording failed error description"), reason)
         case .notRecording:
-            return "No recording session is currently active"
+            return NSLocalizedString("intent.error.notRecording", comment: "Not recording error description")
         case .configurationFailed(let reason):
-            return "Configuration failed: \(reason)"
+            return String(format: NSLocalizedString("intent.error.configurationFailed", comment: "Configuration failed error description"), reason)
         }
     }
 }
