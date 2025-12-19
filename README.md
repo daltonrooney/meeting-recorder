@@ -5,6 +5,7 @@ Olive is a macOS menu bar application that records and transcribes audio from bo
 ## Table of Contents
 
 - [Features](#features)
+- [Accessibility](#accessibility)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -24,6 +25,51 @@ Olive is a macOS menu bar application that records and transcribes audio from bo
 - **Menu Bar Interface**: Minimal, always-accessible controls
 - **Post-Recording Automation**: Execute shell scripts or shortcuts after recording stops
 - **Privacy-First**: All transcription happens on-device using Apple's Speech framework
+- **VoiceOver Support**: Full accessibility for screen reader users
+
+## Accessibility
+
+Olive provides comprehensive VoiceOver support following Apple's Human Interface Guidelines for accessibility.
+
+### VoiceOver Features
+
+- **Menu Bar Icon**: Announces current recording state (Not Recording, Recording, Paused) with elapsed time
+- **MenuBarView Controls**: All buttons have descriptive labels and hints with keyboard shortcuts
+- **State Announcements**: VoiceOver announces when recording starts, pauses, resumes, or stops
+- **SettingsView**: All 13+ controls across 4 sections have labels and hints
+- **ConsentDialogView**: First-launch consent dialog is fully accessible with proper header navigation
+- **Keyboard Navigation**: Full keyboard access with documented shortcuts in accessibility hints
+
+### Keyboard Shortcuts
+
+All keyboard shortcuts are documented in VoiceOver hints and work globally:
+
+| Action | Shortcut |
+|--------|----------|
+| Start/Resume Recording | `Cmd+Shift+R` |
+| Pause Recording | `Cmd+Shift+P` |
+| Stop Recording | `Cmd+Shift+S` |
+| Open Settings | `Cmd+,` |
+| Quit Application | `Cmd+Q` |
+
+### Testing VoiceOver
+
+Enable VoiceOver with `Cmd+F5` and navigate using:
+- **Forward**: `Control+Option+Right Arrow`
+- **Backward**: `Control+Option+Left Arrow`
+- **Activate**: `Control+Option+Space`
+- **Read Hint**: `Control+Option+Shift+H`
+
+For comprehensive VoiceOver testing procedures, see [docs/accessibility-testing-checklist.md](docs/accessibility-testing-checklist.md).
+
+### Test Coverage
+
+Olive includes 76 automated accessibility tests:
+- **MenuBarView**: 27 tests for controls, labels, hints, and announcements
+- **SettingsView**: 30 tests for all sections and controls
+- **ConsentDialogView**: 19 tests for dialog accessibility
+
+All tests follow Test-Driven Development (TDD) methodology with tests written before implementation.
 
 ## Requirements
 
