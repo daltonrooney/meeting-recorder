@@ -2094,6 +2094,54 @@
           }
         }
       }
+    },
+    "transcript.header.title": {
+      "comment": "Transcript file header title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive - Call Transcription Transcript"
+          }
+        }
+      }
+    },
+    "transcript.header.dateLabel": {
+      "comment": "Date label in transcript header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date: "
+          }
+        }
+      }
+    },
+    "transcript.header.titleLabel": {
+      "comment": "Title label in transcript header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Title: "
+          }
+        }
+      }
+    },
+    "transcript.header.separator": {
+      "comment": "Separator line in transcript header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "================================================================================"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
