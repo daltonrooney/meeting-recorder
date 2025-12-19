@@ -52,6 +52,36 @@
             "state": "translated",
             "value": "Start Recording"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Démarrer l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme starten"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を開始"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始录音"
+          }
         }
       }
     },
@@ -63,6 +93,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Resume Recording"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reanudar grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprendre l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme fortsetzen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を再開"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续录音"
           }
         }
       }
@@ -76,6 +136,36 @@
             "state": "translated",
             "value": "Pause Recording"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausar grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre en pause"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme pausieren"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を一時停止"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂停录音"
+          }
         }
       }
     },
@@ -87,6 +177,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stop Recording"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detener grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme stoppen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を停止"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止录音"
           }
         }
       }
@@ -100,6 +220,36 @@
             "state": "translated",
             "value": "Quit"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beenden"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終了"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出"
+          }
         }
       }
     },
@@ -111,6 +261,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Settings..."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configuración..."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages..."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen..."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置..."
           }
         }
       }
@@ -124,6 +304,36 @@
             "state": "translated",
             "value": "Paused: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(En pausa)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(En pause)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(Pausiert)"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "（一時停止中）"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "（已暂停）"
+          }
         }
       }
     },
@@ -135,6 +345,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabando: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音中：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音中：%@"
           }
         }
       }
@@ -148,6 +388,36 @@
             "state": "translated",
             "value": "Recording Error"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error de grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erreur d'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahmefehler"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音エラー"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音错误"
+          }
         }
       }
     },
@@ -159,6 +429,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "OK"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aceptar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
           }
         }
       }
@@ -172,6 +472,36 @@
             "state": "translated",
             "value": "Start Recording"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Démarrer l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme starten"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を開始"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始录音"
+          }
         }
       }
     },
@@ -183,6 +513,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Begins a new recording session. Keyboard shortcut: Command Shift R"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicia una nueva sesión de grabación. Atajo de teclado: Comando Mayús R"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commence une nouvelle session d'enregistrement. Raccourci clavier : Commande Maj R"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beginnt eine neue Aufnahmesitzung. Tastenkombination: Befehl Umschalt R"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新しい録音セッションを開始します。キーボードショートカット：Command Shift R"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始新的录音会话。键盘快捷键：Command Shift R"
           }
         }
       }
@@ -196,6 +556,36 @@
             "state": "translated",
             "value": "Resume Recording"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reanudar grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprendre l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme fortsetzen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を再開"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复录音"
+          }
         }
       }
     },
@@ -207,6 +597,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Resumes the paused recording. Keyboard shortcut: Command Shift R"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reanuda la grabación pausada. Atajo de teclado: Comando Mayús R"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprend l'enregistrement en pause. Raccourci clavier : Commande Maj R"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setzt die pausierte Aufnahme fort. Tastenkombination: Befehl Umschalt R"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一時停止中の録音を再開します。キーボードショートカット：Command Shift R"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复暂停的录音。键盘快捷键：Command Shift R"
           }
         }
       }
@@ -220,6 +640,36 @@
             "state": "translated",
             "value": "Pause Recording"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausar grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre en pause l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme pausieren"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を一時停止"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂停录音"
+          }
         }
       }
     },
@@ -231,6 +681,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pauses the current recording. Keyboard shortcut: Command Shift P"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa la grabación actual. Atajo de teclado: Comando Mayús P"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Met en pause l'enregistrement en cours. Raccourci clavier : Commande Maj P"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausiert die aktuelle Aufnahme. Tastenkombination: Befehl Umschalt P"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在の録音を一時停止します。キーボードショートカット：Command Shift P"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂停当前录音。键盘快捷键：Command Shift P"
           }
         }
       }
@@ -244,6 +724,36 @@
             "state": "translated",
             "value": "Stop Recording"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detener grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme stoppen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を停止"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止录音"
+          }
         }
       }
     },
@@ -255,6 +765,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stops the recording and saves the transcript. Keyboard shortcut: Command Shift S"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detiene la grabación y guarda la transcripción. Atajo de teclado: Comando Mayús S"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrête l'enregistrement et enregistre la transcription. Raccourci clavier : Commande Maj S"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stoppt die Aufnahme und speichert die Transkription. Tastenkombination: Befehl Umschalt S"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を停止し、文字起こしを保存します。キーボードショートカット：Command Shift S"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止录音并保存转录。键盘快捷键：Command Shift S"
           }
         }
       }
@@ -268,6 +808,36 @@
             "state": "translated",
             "value": "Settings"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configuración"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
         }
       }
     },
@@ -279,6 +849,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Opens application settings. Keyboard shortcut: Command Comma"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre la configuración de la aplicación. Atajo de teclado: Comando Coma"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvre les réglages de l'application. Raccourci clavier : Commande Virgule"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnet die Anwendungseinstellungen. Tastenkombination: Befehl Komma"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリケーション設定を開きます。キーボードショートカット：Command カンマ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开应用程序设置。键盘快捷键：Command 逗号"
           }
         }
       }
@@ -292,6 +892,36 @@
             "state": "translated",
             "value": "Quit"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beenden"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終了"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出"
+          }
         }
       }
     },
@@ -303,6 +933,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quits the application. Keyboard shortcut: Command Q"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sale de la aplicación. Atajo de teclado: Comando Q"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitte l'application. Raccourci clavier : Commande Q"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beendet die Anwendung. Tastenkombination: Befehl Q"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリケーションを終了します。キーボードショートカット：Command Q"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出应用程序。键盘快捷键：Command Q"
           }
         }
       }
@@ -316,6 +976,36 @@
             "state": "translated",
             "value": "Paused duration"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duración de la pausa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durée de la pause"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause-Dauer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一時停止時間"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂停时长"
+          }
         }
       }
     },
@@ -327,6 +1017,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording duration"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duración de la grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durée de l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahmedauer"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音時間"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音时长"
           }
         }
       }
@@ -340,6 +1060,36 @@
             "state": "translated",
             "value": "Recording started"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación iniciada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement démarré"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme gestartet"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を開始しました"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音已开始"
+          }
         }
       }
     },
@@ -351,6 +1101,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording stopped"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación detenida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement arrêté"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme gestoppt"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を停止しました"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音已停止"
           }
         }
       }
@@ -364,6 +1144,36 @@
             "state": "translated",
             "value": "Recording paused"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación pausada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement mis en pause"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme pausiert"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を一時停止しました"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音已暂停"
+          }
         }
       }
     },
@@ -375,6 +1185,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording resumed"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación reanudada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement repris"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme fortgesetzt"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を再開しました"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音已继续"
           }
         }
       }
@@ -388,6 +1228,36 @@
             "state": "translated",
             "value": "Output"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sortie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgabe"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出力"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输出"
+          }
         }
       }
     },
@@ -399,6 +1269,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Output Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carpeta de salida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dossier de sortie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgabeordner"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出力フォルダ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输出文件夹"
           }
         }
       }
@@ -412,6 +1312,36 @@
             "state": "translated",
             "value": "Browse..."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Examinar…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parcourir…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durchsuchen…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "参照…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览…"
+          }
         }
       }
     },
@@ -423,6 +1353,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Save Original Audio File"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar audio original"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer l'audio d'origine"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original-Audio speichern"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "元の音声を保存"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存原始音频"
           }
         }
       }
@@ -436,6 +1396,36 @@
             "state": "translated",
             "value": "Transcripts will be saved to this folder. When enabled, original audio recordings will also be saved in M4A format."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las transcripciones se guardarán en esta carpeta. El audio original se guardará junto a la transcripción si está habilitado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les transcriptions seront enregistrées dans ce dossier. L'audio d'origine sera enregistré à côté de la transcription si activé."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transkriptionen werden in diesem Ordner gespeichert. Das Original-Audio wird neben der Transkription gespeichert, wenn aktiviert."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トランスクリプトはこのフォルダに保存されます。有効にすると、元の音声がトランスクリプトと一緒に保存されます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "转录将保存在此文件夹中。如果启用，原始音频将保存在转录旁边。"
+          }
         }
       }
     },
@@ -447,6 +1437,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Output Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carpeta de salida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dossier de sortie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgabeordner"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出力フォルダ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输出文件夹"
           }
         }
       }
@@ -460,6 +1480,36 @@
             "state": "translated",
             "value": "Path where transcripts will be saved"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruta de la carpeta donde se guardarán las transcripciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chemin du dossier où les transcriptions seront enregistrées"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfad des Ordners, in dem Transkriptionen gespeichert werden"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トランスクリプトが保存されるフォルダのパス"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存转录的文件夹路径"
+          }
         }
       }
     },
@@ -471,6 +1521,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Browse for Output Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Examinar carpeta de salida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parcourir le dossier de sortie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgabeordner durchsuchen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出力フォルダを参照"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览输出文件夹"
           }
         }
       }
@@ -484,6 +1564,36 @@
             "state": "translated",
             "value": "Opens a dialog to select where transcripts will be saved"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre un diálogo para seleccionar la carpeta de salida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvre une boîte de dialogue pour sélectionner le dossier de sortie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnet einen Dialog zur Auswahl des Ausgabeordners"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出力フォルダを選択するダイアログを開きます"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开对话框以选择输出文件夹"
+          }
         }
       }
     },
@@ -495,6 +1605,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Save Original Audio File"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar audio original"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer l'audio d'origine"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original-Audio speichern"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "元の音声を保存"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存原始音频"
           }
         }
       }
@@ -508,6 +1648,36 @@
             "state": "translated",
             "value": "When enabled, saves original audio recordings in M4A format alongside transcripts"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando está habilitado, guarda el archivo de audio sin procesar junto con la transcripción"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lorsqu'il est activé, enregistre le fichier audio brut à côté de la transcription"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn aktiviert, wird die rohe Audiodatei neben der Transkription gespeichert"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有効にすると、トランスクリプトと一緒に生の音声ファイルが保存されます"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用后，将原始音频文件与转录一起保存"
+          }
         }
       }
     },
@@ -519,6 +1689,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Select Output Folder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择"
           }
         }
       }
@@ -532,6 +1732,36 @@
             "state": "translated",
             "value": "Choose where transcripts will be saved"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige la carpeta donde se guardarán las transcripciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez le dossier où les transcriptions seront enregistrées"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie den Ordner aus, in dem Transkriptionen gespeichert werden"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トランスクリプトを保存するフォルダを選択してください"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择保存转录的文件夹"
+          }
         }
       }
     },
@@ -543,6 +1773,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Audio Sources"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuentes de audio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sources audio"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audioquellen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声ソース"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音频源"
           }
         }
       }
@@ -556,6 +1816,36 @@
             "state": "translated",
             "value": "Capture System Audio (Zoom, Teams, etc.)"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturar audio del sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturer l'audio système"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System-Audio aufnehmen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムオーディオをキャプチャ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕获系统音频"
+          }
         }
       }
     },
@@ -567,6 +1857,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Capture Microphone Input"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturar micrófono"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturer le microphone"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofon aufnehmen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マイクをキャプチャ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕获麦克风"
           }
         }
       }
@@ -580,6 +1900,36 @@
             "state": "translated",
             "value": "At least one audio source must be enabled"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puedes capturar audio del sistema (de otras aplicaciones), tu micrófono o ambos. Al menos una fuente debe estar habilitada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous pouvez capturer l'audio du système (d'autres applications), votre microphone ou les deux. Au moins une source doit être activée."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sie können System-Audio (von anderen Anwendungen), Ihr Mikrofon oder beides aufnehmen. Mindestens eine Quelle muss aktiviert sein."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムオーディオ（他のアプリケーションから）、マイク、または両方をキャプチャできます。少なくとも1つのソースを有効にする必要があります。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "您可以捕获系统音频（来自其他应用程序）、麦克风或两者。必须启用至少一个来源。"
+          }
         }
       }
     },
@@ -591,6 +1941,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Capture System Audio"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturar audio del sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturer l'audio système"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System-Audio aufnehmen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムオーディオをキャプチャ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕获系统音频"
           }
         }
       }
@@ -604,6 +1984,36 @@
             "state": "translated",
             "value": "Records audio from applications like Zoom, Teams, and other system sounds"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando está habilitado, graba el audio de otras aplicaciones en tu Mac"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lorsqu'il est activé, enregistre l'audio d'autres applications sur votre Mac"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn aktiviert, nimmt Audio von anderen Anwendungen auf Ihrem Mac auf"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有効にすると、Mac上の他のアプリケーションからオーディオを録音します"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用后，录制Mac上其他应用程序的音频"
+          }
         }
       }
     },
@@ -615,6 +2025,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Capture Microphone Input"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturar micrófono"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturer le microphone"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofon aufnehmen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マイクをキャプチャ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕获麦克风"
           }
         }
       }
@@ -628,6 +2068,36 @@
             "state": "translated",
             "value": "Records audio from your microphone. At least one audio source must be enabled"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando está habilitado, graba el audio de tu micrófono"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lorsqu'il est activé, enregistre l'audio de votre microphone"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn aktiviert, nimmt Audio von Ihrem Mikrofon auf"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有効にすると、マイクからオーディオを録音します"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用后，录制麦克风的音频"
+          }
         }
       }
     },
@@ -639,6 +2109,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Silence Detection"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detección de silencio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Détection du silence"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stille-Erkennung"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無音検出"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "静音检测"
           }
         }
       }
@@ -652,6 +2152,36 @@
             "state": "translated",
             "value": "Auto-pause after silence:"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa automática después del silencio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause automatique après silence"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatische Pause nach Stille"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無音後に自動一時停止"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "静音后自动暂停"
+          }
         }
       }
     },
@@ -663,6 +2193,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa automáticamente la grabación después del período de silencio especificado. Útil para pausar durante largas pausas en las conversaciones."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Met automatiquement en pause l'enregistrement après la période de silence spécifiée. Utile pour faire une pause pendant de longues pauses dans les conversations."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausiert die Aufnahme automatisch nach dem angegebenen Stillezeitraum. Nützlich zum Pausieren während langer Pausen in Gesprächen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指定された無音期間の後、録音を自動的に一時停止します。会話の長い休止中に一時停止するのに便利です。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在指定的静音期后自动暂停录音。适用于在对话中的长时间停顿期间暂停。"
           }
         }
       }
@@ -676,6 +2236,36 @@
             "state": "translated",
             "value": "Auto-pause after silence"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa automática después del silencio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause automatique après silence"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatische Pause nach Stille"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無音後に自動一時停止"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "静音后自动暂停"
+          }
         }
       }
     },
@@ -687,6 +2277,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automatically pause recording after continuous silence. Recording will auto-resume when audio is detected"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecciona cuánto tiempo de silencio antes de pausar automáticamente, o elige Nunca para deshabilitar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionnez la durée du silence avant la pause automatique, ou choisissez Jamais pour désactiver"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie aus, wie lange die Stille dauern soll, bevor automatisch pausiert wird, oder wählen Sie Nie zum Deaktivieren"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動的に一時停止するまでの無音時間を選択するか、無効にするには「しない」を選択します"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择自动暂停前的静音时长，或选择\"从不\"以禁用"
           }
         }
       }
@@ -700,6 +2320,36 @@
             "state": "translated",
             "value": "Post-Recording Action"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Después de grabar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Après l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach der Aufnahme"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音後"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音后"
+          }
         }
       }
     },
@@ -711,6 +2361,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "After recording:"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Después de detener la grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Après l'arrêt de l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach dem Stoppen der Aufnahme"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音停止後"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止录音后"
           }
         }
       }
@@ -724,6 +2404,36 @@
             "state": "translated",
             "value": "Do nothing"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hacer nada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne rien faire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nichts tun"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "何もしない"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不执行操作"
+          }
         }
       }
     },
@@ -735,6 +2445,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Run a script"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar script"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter un script"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skript ausführen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトを実行"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行脚本"
           }
         }
       }
@@ -748,6 +2488,36 @@
             "state": "translated",
             "value": "Run a shortcut"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejecutar atajo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exécuter un raccourci"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut ausführen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットを実行"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行快捷指令"
+          }
         }
       }
     },
@@ -759,6 +2529,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Shell Script Path"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruta del script"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chemin du script"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skriptpfad"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトパス"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脚本路径"
           }
         }
       }
@@ -772,6 +2572,36 @@
             "state": "translated",
             "value": "Browse..."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Examinar…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parcourir…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durchsuchen…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "参照…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览…"
+          }
         }
       }
     },
@@ -783,6 +2613,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Script receives transcript path as $1"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El script recibirá la ruta del archivo de transcripción como primer argumento. Asegúrate de que el script sea ejecutable."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le script recevra le chemin du fichier de transcription comme premier argument. Assurez-vous que le script est exécutable."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Skript erhält den Pfad der Transkriptionsdatei als erstes Argument. Stellen Sie sicher, dass das Skript ausführbar ist."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトは最初の引数としてトランスクリプトファイルのパスを受け取ります。スクリプトが実行可能であることを確認してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脚本将接收转录文件路径作为第一个参数。确保脚本是可执行的。"
           }
         }
       }
@@ -796,6 +2656,36 @@
             "state": "translated",
             "value": "Loading shortcuts..."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cargando atajos…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chargement des raccourcis…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts werden geladen…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットを読み込んでいます…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在加载快捷指令…"
+          }
         }
       }
     },
@@ -807,6 +2697,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Shortcut:"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccourci"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカット"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷指令"
           }
         }
       }
@@ -820,6 +2740,36 @@
             "state": "translated",
             "value": "Select a shortcut..."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar atajo…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner un raccourci…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut auswählen…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットを選択…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择快捷指令…"
+          }
         }
       }
     },
@@ -831,6 +2781,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "No shortcuts found. Create shortcuts in the Shortcuts app first."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se encontraron atajos. Crea atajos en la aplicación Atajos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun raccourci trouvé. Créez des raccourcis dans l'application Raccourcis."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Shortcuts gefunden. Erstellen Sie Shortcuts in der Shortcuts-App."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットが見つかりません。ショートカットアプリでショートカットを作成してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到快捷指令。在快捷指令应用中创建快捷指令。"
           }
         }
       }
@@ -844,6 +2824,36 @@
             "state": "translated",
             "value": "The shortcut receives the transcript file path as input"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El atajo recibirá la ruta del archivo de transcripción como entrada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le raccourci recevra le chemin du fichier de transcription en entrée."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Shortcut erhält den Pfad der Transkriptionsdatei als Eingabe."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットは入力としてトランスクリプトファイルのパスを受け取ります。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷指令将接收转录文件路径作为输入。"
+          }
         }
       }
     },
@@ -855,6 +2865,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "After recording"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acción después de grabar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action après l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktion nach der Aufnahme"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音後のアクション"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音后操作"
           }
         }
       }
@@ -868,6 +2908,36 @@
             "state": "translated",
             "value": "Choose what happens when recording stops: do nothing, run a script, or run a shortcut"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecciona qué hacer después de detener una grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionnez quoi faire après l'arrêt d'un enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie aus, was nach dem Stoppen einer Aufnahme passieren soll"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音を停止した後に実行する操作を選択します"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择停止录音后要执行的操作"
+          }
         }
       }
     },
@@ -879,6 +2949,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Shell Script Path"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruta del script"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chemin du script"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skriptpfad"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトパス"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脚本路径"
           }
         }
       }
@@ -892,6 +2992,36 @@
             "state": "translated",
             "value": "Path to shell script that will receive the transcript file path as its first argument"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruta al script que se ejecutará después de detener la grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chemin vers le script à exécuter après l'arrêt de l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfad zum Skript, das nach dem Stoppen der Aufnahme ausgeführt wird"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音停止後に実行するスクリプトへのパス"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止录音后要执行的脚本路径"
+          }
         }
       }
     },
@@ -903,6 +3033,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Browse for Script"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Examinar script"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parcourir le script"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skript durchsuchen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトを参照"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览脚本"
           }
         }
       }
@@ -916,6 +3076,36 @@
             "state": "translated",
             "value": "Opens a dialog to select a shell script to run after recording"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre un diálogo para seleccionar el archivo de script"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvre une boîte de dialogue pour sélectionner le fichier de script"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnet einen Dialog zur Auswahl der Skriptdatei"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトファイルを選択するダイアログを開きます"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开对话框以选择脚本文件"
+          }
         }
       }
     },
@@ -927,6 +3117,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Shortcut"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar atajo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner un raccourci"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut auswählen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットを選択"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择快捷指令"
           }
         }
       }
@@ -940,6 +3160,36 @@
             "state": "translated",
             "value": "Choose a shortcut that will receive the transcript file path as input"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecciona qué atajo ejecutar después de detener la grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionnez quel raccourci exécuter après l'arrêt de l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie aus, welcher Shortcut nach dem Stoppen der Aufnahme ausgeführt wird"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音停止後に実行するショートカットを選択します"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择停止录音后要运行的快捷指令"
+          }
         }
       }
     },
@@ -951,6 +3201,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Loading shortcuts"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cargando atajos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chargement des raccourcis"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts werden geladen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットを読み込み中"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在加载快捷指令"
           }
         }
       }
@@ -964,6 +3244,36 @@
             "state": "translated",
             "value": "Select Script"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择"
+          }
         }
       }
     },
@@ -975,6 +3285,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose a shell script to run after recording completes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige el script que se ejecutará después de detener la grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez le script à exécuter après l'arrêt de l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie das Skript aus, das nach dem Stoppen der Aufnahme ausgeführt wird"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音停止後に実行するスクリプトを選択してください"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择停止录音后要运行的脚本"
           }
         }
       }
@@ -988,6 +3328,36 @@
             "state": "translated",
             "value": "Important: Recording Consent Requirements"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importante: Requisitos de consentimiento para grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Important : Exigences de consentement pour l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wichtig: Zustimmungsanforderungen für Aufnahmen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重要：録音の同意要件"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重要：录音同意要求"
+          }
         }
       }
     },
@@ -999,6 +3369,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Before using this app to record conversations, please understand:"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antes de usar esta aplicación para grabar conversaciones, comprenda lo siguiente:"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avant d'utiliser cette application pour enregistrer des conversations, veuillez comprendre :"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bevor Sie diese App zum Aufnehmen von Gesprächen verwenden, beachten Sie bitte:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この アプリを使用して会話を録音する前に、以下をご理解ください："
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在使用此应用程序录制对话之前，请理解以下内容："
           }
         }
       }
@@ -1012,6 +3412,36 @@
             "state": "translated",
             "value": "Recording laws vary significantly by jurisdiction"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las leyes de grabación varían significativamente según la jurisdicción"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les lois sur l'enregistrement varient considérablement selon la juridiction"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahmegesetze variieren erheblich je nach Rechtsordnung"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音に関する法律は管轄区域によって大きく異なります"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音法律因司法管辖区而有很大差异"
+          }
         }
       }
     },
@@ -1023,6 +3453,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Some regions require only one party's consent (one-party consent states)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algunas regiones solo requieren el consentimiento de una parte (estados de consentimiento unilateral)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certaines régions ne nécessitent que le consentement d'une partie (états à consentement unilatéral)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einige Regionen erfordern nur die Zustimmung einer Partei (Einparteien-Zustimmungsstaaten)"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一部の地域では一者のみの同意が必要です（一者同意州）"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "某些地区仅需一方同意（单方同意州）"
           }
         }
       }
@@ -1036,6 +3496,36 @@
             "state": "translated",
             "value": "Other regions require all parties to consent before recording (two-party or all-party consent)"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otras regiones requieren que todas las partes den su consentimiento antes de grabar (consentimiento bilateral o de todas las partes)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "D'autres régions exigent le consentement de toutes les parties avant l'enregistrement (consentement bilatéral ou multilatéral)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Andere Regionen erfordern die Zustimmung aller Parteien vor der Aufnahme (Zweiparteien- oder Allparteien-Zustimmung)"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "他の地域では録音前に全員の同意が必要です（双方または全員同意）"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他地区需要所有各方在录音前同意（双方或全方同意）"
+          }
         }
       }
     },
@@ -1047,6 +3537,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "International laws differ dramatically across countries"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las leyes internacionales difieren dramáticamente entre países"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les lois internationales diffèrent considérablement d'un pays à l'autre"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Internationale Gesetze unterscheiden sich erheblich zwischen Ländern"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "国際法は国によって大きく異なります"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "国际法律在各国之间差异显著"
           }
         }
       }
@@ -1060,6 +3580,36 @@
             "state": "translated",
             "value": "You are solely responsible for ensuring compliance with all applicable laws in your jurisdiction before recording any conversation."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usted es el único responsable de garantizar el cumplimiento de todas las leyes aplicables en su jurisdicción antes de grabar cualquier conversación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous êtes seul responsable de vous assurer de la conformité avec toutes les lois applicables dans votre juridiction avant d'enregistrer toute conversation."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sie sind allein dafür verantwortlich, die Einhaltung aller geltenden Gesetze in Ihrer Rechtsordnung sicherzustellen, bevor Sie ein Gespräch aufzeichnen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会話を録音する前に、管轄区域の適用法令すべてを遵守することは、お客様の単独の責任です。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在录制任何对话之前，您有唯一责任确保遵守您所在司法管辖区的所有适用法律。"
+          }
         }
       }
     },
@@ -1071,6 +3621,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Failure to obtain proper consent may result in civil or criminal liability."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No obtener el consentimiento adecuado puede resultar en responsabilidad civil o penal."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le non-respect de l'obtention du consentement approprié peut entraîner une responsabilité civile ou pénale."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Versäumnis, die ordnungsgemäße Zustimmung einzuholen, kann zu zivil- oder strafrechtlicher Haftung führen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "適切な同意を得ないと、民事または刑事責任を負う可能性があります。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未能获得适当同意可能导致民事或刑事责任。"
           }
         }
       }
@@ -1084,6 +3664,36 @@
             "state": "translated",
             "value": "Do not remind me again"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No recordarme de nuevo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne plus me rappeler"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht erneut erinnern"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今後表示しない"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不再提醒我"
+          }
         }
       }
     },
@@ -1095,6 +3705,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quit"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beenden"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終了"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出"
           }
         }
       }
@@ -1108,6 +3748,36 @@
             "state": "translated",
             "value": "I Understand"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entiendo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je comprends"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ich verstehe"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "理解しました"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我明白"
+          }
         }
       }
     },
@@ -1119,6 +3789,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Important: Recording Consent Requirements"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importante: Requisitos de consentimiento para grabación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Important : Exigences de consentement pour l'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wichtig: Zustimmungsanforderungen für Aufnahmen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重要：録音の同意要件"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重要：录音同意要求"
           }
         }
       }
@@ -1132,6 +3832,36 @@
             "state": "translated",
             "value": "Legal requirements"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requisitos legales"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exigences légales"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesetzliche Anforderungen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "法的要件"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "法律要求"
+          }
         }
       }
     },
@@ -1143,6 +3873,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Do not remind me again"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No recordarme de nuevo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne plus me rappeler"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht erneut erinnern"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今後表示しない"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不再提醒我"
           }
         }
       }
@@ -1156,6 +3916,36 @@
             "state": "translated",
             "value": "When checked, this consent dialog will not be shown again on future launches"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando esté marcado, este diálogo de consentimiento no se mostrará nuevamente en futuros inicios"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lorsque coché, cette boîte de dialogue de consentement ne sera plus affichée lors des lancements futurs"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn aktiviert, wird dieser Zustimmungsdialog bei zukünftigen Starts nicht mehr angezeigt"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "チェックすると、今後の起動時にこの同意ダイアログは表示されません"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选中后，此同意对话框将不会在未来启动时再次显示"
+          }
         }
       }
     },
@@ -1167,6 +3957,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quit"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beenden"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終了"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出"
           }
         }
       }
@@ -1180,6 +4000,36 @@
             "state": "translated",
             "value": "Quits the application without accepting consent requirements. Keyboard shortcut: Escape"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sale de la aplicación sin aceptar los requisitos de consentimiento. Atajo de teclado: Escape"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitte l'application sans accepter les exigences de consentement. Raccourci clavier : Échap"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beendet die Anwendung ohne Zustimmungsanforderungen zu akzeptieren. Tastenkombination: Escape"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同意要件を承認せずにアプリケーションを終了します。キーボードショートカット：Escape"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出应用程序而不接受同意要求。键盘快捷键：Escape"
+          }
         }
       }
     },
@@ -1191,6 +4041,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "I Understand"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entiendo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je comprends"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ich verstehe"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "理解しました"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我明白"
           }
         }
       }
@@ -1204,6 +4084,36 @@
             "state": "translated",
             "value": "Acknowledges consent requirements and dismisses this dialog. Keyboard shortcut: Return"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acepta los requisitos de consentimiento y cierra este diálogo. Atajo de teclado: Retorno"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accepte les exigences de consentement et ferme cette boîte de dialogue. Raccourci clavier : Entrée"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akzeptiert die Zustimmungsanforderungen und schließt diesen Dialog. Tastenkombination: Eingabetaste"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同意要件を承認し、このダイアログを閉じます。キーボードショートカット：Return"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确认同意要求并关闭此对话框。键盘快捷键：Return"
+          }
         }
       }
     },
@@ -1215,6 +4125,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "2 minutes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 minutos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 minutes"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 Minuten"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2分"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2分钟"
           }
         }
       }
@@ -1228,6 +4168,36 @@
             "state": "translated",
             "value": "5 minutes"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 minutos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 minutes"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 Minuten"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5分"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5分钟"
+          }
         }
       }
     },
@@ -1239,6 +4209,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "10 minutes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 minutos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 minutes"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 Minuten"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10分"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10分钟"
           }
         }
       }
@@ -1252,6 +4252,36 @@
             "state": "translated",
             "value": "Never"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nunca"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jamais"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nie"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "なし"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从不"
+          }
         }
       }
     },
@@ -1263,6 +4293,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Microphone access is required."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se requiere acceso al micrófono."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'accès au microphone est requis."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mikrofonzugriff ist erforderlich."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マイクへのアクセスが必要です。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要麦克风访问权限。"
           }
         }
       }
@@ -1276,6 +4336,36 @@
             "state": "translated",
             "value": "The app does not have permission to access the microphone."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La aplicación no tiene permiso para acceder al micrófono."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'application n'a pas la permission d'accéder au microphone."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App hat keine Berechtigung, auf das Mikrofon zuzugreifen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリにマイクへのアクセス許可がありません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用程序没有访问麦克风的权限。"
+          }
         }
       }
     },
@@ -1287,6 +4377,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enable microphone access in System Settings > Privacy & Security > Microphone."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Habilite el acceso al micrófono en Configuración del Sistema > Privacidad y Seguridad > Micrófono."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activez l'accès au microphone dans Réglages système > Confidentialité et sécurité > Microphone."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktivieren Sie den Mikrofonzugriff in Systemeinstellungen > Datenschutz & Sicherheit > Mikrofon."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定 > プライバシーとセキュリティ > マイクでマイクアクセスを有効にしてください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在系统设置 > 隐私与安全性 > 麦克风中启用麦克风访问。"
           }
         }
       }
@@ -1300,6 +4420,36 @@
             "state": "translated",
             "value": "Speech recognition is not available."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El reconocimiento de voz no está disponible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La reconnaissance vocale n'est pas disponible."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spracherkennung ist nicht verfügbar."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声認識は利用できません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别不可用。"
+          }
         }
       }
     },
@@ -1311,6 +4461,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "The speech recognition service is unavailable or the language model has not been downloaded."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El servicio de reconocimiento de voz no está disponible o el modelo de idioma no se ha descargado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le service de reconnaissance vocale n'est pas disponible ou le modèle de langue n'a pas été téléchargé."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Spracherkennungsdienst ist nicht verfügbar oder das Sprachmodell wurde nicht heruntergeladen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声認識サービスが利用できないか、言語モデルがダウンロードされていません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别服务不可用或语言模型尚未下载。"
           }
         }
       }
@@ -1324,6 +4504,36 @@
             "state": "translated",
             "value": "Check your internet connection to allow the speech recognition model to download, or try again later."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifique su conexión a Internet para permitir que el modelo de reconocimiento de voz se descargue, o inténtelo de nuevo más tarde."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifiez votre connexion Internet pour permettre le téléchargement du modèle de reconnaissance vocale, ou réessayez plus tard."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überprüfen Sie Ihre Internetverbindung, damit das Spracherkennungsmodell heruntergeladen werden kann, oder versuchen Sie es später erneut."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声認識モデルのダウンロードを許可するためにインターネット接続を確認するか、後でもう一度お試しください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查您的互联网连接以允许下载语音识别模型，或稍后再试。"
+          }
         }
       }
     },
@@ -1335,6 +4545,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Speech recognition is not available for %@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El reconocimiento de voz no está disponible para %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La reconnaissance vocale n'est pas disponible pour %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spracherkennung ist nicht verfügbar für %@."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ の音声認識は利用できません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 不支持语音识别。"
           }
         }
       }
@@ -1348,6 +4588,36 @@
             "state": "translated",
             "value": "The locale %@ is not supported by the speech recognition service."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El servicio de reconocimiento de voz no admite el idioma %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La locale %@ n'est pas prise en charge par le service de reconnaissance vocale."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Locale %@ wird vom Spracherkennungsdienst nicht unterstützt."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ロケール %@ は音声認識サービスでサポートされていません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别服务不支持区域设置 %@。"
+          }
         }
       }
     },
@@ -1359,6 +4629,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Try selecting a different language or locale that is supported by speech recognition."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intente seleccionar un idioma o región diferente que sea compatible con el reconocimiento de voz."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Essayez de sélectionner une autre langue ou locale prise en charge par la reconnaissance vocale."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versuchen Sie, eine andere Sprache oder ein anderes Locale auszuwählen, das von der Spracherkennung unterstützt wird."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声認識でサポートされている別の言語またはロケールを選択してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尝试选择语音识别支持的其他语言或区域设置。"
           }
         }
       }
@@ -1372,6 +4672,36 @@
             "state": "translated",
             "value": "Cannot write to %@."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede escribir en %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d'écrire dans %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schreiben in %@ nicht möglich."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ に書き込めません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法写入 %@。"
+          }
         }
       }
     },
@@ -1383,6 +4713,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "The output folder at %@ is not writable due to permissions or path issues."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La carpeta de salida en %@ no tiene permisos de escritura debido a problemas de permisos o ruta."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le dossier de sortie à %@ n'est pas accessible en écriture en raison de problèmes de permissions ou de chemin."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Ausgabeordner bei %@ ist aufgrund von Berechtigungs- oder Pfadproblemen nicht beschreibbar."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ の出力フォルダは、権限またはパスの問題により書き込みできません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 的输出文件夹由于权限或路径问题而不可写入。"
           }
         }
       }
@@ -1396,6 +4756,36 @@
             "state": "translated",
             "value": "Select a different folder where you have write permissions, such as your Documents or Desktop folder."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccione una carpeta diferente donde tenga permisos de escritura, como su carpeta de Documentos o Escritorio."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionnez un dossier différent où vous avez des permissions d'écriture, tel que votre dossier Documents ou Bureau."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie einen anderen Ordner aus, für den Sie Schreibberechtigungen haben, z. B. Ihren Dokumente- oder Schreibtisch-Ordner."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "書類フォルダやデスクトップフォルダなど、書き込み権限のある別のフォルダを選択してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择您有写入权限的其他文件夹，例如文稿或桌面文件夹。"
+          }
         }
       }
     },
@@ -1407,6 +4797,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Failed to create audio tap (error %d)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error al crear conexión de audio (código de error %d)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Échec de la création du flux audio (code d'erreur %d)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erstellung des Audio-Taps fehlgeschlagen (Fehlercode %d)."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オーディオタップの作成に失敗しました（エラーコード %d）。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "创建音频捕获失败（错误代码 %d）。"
           }
         }
       }
@@ -1420,6 +4840,36 @@
             "state": "translated",
             "value": "Core Audio returned error code %d when attempting to create a system audio tap."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Core Audio devolvió el código de error %d al intentar crear una conexión de audio del sistema."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Core Audio a renvoyé le code d'erreur %d lors de la tentative de création d'un flux audio système."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Core Audio hat beim Versuch, einen System-Audio-Tap zu erstellen, den Fehlercode %d zurückgegeben."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムオーディオタップの作成を試みた際、Core Audioがエラーコード %d を返しました。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尝试创建系统音频捕获时，Core Audio 返回错误代码 %d。"
+          }
         }
       }
     },
@@ -1431,6 +4881,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "System audio capture is unavailable. Try restarting the app or check for system audio conflicts."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La captura de audio del sistema no está disponible. Intente reiniciar la aplicación o verifique si hay conflictos con el audio del sistema."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La capture audio système n'est pas disponible. Essayez de redémarrer l'application ou vérifiez les conflits audio système."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System-Audioaufnahme ist nicht verfügbar. Versuchen Sie, die App neu zu starten, oder prüfen Sie auf System-Audiokonflikte."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムオーディオキャプチャは利用できません。アプリを再起動するか、システムオーディオの競合を確認してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统音频捕获不可用。尝试重启应用程序或检查系统音频冲突。"
           }
         }
       }
@@ -1444,6 +4924,36 @@
             "state": "translated",
             "value": "%@ is not yet implemented."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ aún no está implementado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ n'est pas encore implémenté."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ist noch nicht implementiert."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ はまだ実装されていません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 尚未实现。"
+          }
         }
       }
     },
@@ -1455,6 +4965,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ functionality has not been implemented yet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La funcionalidad de %@ aún no ha sido implementada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La fonctionnalité %@ n'a pas encore été implémentée."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Funktionalität von %@ wurde noch nicht implementiert."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ の機能はまだ実装されていません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 功能尚未实现。"
           }
         }
       }
@@ -1468,6 +5008,36 @@
             "state": "translated",
             "value": "This feature will be available in a future version."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta función estará disponible en una versión futura."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette fonctionnalité sera disponible dans une version future."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Funktion wird in einer zukünftigen Version verfügbar sein."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この機能は将来のバージョンで利用可能になります。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此功能将在未来版本中提供。"
+          }
         }
       }
     },
@@ -1479,6 +5049,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Post-recording script not found at %@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Script posterior a la grabación no encontrado en %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Script post-enregistrement introuvable à %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach-Aufnahme-Skript nicht gefunden bei %@."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ に録音後スクリプトが見つかりません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在 %@ 找不到录音后脚本。"
           }
         }
       }
@@ -1492,6 +5092,36 @@
             "state": "translated",
             "value": "The script file could not be found at the specified path: %@."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo encontrar el archivo de script en la ruta especificada: %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de script n'a pas pu être trouvé au chemin spécifié : %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Skriptdatei konnte nicht im angegebenen Pfad gefunden werden: %@."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "指定されたパスにスクリプトファイルが見つかりませんでした：%@。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在指定路径找不到脚本文件：%@。"
+          }
         }
       }
     },
@@ -1503,6 +5133,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Check that the script path '%@' is correct and the file exists."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifique que la ruta del script '%@' sea correcta y que el archivo exista."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifiez que le chemin du script '%@' est correct et que le fichier existe."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überprüfen Sie, ob der Skriptpfad '%@' korrekt ist und die Datei existiert."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトパス「%@」が正しく、ファイルが存在することを確認してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查脚本路径 '%@' 是否正确且文件存在。"
           }
         }
       }
@@ -1516,6 +5176,36 @@
             "state": "translated",
             "value": "Post-recording script at %@ is not executable."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El script posterior a la grabación en %@ no tiene permisos de ejecución."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le script post-enregistrement à %@ n'est pas exécutable."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach-Aufnahme-Skript bei %@ ist nicht ausführbar."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ の録音後スクリプトに実行権限がありません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 的录音后脚本不可执行。"
+          }
         }
       }
     },
@@ -1527,6 +5217,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "The script file exists but does not have execute permissions."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo de script existe pero no tiene permisos de ejecución."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de script existe mais n'a pas les permissions d'exécution."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Skriptdatei existiert, hat aber keine Ausführungsberechtigungen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトファイルは存在しますが、実行権限がありません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脚本文件存在但没有执行权限。"
           }
         }
       }
@@ -1540,6 +5260,36 @@
             "state": "translated",
             "value": "Make the script executable by running: chmod +x '%@'"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haga ejecutable el script ejecutando: chmod +x '%@'"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rendez le script exécutable en exécutant : chmod +x '%@'"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Machen Sie das Skript ausführbar, indem Sie ausführen: chmod +x '%@'"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "次のコマンドを実行してスクリプトを実行可能にしてください：chmod +x '%@'"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过运行以下命令使脚本可执行：chmod +x '%@'"
+          }
         }
       }
     },
@@ -1551,6 +5301,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Post-recording script exceeded timeout of %.0f seconds."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El script posterior a la grabación excedió el tiempo de espera de %.0f segundos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le script post-enregistrement a dépassé le délai d'attente de %.0f secondes."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach-Aufnahme-Skript hat Timeout von %.0f Sekunden überschritten."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音後スクリプトが %.0f 秒のタイムアウトを超過しました。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音后脚本超过 %.0f 秒的超时时间。"
           }
         }
       }
@@ -1564,6 +5344,36 @@
             "state": "translated",
             "value": "The script did not complete within %.0f seconds."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El script no se completó en %.0f segundos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le script ne s'est pas terminé dans les %.0f secondes."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Skript wurde nicht innerhalb von %.0f Sekunden abgeschlossen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトが %.0f 秒以内に完了しませんでした。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脚本未在 %.0f 秒内完成。"
+          }
         }
       }
     },
@@ -1575,6 +5385,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ensure your script completes in a reasonable time, or increase the timeout setting."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asegúrese de que su script se complete en un tiempo razonable, o aumente la configuración de tiempo de espera."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assurez-vous que votre script se termine dans un délai raisonnable, ou augmentez le paramètre de délai d'attente."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stellen Sie sicher, dass Ihr Skript in angemessener Zeit abgeschlossen wird, oder erhöhen Sie die Timeout-Einstellung."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトが妥当な時間内に完了することを確認するか、タイムアウト設定を増やしてください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确保您的脚本在合理时间内完成，或增加超时设置。"
           }
         }
       }
@@ -1588,6 +5428,36 @@
             "state": "translated",
             "value": "Failed to create output folder at %@."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error al crear la carpeta de salida en %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Échec de la création du dossier de sortie à %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erstellung des Ausgabeordners bei %@ fehlgeschlagen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ に出力フォルダを作成できませんでした。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在 %@ 创建输出文件夹失败。"
+          }
         }
       }
     },
@@ -1599,6 +5469,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Could not create directory at %@: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo crear el directorio en %@: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de créer le répertoire à %@ : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verzeichnis konnte nicht bei %@ erstellt werden: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ にディレクトリを作成できませんでした：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法在 %@ 创建目录：%@"
           }
         }
       }
@@ -1612,6 +5512,36 @@
             "state": "translated",
             "value": "Check folder permissions and ensure you have access to create directories at this location."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifique los permisos de la carpeta y asegúrese de tener acceso para crear directorios en esta ubicación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifiez les permissions du dossier et assurez-vous d'avoir accès pour créer des répertoires à cet emplacement."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überprüfen Sie die Ordnerberechtigungen und stellen Sie sicher, dass Sie Zugriff haben, um an diesem Ort Verzeichnisse zu erstellen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダの権限を確認し、この場所でディレクトリを作成するアクセス権があることを確認してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查文件夹权限并确保您有权在此位置创建目录。"
+          }
         }
       }
     },
@@ -1623,6 +5553,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cannot modify a finalized transcript."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede modificar una transcripción finalizada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de modifier une transcription finalisée."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine abgeschlossene Transkription kann nicht geändert werden."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成した文字起こしは変更できません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法修改已完成的转录。"
           }
         }
       }
@@ -1636,6 +5596,36 @@
             "state": "translated",
             "value": "The transcript file has been finalized and can no longer be modified."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo de transcripción ha sido finalizado y ya no se puede modificar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de transcription a été finalisé et ne peut plus être modifié."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Transkriptionsdatei wurde abgeschlossen und kann nicht mehr geändert werden."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字起こしファイルは完成しており、変更できなくなりました。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "转录文件已完成，无法再修改。"
+          }
         }
       }
     },
@@ -1647,6 +5637,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Create a new transcript writer if you need to write more content."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cree un nuevo escritor de transcripción si necesita escribir más contenido."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créez un nouveau rédacteur de transcription si vous devez écrire plus de contenu."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erstellen Sie einen neuen Transkriptions-Writer, wenn Sie mehr Inhalt schreiben müssen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "さらにコンテンツを書き込む必要がある場合は、新しいトランスクリプトライターを作成してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "如果需要写入更多内容，请创建新的转录写入器。"
           }
         }
       }
@@ -1660,6 +5680,36 @@
             "state": "translated",
             "value": "No recording session is currently active."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay ninguna sesión de grabación activa actualmente."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune session d'enregistrement n'est actuellement active."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Derzeit ist keine Aufnahmesitzung aktiv."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在アクティブな録音セッションはありません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前没有活动的录音会话。"
+          }
         }
       }
     },
@@ -1671,6 +5721,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cannot stop recording because no recording session is active."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede detener la grabación porque no hay ninguna sesión de grabación activa."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d'arrêter l'enregistrement car aucune session d'enregistrement n'est active."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme kann nicht gestoppt werden, da keine Aufnahmesitzung aktiv ist."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音セッションがアクティブでないため、録音を停止できません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法停止录音，因为没有活动的录音会话。"
           }
         }
       }
@@ -1684,6 +5764,36 @@
             "state": "translated",
             "value": "Start a recording session before attempting to stop it."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicie una sesión de grabación antes de intentar detenerla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Démarrez une session d'enregistrement avant d'essayer de l'arrêter."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starten Sie eine Aufnahmesitzung, bevor Sie versuchen, sie zu stoppen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止を試みる前に録音セッションを開始してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在尝试停止之前先启动录音会话。"
+          }
         }
       }
     },
@@ -1695,6 +5805,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording is not currently paused."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La grabación no está actualmente en pausa."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'enregistrement n'est pas actuellement en pause."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Aufnahme ist derzeit nicht pausiert."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音は現在一時停止されていません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音当前未暂停。"
           }
         }
       }
@@ -1708,6 +5848,36 @@
             "state": "translated",
             "value": "Cannot resume because recording is not paused."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede reanudar porque la grabación no está en pausa."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de reprendre car l'enregistrement n'est pas en pause."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortsetzen nicht möglich, da die Aufnahme nicht pausiert ist."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音が一時停止されていないため再開できません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法恢复，因为录音未暂停。"
+          }
         }
       }
     },
@@ -1719,6 +5889,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pause the recording first before attempting to resume."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause la grabación antes de intentar reanudarla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettez l'enregistrement en pause avant d'essayer de le reprendre."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausieren Sie die Aufnahme, bevor Sie versuchen, sie fortzusetzen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再開を試みる前に録音を一時停止してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在尝试恢复之前先暂停录音。"
           }
         }
       }
@@ -1732,6 +5932,36 @@
             "state": "translated",
             "value": "Audio processing failed: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error en el procesamiento de audio: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Échec du traitement audio : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audioverarbeitung fehlgeschlagen: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オーディオ処理に失敗しました：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音频处理失败：%@"
+          }
         }
       }
     },
@@ -1743,6 +5973,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Audio processing encountered an error: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El procesamiento de audio encontró un error: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le traitement audio a rencontré une erreur : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bei der Audioverarbeitung ist ein Fehler aufgetreten: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オーディオ処理でエラーが発生しました：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音频处理遇到错误：%@"
           }
         }
       }
@@ -1756,6 +6016,36 @@
             "state": "translated",
             "value": "Check audio format compatibility and ensure transcription is running."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifique la compatibilidad del formato de audio y asegúrese de que la transcripción esté en ejecución."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifiez la compatibilité du format audio et assurez-vous que la transcription est en cours d'exécution."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überprüfen Sie die Audioformat-Kompatibilität und stellen Sie sicher, dass die Transkription läuft."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オーディオ形式の互換性を確認し、文字起こしが実行中であることを確認してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查音频格式兼容性并确保转录正在运行。"
+          }
         }
       }
     },
@@ -1767,6 +6057,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Path traversal attack detected in '%@': %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se detectó un ataque de navegación de ruta en '%@': %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attaque par traversée de chemin détectée dans '%@' : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Path-Traversal-Angriff in '%@' erkannt: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」でパストラバーサル攻撃が検出されました：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在 '%@' 中检测到路径遍历攻击：%@"
           }
         }
       }
@@ -1780,6 +6100,36 @@
             "state": "translated",
             "value": "The path '%@' contains path traversal sequences that attempt to access directories outside the allowed scope: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La ruta '%@' contiene secuencias de navegación de ruta que intentan acceder a directorios fuera del alcance permitido: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le chemin '%@' contient des séquences de traversée qui tentent d'accéder à des répertoires en dehors de la portée autorisée : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Pfad '%@' enthält Path-Traversal-Sequenzen, die versuchen, auf Verzeichnisse außerhalb des zulässigen Bereichs zuzugreifen: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パス「%@」には、許可された範囲外のディレクトリにアクセスしようとするパストラバーサルシーケンスが含まれています：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路径 '%@' 包含试图访问允许范围外目录的路径遍历序列：%@"
+          }
         }
       }
     },
@@ -1791,6 +6141,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Use a path within the allowed directories without '..' or other traversal sequences."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use una ruta dentro de los directorios permitidos sin '..' u otras secuencias de navegación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisez un chemin dans les répertoires autorisés sans '..' ou autres séquences de traversée."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwenden Sie einen Pfad innerhalb der zulässigen Verzeichnisse ohne '..' oder andere Traversal-Sequenzen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「..」や他のトラバーサルシーケンスを含まない、許可されたディレクトリ内のパスを使用してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用允许目录内的路径，不包含 '..' 或其他遍历序列。"
           }
         }
       }
@@ -1804,6 +6184,36 @@
             "state": "translated",
             "value": "Path '%@' is outside allowed directories: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La ruta '%@' está fuera de los directorios permitidos: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le chemin '%@' est en dehors des répertoires autorisés : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfad '%@' befindet sich außerhalb der zulässigen Verzeichnisse: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パス「%@」は許可されたディレクトリの外にあります：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路径 '%@' 在允许的目录之外：%@"
+          }
         }
       }
     },
@@ -1815,6 +6225,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "The path '%@' is not within any of the allowed base directories for this operation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La ruta '%@' no está dentro de ninguno de los directorios base permitidos para esta operación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le chemin '%@' ne se trouve dans aucun des répertoires de base autorisés pour cette opération."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Pfad '%@' befindet sich nicht innerhalb der zulässigen Basisverzeichnisse für diesen Vorgang."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パス「%@」はこの操作で許可されているベースディレクトリ内にありません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路径 '%@' 不在此操作允许的任何基础目录内。"
           }
         }
       }
@@ -1828,6 +6268,36 @@
             "state": "translated",
             "value": "Choose a location within one of these allowed directories:\n  - %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elija una ubicación dentro de uno de estos directorios permitidos:\n  - %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez un emplacement dans l'un de ces répertoires autorisés :\n  - %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie einen Standort innerhalb eines dieser zulässigen Verzeichnisse:\n  - %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以下の許可されたディレクトリ内の場所を選択してください：\n  - %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择以下允许目录之一中的位置：\n  - %@"
+          }
         }
       }
     },
@@ -1839,6 +6309,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Symlink attack detected: '%@' resolves to '%@' which is outside allowed directories"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se detectó un ataque de enlace simbólico: '%@' se resuelve a '%@' que está fuera de los directorios permitidos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attaque par lien symbolique détectée : '%@' pointe vers '%@' qui est en dehors des répertoires autorisés"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symlink-Angriff erkannt: '%@' löst sich zu '%@' auf, das sich außerhalb der zulässigen Verzeichnisse befindet"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "シンボリックリンク攻撃が検出されました：「%@」は許可されたディレクトリの外にある「%@」を指しています"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检测到符号链接攻击：'%@' 解析为 '%@'，其位于允许目录之外"
           }
         }
       }
@@ -1852,6 +6352,36 @@
             "state": "translated",
             "value": "The symlink at '%@' points to '%@', which is outside the allowed directories, potentially indicating a security attack."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El enlace simbólico en '%@' apunta a '%@', que está fuera de los directorios permitidos, lo que podría indicar un ataque de seguridad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le lien symbolique à '%@' pointe vers '%@', qui est en dehors des répertoires autorisés, indiquant potentiellement une attaque de sécurité."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Symlink bei '%@' zeigt auf '%@', das sich außerhalb der zulässigen Verzeichnisse befindet, was möglicherweise auf einen Sicherheitsangriff hinweist."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「%@」のシンボリックリンクは、許可されたディレクトリの外にある「%@」を指しており、セキュリティ攻撃の可能性があります。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "'%@' 的符号链接指向 '%@'，其位于允许目录之外，可能表明存在安全攻击。"
+          }
         }
       }
     },
@@ -1863,6 +6393,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Use a direct path or ensure symlinks only point to locations within allowed directories."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use una ruta directa o asegúrese de que los enlaces simbólicos solo apunten a ubicaciones dentro de los directorios permitidos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisez un chemin direct ou assurez-vous que les liens symboliques pointent uniquement vers des emplacements dans les répertoires autorisés."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwenden Sie einen direkten Pfad oder stellen Sie sicher, dass Symlinks nur auf Orte innerhalb der zulässigen Verzeichnisse zeigen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直接パスを使用するか、シンボリックリンクが許可されたディレクトリ内の場所のみを指していることを確認してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用直接路径或确保符号链接仅指向允许目录内的位置。"
           }
         }
       }
@@ -1876,6 +6436,36 @@
             "state": "translated",
             "value": "Invalid path '%@': %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruta no válida '%@': %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chemin non valide '%@' : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ungültiger Pfad '%@': %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無効なパス「%@」：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无效路径 '%@'：%@"
+          }
         }
       }
     },
@@ -1887,6 +6477,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "The path '%@' is not valid: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La ruta '%@' no es válida: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le chemin '%@' n'est pas valide : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Pfad '%@' ist nicht gültig: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パス「%@」は無効です：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路径 '%@' 无效：%@"
           }
         }
       }
@@ -1900,6 +6520,36 @@
             "state": "translated",
             "value": "Provide a valid file path without special characters or forbidden sequences."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proporcione una ruta de archivo válida sin caracteres especiales o secuencias prohibidas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fournissez un chemin de fichier valide sans caractères spéciaux ni séquences interdites."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geben Sie einen gültigen Dateipfad ohne Sonderzeichen oder verbotene Sequenzen an."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "特殊文字や禁止されたシーケンスを含まない有効なファイルパスを指定してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供不含特殊字符或禁止序列的有效文件路径。"
+          }
         }
       }
     },
@@ -1911,6 +6561,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording paused at %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación pausada en %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement en pause à %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme pausiert bei %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ で一時停止中"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音在 %@ 暂停"
           }
         }
       }
@@ -1924,6 +6604,36 @@
             "state": "translated",
             "value": "Recording in progress: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación en curso: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement en cours : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme läuft: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音中：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在录音：%@"
+          }
         }
       }
     },
@@ -1935,6 +6645,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Not recording"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No grabando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas d'enregistrement"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht aufnehmend"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音していません"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未录音"
           }
         }
       }
@@ -1948,6 +6688,36 @@
             "state": "translated",
             "value": "Olive is not available"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive no está disponible"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive n'est pas disponible"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive ist nicht verfügbar"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive は利用できません"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive 不可用"
+          }
         }
       }
     },
@@ -1959,6 +6729,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording failed: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error en la grabación: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Échec de l'enregistrement : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme fehlgeschlagen: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音に失敗しました：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音失败：%@"
           }
         }
       }
@@ -1972,6 +6772,36 @@
             "state": "translated",
             "value": "No recording session is currently active"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay ninguna sesión de grabación activa actualmente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune session d'enregistrement n'est actuellement active"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Derzeit ist keine Aufnahmesitzung aktiv"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在アクティブな録音セッションはありません"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前没有活动的录音会话"
+          }
         }
       }
     },
@@ -1983,6 +6813,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Configuration failed: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error de configuración: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Échec de la configuration : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konfiguration fehlgeschlagen: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定に失敗しました：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置失败：%@"
           }
         }
       }
@@ -1996,6 +6856,36 @@
             "state": "translated",
             "value": "Untitled Recording"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación sin título"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement sans titre"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbenannte Aufnahme"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無題の録音"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无标题录音"
+          }
         }
       }
     },
@@ -2007,6 +6897,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cannot use system directories: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pueden usar directorios del sistema: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d'utiliser les répertoires système : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Systemverzeichnisse können nicht verwendet werden: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムディレクトリは使用できません：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法使用系统目录：%@"
           }
         }
       }
@@ -2020,6 +6940,36 @@
             "state": "translated",
             "value": "Path contains invalid traversal sequences"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La ruta contiene secuencias de navegación no válidas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le chemin contient des séquences de traversée non valides"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfad enthält ungültige Durchlauf-Sequenzen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パスに無効なトラバーサルシーケンスが含まれています"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路径包含无效的遍历序列"
+          }
         }
       }
     },
@@ -2031,6 +6981,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Path exists but is not a directory: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La ruta existe pero no es un directorio: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le chemin existe mais n'est pas un répertoire : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfad existiert, ist aber kein Verzeichnis: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パスは存在しますがディレクトリではありません：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路径存在但不是目录：%@"
           }
         }
       }
@@ -2044,6 +7024,36 @@
             "state": "translated",
             "value": "Directory is not writable: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El directorio no tiene permisos de escritura: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le répertoire n'est pas accessible en écriture : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verzeichnis ist nicht beschreibbar: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ディレクトリに書き込み権限がありません：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目录不可写入：%@"
+          }
         }
       }
     },
@@ -2055,6 +7065,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cannot create directory: %@ - %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede crear el directorio: %@ - %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de créer le répertoire : %@ - %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verzeichnis kann nicht erstellt werden: %@ - %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ディレクトリを作成できません：%@ - %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法创建目录：%@ - %@"
           }
         }
       }
@@ -2068,6 +7108,36 @@
             "state": "translated",
             "value": "Script file does not exist: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo de script no existe: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de script n'existe pas : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skriptdatei existiert nicht: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトファイルが存在しません：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脚本文件不存在：%@"
+          }
         }
       }
     },
@@ -2079,6 +7149,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Script path is a directory, not a file: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La ruta del script es un directorio, no un archivo: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le chemin du script est un répertoire, pas un fichier : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skriptpfad ist ein Verzeichnis, keine Datei: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトパスはファイルではなくディレクトリです：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脚本路径是目录而非文件：%@"
           }
         }
       }
@@ -2092,6 +7192,36 @@
             "state": "translated",
             "value": "Script file is not executable: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo de script no tiene permisos de ejecución: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fichier de script n'est pas exécutable : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skriptdatei ist nicht ausführbar: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリプトファイルに実行権限がありません：%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脚本文件不可执行：%@"
+          }
         }
       }
     },
@@ -2103,6 +7233,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Olive - Call Transcription Transcript"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive - Transcripción de llamadas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive - Transcription d'appels"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive - Anruftranskription"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive - 通話文字起こし"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive - 通话转录"
           }
         }
       }
@@ -2116,6 +7276,36 @@
             "state": "translated",
             "value": "Date: "
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fecha: "
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date : "
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datum: "
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日付："
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日期："
+          }
         }
       }
     },
@@ -2128,6 +7318,36 @@
             "state": "translated",
             "value": "Title: "
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Título: "
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titre : "
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titel: "
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タイトル："
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标题："
+          }
         }
       }
     },
@@ -2136,6 +7356,36 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "================================================================================"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "================================================================================"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "================================================================================"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "================================================================================"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "================================================================================"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "================================================================================"
