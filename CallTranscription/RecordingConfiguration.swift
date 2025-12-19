@@ -32,6 +32,9 @@ public struct RecordingConfiguration {
     /// Silence detection threshold for automatic pause
     public let silencePauseThreshold: SilencePauseThreshold
 
+    /// Filename template for transcript files (with {date} and {time} tokens)
+    public let filenameTemplate: String
+
     /// Creates a new recording configuration.
     ///
     /// - Parameters:
@@ -43,6 +46,7 @@ public struct RecordingConfiguration {
     ///   - postRecordingScriptPath: Optional path to post-recording script (default: nil)
     ///   - shortcutIdentifier: Optional shortcut identifier (default: nil)
     ///   - silencePauseThreshold: Silence detection threshold (default: .never)
+    ///   - filenameTemplate: Filename template for transcript files (default: "transcript_{date}_{time}.txt")
     public init(
         outputFolder: String,
         locale: Locale,
@@ -51,7 +55,8 @@ public struct RecordingConfiguration {
         postRecordingActionType: PostRecordingActionType = .doNothing,
         postRecordingScriptPath: String? = nil,
         shortcutIdentifier: String? = nil,
-        silencePauseThreshold: SilencePauseThreshold = .never
+        silencePauseThreshold: SilencePauseThreshold = .never,
+        filenameTemplate: String = "transcript_{date}_{time}.txt"
     ) {
         self.outputFolder = outputFolder
         self.locale = locale
@@ -61,5 +66,6 @@ public struct RecordingConfiguration {
         self.postRecordingScriptPath = postRecordingScriptPath
         self.shortcutIdentifier = shortcutIdentifier
         self.silencePauseThreshold = silencePauseThreshold
+        self.filenameTemplate = filenameTemplate
     }
 }

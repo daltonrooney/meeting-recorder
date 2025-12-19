@@ -113,7 +113,8 @@ public final class AppState: ObservableObject {
             postRecordingActionType: settingsManager.postRecordingActionType,
             postRecordingScriptPath: settingsManager.postRecordingScript.isEmpty ? nil : settingsManager.expandedPostRecordingScriptPath(),
             shortcutIdentifier: settingsManager.shortcutIdentifier.isEmpty ? nil : settingsManager.shortcutIdentifier,
-            silencePauseThreshold: settingsManager.silencePauseThreshold
+            silencePauseThreshold: settingsManager.silencePauseThreshold,
+            filenameTemplate: settingsManager.filenameTemplate
         )
 
         // Create coordinator locally first
