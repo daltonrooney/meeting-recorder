@@ -11,13 +11,14 @@ private func validateFolderPath(_ path: String) throws -> String {
     let dangerousPaths = ["/System", "/Library", "/bin", "/sbin", "/usr", "/etc", "/var", "/private"]
     for dangerousPath in dangerousPaths {
         if standardizedPath.hasPrefix(dangerousPath) {
-            throw IntentError.configurationFailed("Cannot use system directories: \(standardizedPath)")
+            let message = String(format: NSLocalizedString("config.validation.systemDirectory", comment: "System directory error message"), standardizedPath)
+            throw IntentError.configurationFailed(message)
         }
     }
 
     // Check if path contains path traversal sequences
     if standardizedPath.contains("..") {
-        throw IntentError.configurationFailed("Path contains invalid traversal sequences")
+        throw IntentError.configurationFailed(NSLocalizedString("config.validation.pathTraversal", comment: "Path traversal error message"))
     }
 
     let fileManager = FileManager.default
@@ -27,19 +28,22 @@ private func validateFolderPath(_ path: String) throws -> String {
     if fileManager.fileExists(atPath: standardizedPath, isDirectory: &isDirectory) {
         // Ensure it's a directory
         guard isDirectory.boolValue else {
-            throw IntentError.configurationFailed("Path exists but is not a directory: \(standardizedPath)")
+            let message = String(format: NSLocalizedString("config.validation.notDirectory", comment: "Not a directory error message"), standardizedPath)
+            throw IntentError.configurationFailed(message)
         }
 
         // Check if writable
         guard fileManager.isWritableFile(atPath: standardizedPath) else {
-            throw IntentError.configurationFailed("Directory is not writable: \(standardizedPath)")
+            let message = String(format: NSLocalizedString("config.validation.notWritable", comment: "Directory not writable error message"), standardizedPath)
+            throw IntentError.configurationFailed(message)
         }
     } else {
         // Path doesn't exist - try to create it
         do {
             try fileManager.createDirectory(atPath: standardizedPath, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            throw IntentError.configurationFailed("Cannot create directory: \(standardizedPath) - \(error.localizedDescription)")
+            let message = String(format: NSLocalizedString("config.validation.cannotCreateDirectory", comment: "Cannot create directory error message"), standardizedPath, error.localizedDescription)
+            throw IntentError.configurationFailed(message)
         }
     }
 
@@ -56,19 +60,22 @@ private func validateScriptPath(_ path: String) throws -> String {
 
     // Check if file exists
     guard fileManager.fileExists(atPath: standardizedPath) else {
-        throw IntentError.configurationFailed("Script file does not exist: \(standardizedPath)")
+        let message = String(format: NSLocalizedString("config.validation.scriptNotFound", comment: "Script not found error message"), standardizedPath)
+        throw IntentError.configurationFailed(message)
     }
 
     // Check if it's a regular file (not a directory)
     var isDirectory: ObjCBool = false
     fileManager.fileExists(atPath: standardizedPath, isDirectory: &isDirectory)
     guard !isDirectory.boolValue else {
-        throw IntentError.configurationFailed("Script path is a directory, not a file: \(standardizedPath)")
+        let message = String(format: NSLocalizedString("config.validation.scriptIsDirectory", comment: "Script is directory error message"), standardizedPath)
+        throw IntentError.configurationFailed(message)
     }
 
     // Check if executable
     guard fileManager.isExecutableFile(atPath: standardizedPath) else {
-        throw IntentError.configurationFailed("Script file is not executable: \(standardizedPath)")
+        let message = String(format: NSLocalizedString("config.validation.scriptNotExecutable", comment: "Script not executable error message"), standardizedPath)
+        throw IntentError.configurationFailed(message)
     }
 
     return standardizedPath

@@ -1998,6 +1998,102 @@
           }
         }
       }
+    },
+    "config.validation.systemDirectory": {
+      "comment": "System directory error message (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot use system directories: %@"
+          }
+        }
+      }
+    },
+    "config.validation.pathTraversal": {
+      "comment": "Path traversal error message",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Path contains invalid traversal sequences"
+          }
+        }
+      }
+    },
+    "config.validation.notDirectory": {
+      "comment": "Not a directory error message (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Path exists but is not a directory: %@"
+          }
+        }
+      }
+    },
+    "config.validation.notWritable": {
+      "comment": "Directory not writable error message (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Directory is not writable: %@"
+          }
+        }
+      }
+    },
+    "config.validation.cannotCreateDirectory": {
+      "comment": "Cannot create directory error message (with %@ placeholders for path and error)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot create directory: %@ - %@"
+          }
+        }
+      }
+    },
+    "config.validation.scriptNotFound": {
+      "comment": "Script not found error message (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Script file does not exist: %@"
+          }
+        }
+      }
+    },
+    "config.validation.scriptIsDirectory": {
+      "comment": "Script is directory error message (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Script path is a directory, not a file: %@"
+          }
+        }
+      }
+    },
+    "config.validation.scriptNotExecutable": {
+      "comment": "Script not executable error message (with %@ placeholder for path)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Script file is not executable: %@"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
