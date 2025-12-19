@@ -27,255 +27,127 @@ final class SettingsViewErrorTests: XCTestCase {
         try await super.tearDown()
     }
 
-    // MARK: - Shortcuts Loading Failure Tests
-
-    func testShortcutsLoadingFailureReturnsEmptyArray() async {
-        // Given: ShortcutExecutor that fails to list shortcuts
-        let executor = FailingShortcutExecutor()
-
-        // When: listAvailableShortcuts is called
-        let shortcuts = await executor.listAvailableShortcuts()
-
-        // Then: Should return empty array instead of crashing
-        XCTAssertTrue(shortcuts.isEmpty,
-                     "Failed shortcut loading should return empty array")
-    }
-
-    func testShortcutsLoadingFailureDoesNotPreventUIRendering() {
-        // Given: SettingsView with shortcut action type selected
-        testUserDefaults.set(PostRecordingActionType.shortcut.rawValue,
-                           forKey: "postRecordingActionType")
-
-        // When: View is created (shortcuts loading would fail internally)
-        let view = SettingsView()
-
-        // Then: View should still render without crashing
-        // This test verifies that UI doesn't break when shortcuts can't be loaded
-        XCTAssertNotNil(view.body,
-                       "SettingsView should render even if shortcuts fail to load")
-    }
-
-    func testEmptyShortcutsArrayShowsWarningMessage() {
-        // Given: SettingsView with no available shortcuts
-        testUserDefaults.set(PostRecordingActionType.shortcut.rawValue,
-                           forKey: "postRecordingActionType")
-
-        // When: availableShortcuts is empty
-        let view = SettingsView()
-
-        // Then: Should show "no shortcuts" warning message
-        // The UI should display settings.postRecording.shortcut.noShortcuts
-        // This is already handled in the existing UI code
-        XCTAssertNotNil(view.body,
-                       "View should handle empty shortcuts gracefully")
-    }
-
-    func testShortcutsLoadingIndicatorShownDuringLoad() {
-        // Given: SettingsView with shortcut type selected
-        testUserDefaults.set(PostRecordingActionType.shortcut.rawValue,
-                           forKey: "postRecordingActionType")
-
-        // When: Shortcuts are being loaded (isLoadingShortcuts = true)
-        let view = SettingsView()
-
-        // Then: Loading indicator should be accessible
-        // The accessibility identifier "shortcutsLoadingIndicator" should exist
-        XCTAssertNotNil(view.body,
-                       "Loading indicator should be present during shortcut loading")
-    }
+    // MARK: - Shortcuts Execution Error Handling
 
     func testShortcutExecutorHandlesProcessFailureGracefully() async {
-        // Given: Process execution that fails
+        // Given: Real ShortcutExecutor
         let executor = ShortcutExecutor()
 
-        // When: Executing with invalid shortcut name
+        // When: Executing with invalid shortcut name (will fail)
         let result = await executor.execute(
             shortcutName: "NonExistentShortcut12345",
             transcriptPath: "/tmp/test.txt"
         )
 
-        // Then: Should return failure result, not crash
+        // Then: Should return failure result with error message, not crash
         XCTAssertFalse(result.success,
-                      "Invalid shortcut should return failure")
+                      "Invalid shortcut execution should return failure")
         XCTAssertNotNil(result.errorMessage,
-                       "Failure should include error message")
+                       "Failure result should include error message")
     }
 
-    // MARK: - Invalid Path Handling Tests
+    func testShortcutExecutorHandlesEmptyShortcutNameAsNoOp() async {
+        // Given: Real ShortcutExecutor
+        let executor = ShortcutExecutor()
 
-    func testOutputFolderWithNonExistentPath() {
-        // Given: Output folder set to non-existent path
-        let invalidPath = "/nonexistent/path/that/does/not/exist"
-        testUserDefaults.set(invalidPath, forKey: "outputFolder")
+        // When: Executing with empty shortcut name
+        let result = await executor.execute(
+            shortcutName: "",
+            transcriptPath: "/tmp/test.txt"
+        )
 
-        // When: SettingsView is created
-        let view = SettingsView()
-
-        // Then: View should render without crashing
-        XCTAssertNotNil(view.body,
-                       "SettingsView should handle non-existent paths")
+        // Then: Should return success (no-op) per documented behavior
+        XCTAssertTrue(result.success,
+                     "Empty shortcut name should be handled as no-op")
+        XCTAssertNil(result.errorMessage,
+                    "No-op should not have error message")
     }
 
-    func testOutputFolderTildeExpansionWithInvalidPath() {
-        // Given: Output folder with tilde that doesn't resolve
+    // MARK: - Path Expansion Tests
+
+    func testTildeExpansionWorksForNonExistentPaths() {
+        // Given: Path with tilde that doesn't exist on disk
         let invalidTildePath = "~/nonexistent/deeply/nested/path"
-        testUserDefaults.set(invalidTildePath, forKey: "outputFolder")
 
-        // When: Path is used in SettingsView
-        let view = SettingsView()
-
-        // Then: Should not crash when expanding tilde
-        XCTAssertNotNil(view.body,
-                       "Tilde expansion should handle non-existent paths")
-
-        // Verify tilde expansion works
+        // When: Tilde is expanded using NSString
         let expandedPath = NSString(string: invalidTildePath).expandingTildeInPath
+
+        // Then: Tilde should expand to absolute path even if path doesn't exist
         XCTAssertTrue(expandedPath.hasPrefix("/"),
-                     "Tilde should expand even for non-existent paths")
+                     "Tilde expansion should return absolute path")
         XCTAssertFalse(expandedPath.contains("~"),
-                      "Expanded path should not contain tilde")
+                      "Expanded path should not contain tilde character")
+        XCTAssertTrue(expandedPath.count > invalidTildePath.count,
+                     "Expanded path should be longer than original")
     }
 
-    func testPostRecordingScriptWithInvalidPath() {
-        // Given: Script path that doesn't exist
-        let invalidScriptPath = "/tmp/nonexistent_script.sh"
-        testUserDefaults.set(PostRecordingActionType.script.rawValue,
-                           forKey: "postRecordingActionType")
-        testUserDefaults.set(invalidScriptPath, forKey: "postRecordingScript")
+    func testFileManagerHandlesNonExistentPathsGracefully() {
+        // Given: Non-existent path
+        let nonExistentPath = "/tmp/nonexistent_\(UUID().uuidString)"
 
-        // When: SettingsView is created
-        let view = SettingsView()
+        // When: Checking if file exists
+        let exists = FileManager.default.fileExists(atPath: nonExistentPath)
 
-        // Then: Should handle invalid script path gracefully
-        XCTAssertNotNil(view.body,
-                       "SettingsView should handle invalid script paths")
+        // Then: Should return false without crashing
+        XCTAssertFalse(exists,
+                      "FileManager should return false for non-existent paths")
     }
 
-    func testFilePickerWithInaccessibleLocation() {
-        // Given: Output folder path that exists but is not accessible
-        let restrictedPath = "/private/var/root"
-        testUserDefaults.set(restrictedPath, forKey: "outputFolder")
+    func testFileManagerIsReadableFileHandlesInaccessiblePaths() {
+        // Given: A temporary directory we can control
+        let tempDir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("test_\(UUID().uuidString)")
 
-        // When: Attempting to use path in file picker
-        let view = SettingsView()
+        do {
+            // Create directory with restricted permissions
+            try FileManager.default.createDirectory(at: tempDir,
+                                                   withIntermediateDirectories: true)
 
-        // Then: Should not crash with permission denied
-        XCTAssertNotNil(view.body,
-                       "Should handle inaccessible paths gracefully")
+            // When: Checking readability
+            let readable = FileManager.default.isReadableFile(atPath: tempDir.path)
 
-        // Verify the path still works with FileManager checks
-        let accessible = FileManager.default.isReadableFile(atPath: restrictedPath)
-        // This might be false due to permissions, which is expected
-        XCTAssertNotNil(accessible,
-                       "FileManager check should complete without crashing")
-    }
+            // Then: Should complete check without crashing (result may vary)
+            // We're testing that the check doesn't crash, not the specific result
+            XCTAssertNotNil(readable as Bool?,
+                           "Readability check should complete")
 
-    func testEmptyOutputFolderPath() {
-        // Given: Empty output folder path
-        testUserDefaults.set("", forKey: "outputFolder")
-
-        // When: SettingsView is created
-        let view = SettingsView()
-
-        // Then: Should handle empty path without crashing
-        XCTAssertNotNil(view.body,
-                       "Empty output folder path should not crash view")
-    }
-
-    func testEmptyPostRecordingScriptPath() {
-        // Given: Script type selected but empty path
-        testUserDefaults.set(PostRecordingActionType.script.rawValue,
-                           forKey: "postRecordingActionType")
-        testUserDefaults.set("", forKey: "postRecordingScript")
-
-        // When: SettingsView is created
-        let view = SettingsView()
-
-        // Then: Should handle empty script path gracefully
-        XCTAssertNotNil(view.body,
-                       "Empty script path should not crash view")
-    }
-
-    // MARK: - Cache Invalidation and Error Recovery Tests
-
-    func testCacheReturnsEmptyArrayWhenExpired() {
-        // Given: Cache with expired data
-        let cache = SettingsViewCache(cacheTimeout: 0.001) // 1ms timeout
-
-        // When: Updating cache then waiting for expiry
-        cache.updateCache(shortcuts: ["Shortcut1", "Shortcut2"])
-
-        // Wait for cache to expire
-        let expectation = XCTestExpectation(description: "Wait for cache expiry")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            expectation.fulfill()
+            // Cleanup
+            try? FileManager.default.removeItem(at: tempDir)
+        } catch {
+            XCTFail("Test setup failed: \(error)")
         }
-        wait(for: [expectation], timeout: 1.0)
-
-        // Then: Cache should be marked as expired
-        XCTAssertTrue(cache.isCacheExpired(),
-                     "Cache should be expired after timeout")
-
-        // But cached data should still be retrievable
-        let cachedShortcuts = cache.getCachedShortcuts()
-        XCTAssertEqual(cachedShortcuts.count, 2,
-                      "Expired cache should still return cached data")
     }
 
-    func testCacheInvalidationPreservesData() {
-        // Given: Cache with data
-        let cache = SettingsViewCache(cacheTimeout: 60.0)
-        cache.updateCache(shortcuts: ["Test1", "Test2", "Test3"])
+    // MARK: - Cache Error Recovery Tests
 
-        // When: Cache is invalidated
-        cache.invalidateCache()
+    func testCacheExpiryCalculationDoesNotOverflow() {
+        // Given: Cache with very large timeout value
+        // This tests an edge case not covered in SettingsViewCacheTests
+        let cache = SettingsViewCache(cacheTimeout: TimeInterval.greatestFiniteMagnitude / 2)
 
-        // Then: Cache should be expired but data preserved
-        XCTAssertTrue(cache.isCacheExpired(),
-                     "Invalidated cache should be marked as expired")
+        // When: Updating cache with extreme timeout
+        cache.updateCache(shortcuts: ["Test"])
+
+        // Then: Should handle extreme timeout without overflow or crash
+        XCTAssertFalse(cache.isCacheExpired(),
+                      "Cache with extreme timeout should not be expired immediately")
 
         let cachedData = cache.getCachedShortcuts()
-        XCTAssertEqual(cachedData.count, 3,
-                      "Cache invalidation should preserve data")
-        XCTAssertEqual(cachedData, ["Test1", "Test2", "Test3"],
-                      "Cached shortcuts should match original data")
+        XCTAssertEqual(cachedData.count, 1,
+                      "Cache should handle extreme timeout values without corruption")
     }
 
-    func testCacheHandlesEmptyShortcutsList() {
-        // Given: Cache receiving empty shortcuts list
+    func testCacheMainActorIsolationPreventsDataRaces() async {
+        // Given: Cache marked as @MainActor
+        // This test verifies that @MainActor isolation prevents data races
         let cache = SettingsViewCache()
 
-        // When: Updating with empty array
-        cache.updateCache(shortcuts: [])
-
-        // Then: Should handle empty array gracefully
-        XCTAssertFalse(cache.isCacheExpired(),
-                      "Cache should not be expired immediately after update")
-
-        let cachedShortcuts = cache.getCachedShortcuts()
-        XCTAssertTrue(cachedShortcuts.isEmpty,
-                     "Cache should return empty array when updated with empty data")
-    }
-
-    func testConcurrentCacheAccessDoesNotCrash() async {
-        // Given: Cache that might be accessed concurrently
-        let cache = SettingsViewCache()
-
-        // When: Multiple concurrent updates and reads
+        // When: Multiple sequential updates from MainActor context
         await withTaskGroup(of: Void.self) { group in
-            // Multiple write tasks
-            for i in 1...5 {
+            for i in 1...10 {
                 group.addTask {
                     await MainActor.run {
                         cache.updateCache(shortcuts: ["Shortcut\(i)"])
-                    }
-                }
-            }
-
-            // Multiple read tasks
-            for _ in 1...5 {
-                group.addTask {
-                    await MainActor.run {
                         _ = cache.getCachedShortcuts()
                         _ = cache.isCacheExpired()
                     }
@@ -283,65 +155,12 @@ final class SettingsViewErrorTests: XCTestCase {
             }
         }
 
-        // Then: Should complete without crashing
-        XCTAssertNotNil(cache.getCachedShortcuts(),
-                       "Cache should survive concurrent access")
-    }
-
-    func testCacheExpiryCalculationDoesNotOverflow() {
-        // Given: Cache with very large timeout
-        let cache = SettingsViewCache(cacheTimeout: TimeInterval.greatestFiniteMagnitude / 2)
-
-        // When: Updating cache
-        cache.updateCache(shortcuts: ["Test"])
-
-        // Then: Should not crash or overflow
-        XCTAssertFalse(cache.isCacheExpired(),
-                      "Cache with large timeout should not be expired")
-
-        let cachedData = cache.getCachedShortcuts()
-        XCTAssertEqual(cachedData.count, 1,
-                      "Cache should handle large timeout values")
-    }
-
-    // MARK: - Integration Error Tests
-
-    func testShortcutsReloadAfterCacheInvalidation() async {
-        // Given: SettingsView with cached shortcuts
-        testUserDefaults.set(PostRecordingActionType.shortcut.rawValue,
-                           forKey: "postRecordingActionType")
-
-        // Note: This test verifies the integration between cache and view
-        // In the real implementation, shortcuts would be reloaded when cache expires
-        let view = SettingsView()
-
-        // When: View appears and cache is expired
-        // Then: Should trigger a new load of shortcuts
-        XCTAssertNotNil(view.body,
-                       "View should handle cache expiry and reload")
-    }
-
-    func testMultipleRapidFilePickerOpenings() {
-        // Given: SettingsView
-        let view = SettingsView()
-
-        // When: File picker could be opened multiple times rapidly
-        // Then: Should not cause state corruption or crashes
-        // This is a regression test to ensure no race conditions
-        XCTAssertNotNil(view.body,
-                       "Multiple rapid interactions should not corrupt state")
-    }
-}
-
-// MARK: - Mock Classes for Testing
-
-/// Mock ShortcutExecutor that simulates failure scenarios
-@MainActor
-final class FailingShortcutExecutor {
-    func listAvailableShortcuts() async -> [String] {
-        // Simulate failure by returning empty array
-        // In real failure, ShortcutExecutor.listAvailableShortcuts catches errors
-        // and returns empty array
-        return []
+        // Then: All operations complete without crashing
+        // @MainActor ensures all access is serialized on main thread
+        let finalData = cache.getCachedShortcuts()
+        XCTAssertNotNil(finalData,
+                       "@MainActor isolation should prevent data races")
+        XCTAssertEqual(finalData.count, 1,
+                      "Last update should be preserved")
     }
 }
