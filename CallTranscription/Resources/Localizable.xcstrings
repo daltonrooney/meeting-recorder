@@ -1,48 +1,384 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "localization.test.placeholder" : {
-      "comment" : "Placeholder entry for initial String Catalog setup. Will be replaced with actual localized strings in subsequent phases.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Platzhalter"
+  "sourceLanguage": "en",
+  "strings": {
+    "localization.test.placeholder": {
+      "comment": "Placeholder entry for initial String Catalog setup. Will be replaced with actual localized strings in subsequent phases.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platzhalter"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Placeholder"
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placeholder"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Marcador de posición"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcador de posición"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Espace réservé"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Espace réservé"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "プレースホルダー"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プレースホルダー"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "占位符"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "占位符"
+          }
+        }
+      }
+    },
+    "menubar.button.startRecording": {
+      "comment": "Label for the start recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start Recording"
+          }
+        }
+      }
+    },
+    "menubar.button.resumeRecording": {
+      "comment": "Label for the resume recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume Recording"
+          }
+        }
+      }
+    },
+    "menubar.button.pauseRecording": {
+      "comment": "Label for the pause recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause Recording"
+          }
+        }
+      }
+    },
+    "menubar.button.stopRecording": {
+      "comment": "Label for the stop recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Recording"
+          }
+        }
+      }
+    },
+    "menubar.button.quit": {
+      "comment": "Label for the quit button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit"
+          }
+        }
+      }
+    },
+    "menubar.link.settings": {
+      "comment": "Label for the settings link",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings..."
+          }
+        }
+      }
+    },
+    "menubar.status.paused": {
+      "comment": "Prefix for paused status display (e.g., 'Paused: 00:15')",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused: %@"
+          }
+        }
+      }
+    },
+    "menubar.status.recording": {
+      "comment": "Prefix for recording status display (e.g., 'Recording: 00:15')",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording: %@"
+          }
+        }
+      }
+    },
+    "menubar.alert.error.title": {
+      "comment": "Title for error alert dialog",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording Error"
+          }
+        }
+      }
+    },
+    "menubar.alert.button.ok": {
+      "comment": "OK button label in alert dialog",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.startRecording.label": {
+      "comment": "Accessibility label for start recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start Recording"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.startRecording.hint": {
+      "comment": "Accessibility hint for start recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Begins a new recording session. Keyboard shortcut: Command Shift R"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.resumeRecording.label": {
+      "comment": "Accessibility label for resume recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume Recording"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.resumeRecording.hint": {
+      "comment": "Accessibility hint for resume recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resumes the paused recording. Keyboard shortcut: Command Shift R"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.pauseRecording.label": {
+      "comment": "Accessibility label for pause recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause Recording"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.pauseRecording.hint": {
+      "comment": "Accessibility hint for pause recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pauses the current recording. Keyboard shortcut: Command Shift P"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.stopRecording.label": {
+      "comment": "Accessibility label for stop recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Recording"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.stopRecording.hint": {
+      "comment": "Accessibility hint for stop recording button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stops the recording and saves the transcript. Keyboard shortcut: Command Shift S"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.settings.label": {
+      "comment": "Accessibility label for settings link",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.settings.hint": {
+      "comment": "Accessibility hint for settings link",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens application settings. Keyboard shortcut: Command Comma"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.quit.label": {
+      "comment": "Accessibility label for quit button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.quit.hint": {
+      "comment": "Accessibility hint for quit button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quits the application. Keyboard shortcut: Command Q"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.pausedDuration.label": {
+      "comment": "Accessibility label for paused duration display",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused duration"
+          }
+        }
+      }
+    },
+    "menubar.accessibility.recordingDuration.label": {
+      "comment": "Accessibility label for recording duration display",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording duration"
+          }
+        }
+      }
+    },
+    "menubar.announcement.recordingStarted": {
+      "comment": "VoiceOver announcement when recording starts",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording started"
+          }
+        }
+      }
+    },
+    "menubar.announcement.recordingStopped": {
+      "comment": "VoiceOver announcement when recording stops",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording stopped"
+          }
+        }
+      }
+    },
+    "menubar.announcement.recordingPaused": {
+      "comment": "VoiceOver announcement when recording pauses",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording paused"
+          }
+        }
+      }
+    },
+    "menubar.announcement.recordingResumed": {
+      "comment": "VoiceOver announcement when recording resumes",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording resumed"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

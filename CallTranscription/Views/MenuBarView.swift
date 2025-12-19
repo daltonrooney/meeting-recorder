@@ -10,7 +10,7 @@ struct MenuBarView: View {
             // Main recording control button
             if !appState.isRecording {
                 // Not recording - show start button
-                Button("Start Recording") {
+                Button(LocalizedStringKey("menubar.button.startRecording")) {
                     Task {
                         do {
                             try await appState.startActualRecording(title: "Recording")
@@ -21,11 +21,11 @@ struct MenuBarView: View {
                     }
                 }
                 .keyboardShortcut("R", modifiers: [.command, .shift])
-                .accessibilityLabel("Start Recording")
-                .accessibilityHint("Begins a new recording session. Keyboard shortcut: Command Shift R")
+                .accessibilityLabel(LocalizedStringKey("menubar.accessibility.startRecording.label"))
+                .accessibilityHint(LocalizedStringKey("menubar.accessibility.startRecording.hint"))
             } else if appState.isPaused {
                 // Recording but paused - show resume button
-                Button("Resume Recording") {
+                Button(LocalizedStringKey("menubar.button.resumeRecording")) {
                     Task {
                         do {
                             try await appState.resumeRecording()
@@ -36,11 +36,11 @@ struct MenuBarView: View {
                     }
                 }
                 .keyboardShortcut("R", modifiers: [.command, .shift])
-                .accessibilityLabel("Resume Recording")
-                .accessibilityHint("Resumes the paused recording. Keyboard shortcut: Command Shift R")
+                .accessibilityLabel(LocalizedStringKey("menubar.accessibility.resumeRecording.label"))
+                .accessibilityHint(LocalizedStringKey("menubar.accessibility.resumeRecording.hint"))
             } else {
                 // Recording and active - show pause button
-                Button("Pause Recording") {
+                Button(LocalizedStringKey("menubar.button.pauseRecording")) {
                     Task {
                         do {
                             try await appState.pauseRecording()
@@ -51,13 +51,13 @@ struct MenuBarView: View {
                     }
                 }
                 .keyboardShortcut("P", modifiers: [.command, .shift])
-                .accessibilityLabel("Pause Recording")
-                .accessibilityHint("Pauses the current recording. Keyboard shortcut: Command Shift P")
+                .accessibilityLabel(LocalizedStringKey("menubar.accessibility.pauseRecording.label"))
+                .accessibilityHint(LocalizedStringKey("menubar.accessibility.pauseRecording.hint"))
             }
 
             // Stop button (always available when recording)
             if appState.isRecording {
-                Button("Stop Recording") {
+                Button(LocalizedStringKey("menubar.button.stopRecording")) {
                     Task {
                         do {
                             try await appState.stopActualRecording()
@@ -68,12 +68,12 @@ struct MenuBarView: View {
                     }
                 }
                 .keyboardShortcut("S", modifiers: [.command, .shift])
-                .accessibilityLabel("Stop Recording")
-                .accessibilityHint("Stops the recording and saves the transcript. Keyboard shortcut: Command Shift S")
+                .accessibilityLabel(LocalizedStringKey("menubar.accessibility.stopRecording.label"))
+                .accessibilityHint(LocalizedStringKey("menubar.accessibility.stopRecording.hint"))
             }
         }
-        .alert("Recording Error", isPresented: $showError) {
-            Button("OK") { showError = false }
+        .alert(LocalizedStringKey("menubar.alert.error.title"), isPresented: $showError) {
+            Button(LocalizedStringKey("menubar.alert.button.ok")) { showError = false }
         } message: {
             Text(errorMessage ?? "An unknown error occurred")
         }
@@ -92,7 +92,7 @@ struct MenuBarView: View {
                         element: NSApp as Any,
                         notification: .announcementRequested,
                         userInfo: [
-                            .announcement: "Recording started",
+                            .announcement: NSLocalizedString("menubar.announcement.recordingStarted", comment: "Recording started announcement"),
                             .priority: NSAccessibilityPriorityLevel.high.rawValue
                         ]
                     )
@@ -105,7 +105,7 @@ struct MenuBarView: View {
                         element: NSApp as Any,
                         notification: .announcementRequested,
                         userInfo: [
-                            .announcement: "Recording stopped",
+                            .announcement: NSLocalizedString("menubar.announcement.recordingStopped", comment: "Recording stopped announcement"),
                             .priority: NSAccessibilityPriorityLevel.high.rawValue
                         ]
                     )
@@ -120,7 +120,7 @@ struct MenuBarView: View {
                         element: NSApp as Any,
                         notification: .announcementRequested,
                         userInfo: [
-                            .announcement: "Recording paused",
+                            .announcement: NSLocalizedString("menubar.announcement.recordingPaused", comment: "Recording paused announcement"),
                             .priority: NSAccessibilityPriorityLevel.high.rawValue
                         ]
                     )
@@ -133,7 +133,7 @@ struct MenuBarView: View {
                         element: NSApp as Any,
                         notification: .announcementRequested,
                         userInfo: [
-                            .announcement: "Recording resumed",
+                            .announcement: NSLocalizedString("menubar.announcement.recordingResumed", comment: "Recording resumed announcement"),
                             .priority: NSAccessibilityPriorityLevel.high.rawValue
                         ]
                     )
@@ -144,14 +144,14 @@ struct MenuBarView: View {
         if appState.isRecording {
             Divider()
             if appState.isPaused {
-                Text("Paused: \(appState.elapsedTime)")
+                Text(LocalizedStringKey(String(format: NSLocalizedString("menubar.status.paused", comment: "Paused status"), appState.elapsedTime)))
                     .foregroundColor(.orange)
-                    .accessibilityLabel("Paused duration")
+                    .accessibilityLabel(LocalizedStringKey("menubar.accessibility.pausedDuration.label"))
                     .accessibilityValue(appState.elapsedTime)
             } else {
-                Text("Recording: \(appState.elapsedTime)")
+                Text(LocalizedStringKey(String(format: NSLocalizedString("menubar.status.recording", comment: "Recording status"), appState.elapsedTime)))
                     .foregroundColor(.secondary)
-                    .accessibilityLabel("Recording duration")
+                    .accessibilityLabel(LocalizedStringKey("menubar.accessibility.recordingDuration.label"))
                     .accessibilityValue(appState.elapsedTime)
             }
         }
@@ -159,19 +159,19 @@ struct MenuBarView: View {
         Divider()
 
         SettingsLink {
-            Text("Settings...")
+            Text(LocalizedStringKey("menubar.link.settings"))
         }
         .keyboardShortcut(",")
-        .accessibilityLabel("Settings")
-        .accessibilityHint("Opens application settings. Keyboard shortcut: Command Comma")
+        .accessibilityLabel(LocalizedStringKey("menubar.accessibility.settings.label"))
+        .accessibilityHint(LocalizedStringKey("menubar.accessibility.settings.hint"))
 
         Divider()
 
-        Button("Quit") {
+        Button(LocalizedStringKey("menubar.button.quit")) {
             NSApplication.shared.terminate(nil)
         }
         .keyboardShortcut("Q")
-        .accessibilityLabel("Quit")
-        .accessibilityHint("Quits the application. Keyboard shortcut: Command Q")
+        .accessibilityLabel(LocalizedStringKey("menubar.accessibility.quit.label"))
+        .accessibilityHint(LocalizedStringKey("menubar.accessibility.quit.hint"))
     }
 }
