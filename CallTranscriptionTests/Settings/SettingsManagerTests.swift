@@ -31,9 +31,9 @@ final class SettingsManagerTests: XCTestCase {
 
     // MARK: - Default Values Tests
 
-    func testDefaultOutputFolderIsDesktopTranscripts() {
-        XCTAssertEqual(settingsManager.outputFolder, "~/Desktop/Transcripts",
-                      "Default output folder should be ~/Desktop/Transcripts")
+    func testDefaultOutputFolderIsDocumentsTranscripts() {
+        XCTAssertEqual(settingsManager.outputFolder, "~/Documents/Transcripts",
+                      "Default output folder should be ~/Documents/Transcripts")
     }
 
     func testDefaultPostRecordingScriptIsEmpty() {

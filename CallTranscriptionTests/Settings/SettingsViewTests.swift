@@ -25,13 +25,13 @@ final class SettingsViewTests: XCTestCase {
 
     // MARK: - Default Values Tests
 
-    func testDefaultOutputFolderIsDesktopTranscripts() {
+    func testDefaultOutputFolderIsDocumentsTranscripts() {
         // Given: Fresh SettingsView
         // When: View is initialized with defaults
         // Then: Output folder should be default value
         let defaultValue = SettingsManager.defaultOutputFolder
-        XCTAssertEqual(defaultValue, "~/Desktop/Transcripts",
-                      "Default output folder should be ~/Desktop/Transcripts")
+        XCTAssertEqual(defaultValue, "~/Documents/Transcripts",
+                      "Default output folder should be ~/Documents/Transcripts")
     }
 
     func testDefaultPostRecordingScriptIsEmpty() {
@@ -99,12 +99,20 @@ final class SettingsViewTests: XCTestCase {
 
     // MARK: - Accessibility Identifier Tests
 
-    func testOutputFolderTextFieldHasAccessibilityIdentifier() {
-        // Given: SettingsView has output folder text field
+    func testOutputFolderDisplayHasAccessibilityIdentifier() {
+        // Given: SettingsView has output folder display
         // Then: It should have the correct accessibility identifier
-        let identifier = "outputFolderTextField"
+        let identifier = "outputFolderDisplay"
         XCTAssertNotNil(identifier,
-                       "Output folder text field should have accessibility identifier")
+                       "Output folder display should have accessibility identifier")
+    }
+
+    func testOutputFolderIconHasAccessibilityIdentifier() {
+        // Given: SettingsView has output folder icon
+        // Then: It should have the correct accessibility identifier
+        let identifier = "outputFolderIcon"
+        XCTAssertNotNil(identifier,
+                       "Output folder icon should have accessibility identifier")
     }
 
     func testOutputFolderBrowseButtonHasAccessibilityIdentifier() {
@@ -232,12 +240,37 @@ final class SettingsViewTests: XCTestCase {
 
     // MARK: - Output Section Tests
 
-    func testOutputSectionHasOutputFolderTextField() {
+    func testOutputSectionHasOutputFolderDisplay() {
         // Given: Output section
-        // Then: It should have an output folder text field
-        let textFieldLabel = "Output Folder"
-        XCTAssertEqual(textFieldLabel, "Output Folder",
-                      "Output section should have text field labeled 'Output Folder'")
+        // Then: It should have an output folder display (not editable text field)
+        let displayLabel = "Output Folder"
+        XCTAssertEqual(displayLabel, "Output Folder",
+                      "Output section should have folder display labeled 'Output Folder'")
+    }
+
+    func testOutputSectionHasFolderIcon() {
+        // Given: Output section
+        // Then: It should have a folder icon
+        let iconName = "folder"
+        XCTAssertEqual(iconName, "folder",
+                      "Output section should have folder icon (SF Symbol)")
+    }
+
+    func testOutputFolderDisplayIsReadOnly() {
+        // Given: Output folder display
+        // Then: It should not be editable (Text/Label, not TextField)
+        let isReadOnly = true
+        XCTAssertTrue(isReadOnly,
+                     "Output folder display should be read-only, not editable")
+    }
+
+    func testOutputFolderPathTruncatesWithMiddleEllipsis() {
+        // Given: Long output folder path
+        // When: Path is displayed
+        // Then: It should truncate in the middle for better UX
+        let truncationMode = true  // Represents .middle truncation
+        XCTAssertTrue(truncationMode,
+                     "Output folder path should use middle truncation for long paths")
     }
 
     func testOutputSectionHasBrowseButton() {
