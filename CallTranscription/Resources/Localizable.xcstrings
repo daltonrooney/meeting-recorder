@@ -690,6 +690,294 @@
           }
         }
       }
+    },
+    "settings.postRecording.header": {
+      "comment": "Post-recording section header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Post-Recording Action"
+          }
+        }
+      }
+    },
+    "settings.postRecording.afterRecording.label": {
+      "comment": "After recording picker label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After recording:"
+          }
+        }
+      }
+    },
+    "settings.postRecording.action.doNothing": {
+      "comment": "Do nothing radio option",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do nothing"
+          }
+        }
+      }
+    },
+    "settings.postRecording.action.runScript": {
+      "comment": "Run script radio option",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run a script"
+          }
+        }
+      }
+    },
+    "settings.postRecording.action.runShortcut": {
+      "comment": "Run shortcut radio option",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run a shortcut"
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.path.label": {
+      "comment": "Script path text field label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shell Script Path"
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.browseButton": {
+      "comment": "Browse button for script",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browse..."
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.helpText": {
+      "comment": "Script help text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Script receives transcript path as $1"
+          }
+        }
+      }
+    },
+    "settings.postRecording.shortcut.loading": {
+      "comment": "Loading shortcuts text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading shortcuts..."
+          }
+        }
+      }
+    },
+    "settings.postRecording.shortcut.picker.label": {
+      "comment": "Shortcut picker label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut:"
+          }
+        }
+      }
+    },
+    "settings.postRecording.shortcut.placeholder": {
+      "comment": "Shortcut picker placeholder",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a shortcut..."
+          }
+        }
+      }
+    },
+    "settings.postRecording.shortcut.noShortcuts": {
+      "comment": "No shortcuts found message",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No shortcuts found. Create shortcuts in the Shortcuts app first."
+          }
+        }
+      }
+    },
+    "settings.postRecording.shortcut.helpText": {
+      "comment": "Shortcut help text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shortcut receives the transcript file path as input"
+          }
+        }
+      }
+    },
+    "settings.postRecording.afterRecording.accessibility.label": {
+      "comment": "After recording accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After recording"
+          }
+        }
+      }
+    },
+    "settings.postRecording.afterRecording.accessibility.hint": {
+      "comment": "After recording accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose what happens when recording stops: do nothing, run a script, or run a shortcut"
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.path.accessibility.label": {
+      "comment": "Script path accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shell Script Path"
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.path.accessibility.hint": {
+      "comment": "Script path accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Path to shell script that will receive the transcript file path as its first argument"
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.browse.accessibility.label": {
+      "comment": "Script browse accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browse for Script"
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.browse.accessibility.hint": {
+      "comment": "Script browse accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens a dialog to select a shell script to run after recording"
+          }
+        }
+      }
+    },
+    "settings.postRecording.shortcut.picker.accessibility.label": {
+      "comment": "Shortcut picker accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut"
+          }
+        }
+      }
+    },
+    "settings.postRecording.shortcut.picker.accessibility.hint": {
+      "comment": "Shortcut picker accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a shortcut that will receive the transcript file path as input"
+          }
+        }
+      }
+    },
+    "settings.postRecording.shortcut.loading.accessibility.label": {
+      "comment": "Loading shortcuts accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading shortcuts"
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.dialog.prompt": {
+      "comment": "Script dialog prompt",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Script"
+          }
+        }
+      }
+    },
+    "settings.postRecording.script.dialog.message": {
+      "comment": "Script dialog message",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a shell script to run after recording completes"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
