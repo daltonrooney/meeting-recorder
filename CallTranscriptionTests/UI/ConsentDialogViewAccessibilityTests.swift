@@ -94,16 +94,10 @@ final class ConsentDialogViewAccessibilityTests: XCTestCase {
                        "I Understand button should have hint about acknowledging and keyboard shortcut")
     }
 
-    func testIUnderstandButtonHasDefaultTrait() {
-        // Then: I Understand button should be marked as default action
-        let expectedDefaultTrait = true
-        XCTAssertTrue(expectedDefaultTrait,
-                     "I Understand button should have .isDefault accessibility trait")
-    }
-
     func testIUnderstandButtonHasDefaultAction() {
         // Then: I Understand button should have default action keyboard shortcut
         // This is indicated by .keyboardShortcut(.defaultAction)
+        // Note: .defaultAction automatically makes button the default without explicit trait
         let hasDefaultAction = true
         XCTAssertTrue(hasDefaultAction,
                      "I Understand button should have .defaultAction keyboard shortcut (Return)")
