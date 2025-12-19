@@ -24,7 +24,7 @@ public final class SettingsManager: ObservableObject {
     }
 
     // Default values
-    public static let defaultOutputFolder = "~/Desktop/Transcripts"
+    public static let defaultOutputFolder = "~/Documents/Transcripts"
     public static let defaultPostRecordingScript = ""
     public static let defaultPostRecordingActionType = PostRecordingActionType.doNothing
     public static let defaultShortcutIdentifier = ""
