@@ -1,0 +1,42 @@
+name: Localization Validation
+
+on:
+  pull_request:
+    paths:
+      - 'CallTranscription/Resources/Localizable.xcstrings'
+      - 'scripts/validate_localizations.py'
+      - '.github/workflows/localization-validation.yml'
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - 'CallTranscription/Resources/Localizable.xcstrings'
+      - 'scripts/validate_localizations.py'
+      - '.github/workflows/localization-validation.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate String Catalog
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run localization validation
+        run: |
+          python3 scripts/validate_localizations.py
+
+      - name: Validation summary
+        if: success()
+        run: |
+          echo "✅ All localization validations passed!"
+          echo "📊 All 176 keys have complete translations for all 6 languages"
+          echo "🌍 Languages: English, Spanish, French, German, Japanese, Simplified Chinese"

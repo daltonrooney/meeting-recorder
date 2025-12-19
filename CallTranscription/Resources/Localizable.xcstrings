@@ -308,31 +308,31 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "(En pausa)"
+            "value": "En pausa: %@"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "(En pause)"
+            "value": "En pause : %@"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "(Pausiert)"
+            "value": "Pausiert: %@"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "（一時停止中）"
+            "value": "一時停止中: %@"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "（已暂停）"
+            "value": "已暂停：%@"
           }
         }
       }
