@@ -87,21 +87,21 @@ public final class TranscriptWriter {
 
     /// Generates a formatted header for the transcript file.
     private static func generateHeader(title: String?, date: Date) -> String {
-        var header = "Olive - Call Transcription Transcript\n"
+        var header = NSLocalizedString("transcript.header.title", comment: "Transcript file header title") + "\n"
 
         // Add date
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         dateFormatter.timeStyle = .none
-        header += "Date: \(dateFormatter.string(from: date))\n"
+        header += NSLocalizedString("transcript.header.dateLabel", comment: "Date label in transcript header") + "\(dateFormatter.string(from: date))\n"
 
         // Add title if provided
         if let title = title, !title.isEmpty {
-            header += "Title: \(title)\n"
+            header += NSLocalizedString("transcript.header.titleLabel", comment: "Title label in transcript header") + "\(title)\n"
         }
 
         // Add separator
-        header += "================================================================================\n\n"
+        header += NSLocalizedString("transcript.header.separator", comment: "Separator line in transcript header") + "\n\n"
 
         return header
     }
