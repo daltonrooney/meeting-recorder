@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches: [ dev, main ]
+  pull_request:
+    branches: [ dev, main ]
+
+jobs:
+  validate:
+    name: Validate Configuration
+    runs-on: macos-15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate project configuration
+        run: |
+          swift scripts/validate-configuration.swift
+
+      - name: Validate localizations
+        run: |
+          python3 scripts/validate_localizations.py
+
+  build-and-test:
+    name: Build and Test
+    runs-on: macos-15
+    needs: validate
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Generate Xcode project
+        run: |
+          if [ -f "project.yml" ]; then
+            brew install xcodegen
+            xcodegen generate
+          fi
+
+      - name: Build ${{ matrix.configuration }}
+        run: |
+          xcodebuild build \
+            -project Olive.xcodeproj \
+            -scheme Olive \
+            -configuration ${{ matrix.configuration }} \
+            -derivedDataPath build \
+            | tee build-${{ matrix.configuration }}.log \
+            | xcpretty || cat build-${{ matrix.configuration }}.log
+
+      - name: Run tests
+        if: matrix.configuration == 'Debug'
+        run: |
+          xcodebuild test \
+            -project Olive.xcodeproj \
+            -scheme Olive \
+            -configuration ${{ matrix.configuration }} \
+            -derivedDataPath build \
+            | tee test.log \
+            | xcpretty || cat test.log
+
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs-${{ matrix.configuration }}
+          path: |
+            build-${{ matrix.configuration }}.log
+            test.log
+
+      - name: Upload test results
+        if: matrix.configuration == 'Debug'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: build/Build/Products/Debug/*.xcresult
+
+  package:
+    name: Create Distribution Package
+    runs-on: macos-15
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Generate Xcode project
+        run: |
+          if [ -f "project.yml" ]; then
+            brew install xcodegen
+            xcodegen generate
+          fi
+
+      - name: Build Release
+        run: ./scripts/build.sh Release clean
+
+      - name: Create package
+        run: ./scripts/package.sh Release
+
+      - name: Upload distribution package
+        uses: actions/upload-artifact@v4
+        with:
+          name: olive-distribution
+          path: dist/*.zip
+          retention-days: 30
