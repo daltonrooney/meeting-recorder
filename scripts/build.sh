@@ -20,7 +20,7 @@ BUILD_DIR="${WORKSPACE_DIR}/build"
 
 # Default configuration
 CONFIGURATION="${1:-Debug}"
-CLEAN="${2:-false}"
+CLEAN="${2:-}"
 
 # Validate configuration
 if [[ "$CONFIGURATION" != "Debug" && "$CONFIGURATION" != "Release" ]]; then
@@ -30,7 +30,7 @@ if [[ "$CONFIGURATION" != "Debug" && "$CONFIGURATION" != "Release" ]]; then
 fi
 
 # Check if clean build requested
-if [[ "$2" == "clean" || "$CLEAN" == "true" ]]; then
+if [[ "$CLEAN" == "clean" || "$CLEAN" == "true" ]]; then
     echo -e "${YELLOW}Cleaning build directory...${NC}"
     xcodebuild clean \
         -project "${PROJECT_NAME}.xcodeproj" \

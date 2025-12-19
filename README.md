@@ -192,11 +192,75 @@ The app will prompt for these permissions on first launch.
 
 ### Building
 
+#### Using Build Scripts
+
+Automated build scripts are available for development and release builds:
+
+```bash
+# Build Debug configuration
+./scripts/build.sh Debug
+
+# Build Release configuration
+./scripts/build.sh Release
+
+# Clean build
+./scripts/build.sh Release clean
+```
+
+#### Using Xcode
+
 Open the project in Xcode and build with ⌘B or:
 
 ```bash
 xcodebuild build -scheme Olive -configuration Debug
 ```
+
+### Distribution
+
+#### Creating a Release Package
+
+Create a distribution package for end users:
+
+```bash
+# Create release package (builds and creates ZIP)
+./scripts/release.sh
+```
+
+This will:
+1. Validate project configuration
+2. Run all tests
+3. Build Release configuration
+4. Create distribution ZIP
+5. Tag the release in git
+
+#### Notarization (Optional)
+
+For distribution outside the Mac App Store, notarize the app:
+
+```bash
+# Set required environment variables
+export APPLE_ID="your@apple.id"
+export TEAM_ID="YOUR_TEAM_ID"
+export APP_SPECIFIC_PASSWORD="your-app-specific-password"
+
+# Notarize release build
+./scripts/notarize.sh Release
+```
+
+Note: Notarization requires:
+- Apple Developer account
+- App-specific password generated in Apple ID settings
+- Valid code signing certificate
+
+#### CI/CD
+
+Automated builds run on every push and pull request via GitHub Actions:
+- Debug and Release configurations
+- Full test suite execution
+- Automated artifact generation
+- Distribution package creation on main branch
+
+See `.github/workflows/ci.yml` for details.
 
 ### Project Structure
 
