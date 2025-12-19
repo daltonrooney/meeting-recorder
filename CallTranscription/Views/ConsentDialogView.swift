@@ -16,6 +16,8 @@ struct ConsentDialogView: View {
                 .font(.title2)
                 .fontWeight(.bold)
                 .accessibilityIdentifier("consentDialogTitle")
+                .accessibilityAddTraits(.isHeader)
+                .accessibilityLabel("Important: Recording Consent Requirements")
 
             // Body text explaining legal obligations
             VStack(alignment: .leading, spacing: 12) {
@@ -28,6 +30,7 @@ struct ConsentDialogView: View {
                     bulletPoint("Other regions require all parties to consent before recording (two-party or all-party consent)")
                     bulletPoint("International laws differ dramatically across countries")
                 }
+                .accessibilityElement(children: .combine)
 
                 Text("You are solely responsible for ensuring compliance with all applicable laws in your jurisdiction before recording any conversation.")
                     .font(.body)
@@ -40,6 +43,7 @@ struct ConsentDialogView: View {
                     .padding(.top, 4)
             }
             .accessibilityIdentifier("consentDialogBody")
+            .accessibilityLabel("Legal requirements")
 
             Divider()
 
@@ -51,6 +55,7 @@ struct ConsentDialogView: View {
             .toggleStyle(.checkbox)
             .accessibilityIdentifier("doNotRemindCheckbox")
             .accessibilityLabel("Do not remind me again")
+            .accessibilityHint("When checked, this consent dialog will not be shown again on future launches")
 
             // Buttons
             HStack {
@@ -62,6 +67,7 @@ struct ConsentDialogView: View {
                 .keyboardShortcut(.cancelAction)
                 .accessibilityIdentifier("quitButton")
                 .accessibilityLabel("Quit")
+                .accessibilityHint("Quits the application without accepting consent requirements. Keyboard shortcut: Escape")
 
                 Button("I Understand") {
                     appState.dismissConsentDialog(rememberChoice: doNotRemindAgain)
@@ -69,6 +75,7 @@ struct ConsentDialogView: View {
                 .keyboardShortcut(.defaultAction)
                 .accessibilityIdentifier("iUnderstandButton")
                 .accessibilityLabel("I Understand")
+                .accessibilityHint("Acknowledges consent requirements and dismisses this dialog. Keyboard shortcut: Return")
             }
             .padding(.top, 8)
         }
