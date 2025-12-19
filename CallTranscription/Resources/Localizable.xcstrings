@@ -1902,6 +1902,102 @@
           }
         }
       }
+    },
+    "intent.status.recordingPaused": {
+      "comment": "Recording paused status message (with %@ placeholder for elapsed time)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording paused at %@"
+          }
+        }
+      }
+    },
+    "intent.status.recordingInProgress": {
+      "comment": "Recording in progress status message (with %@ placeholder for elapsed time)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording in progress: %@"
+          }
+        }
+      }
+    },
+    "intent.status.notRecording": {
+      "comment": "Not recording status message",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not recording"
+          }
+        }
+      }
+    },
+    "intent.error.appNotAvailable": {
+      "comment": "App not available error description",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olive is not available"
+          }
+        }
+      }
+    },
+    "intent.error.recordingFailed": {
+      "comment": "Recording failed error description (with %@ placeholder for reason)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording failed: %@"
+          }
+        }
+      }
+    },
+    "intent.error.notRecording": {
+      "comment": "Not recording error description",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No recording session is currently active"
+          }
+        }
+      }
+    },
+    "intent.error.configurationFailed": {
+      "comment": "Configuration failed error description (with %@ placeholder for reason)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configuration failed: %@"
+          }
+        }
+      }
+    },
+    "intent.recording.defaultTitle": {
+      "comment": "Default recording title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled Recording"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

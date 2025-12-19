@@ -21,12 +21,12 @@ struct GetRecordingStatusIntent: AppIntent {
         let statusMessage: String
         if appState.isRecording {
             if appState.isPaused {
-                statusMessage = "Recording paused at \(appState.elapsedTime)"
+                statusMessage = String(format: NSLocalizedString("intent.status.recordingPaused", comment: "Recording paused status message"), appState.elapsedTime)
             } else {
-                statusMessage = "Recording in progress: \(appState.elapsedTime)"
+                statusMessage = String(format: NSLocalizedString("intent.status.recordingInProgress", comment: "Recording in progress status message"), appState.elapsedTime)
             }
         } else {
-            statusMessage = "Not recording"
+            statusMessage = NSLocalizedString("intent.status.notRecording", comment: "Not recording status message")
         }
 
         return .result(value: statusMessage, dialog: IntentDialog(stringLiteral: statusMessage))
