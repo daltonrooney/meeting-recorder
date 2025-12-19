@@ -11,6 +11,7 @@ struct SettingsView: View {
     @AppStorage("captureMicrophone") private var captureMicrophone: Bool = SettingsManager.defaultCaptureMicrophone
     @AppStorage("silencePauseThreshold") private var silencePauseThresholdRaw: String = SettingsManager.defaultSilencePauseThreshold.rawValue
     @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
+    @AppStorage("filenameTemplate") private var filenameTemplate: String = SettingsManager.defaultFilenameTemplate
 
     @State private var availableShortcuts: [String] = []
     @State private var isLoadingShortcuts: Bool = false
@@ -60,6 +61,19 @@ struct SettingsView: View {
                 .accessibilityIdentifier("saveOriginalAudioToggle")
                 .accessibilityLabel(LocalizedStringKey("settings.output.saveOriginalAudio.accessibility.label"))
                 .accessibilityHint(LocalizedStringKey("settings.output.saveOriginalAudio.accessibility.hint"))
+
+            VStack(alignment: .leading, spacing: 4) {
+                TextField(LocalizedStringKey("settings.filenameTemplate.label"), text: $filenameTemplate)
+                    .textFieldStyle(.roundedBorder)
+                    .accessibilityIdentifier("filenameTemplateTextField")
+                    .accessibilityLabel(LocalizedStringKey("settings.filenameTemplate.accessibility.label"))
+                    .accessibilityHint(LocalizedStringKey("settings.filenameTemplate.accessibility.hint"))
+
+                Text(LocalizedStringKey("settings.filenameTemplate.helpText"))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .accessibilityHidden(true)
+            }
 
             Text(LocalizedStringKey("settings.output.helpText"))
                 .font(.caption)

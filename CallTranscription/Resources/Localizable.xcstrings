@@ -1681,6 +1681,174 @@
         }
       }
     },
+    "settings.filenameTemplate.label": {
+      "comment": "Filename template field label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filename Template"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plantilla de nombre de archivo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modèle de nom de fichier"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dateinamenvorlage"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ファイル名テンプレート"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件名模板"
+          }
+        }
+      }
+    },
+    "settings.filenameTemplate.helpText": {
+      "comment": "Filename template help text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use {date} and {time} for dynamic values. Example: meeting_{date}_{time}.txt"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use {date} y {time} para valores dinámicos. Ejemplo: reunion_{date}_{time}.txt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisez {date} et {time} pour les valeurs dynamiques. Exemple: reunion_{date}_{time}.txt"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwenden Sie {date} und {time} für dynamische Werte. Beispiel: meeting_{date}_{time}.txt"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "動的な値には {date} と {time} を使用します。例: meeting_{date}_{time}.txt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 {date} 和 {time} 作为动态值。示例：meeting_{date}_{time}.txt"
+          }
+        }
+      }
+    },
+    "settings.filenameTemplate.accessibility.label": {
+      "comment": "Filename template accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filename template"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plantilla de nombre de archivo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modèle de nom de fichier"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dateinamenvorlage"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ファイル名テンプレート"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件名模板"
+          }
+        }
+      }
+    },
+    "settings.filenameTemplate.accessibility.hint": {
+      "comment": "Filename template accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a template for transcript filenames using {date} and {time} tokens"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingrese una plantilla para nombres de archivos de transcripción usando {date} y {time}"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entrez un modèle pour les noms de fichiers de transcription en utilisant {date} et {time}"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geben Sie eine Vorlage für Transkriptionsdateinamen mit {date} und {time} ein"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{date} と {time} トークンを使用してトランスクリプトファイル名のテンプレートを入力"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 {date} 和 {time} 标记输入转录文件名模板"
+          }
+        }
+      }
+    },
     "settings.output.folder.dialog.prompt": {
       "comment": "Output folder dialog prompt",
       "extractionState": "manual",
