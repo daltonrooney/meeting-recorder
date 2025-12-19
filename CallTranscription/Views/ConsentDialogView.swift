@@ -12,70 +12,70 @@ struct ConsentDialogView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             // Title
-            Text("Important: Recording Consent Requirements")
+            Text(LocalizedStringKey("consentDialog.title"))
                 .font(.title2)
                 .fontWeight(.bold)
                 .accessibilityIdentifier("consentDialogTitle")
                 .accessibilityAddTraits(.isHeader)
-                .accessibilityLabel("Important: Recording Consent Requirements")
+                .accessibilityLabel(LocalizedStringKey("consentDialog.title.accessibility.label"))
 
             // Body text explaining legal obligations
             VStack(alignment: .leading, spacing: 12) {
-                Text("Before using this app to record conversations, please understand:")
+                Text(LocalizedStringKey("consentDialog.intro"))
                     .font(.body)
 
                 VStack(alignment: .leading, spacing: 8) {
-                    bulletPoint("Recording laws vary significantly by jurisdiction")
-                    bulletPoint("Some regions require only one party's consent (one-party consent states)")
-                    bulletPoint("Other regions require all parties to consent before recording (two-party or all-party consent)")
-                    bulletPoint("International laws differ dramatically across countries")
+                    bulletPoint(NSLocalizedString("consentDialog.bullet1", comment: "First bullet point"))
+                    bulletPoint(NSLocalizedString("consentDialog.bullet2", comment: "Second bullet point"))
+                    bulletPoint(NSLocalizedString("consentDialog.bullet3", comment: "Third bullet point"))
+                    bulletPoint(NSLocalizedString("consentDialog.bullet4", comment: "Fourth bullet point"))
                 }
                 .accessibilityElement(children: .combine)
 
-                Text("You are solely responsible for ensuring compliance with all applicable laws in your jurisdiction before recording any conversation.")
+                Text(LocalizedStringKey("consentDialog.responsibility"))
                     .font(.body)
                     .fontWeight(.semibold)
                     .padding(.top, 8)
 
-                Text("Failure to obtain proper consent may result in civil or criminal liability.")
+                Text(LocalizedStringKey("consentDialog.warning"))
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .padding(.top, 4)
             }
             .accessibilityIdentifier("consentDialogBody")
-            .accessibilityLabel("Legal requirements")
+            .accessibilityLabel(LocalizedStringKey("consentDialog.body.accessibility.label"))
 
             Divider()
 
             // Checkbox for "Do not remind me again"
             Toggle(isOn: $doNotRemindAgain) {
-                Text("Do not remind me again")
+                Text(LocalizedStringKey("consentDialog.checkbox.label"))
                     .font(.body)
             }
             .toggleStyle(.checkbox)
             .accessibilityIdentifier("doNotRemindCheckbox")
-            .accessibilityLabel("Do not remind me again")
-            .accessibilityHint("When checked, this consent dialog will not be shown again on future launches")
+            .accessibilityLabel(LocalizedStringKey("consentDialog.checkbox.accessibility.label"))
+            .accessibilityHint(LocalizedStringKey("consentDialog.checkbox.accessibility.hint"))
 
             // Buttons
             HStack {
                 Spacer()
 
-                Button("Quit") {
+                Button(LocalizedStringKey("consentDialog.button.quit")) {
                     NSApplication.shared.terminate(nil)
                 }
                 .keyboardShortcut(.cancelAction)
                 .accessibilityIdentifier("quitButton")
-                .accessibilityLabel("Quit")
-                .accessibilityHint("Quits the application without accepting consent requirements. Keyboard shortcut: Escape")
+                .accessibilityLabel(LocalizedStringKey("consentDialog.quit.accessibility.label"))
+                .accessibilityHint(LocalizedStringKey("consentDialog.quit.accessibility.hint"))
 
-                Button("I Understand") {
+                Button(LocalizedStringKey("consentDialog.button.understand")) {
                     appState.dismissConsentDialog(rememberChoice: doNotRemindAgain)
                 }
                 .keyboardShortcut(.defaultAction)
                 .accessibilityIdentifier("iUnderstandButton")
-                .accessibilityLabel("I Understand")
-                .accessibilityHint("Acknowledges consent requirements and dismisses this dialog. Keyboard shortcut: Return")
+                .accessibilityLabel(LocalizedStringKey("consentDialog.understand.accessibility.label"))
+                .accessibilityHint(LocalizedStringKey("consentDialog.understand.accessibility.hint"))
             }
             .padding(.top, 8)
         }

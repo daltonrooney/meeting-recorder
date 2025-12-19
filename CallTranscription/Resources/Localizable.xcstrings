@@ -978,6 +978,282 @@
           }
         }
       }
+    },
+    "consentDialog.title": {
+      "comment": "Consent dialog title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Important: Recording Consent Requirements"
+          }
+        }
+      }
+    },
+    "consentDialog.intro": {
+      "comment": "Consent dialog intro text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before using this app to record conversations, please understand:"
+          }
+        }
+      }
+    },
+    "consentDialog.bullet1": {
+      "comment": "First bullet point",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording laws vary significantly by jurisdiction"
+          }
+        }
+      }
+    },
+    "consentDialog.bullet2": {
+      "comment": "Second bullet point",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some regions require only one party's consent (one-party consent states)"
+          }
+        }
+      }
+    },
+    "consentDialog.bullet3": {
+      "comment": "Third bullet point",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other regions require all parties to consent before recording (two-party or all-party consent)"
+          }
+        }
+      }
+    },
+    "consentDialog.bullet4": {
+      "comment": "Fourth bullet point",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "International laws differ dramatically across countries"
+          }
+        }
+      }
+    },
+    "consentDialog.responsibility": {
+      "comment": "User responsibility text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You are solely responsible for ensuring compliance with all applicable laws in your jurisdiction before recording any conversation."
+          }
+        }
+      }
+    },
+    "consentDialog.warning": {
+      "comment": "Legal warning text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failure to obtain proper consent may result in civil or criminal liability."
+          }
+        }
+      }
+    },
+    "consentDialog.checkbox.label": {
+      "comment": "Do not remind checkbox label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do not remind me again"
+          }
+        }
+      }
+    },
+    "consentDialog.button.quit": {
+      "comment": "Quit button label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit"
+          }
+        }
+      }
+    },
+    "consentDialog.button.understand": {
+      "comment": "I Understand button label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I Understand"
+          }
+        }
+      }
+    },
+    "consentDialog.title.accessibility.label": {
+      "comment": "Title accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Important: Recording Consent Requirements"
+          }
+        }
+      }
+    },
+    "consentDialog.body.accessibility.label": {
+      "comment": "Body accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Legal requirements"
+          }
+        }
+      }
+    },
+    "consentDialog.checkbox.accessibility.label": {
+      "comment": "Checkbox accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do not remind me again"
+          }
+        }
+      }
+    },
+    "consentDialog.checkbox.accessibility.hint": {
+      "comment": "Checkbox accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When checked, this consent dialog will not be shown again on future launches"
+          }
+        }
+      }
+    },
+    "consentDialog.quit.accessibility.label": {
+      "comment": "Quit accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit"
+          }
+        }
+      }
+    },
+    "consentDialog.quit.accessibility.hint": {
+      "comment": "Quit accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quits the application without accepting consent requirements. Keyboard shortcut: Escape"
+          }
+        }
+      }
+    },
+    "consentDialog.understand.accessibility.label": {
+      "comment": "I Understand accessibility label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I Understand"
+          }
+        }
+      }
+    },
+    "consentDialog.understand.accessibility.hint": {
+      "comment": "I Understand accessibility hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acknowledges consent requirements and dismisses this dialog. Keyboard shortcut: Return"
+          }
+        }
+      }
+    },
+    "silenceThreshold.twoMinutes": {
+      "comment": "2 minutes threshold",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 minutes"
+          }
+        }
+      }
+    },
+    "silenceThreshold.fiveMinutes": {
+      "comment": "5 minutes threshold",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 minutes"
+          }
+        }
+      }
+    },
+    "silenceThreshold.tenMinutes": {
+      "comment": "10 minutes threshold",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 minutes"
+          }
+        }
+      }
+    },
+    "silenceThreshold.never": {
+      "comment": "Never threshold",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Never"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
