@@ -35,13 +35,13 @@ public enum SilencePauseThreshold: String, Codable, CaseIterable, Sendable {
     public var displayName: String {
         switch self {
         case .twoMinutes:
-            return "2 minutes"
+            return NSLocalizedString("silenceThreshold.twoMinutes", comment: "2 minutes threshold")
         case .fiveMinutes:
-            return "5 minutes"
+            return NSLocalizedString("silenceThreshold.fiveMinutes", comment: "5 minutes threshold")
         case .tenMinutes:
-            return "10 minutes"
+            return NSLocalizedString("silenceThreshold.tenMinutes", comment: "10 minutes threshold")
         case .never:
-            return "Never"
+            return NSLocalizedString("silenceThreshold.never", comment: "Never threshold")
         }
     }
 }
