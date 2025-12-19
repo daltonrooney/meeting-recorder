@@ -413,4 +413,59 @@ final class TranscriptWriterTests: XCTestCase {
         // Cleanup
         try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: readOnlyFolder.path)
     }
+
+    // MARK: - Filename Template Integration Tests
+
+    func testTranscriptWriterUsesProcessedFilename() async throws {
+        // Test that when we pass a processed filename, it gets used correctly
+        let processor = FilenameTemplateProcessor()
+        let date = createTestDate()
+        let processedFilename = processor.process("meeting_{date}.txt", date: date)
+
+        let writer = try await TranscriptWriter(outputFolder: tempDirectory, filename: processedFilename)
+        let fileURL = try await writer.finalize()
+
+        XCTAssertEqual(fileURL.lastPathComponent, "meeting_2024-01-15.txt")
+        XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path))
+    }
+
+    func testTranscriptWriterWithDateToken() async throws {
+        // Test that date token gets expanded to proper format
+        let processor = FilenameTemplateProcessor()
+        let date = createTestDate()
+        let filename = processor.process("transcript_{date}.txt", date: date)
+
+        let writer = try await TranscriptWriter(outputFolder: tempDirectory, filename: filename)
+        let fileURL = try await writer.finalize()
+
+        XCTAssertEqual(fileURL.lastPathComponent, "transcript_2024-01-15.txt")
+    }
+
+    func testTranscriptWriterWithTimeToken() async throws {
+        // Test that time token gets expanded to proper format
+        let processor = FilenameTemplateProcessor()
+        let date = createTestDate()
+        let filename = processor.process("notes_{time}.txt", date: date)
+
+        let writer = try await TranscriptWriter(outputFolder: tempDirectory, filename: filename)
+        let fileURL = try await writer.finalize()
+
+        XCTAssertEqual(fileURL.lastPathComponent, "notes_14_30_45.txt")
+    }
+
+    // MARK: - Helper Methods
+
+    private func createTestDate() -> Date {
+        var components = DateComponents()
+        components.year = 2024
+        components.month = 1
+        components.day = 15
+        components.hour = 14
+        components.minute = 30
+        components.second = 45
+        components.timeZone = TimeZone(identifier: "UTC")
+
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.date(from: components)!
+    }
 }

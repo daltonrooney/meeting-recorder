@@ -21,6 +21,7 @@ public final class SettingsManager: ObservableObject {
         static let hasAcceptedConsentDialog = "hasAcceptedConsentDialog"
         static let silencePauseThreshold = "silencePauseThreshold"
         static let saveOriginalAudio = "saveOriginalAudio"
+        static let filenameTemplate = "filenameTemplate"
     }
 
     // Default values
@@ -33,6 +34,7 @@ public final class SettingsManager: ObservableObject {
     public static let defaultHasAcceptedConsentDialog = false
     public static let defaultSilencePauseThreshold = SilencePauseThreshold.never
     public static let defaultSaveOriginalAudio = false
+    public static let defaultFilenameTemplate = "transcript_{date}_{time}.txt"
 
     // Published properties
     @Published public var outputFolder: String
@@ -44,6 +46,7 @@ public final class SettingsManager: ObservableObject {
     @Published public var hasAcceptedConsentDialog: Bool
     @Published public var silencePauseThreshold: SilencePauseThreshold
     @Published public var saveOriginalAudio: Bool
+    @Published public var filenameTemplate: String
 
     private let userDefaults: UserDefaults
     private var cancellables = Set<AnyCancellable>()
@@ -100,6 +103,9 @@ public final class SettingsManager: ObservableObject {
         } else {
             self.saveOriginalAudio = Self.defaultSaveOriginalAudio
         }
+
+        self.filenameTemplate = userDefaults.string(forKey: Keys.filenameTemplate)
+            ?? Self.defaultFilenameTemplate
 
         // Set up observers to persist changes to UserDefaults
         setupPersistence()
@@ -175,6 +181,14 @@ public final class SettingsManager: ObservableObject {
             .dropFirst() // Skip initial value
             .sink { [weak self] newValue in
                 self?.userDefaults.set(newValue, forKey: Keys.saveOriginalAudio)
+            }
+            .store(in: &cancellables)
+
+        // Persist filenameTemplate changes
+        $filenameTemplate
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.filenameTemplate)
             }
             .store(in: &cancellables)
     }

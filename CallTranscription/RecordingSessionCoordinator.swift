@@ -276,9 +276,14 @@ public final class RecordingSessionCoordinator {
 
         // Create transcript writer
         let outputFolderURL = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder)
+
+        // Process filename template
+        let processor = FilenameTemplateProcessor()
+        let processedFilename = processor.process(configuration.filenameTemplate)
+
         transcriptWriter = try await TranscriptWriter(
             outputFolder: outputFolderURL,
-            filename: nil, // Auto-generate with timestamp
+            filename: processedFilename,
             title: currentTitle
         )
 

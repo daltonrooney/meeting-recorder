@@ -825,4 +825,57 @@ final class SettingsManagerTests: XCTestCase {
         XCTAssertEqual(settingsManager.postRecordingActionType, .script)
         XCTAssertEqual(settingsManager.postRecordingScript, "/path/to/script.sh")
     }
+
+    // MARK: - Filename Template Tests
+
+    func testDefaultFilenameTemplateIsCorrect() {
+        XCTAssertEqual(settingsManager.filenameTemplate, "transcript_{date}_{time}.txt",
+                      "Default filename template should be 'transcript_{date}_{time}.txt'")
+    }
+
+    func testFilenameTemplatePropertyIsPublished() async {
+        let expectation = expectation(description: "filenameTemplate change should be published")
+        var receivedValues: [String] = []
+
+        settingsManager.$filenameTemplate
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        // Change the value
+        settingsManager.filenameTemplate = "meeting_{date}.txt"
+
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues, ["meeting_{date}.txt"],
+                      "filenameTemplate change should be published")
+    }
+
+    func testFilenameTemplateChangeWritesToUserDefaults() async {
+        let newTemplate = "custom_{time}_notes.txt"
+        settingsManager.filenameTemplate = newTemplate
+
+        // Give Combine pipeline time to write
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Check UserDefaults directly
+        let storedValue = testUserDefaults.string(forKey: "filenameTemplate")
+        XCTAssertEqual(storedValue, newTemplate,
+                     "filenameTemplate should write to UserDefaults")
+    }
+
+    func testFilenameTemplateReadsFromUserDefaults() {
+        let testTemplate = "stored_{date}_{time}.txt"
+        testUserDefaults.set(testTemplate, forKey: "filenameTemplate")
+        testUserDefaults.synchronize()
+
+        // Create new instance - should read from UserDefaults
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.filenameTemplate, testTemplate,
+                     "Should read filenameTemplate from UserDefaults on init")
+    }
 }
