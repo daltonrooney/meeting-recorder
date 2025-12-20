@@ -105,7 +105,26 @@ public final class RecordingSessionCoordinator {
         recordingStartTime = Date()
 
         do {
-            // Validate configuration
+            // CRITICAL: Start accessing security-scoped resource FIRST
+            // Must happen before validateConfiguration() checks write permissions
+            if let bookmarkData = configuration.outputFolderBookmark {
+                do {
+                    let url = try bookmarkManager.resolveBookmark(bookmarkData)
+                    guard url.startAccessingSecurityScopedResource() else {
+                        logger.error("Failed to start accessing security-scoped resource: \(url.path)")
+                        throw CallTranscriptionError.securityScopedAccessFailed(url.path)
+                    }
+                    securityScopedURL = url
+                    logger.info("Started accessing security-scoped resource: \(url.path)")
+                } catch let error as CallTranscriptionError {
+                    throw error
+                } catch {
+                    logger.error("Failed to resolve bookmark for security-scoped access: \(error.localizedDescription)")
+                    throw CallTranscriptionError.bookmarkResolutionFailed(reason: error.localizedDescription)
+                }
+            }
+
+            // Validate configuration (now has security-scoped access if needed)
             try await validateConfiguration()
 
             // Initialize components
@@ -284,24 +303,8 @@ public final class RecordingSessionCoordinator {
         // Set up transcription handling
         setupTranscriptionHandling()
 
-        // Start accessing security-scoped resource if bookmark is available
-        if let bookmarkData = configuration.outputFolderBookmark {
-            do {
-                let url = try bookmarkManager.resolveBookmark(bookmarkData)
-                guard url.startAccessingSecurityScopedResource() else {
-                    logger.error("Failed to start accessing security-scoped resource: \(url.path)")
-                    throw CallTranscriptionError.securityScopedAccessFailed(url.path)
-                }
-                securityScopedURL = url
-                logger.info("Started accessing security-scoped resource: \(url.path)")
-            } catch let error as CallTranscriptionError {
-                // Re-throw CallTranscriptionError errors
-                throw error
-            } catch {
-                logger.error("Failed to resolve bookmark for security-scoped access: \(error.localizedDescription)")
-                throw CallTranscriptionError.bookmarkResolutionFailed(reason: error.localizedDescription)
-            }
-        }
+        // Note: Security-scoped resource access now starts in startRecording() before validation
+        // This ensures we have permissions before checking if folder is writable
 
         // Create transcript writer (with security-scoped bookmark if available)
         let outputFolderURL = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder, bookmark: configuration.outputFolderBookmark)
