@@ -878,4 +878,149 @@ final class SettingsManagerTests: XCTestCase {
         XCTAssertEqual(newManager.filenameTemplate, testTemplate,
                      "Should read filenameTemplate from UserDefaults on init")
     }
+
+    // MARK: - Security-Scoped Bookmark Tests
+
+    func testOutputFolderBookmarkDefaultsToNil() {
+        XCTAssertNil(settingsManager.outputFolderBookmark,
+                    "Default outputFolderBookmark should be nil")
+    }
+
+    func testOutputFolderBookmarkCanBeStored() async {
+        // Create test bookmark data
+        let bookmarkData = "test bookmark data".data(using: .utf8)!
+
+        // Store bookmark
+        settingsManager.outputFolderBookmark = bookmarkData
+
+        // Give Combine pipeline time to write
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Verify bookmark is stored
+        XCTAssertEqual(settingsManager.outputFolderBookmark, bookmarkData,
+                      "Should be able to store outputFolderBookmark")
+
+        // Verify it was written to UserDefaults
+        let storedData = testUserDefaults.data(forKey: "outputFolderBookmark")
+        XCTAssertEqual(storedData, bookmarkData,
+                      "Bookmark should be written to UserDefaults")
+    }
+
+    func testOutputFolderBookmarkPersistsAcrossInstances() {
+        let bookmarkData = "persistent bookmark".data(using: .utf8)!
+
+        // Store directly in UserDefaults
+        testUserDefaults.set(bookmarkData, forKey: "outputFolderBookmark")
+        testUserDefaults.synchronize()
+
+        // Create new instance
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.outputFolderBookmark, bookmarkData,
+                      "Bookmark should persist across instances")
+    }
+
+    func testOutputFolderBookmarkCanBeCleared() async {
+        // Set bookmark
+        let bookmarkData = "test bookmark".data(using: .utf8)!
+        settingsManager.outputFolderBookmark = bookmarkData
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Clear bookmark
+        settingsManager.outputFolderBookmark = nil
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Verify cleared
+        XCTAssertNil(settingsManager.outputFolderBookmark,
+                    "Bookmark should be cleared")
+        XCTAssertNil(testUserDefaults.data(forKey: "outputFolderBookmark"),
+                    "Bookmark should be removed from UserDefaults")
+    }
+
+    func testOutputFolderBookmarkPropertyIsPublished() async {
+        let expectation = expectation(description: "outputFolderBookmark change should be published")
+        var receivedValues: [Data?] = []
+        let bookmarkData = "test".data(using: .utf8)!
+
+        settingsManager.$outputFolderBookmark
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        settingsManager.outputFolderBookmark = bookmarkData
+
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues.first as? Data, bookmarkData,
+                      "outputFolderBookmark changes should be published")
+    }
+
+    func testPostRecordingScriptBookmarkDefaultsToNil() {
+        XCTAssertNil(settingsManager.postRecordingScriptBookmark,
+                    "Default postRecordingScriptBookmark should be nil")
+    }
+
+    func testPostRecordingScriptBookmarkCanBeStored() async {
+        let bookmarkData = "script bookmark data".data(using: .utf8)!
+
+        settingsManager.postRecordingScriptBookmark = bookmarkData
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        XCTAssertEqual(settingsManager.postRecordingScriptBookmark, bookmarkData,
+                      "Should be able to store postRecordingScriptBookmark")
+
+        let storedData = testUserDefaults.data(forKey: "postRecordingScriptBookmark")
+        XCTAssertEqual(storedData, bookmarkData,
+                      "Script bookmark should be written to UserDefaults")
+    }
+
+    func testPostRecordingScriptBookmarkPersistsAcrossInstances() {
+        let bookmarkData = "persistent script bookmark".data(using: .utf8)!
+
+        testUserDefaults.set(bookmarkData, forKey: "postRecordingScriptBookmark")
+        testUserDefaults.synchronize()
+
+        let newManager = SettingsManager(userDefaults: testUserDefaults)
+        XCTAssertEqual(newManager.postRecordingScriptBookmark, bookmarkData,
+                      "Script bookmark should persist across instances")
+    }
+
+    func testPostRecordingScriptBookmarkCanBeCleared() async {
+        let bookmarkData = "test script bookmark".data(using: .utf8)!
+        settingsManager.postRecordingScriptBookmark = bookmarkData
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        settingsManager.postRecordingScriptBookmark = nil
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        XCTAssertNil(settingsManager.postRecordingScriptBookmark,
+                    "Script bookmark should be cleared")
+        XCTAssertNil(testUserDefaults.data(forKey: "postRecordingScriptBookmark"),
+                    "Script bookmark should be removed from UserDefaults")
+    }
+
+    func testPostRecordingScriptBookmarkPropertyIsPublished() async {
+        let expectation = expectation(description: "postRecordingScriptBookmark change should be published")
+        var receivedValues: [Data?] = []
+        let bookmarkData = "script test".data(using: .utf8)!
+
+        settingsManager.$postRecordingScriptBookmark
+            .dropFirst() // Skip initial value
+            .sink { value in
+                receivedValues.append(value)
+                if receivedValues.count == 1 {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        settingsManager.postRecordingScriptBookmark = bookmarkData
+
+        await fulfillment(of: [expectation], timeout: 2.0)
+        XCTAssertEqual(receivedValues.first as? Data, bookmarkData,
+                      "postRecordingScriptBookmark changes should be published")
+    }
 }
