@@ -1,9 +1,13 @@
 import SwiftUI
+import OSLog
 
 struct MenuBarView: View {
     @EnvironmentObject var appState: AppState
     @State private var errorMessage: String?
     @State private var showError = false
+    @State private var isStarting: Bool = false
+
+    private let logger = Logger(subsystem: "dev.rygn.CallTranscription", category: "MenuBarView")
 
     var body: some View {
         Group {
@@ -11,15 +15,27 @@ struct MenuBarView: View {
             if !appState.isRecording {
                 // Not recording - show start button
                 Button(LocalizedStringKey("menubar.button.startRecording")) {
+                    logger.debug("Start Recording button clicked")
                     Task {
+                        logger.info("Initiating recording start sequence")
+                        isStarting = true
+                        defer {
+                            isStarting = false
+                            logger.debug("Task completed, isStarting reset to false")
+                        }
+
                         do {
                             try await appState.startActualRecording(title: "Recording")
+                            logger.info("Recording started successfully")
                         } catch {
+                            logger.error("Failed to start recording: \(error.localizedDescription)")
                             errorMessage = error.localizedDescription
                             showError = true
                         }
                     }
                 }
+                .disabled(isStarting || appState.isRecording)
+                .opacity(isStarting ? 0.6 : 1.0)
                 .keyboardShortcut("R", modifiers: [.command, .shift])
                 .accessibilityLabel(LocalizedStringKey("menubar.accessibility.startRecording.label"))
                 .accessibilityHint(LocalizedStringKey("menubar.accessibility.startRecording.hint"))

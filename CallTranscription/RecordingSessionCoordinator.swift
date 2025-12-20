@@ -288,14 +288,18 @@ public final class RecordingSessionCoordinator {
         if let bookmarkData = configuration.outputFolderBookmark {
             do {
                 let url = try bookmarkManager.resolveBookmark(bookmarkData)
-                if url.startAccessingSecurityScopedResource() {
-                    securityScopedURL = url
-                    logger.info("Started accessing security-scoped resource: \(url.path)")
-                } else {
-                    logger.warning("Failed to start accessing security-scoped resource: \(url.path)")
+                guard url.startAccessingSecurityScopedResource() else {
+                    logger.error("Failed to start accessing security-scoped resource: \(url.path)")
+                    throw CallTranscriptionError.securityScopedAccessFailed(url.path)
                 }
+                securityScopedURL = url
+                logger.info("Started accessing security-scoped resource: \(url.path)")
+            } catch let error as CallTranscriptionError {
+                // Re-throw CallTranscriptionError errors
+                throw error
             } catch {
-                logger.warning("Failed to resolve bookmark for security-scoped access: \(error.localizedDescription)")
+                logger.error("Failed to resolve bookmark for security-scoped access: \(error.localizedDescription)")
+                throw CallTranscriptionError.bookmarkResolutionFailed(reason: error.localizedDescription)
             }
         }
 
