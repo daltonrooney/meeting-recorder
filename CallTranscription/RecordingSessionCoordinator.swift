@@ -107,21 +107,26 @@ public final class RecordingSessionCoordinator {
         do {
             // CRITICAL: Start accessing security-scoped resource FIRST
             // Must happen before validateConfiguration() checks write permissions
+            logger.debug("Checking for output folder bookmark: \(configuration.outputFolderBookmark != nil)")
             if let bookmarkData = configuration.outputFolderBookmark {
+                logger.info("Output folder bookmark exists, size: \(bookmarkData.count) bytes, attempting to resolve...")
                 do {
                     let url = try bookmarkManager.resolveBookmark(bookmarkData)
+                    logger.info("Bookmark resolved to URL: \(url.path, privacy: .public)")
                     guard url.startAccessingSecurityScopedResource() else {
-                        logger.error("Failed to start accessing security-scoped resource: \(url.path)")
+                        logger.error("Failed to start accessing security-scoped resource: \(url.path, privacy: .public)")
                         throw CallTranscriptionError.securityScopedAccessFailed(url.path)
                     }
                     securityScopedURL = url
-                    logger.info("Started accessing security-scoped resource: \(url.path)")
+                    logger.info("Started accessing security-scoped resource: \(url.path, privacy: .public)")
                 } catch let error as CallTranscriptionError {
                     throw error
                 } catch {
-                    logger.error("Failed to resolve bookmark for security-scoped access: \(error.localizedDescription)")
+                    logger.error("Failed to resolve bookmark for security-scoped access: \(error.localizedDescription, privacy: .public)")
                     throw CallTranscriptionError.bookmarkResolutionFailed(reason: error.localizedDescription)
                 }
+            } else {
+                logger.warning("No output folder bookmark available - will use standard validation")
             }
 
             // Validate configuration (now has security-scoped access if needed)
