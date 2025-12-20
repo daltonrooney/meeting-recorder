@@ -285,6 +285,8 @@ public final class RecordingSessionCoordinator {
         setupTranscriptionHandling()
 
         // Start accessing security-scoped resource if bookmark is available
+        // We need to do this BEFORE validateAndPreparePath so write checks work
+        var securityScopedURLForValidation: URL? = nil
         if let bookmarkData = configuration.outputFolderBookmark {
             do {
                 let url = try bookmarkManager.resolveBookmark(bookmarkData)
@@ -293,6 +295,7 @@ public final class RecordingSessionCoordinator {
                     throw CallTranscriptionError.securityScopedAccessFailed(url.path)
                 }
                 securityScopedURL = url
+                securityScopedURLForValidation = url
                 logger.info("Started accessing security-scoped resource: \(url.path)")
             } catch let error as CallTranscriptionError {
                 // Re-throw CallTranscriptionError errors
@@ -303,8 +306,17 @@ public final class RecordingSessionCoordinator {
             }
         }
 
-        // Create transcript writer (with security-scoped bookmark if available)
-        let outputFolderURL = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder, bookmark: configuration.outputFolderBookmark)
+        // Create transcript writer
+        // Use the security-scoped URL if available (already has access started)
+        // Otherwise fall back to bookmark resolution in validateAndPreparePath
+        let outputFolderURL: URL
+        if let securedURL = securityScopedURLForValidation {
+            // We already have security-scoped access, just validate the directory exists/is writable
+            outputFolderURL = try await outputFolderManager.validateAndPreparePath(securedURL.path, bookmark: nil)
+        } else {
+            // No security-scoped bookmark, use normal validation
+            outputFolderURL = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder, bookmark: configuration.outputFolderBookmark)
+        }
 
         // Process filename template
         let processor = FilenameTemplateProcessor()

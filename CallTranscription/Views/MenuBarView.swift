@@ -15,8 +15,10 @@ struct MenuBarView: View {
             if !appState.isRecording {
                 // Not recording - show start button
                 Button(LocalizedStringKey("menubar.button.startRecording")) {
+                    print("🔴 DEBUG: Start Recording button clicked")
                     logger.debug("Start Recording button clicked")
                     Task {
+                        print("🔴 DEBUG: Task started")
                         logger.info("Initiating recording start sequence")
                         isStarting = true
                         defer {
@@ -28,6 +30,8 @@ struct MenuBarView: View {
                             try await appState.startActualRecording(title: "Recording")
                             logger.info("Recording started successfully")
                         } catch {
+                            print("🔴 DEBUG: Error caught: \(error)")
+                            print("🔴 DEBUG: Error description: \(error.localizedDescription)")
                             logger.error("Failed to start recording: \(error.localizedDescription)")
                             errorMessage = error.localizedDescription
                             showError = true
