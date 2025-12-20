@@ -16,7 +16,6 @@ public final class TranscriptWriter {
     private var fileHandle: FileHandle?
     private var isFinalized = false
     private let logger = Logger(subsystem: "com.olive.CallTranscription", category: "TranscriptWriter")
-    private let pathValidator = PathValidator()
 
     // MARK: - Initialization
 
@@ -30,14 +29,14 @@ public final class TranscriptWriter {
     public init(outputFolder: URL, filename: String? = nil, title: String? = nil) async throws {
         logger.debug("Initializing TranscriptWriter in folder: \(outputFolder.path)")
 
-        // Validate output folder path for security
-        let validatedFolder = try pathValidator.validateForFileOutput(path: outputFolder.path)
-        logger.debug("Output folder validated: \(validatedFolder.path)")
+        // NOTE: outputFolder has already been validated by OutputFolderManager.validateAndPreparePath()
+        // which handles both PathValidator checks AND security-scoped bookmark access.
+        // No need to re-validate here - just use the pre-validated URL.
 
         // Validate output folder is writable
-        guard FileManager.default.isWritableFile(atPath: validatedFolder.path) else {
-            logger.error("Output folder is not writable: \(validatedFolder.path)")
-            throw CallTranscriptionError.outputFolderNotWritable(validatedFolder)
+        guard FileManager.default.isWritableFile(atPath: outputFolder.path) else {
+            logger.error("Output folder is not writable: \(outputFolder.path)")
+            throw CallTranscriptionError.outputFolderNotWritable(outputFolder)
         }
 
         // Generate filename if not provided
@@ -57,7 +56,7 @@ public final class TranscriptWriter {
             actualFilename = "transcript_\(timestamp).txt"
         }
 
-        self.fileURL = validatedFolder.appendingPathComponent(actualFilename)
+        self.fileURL = outputFolder.appendingPathComponent(actualFilename)
 
         // Create file with header
         do {
@@ -68,7 +67,7 @@ public final class TranscriptWriter {
             logger.error("Failed to create transcript file: \(error.localizedDescription)")
             // Clean up any partial file
             try? FileManager.default.removeItem(at: fileURL)
-            throw CallTranscriptionError.outputFolderNotWritable(validatedFolder)
+            throw CallTranscriptionError.outputFolderNotWritable(outputFolder)
         }
 
         // Open file handle for appending
@@ -79,7 +78,7 @@ public final class TranscriptWriter {
             logger.error("Failed to open file handle: \(error.localizedDescription)")
             // Clean up file
             try? FileManager.default.removeItem(at: fileURL)
-            throw CallTranscriptionError.outputFolderNotWritable(validatedFolder)
+            throw CallTranscriptionError.outputFolderNotWritable(outputFolder)
         }
     }
 
