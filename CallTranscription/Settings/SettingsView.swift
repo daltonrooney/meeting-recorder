@@ -1,5 +1,8 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import OSLog
+
+private let logger = Logger(subsystem: "dev.rygn.CallTranscription", category: "SettingsView")
 
 struct SettingsView: View {
     // Direct @AppStorage bindings for automatic persistence
@@ -252,7 +255,7 @@ struct SettingsView: View {
                 outputFolderBookmark = bookmarkData
             } catch {
                 // Log error but don't block the user - path is still saved
-                print("Warning: Failed to create bookmark for output folder: \(error.localizedDescription)")
+                logger.warning("Failed to create bookmark for output folder: \(error.localizedDescription)")
             }
         }
     }
@@ -285,7 +288,7 @@ struct SettingsView: View {
                 postRecordingScriptBookmark = bookmarkData
             } catch {
                 // Log error but don't block the user - path is still saved
-                print("Warning: Failed to create bookmark for script directory: \(error.localizedDescription)")
+                logger.warning("Failed to create bookmark for script directory: \(error.localizedDescription)")
             }
         }
     }

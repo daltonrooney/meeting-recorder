@@ -87,7 +87,7 @@ public final class ShellScriptExecutor {
                     throw CallTranscriptionError.securityScopedAccessFailed(url.path)
                 }
                 securityScopedURL = url
-                logger.debug("Using security-scoped bookmark for script access")
+                logger.debug("Using security-scoped bookmark for script access: \(url.path)")
             } catch {
                 logger.warning("Failed to resolve script bookmark, falling back to path validation: \(error.localizedDescription)")
                 // Continue with normal path validation as fallback
@@ -102,10 +102,27 @@ public final class ShellScriptExecutor {
         }
 
         // Validate script path for security
-        // Ensures script is within allowed directories (user home) and prevents path traversal/symlink attacks
-        let validatedScriptURL = try pathValidator.validateForScriptExecution(path: expandedScriptPath)
+        // When bookmark is available, allow scripts in bookmarked directory + home directory
+        // Otherwise, restrict to home directory only
+        let validatedScriptURL: URL
+        if let bookmarkedDir = securityScopedURL {
+            // With bookmark: allow scripts in bookmarked directory or home directory
+            let allowedDirectories = [
+                bookmarkedDir,
+                FileManager.default.homeDirectoryForCurrentUser
+            ]
+            validatedScriptURL = try pathValidator.validate(
+                path: expandedScriptPath,
+                againstBaseDirectories: allowedDirectories
+            )
+            logger.debug("Script path validated against bookmarked directory: \(validatedScriptURL.path)")
+        } else {
+            // Without bookmark: restrict to home directory only
+            validatedScriptURL = try pathValidator.validateForScriptExecution(path: expandedScriptPath)
+            logger.debug("Script path validated against home directory: \(validatedScriptURL.path)")
+        }
+
         let validatedScriptPath = validatedScriptURL.path
-        logger.debug("Script path validated: \(validatedScriptPath)")
 
         // Validate script exists
         let fileManager = FileManager.default
