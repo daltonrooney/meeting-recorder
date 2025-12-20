@@ -1,5 +1,8 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import OSLog
+
+private let logger = Logger(subsystem: "dev.rygn.CallTranscription", category: "SettingsView")
 
 struct SettingsView: View {
     // Direct @AppStorage bindings for automatic persistence
@@ -13,6 +16,7 @@ struct SettingsView: View {
     @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
     @AppStorage("filenameTemplate") private var filenameTemplate: String = SettingsManager.defaultFilenameTemplate
     @AppStorage("outputFolderBookmark") private var outputFolderBookmark: Data?
+    @AppStorage("postRecordingScriptBookmark") private var postRecordingScriptBookmark: Data?
 
     @State private var availableShortcuts: [String] = []
     @State private var isLoadingShortcuts: Bool = false
@@ -251,7 +255,7 @@ struct SettingsView: View {
                 outputFolderBookmark = bookmarkData
             } catch {
                 // Log error but don't block the user - path is still saved
-                print("Warning: Failed to create bookmark for output folder: \(error.localizedDescription)")
+                logger.warning("Failed to create bookmark for output folder: \(error.localizedDescription)")
             }
         }
     }
@@ -276,6 +280,16 @@ struct SettingsView: View {
         if panel.runModal() == .OK, let url = panel.url {
             // Save the path
             postRecordingScript = url.path
+
+            // Create and save security-scoped bookmark for the script's parent directory
+            do {
+                let parentDirectory = url.deletingLastPathComponent()
+                let bookmarkData = try bookmarkManager.createBookmark(for: parentDirectory)
+                postRecordingScriptBookmark = bookmarkData
+            } catch {
+                // Log error but don't block the user - path is still saved
+                logger.warning("Failed to create bookmark for script directory: \(error.localizedDescription)")
+            }
         }
     }
 

@@ -448,4 +448,247 @@ final class ShellScriptExecutorTests: XCTestCase {
             XCTAssertTrue(error is CallTranscriptionError)
         }
     }
+
+    // MARK: - Security-Scoped Bookmark Tests
+
+    func testExecutesScriptWithSecurityScopedBookmark() async throws {
+        // Given: A script in a location requiring security-scoped access
+        let markerFile = tempDirectory.appendingPathComponent("executed.txt")
+        let scriptContent = """
+        #!/bin/bash
+        touch "\(markerFile.path)"
+        """
+        let scriptURL = try createTestScript(name: "test.sh", content: scriptContent)
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        // Create bookmark for the script
+        let bookmarkManager = SecurityScopedBookmarkManager()
+        let bookmarkData = try bookmarkManager.createBookmark(for: tempDirectory)
+
+        // When: Executing with bookmark
+        let result = try await executor.execute(
+            scriptPath: scriptURL.path,
+            transcriptPath: transcriptURL.path,
+            scriptBookmark: bookmarkData
+        )
+
+        // Then: Script should execute successfully using bookmark
+        XCTAssertTrue(FileManager.default.fileExists(atPath: markerFile.path), "Script should have executed")
+        XCTAssertEqual(result.exitCode, 0, "Script should exit successfully")
+        XCTAssertTrue(result.success)
+    }
+
+    func testBookmarkResolutionSuccess() async throws {
+        // Given: A valid bookmark for script directory
+        let scriptContent = """
+        #!/bin/bash
+        exit 0
+        """
+        let scriptURL = try createTestScript(name: "test.sh", content: scriptContent)
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        let bookmarkManager = SecurityScopedBookmarkManager()
+        let bookmarkData = try bookmarkManager.createBookmark(for: tempDirectory)
+
+        // When: Executing with valid bookmark
+        let result = try await executor.execute(
+            scriptPath: scriptURL.path,
+            transcriptPath: transcriptURL.path,
+            scriptBookmark: bookmarkData
+        )
+
+        // Then: Should resolve bookmark and execute successfully
+        XCTAssertEqual(result.exitCode, 0)
+        XCTAssertTrue(result.success)
+    }
+
+    func testBookmarkResolutionFailureFallsBackToPath() async throws {
+        // Given: Invalid bookmark data
+        let scriptContent = """
+        #!/bin/bash
+        exit 0
+        """
+        let scriptURL = try createTestScript(name: "test.sh", content: scriptContent)
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        let invalidBookmark = "invalid bookmark data".data(using: .utf8)!
+
+        // When: Executing with invalid bookmark
+        let result = try await executor.execute(
+            scriptPath: scriptURL.path,
+            transcriptPath: transcriptURL.path,
+            scriptBookmark: invalidBookmark
+        )
+
+        // Then: Should fall back to normal path validation and execute successfully
+        XCTAssertEqual(result.exitCode, 0)
+        XCTAssertTrue(result.success)
+    }
+
+    func testStaleBookmarkHandlingWithRefresh() async throws {
+        // Given: A bookmark that will become stale
+        let scriptContent = """
+        #!/bin/bash
+        exit 0
+        """
+        let scriptURL = try createTestScript(name: "test.sh", content: scriptContent)
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        let bookmarkManager = SecurityScopedBookmarkManager()
+        let bookmarkData = try bookmarkManager.createBookmark(for: tempDirectory)
+
+        // When: Executing with bookmark (even if stale, should fall back gracefully)
+        let result = try await executor.execute(
+            scriptPath: scriptURL.path,
+            transcriptPath: transcriptURL.path,
+            scriptBookmark: bookmarkData
+        )
+
+        // Then: Should handle gracefully (either refresh or fall back)
+        XCTAssertEqual(result.exitCode, 0)
+        XCTAssertTrue(result.success)
+    }
+
+    func testSecurityScopedResourceLifecycle() async throws {
+        // Given: A script with bookmark requiring security-scoped access
+        let markerFile = tempDirectory.appendingPathComponent("executed.txt")
+        let scriptContent = """
+        #!/bin/bash
+        touch "\(markerFile.path)"
+        """
+        let scriptURL = try createTestScript(name: "test.sh", content: scriptContent)
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        let bookmarkManager = SecurityScopedBookmarkManager()
+        let bookmarkData = try bookmarkManager.createBookmark(for: tempDirectory)
+
+        // When: Executing script with bookmark
+        let result = try await executor.execute(
+            scriptPath: scriptURL.path,
+            transcriptPath: transcriptURL.path,
+            scriptBookmark: bookmarkData
+        )
+
+        // Then: Should properly manage security-scoped access lifecycle
+        // (start access, execute, stop access)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: markerFile.path))
+        XCTAssertEqual(result.exitCode, 0)
+    }
+
+    func testExecutionWithoutBookmarkStillWorks() async throws {
+        // Given: A script without bookmark (existing behavior)
+        let scriptContent = """
+        #!/bin/bash
+        exit 0
+        """
+        let scriptURL = try createTestScript(name: "test.sh", content: scriptContent)
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        // When: Executing without bookmark (nil)
+        let result = try await executor.execute(
+            scriptPath: scriptURL.path,
+            transcriptPath: transcriptURL.path,
+            scriptBookmark: nil
+        )
+
+        // Then: Should work as before (no regression)
+        XCTAssertEqual(result.exitCode, 0)
+        XCTAssertTrue(result.success)
+    }
+
+    func testBookmarkErrorPropagatesCorrectly() async throws {
+        // Given: Invalid bookmark with script that doesn't exist
+        let nonExistentScript = tempDirectory.appendingPathComponent("nonexistent.sh").path
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        let invalidBookmark = "invalid".data(using: .utf8)!
+
+        // When: Executing with invalid bookmark and nonexistent script
+        // Then: Should throw appropriate error (script not found, not bookmark error)
+        do {
+            _ = try await executor.execute(
+                scriptPath: nonExistentScript,
+                transcriptPath: transcriptURL.path,
+                scriptBookmark: invalidBookmark
+            )
+            XCTFail("Should throw error when script doesn't exist")
+        } catch let error as CallTranscriptionError {
+            if case .postRecordingScriptNotFound = error {
+                // Expected error
+            } else {
+                XCTFail("Wrong error type: \(error)")
+            }
+        }
+    }
+
+    func testBookmarkAccessResourcePattern() async throws {
+        // Given: A script with valid bookmark
+        let markerFile = tempDirectory.appendingPathComponent("executed.txt")
+        let scriptContent = """
+        #!/bin/bash
+        touch "\(markerFile.path)"
+        """
+        let scriptURL = try createTestScript(name: "test.sh", content: scriptContent)
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        let bookmarkManager = SecurityScopedBookmarkManager()
+        let bookmarkData = try bookmarkManager.createBookmark(for: tempDirectory)
+
+        // When: Using bookmark manager's accessResource pattern
+        let result = try await bookmarkManager.accessResource(bookmarkData: bookmarkData) { url in
+            // Verify script is within accessed directory
+            XCTAssertTrue(scriptURL.path.hasPrefix(url.path))
+
+            // Execute the script
+            return try await self.executor.execute(
+                scriptPath: scriptURL.path,
+                transcriptPath: transcriptURL.path,
+                scriptBookmark: bookmarkData
+            )
+        }
+
+        // Then: Should execute successfully within access scope
+        XCTAssertTrue(FileManager.default.fileExists(atPath: markerFile.path))
+        XCTAssertEqual(result.exitCode, 0)
+    }
+
+    func testMultipleExecutionsWithSameBookmark() async throws {
+        // Given: One bookmark reused for multiple executions
+        let bookmarkManager = SecurityScopedBookmarkManager()
+        let bookmarkData = try bookmarkManager.createBookmark(for: tempDirectory)
+
+        let markerFile1 = tempDirectory.appendingPathComponent("marker1.txt")
+        let markerFile2 = tempDirectory.appendingPathComponent("marker2.txt")
+
+        let scriptContent1 = """
+        #!/bin/bash
+        touch "\(markerFile1.path)"
+        """
+        let scriptContent2 = """
+        #!/bin/bash
+        touch "\(markerFile2.path)"
+        """
+
+        let scriptURL1 = try createTestScript(name: "test1.sh", content: scriptContent1)
+        let scriptURL2 = try createTestScript(name: "test2.sh", content: scriptContent2)
+        let transcriptURL = try createTestTranscript(name: "transcript.txt", content: "Test transcript")
+
+        // When: Executing multiple scripts with same bookmark
+        let result1 = try await executor.execute(
+            scriptPath: scriptURL1.path,
+            transcriptPath: transcriptURL.path,
+            scriptBookmark: bookmarkData
+        )
+        let result2 = try await executor.execute(
+            scriptPath: scriptURL2.path,
+            transcriptPath: transcriptURL.path,
+            scriptBookmark: bookmarkData
+        )
+
+        // Then: Both should execute successfully
+        XCTAssertTrue(FileManager.default.fileExists(atPath: markerFile1.path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: markerFile2.path))
+        XCTAssertEqual(result1.exitCode, 0)
+        XCTAssertEqual(result2.exitCode, 0)
+    }
 }

@@ -32,6 +32,7 @@ public final class ShellScriptExecutor {
     public static let defaultTimeout: TimeInterval = 300.0
 
     private let pathValidator = PathValidator()
+    private let bookmarkManager = SecurityScopedBookmarkManager()
 
     public init() {}
 
@@ -41,6 +42,9 @@ public final class ShellScriptExecutor {
     ///   - scriptPath: Path to the shell script to execute. Can use tilde (~) for home directory.
     ///                 If empty, this is a no-op that returns success.
     ///   - transcriptPath: Path to the transcript file to pass as first argument ($1).
+    ///   - scriptBookmark: Optional security-scoped bookmark for script directory access.
+    ///                     If provided, enables sandboxed access to scripts outside app container.
+    ///                     Falls back to normal path validation if bookmark resolution fails.
     ///   - timeout: Maximum time to wait for script completion. Defaults to 5 minutes.
     ///
     /// - Returns: Result containing exit code and output from the script.
@@ -56,6 +60,7 @@ public final class ShellScriptExecutor {
     public func execute(
         scriptPath: String,
         transcriptPath: String,
+        scriptBookmark: Data? = nil,
         timeout: TimeInterval = defaultTimeout
     ) async throws -> ShellScriptExecutionResult {
 
@@ -72,11 +77,52 @@ public final class ShellScriptExecutor {
         // Expand tilde in script path
         let expandedScriptPath = NSString(string: scriptPath).expandingTildeInPath
 
+        // Try to use security-scoped bookmark if provided
+        var securityScopedURL: URL?
+        if let bookmarkData = scriptBookmark {
+            do {
+                let url = try bookmarkManager.resolveBookmark(bookmarkData)
+                guard url.startAccessingSecurityScopedResource() else {
+                    logger.warning("Failed to start accessing security-scoped resource for script, falling back to path validation")
+                    throw CallTranscriptionError.securityScopedAccessFailed(url.path)
+                }
+                securityScopedURL = url
+                logger.debug("Using security-scoped bookmark for script access: \(url.path)")
+            } catch {
+                logger.warning("Failed to resolve script bookmark, falling back to path validation: \(error.localizedDescription)")
+                // Continue with normal path validation as fallback
+            }
+        }
+
+        // Clean up security-scoped resource on function exit
+        defer {
+            if let url = securityScopedURL {
+                url.stopAccessingSecurityScopedResource()
+            }
+        }
+
         // Validate script path for security
-        // Ensures script is within allowed directories (user home) and prevents path traversal/symlink attacks
-        let validatedScriptURL = try pathValidator.validateForScriptExecution(path: expandedScriptPath)
+        // When bookmark is available, allow scripts in bookmarked directory + home directory
+        // Otherwise, restrict to home directory only
+        let validatedScriptURL: URL
+        if let bookmarkedDir = securityScopedURL {
+            // With bookmark: allow scripts in bookmarked directory or home directory
+            let allowedDirectories = [
+                bookmarkedDir,
+                FileManager.default.homeDirectoryForCurrentUser
+            ]
+            validatedScriptURL = try pathValidator.validate(
+                path: expandedScriptPath,
+                againstBaseDirectories: allowedDirectories
+            )
+            logger.debug("Script path validated against bookmarked directory: \(validatedScriptURL.path)")
+        } else {
+            // Without bookmark: restrict to home directory only
+            validatedScriptURL = try pathValidator.validateForScriptExecution(path: expandedScriptPath)
+            logger.debug("Script path validated against home directory: \(validatedScriptURL.path)")
+        }
+
         let validatedScriptPath = validatedScriptURL.path
-        logger.debug("Script path validated: \(validatedScriptPath)")
 
         // Validate script exists
         let fileManager = FileManager.default
