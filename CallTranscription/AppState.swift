@@ -114,7 +114,9 @@ public final class AppState: ObservableObject {
             postRecordingScriptPath: settingsManager.postRecordingScript.isEmpty ? nil : settingsManager.expandedPostRecordingScriptPath(),
             shortcutIdentifier: settingsManager.shortcutIdentifier.isEmpty ? nil : settingsManager.shortcutIdentifier,
             silencePauseThreshold: settingsManager.silencePauseThreshold,
-            filenameTemplate: settingsManager.filenameTemplate
+            filenameTemplate: settingsManager.filenameTemplate,
+            outputFolderBookmark: settingsManager.outputFolderBookmark,
+            postRecordingScriptBookmark: settingsManager.postRecordingScriptBookmark
         )
 
         // Create coordinator locally first

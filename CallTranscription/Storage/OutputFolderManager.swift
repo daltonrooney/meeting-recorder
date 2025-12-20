@@ -15,6 +15,7 @@ public final class OutputFolderManager {
     private let fileManager = FileManager.default
     private let logger = Logger(subsystem: "com.olive.CallTranscription", category: "OutputFolderManager")
     private let pathValidator = PathValidator()
+    private let bookmarkManager = SecurityScopedBookmarkManager()
 
     public init() {}
 
@@ -23,27 +24,43 @@ public final class OutputFolderManager {
     /// Validates a path and prepares it for use by creating the directory if needed.
     ///
     /// This method:
-    /// 1. Expands tilde (~) to user home directory
-    /// 2. Validates path for security (no path traversal, within allowed directories)
-    /// 3. Creates the directory if it doesn't exist
-    /// 4. Verifies write permissions
+    /// 1. If bookmark is provided, resolves it to get the URL (enables sandbox access)
+    /// 2. Expands tilde (~) to user home directory
+    /// 3. Validates path for security (no path traversal, within allowed directories)
+    /// 4. Creates the directory if it doesn't exist
+    /// 5. Verifies write permissions
     ///
-    /// - Parameter path: The path to validate (can be absolute, relative, or contain ~)
+    /// - Parameters:
+    ///   - path: The path to validate (can be absolute, relative, or contain ~)
+    ///   - bookmark: Optional security-scoped bookmark data for sandboxed access
     /// - Returns: A validated and prepared file URL
     /// - Throws: `CallTranscriptionError` if validation or creation fails
-    public func validateAndPreparePath(_ path: String) async throws -> URL {
-        logger.debug("Validating output path: \(path)")
+    public func validateAndPreparePath(_ path: String, bookmark: Data? = nil) async throws -> URL {
+        logger.debug("Validating output path: \(path), has bookmark: \(bookmark != nil)")
 
         // Handle empty path - use default
         let pathToUse = path.isEmpty ? defaultOutputFolder().path : path
 
-        // Expand tilde in path
-        let expandedPath = (pathToUse as NSString).expandingTildeInPath
-
-        // Validate path for security using PathValidator
-        // This checks for path traversal, symlink attacks, and ensures path is within allowed directories
-        let url = try pathValidator.validateForFileOutput(path: expandedPath)
-        logger.debug("Path validated: \(url.path)")
+        // Try to use bookmark first if available
+        let url: URL
+        if let bookmarkData = bookmark {
+            logger.debug("Attempting to resolve security-scoped bookmark")
+            do {
+                // Resolve bookmark to get URL
+                url = try bookmarkManager.resolveBookmark(bookmarkData)
+                logger.info("Successfully resolved bookmark to: \(url.path)")
+            } catch {
+                logger.warning("Failed to resolve bookmark: \(error.localizedDescription), falling back to path validation")
+                // Fall back to normal path validation if bookmark fails
+                let expandedPath = (pathToUse as NSString).expandingTildeInPath
+                url = try pathValidator.validateForFileOutput(path: expandedPath)
+            }
+        } else {
+            // No bookmark - use normal path validation
+            let expandedPath = (pathToUse as NSString).expandingTildeInPath
+            url = try pathValidator.validateForFileOutput(path: expandedPath)
+        }
+        logger.debug("Using output path: \(url.path)")
 
         // Check if directory exists
         var isDirectory: ObjCBool = false

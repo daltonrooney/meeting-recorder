@@ -52,11 +52,13 @@ public final class RecordingSessionCoordinator {
     private var transcriptWriter: TranscriptWriter?
     private var silenceDetector: SilenceDetector?
     private let outputFolderManager = OutputFolderManager()
+    private let bookmarkManager = SecurityScopedBookmarkManager()
 
     // Session state
     private var recordingStartTime: Date?
     private var currentTitle: String?
     private var isPaused: Bool = false
+    private var securityScopedURL: URL? // Tracks URL that needs stopAccessingSecurityScopedResource() call
 
     // Callbacks
     private var transcriptionResultHandler: ((String, Bool) -> Void)?
@@ -243,8 +245,8 @@ public final class RecordingSessionCoordinator {
     private func validateConfiguration() async throws {
         logger.debug("Validating configuration")
 
-        // Validate output folder
-        let _ = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder)
+        // Validate output folder (with security-scoped bookmark if available)
+        let _ = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder, bookmark: configuration.outputFolderBookmark)
 
         // Ensure at least one audio source is enabled
         guard configuration.microphoneEnabled || configuration.systemAudioEnabled else {
@@ -274,8 +276,23 @@ public final class RecordingSessionCoordinator {
         // Set up transcription handling
         setupTranscriptionHandling()
 
-        // Create transcript writer
-        let outputFolderURL = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder)
+        // Start accessing security-scoped resource if bookmark is available
+        if let bookmarkData = configuration.outputFolderBookmark {
+            do {
+                let url = try bookmarkManager.resolveBookmark(bookmarkData)
+                if url.startAccessingSecurityScopedResource() {
+                    securityScopedURL = url
+                    logger.info("Started accessing security-scoped resource: \(url.path)")
+                } else {
+                    logger.warning("Failed to start accessing security-scoped resource: \(url.path)")
+                }
+            } catch {
+                logger.warning("Failed to resolve bookmark for security-scoped access: \(error.localizedDescription)")
+            }
+        }
+
+        // Create transcript writer (with security-scoped bookmark if available)
+        let outputFolderURL = try await outputFolderManager.validateAndPreparePath(configuration.outputFolder, bookmark: configuration.outputFolderBookmark)
 
         // Process filename template
         let processor = FilenameTemplateProcessor()
@@ -602,6 +619,13 @@ public final class RecordingSessionCoordinator {
 
     private func cleanup() async {
         logger.debug("Cleaning up resources")
+
+        // Stop accessing security-scoped resource if it was started
+        if let url = securityScopedURL {
+            url.stopAccessingSecurityScopedResource()
+            logger.info("Stopped accessing security-scoped resource: \(url.path)")
+            securityScopedURL = nil
+        }
 
         // Reset silence detector state
         silenceDetector?.reset()
