@@ -13,7 +13,6 @@ struct SettingsView: View {
     @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
     @AppStorage("filenameTemplate") private var filenameTemplate: String = SettingsManager.defaultFilenameTemplate
     @AppStorage("outputFolderBookmark") private var outputFolderBookmark: Data?
-    @AppStorage("postRecordingScriptBookmark") private var postRecordingScriptBookmark: Data?
 
     @State private var availableShortcuts: [String] = []
     @State private var isLoadingShortcuts: Bool = false
@@ -277,17 +276,6 @@ struct SettingsView: View {
         if panel.runModal() == .OK, let url = panel.url {
             // Save the path
             postRecordingScript = url.path
-
-            // Create and save security-scoped bookmark for the script's parent directory
-            // (We need directory access to execute the script)
-            do {
-                let parentDirectory = url.deletingLastPathComponent()
-                let bookmarkData = try bookmarkManager.createBookmark(for: parentDirectory)
-                postRecordingScriptBookmark = bookmarkData
-            } catch {
-                // Log error but don't block the user - path is still saved
-                print("Warning: Failed to create bookmark for script directory: \(error.localizedDescription)")
-            }
         }
     }
 

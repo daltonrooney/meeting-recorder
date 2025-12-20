@@ -78,6 +78,19 @@ public final class SecurityScopedBookmarkManager {
     /// - Returns: The resolved URL
     /// - Throws: `CallTranscriptionError.bookmarkResolutionFailed` if resolution fails
     public func resolveBookmark(_ bookmarkData: Data) throws -> URL {
+        let (url, _) = try resolveBookmarkWithStalenessInfo(bookmarkData)
+        return url
+    }
+
+    /// Resolves a security-scoped bookmark and reports whether it's stale.
+    ///
+    /// Use this method when you need to know if the bookmark should be refreshed.
+    /// A stale bookmark will still work but may become invalid in the future.
+    ///
+    /// - Parameter bookmarkData: The bookmark data created by `createBookmark(for:)`
+    /// - Returns: A tuple containing the resolved URL and a staleness flag
+    /// - Throws: `CallTranscriptionError.bookmarkResolutionFailed` if resolution fails
+    public func resolveBookmarkWithStalenessInfo(_ bookmarkData: Data) throws -> (url: URL, isStale: Bool) {
         logger.debug("Resolving bookmark...")
 
         var isStale = false
@@ -100,11 +113,32 @@ public final class SecurityScopedBookmarkManager {
             }
 
             logger.debug("Successfully resolved bookmark to: \(url.path)")
-            return url
+            return (url, isStale)
         } catch {
             logger.error("Failed to resolve bookmark: \(error.localizedDescription)")
             throw CallTranscriptionError.bookmarkResolutionFailed(reason: error.localizedDescription)
         }
+    }
+
+    /// Refreshes a stale bookmark by creating a new one for the same URL.
+    ///
+    /// Use this when `resolveBookmarkWithStalenessInfo` indicates the bookmark is stale.
+    /// The URL must still be accessible for refresh to succeed.
+    ///
+    /// - Parameter bookmarkData: The stale bookmark data
+    /// - Returns: Fresh bookmark data that can replace the stale one
+    /// - Throws: `CallTranscriptionError` if resolution or bookmark creation fails
+    public func refreshBookmark(_ bookmarkData: Data) throws -> Data {
+        logger.info("Refreshing stale bookmark...")
+
+        // Resolve the stale bookmark to get the URL
+        let (url, _) = try resolveBookmarkWithStalenessInfo(bookmarkData)
+
+        // Create a new bookmark for the same URL
+        let freshBookmark = try createBookmark(for: url)
+
+        logger.info("Successfully refreshed bookmark for: \(url.path)")
+        return freshBookmark
     }
 
     // MARK: - Security-Scoped Access

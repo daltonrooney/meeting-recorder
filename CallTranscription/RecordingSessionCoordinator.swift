@@ -73,6 +73,14 @@ public final class RecordingSessionCoordinator {
         logger.debug("RecordingSessionCoordinator initialized")
     }
 
+    deinit {
+        // Ensure security-scoped resource is released if object is deallocated
+        if let url = securityScopedURL {
+            url.stopAccessingSecurityScopedResource()
+            // Note: Cannot use logger in deinit as it's not safe
+        }
+    }
+
     // MARK: - Public Methods
 
     /// Registers a callback to be invoked when transcription results are available.

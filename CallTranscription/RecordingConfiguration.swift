@@ -38,9 +38,6 @@ public struct RecordingConfiguration {
     /// Security-scoped bookmark data for output folder (enables sandboxed access)
     public let outputFolderBookmark: Data?
 
-    /// Security-scoped bookmark data for post-recording script directory (enables sandboxed access)
-    public let postRecordingScriptBookmark: Data?
-
     /// Creates a new recording configuration.
     ///
     /// - Parameters:
@@ -54,7 +51,6 @@ public struct RecordingConfiguration {
     ///   - silencePauseThreshold: Silence detection threshold (default: .never)
     ///   - filenameTemplate: Filename template for transcript files (default: "transcript_{date}_{time}.txt")
     ///   - outputFolderBookmark: Security-scoped bookmark for output folder (default: nil)
-    ///   - postRecordingScriptBookmark: Security-scoped bookmark for script directory (default: nil)
     public init(
         outputFolder: String,
         locale: Locale,
@@ -65,8 +61,7 @@ public struct RecordingConfiguration {
         shortcutIdentifier: String? = nil,
         silencePauseThreshold: SilencePauseThreshold = .never,
         filenameTemplate: String = "transcript_{date}_{time}.txt",
-        outputFolderBookmark: Data? = nil,
-        postRecordingScriptBookmark: Data? = nil
+        outputFolderBookmark: Data? = nil
     ) {
         self.outputFolder = outputFolder
         self.locale = locale
@@ -78,6 +73,5 @@ public struct RecordingConfiguration {
         self.silencePauseThreshold = silencePauseThreshold
         self.filenameTemplate = filenameTemplate
         self.outputFolderBookmark = outputFolderBookmark
-        self.postRecordingScriptBookmark = postRecordingScriptBookmark
     }
 }
