@@ -107,8 +107,8 @@ public final class RecordingSessionCoordinator {
         do {
             // CRITICAL: Start accessing security-scoped resource FIRST
             // Must happen before validateConfiguration() checks write permissions
-            logger.debug("Checking for output folder bookmark: \(configuration.outputFolderBookmark != nil)")
-            if let bookmarkData = configuration.outputFolderBookmark {
+            logger.debug("Checking for output folder bookmark: \(self.configuration.outputFolderBookmark != nil)")
+            if let bookmarkData = self.configuration.outputFolderBookmark {
                 logger.info("Output folder bookmark exists, size: \(bookmarkData.count) bytes, attempting to resolve...")
                 do {
                     let url = try bookmarkManager.resolveBookmark(bookmarkData)
