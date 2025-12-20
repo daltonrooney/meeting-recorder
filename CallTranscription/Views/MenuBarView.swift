@@ -28,9 +28,16 @@ struct MenuBarView: View {
                             try await appState.startActualRecording(title: "Recording")
                             logger.info("Recording started successfully")
                         } catch {
-                            logger.error("Failed to start recording: \(error.localizedDescription)")
+                            // Log with public privacy so we can see the actual error
+                            logger.error("Failed to start recording: \(error.localizedDescription, privacy: .public)")
+                            logger.error("Error type: \(String(describing: type(of: error)), privacy: .public)")
+                            logger.error("Full error: \(String(describing: error), privacy: .public)")
+
                             errorMessage = error.localizedDescription
                             showError = true
+
+                            logger.debug("Error message set to: \(errorMessage ?? "nil", privacy: .public)")
+                            logger.debug("showError set to: \(showError)")
                         }
                     }
                 }
