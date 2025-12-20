@@ -38,6 +38,17 @@ struct MenuBarView: View {
 
                             logger.debug("Error message set to: \(errorMessage ?? "nil", privacy: .public)")
                             logger.debug("showError set to: \(showError)")
+
+                            // WORKAROUND: SwiftUI alerts don't always work in menu bar items
+                            // Show NSAlert as fallback to ensure user sees the error
+                            DispatchQueue.main.async {
+                                let alert = NSAlert()
+                                alert.messageText = NSLocalizedString("menubar.alert.error.title", comment: "Error alert title")
+                                alert.informativeText = error.localizedDescription
+                                alert.alertStyle = .critical
+                                alert.addButton(withTitle: NSLocalizedString("menubar.alert.button.ok", comment: "OK button"))
+                                alert.runModal()
+                            }
                         }
                     }
                 }
