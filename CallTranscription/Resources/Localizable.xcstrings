@@ -7560,6 +7560,114 @@
           }
         }
       }
+    },
+    "error.bookmarkCreationFailed.description": {
+      "comment": "Error description when bookmark creation fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to create access bookmark for %@: %@"
+          }
+        }
+      }
+    },
+    "error.bookmarkCreationFailed.failureReason": {
+      "comment": "Failure reason when bookmark creation fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save persistent access to %@: %@"
+          }
+        }
+      }
+    },
+    "error.bookmarkCreationFailed.recoverySuggestion": {
+      "comment": "Recovery suggestion when bookmark creation fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try selecting the folder again in Settings."
+          }
+        }
+      }
+    },
+    "error.bookmarkResolutionFailed.description": {
+      "comment": "Error description when bookmark resolution fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to resolve access bookmark: %@"
+          }
+        }
+      }
+    },
+    "error.bookmarkResolutionFailed.failureReason": {
+      "comment": "Failure reason when bookmark resolution fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to access the saved folder: %@"
+          }
+        }
+      }
+    },
+    "error.bookmarkResolutionFailed.recoverySuggestion": {
+      "comment": "Recovery suggestion when bookmark resolution fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The folder may have been moved or deleted. Please select it again in Settings."
+          }
+        }
+      }
+    },
+    "error.securityScopedAccessFailed.description": {
+      "comment": "Error description when security-scoped access fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to access folder: %@"
+          }
+        }
+      }
+    },
+    "error.securityScopedAccessFailed.failureReason": {
+      "comment": "Failure reason when security-scoped access fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to start accessing security-scoped resource: %@"
+          }
+        }
+      }
+    },
+    "error.securityScopedAccessFailed.recoverySuggestion": {
+      "comment": "Recovery suggestion when security-scoped access fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try selecting the folder again in Settings to grant access."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

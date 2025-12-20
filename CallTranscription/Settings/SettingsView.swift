@@ -12,12 +12,14 @@ struct SettingsView: View {
     @AppStorage("silencePauseThreshold") private var silencePauseThresholdRaw: String = SettingsManager.defaultSilencePauseThreshold.rawValue
     @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
     @AppStorage("filenameTemplate") private var filenameTemplate: String = SettingsManager.defaultFilenameTemplate
+    @AppStorage("outputFolderBookmark") private var outputFolderBookmark: Data?
 
     @State private var availableShortcuts: [String] = []
     @State private var isLoadingShortcuts: Bool = false
     // Cache persists across view updates (not recreations) due to @State
     // SettingsView is typically a singleton in the app, so this provides adequate caching
     @State private var shortcutsCache = SettingsViewCache()
+    @State private var bookmarkManager = SecurityScopedBookmarkManager()
 
     var body: some View {
         Form {
@@ -240,7 +242,17 @@ struct SettingsView: View {
         }
 
         if panel.runModal() == .OK, let url = panel.url {
+            // Save the path
             outputFolder = url.path
+
+            // Create and save security-scoped bookmark
+            do {
+                let bookmarkData = try bookmarkManager.createBookmark(for: url)
+                outputFolderBookmark = bookmarkData
+            } catch {
+                // Log error but don't block the user - path is still saved
+                print("Warning: Failed to create bookmark for output folder: \(error.localizedDescription)")
+            }
         }
     }
 
@@ -262,6 +274,7 @@ struct SettingsView: View {
         }
 
         if panel.runModal() == .OK, let url = panel.url {
+            // Save the path
             postRecordingScript = url.path
         }
     }

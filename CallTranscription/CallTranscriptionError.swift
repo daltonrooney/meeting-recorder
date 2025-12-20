@@ -60,6 +60,15 @@ public enum CallTranscriptionError: LocalizedError {
     /// Invalid path provided.
     case invalidPath(String, reason: String)
 
+    /// Failed to create security-scoped bookmark.
+    case bookmarkCreationFailed(String, reason: String)
+
+    /// Failed to resolve security-scoped bookmark.
+    case bookmarkResolutionFailed(reason: String)
+
+    /// Failed to access security-scoped resource.
+    case securityScopedAccessFailed(String)
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -118,6 +127,15 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .invalidPath(let path, let reason):
             return String(format: NSLocalizedString("error.invalidPath.description", comment: "Invalid path error description"), path, reason)
+
+        case .bookmarkCreationFailed(let path, let reason):
+            return String(format: NSLocalizedString("error.bookmarkCreationFailed.description", comment: "Bookmark creation failed error description"), path, reason)
+
+        case .bookmarkResolutionFailed(let reason):
+            return String(format: NSLocalizedString("error.bookmarkResolutionFailed.description", comment: "Bookmark resolution failed error description"), reason)
+
+        case .securityScopedAccessFailed(let path):
+            return String(format: NSLocalizedString("error.securityScopedAccessFailed.description", comment: "Security-scoped access failed error description"), path)
         }
     }
 
@@ -176,6 +194,15 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .invalidPath(let path, let reason):
             return String(format: NSLocalizedString("error.invalidPath.failureReason", comment: "Invalid path failure reason"), path, reason)
+
+        case .bookmarkCreationFailed(let path, let reason):
+            return String(format: NSLocalizedString("error.bookmarkCreationFailed.failureReason", comment: "Bookmark creation failed failure reason"), path, reason)
+
+        case .bookmarkResolutionFailed(let reason):
+            return String(format: NSLocalizedString("error.bookmarkResolutionFailed.failureReason", comment: "Bookmark resolution failed failure reason"), reason)
+
+        case .securityScopedAccessFailed(let path):
+            return String(format: NSLocalizedString("error.securityScopedAccessFailed.failureReason", comment: "Security-scoped access failed failure reason"), path)
         }
     }
 
@@ -235,6 +262,15 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .invalidPath:
             return NSLocalizedString("error.invalidPath.recoverySuggestion", comment: "Invalid path recovery suggestion")
+
+        case .bookmarkCreationFailed:
+            return NSLocalizedString("error.bookmarkCreationFailed.recoverySuggestion", comment: "Bookmark creation failed recovery suggestion")
+
+        case .bookmarkResolutionFailed:
+            return NSLocalizedString("error.bookmarkResolutionFailed.recoverySuggestion", comment: "Bookmark resolution failed recovery suggestion")
+
+        case .securityScopedAccessFailed:
+            return NSLocalizedString("error.securityScopedAccessFailed.recoverySuggestion", comment: "Security-scoped access failed recovery suggestion")
         }
     }
 }

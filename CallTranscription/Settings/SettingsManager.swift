@@ -22,6 +22,7 @@ public final class SettingsManager: ObservableObject {
         static let silencePauseThreshold = "silencePauseThreshold"
         static let saveOriginalAudio = "saveOriginalAudio"
         static let filenameTemplate = "filenameTemplate"
+        static let outputFolderBookmark = "outputFolderBookmark"
     }
 
     // Default values
@@ -47,6 +48,7 @@ public final class SettingsManager: ObservableObject {
     @Published public var silencePauseThreshold: SilencePauseThreshold
     @Published public var saveOriginalAudio: Bool
     @Published public var filenameTemplate: String
+    @Published public var outputFolderBookmark: Data?
 
     private let userDefaults: UserDefaults
     private var cancellables = Set<AnyCancellable>()
@@ -106,6 +108,9 @@ public final class SettingsManager: ObservableObject {
 
         self.filenameTemplate = userDefaults.string(forKey: Keys.filenameTemplate)
             ?? Self.defaultFilenameTemplate
+
+        // Initialize bookmark (Data stored in UserDefaults)
+        self.outputFolderBookmark = userDefaults.data(forKey: Keys.outputFolderBookmark)
 
         // Set up observers to persist changes to UserDefaults
         setupPersistence()
@@ -189,6 +194,18 @@ public final class SettingsManager: ObservableObject {
             .dropFirst() // Skip initial value
             .sink { [weak self] newValue in
                 self?.userDefaults.set(newValue, forKey: Keys.filenameTemplate)
+            }
+            .store(in: &cancellables)
+
+        // Persist outputFolderBookmark changes
+        $outputFolderBookmark
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                if let data = newValue {
+                    self?.userDefaults.set(data, forKey: Keys.outputFolderBookmark)
+                } else {
+                    self?.userDefaults.removeObject(forKey: Keys.outputFolderBookmark)
+                }
             }
             .store(in: &cancellables)
     }
