@@ -115,7 +115,8 @@ public final class AppState: ObservableObject {
             shortcutIdentifier: settingsManager.shortcutIdentifier.isEmpty ? nil : settingsManager.shortcutIdentifier,
             silencePauseThreshold: settingsManager.silencePauseThreshold,
             filenameTemplate: settingsManager.filenameTemplate,
-            outputFolderBookmark: settingsManager.outputFolderBookmark
+            outputFolderBookmark: settingsManager.outputFolderBookmark,
+            postRecordingScriptBookmark: settingsManager.postRecordingScriptBookmark
         )
 
         // Create coordinator locally first

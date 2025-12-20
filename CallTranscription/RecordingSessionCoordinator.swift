@@ -567,7 +567,11 @@ public final class RecordingSessionCoordinator {
 
         case .script:
             if let scriptPath = configuration.postRecordingScriptPath, !scriptPath.isEmpty {
-                await executePostRecordingScript(scriptPath: scriptPath, transcriptPath: transcriptPath)
+                await executePostRecordingScript(
+                    scriptPath: scriptPath,
+                    transcriptPath: transcriptPath,
+                    scriptBookmark: configuration.postRecordingScriptBookmark
+                )
             } else {
                 logger.warning("Post-recording action set to script but no script path configured")
             }
@@ -581,14 +585,15 @@ public final class RecordingSessionCoordinator {
         }
     }
 
-    private func executePostRecordingScript(scriptPath: String, transcriptPath: String) async {
+    private func executePostRecordingScript(scriptPath: String, transcriptPath: String, scriptBookmark: Data?) async {
         logger.info("Executing post-recording script: \(scriptPath)")
 
         let executor = ShellScriptExecutor()
         do {
             let result = try await executor.execute(
                 scriptPath: scriptPath,
-                transcriptPath: transcriptPath
+                transcriptPath: transcriptPath,
+                scriptBookmark: scriptBookmark
             )
 
             if result.exitCode == 0 {
