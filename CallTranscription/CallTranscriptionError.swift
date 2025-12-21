@@ -39,6 +39,9 @@ public enum CallTranscriptionError: LocalizedError {
     /// Attempted to write to a transcript that has already been finalized.
     case transcriptAlreadyFinalized
 
+    /// Attempted to write to an audio file that has already been finalized.
+    case audioFileAlreadyFinalized
+
     /// Attempted to stop recording when not currently recording.
     case notRecording
 
@@ -105,6 +108,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .transcriptAlreadyFinalized:
             return NSLocalizedString("error.transcriptAlreadyFinalized.description", comment: "Transcript already finalized error description")
+
+        case .audioFileAlreadyFinalized:
+            return NSLocalizedString("error.audioFileAlreadyFinalized.description", comment: "Audio file already finalized error description")
 
         case .notRecording:
             return NSLocalizedString("error.notRecording.description", comment: "Not recording error description")
@@ -174,6 +180,9 @@ public enum CallTranscriptionError: LocalizedError {
         case .transcriptAlreadyFinalized:
             return NSLocalizedString("error.transcriptAlreadyFinalized.failureReason", comment: "Transcript already finalized failure reason")
 
+        case .audioFileAlreadyFinalized:
+            return NSLocalizedString("error.audioFileAlreadyFinalized.failureReason", comment: "Audio file already finalized failure reason")
+
         case .notRecording:
             return NSLocalizedString("error.notRecording.failureReason", comment: "Not recording failure reason")
 
@@ -240,6 +249,9 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .transcriptAlreadyFinalized:
             return NSLocalizedString("error.transcriptAlreadyFinalized.recoverySuggestion", comment: "Transcript already finalized recovery suggestion")
+
+        case .audioFileAlreadyFinalized:
+            return NSLocalizedString("error.audioFileAlreadyFinalized.recoverySuggestion", comment: "Audio file already finalized recovery suggestion")
 
         case .notRecording:
             return NSLocalizedString("error.notRecording.recoverySuggestion", comment: "Not recording recovery suggestion")

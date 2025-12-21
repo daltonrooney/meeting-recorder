@@ -50,6 +50,7 @@ public final class RecordingSessionCoordinator {
     private var audioMixer: AudioMixer?
     private var transcriptionManager: TranscriptionManager?
     private var transcriptWriter: TranscriptWriter?
+    private var audioFileWriter: AudioFileWriter?
     private var silenceDetector: SilenceDetector?
     private let outputFolderManager = OutputFolderManager()
     private let bookmarkManager = SecurityScopedBookmarkManager()
@@ -172,6 +173,12 @@ public final class RecordingSessionCoordinator {
                 throw CallTranscriptionError.featureNotImplemented("Transcript writer not available")
             }
             let transcriptURL = try await transcriptWriter.finalize()
+
+            // Finalize audio file if it was being written
+            if let audioFileWriter = audioFileWriter {
+                let audioURL = try await audioFileWriter.finalize()
+                logger.info("Audio file saved: \(audioURL.path)")
+            }
 
             // Execute post-recording action based on configuration
             await executePostRecordingAction(transcriptPath: transcriptURL.path)
@@ -324,6 +331,17 @@ public final class RecordingSessionCoordinator {
             title: currentTitle
         )
 
+        // Create audio file writer if saveOriginalAudio is enabled
+        if configuration.saveOriginalAudio {
+            let audioFilename = processedFilename.replacingOccurrences(of: ".txt", with: ".m4a")
+            audioFileWriter = try await AudioFileWriter(
+                outputFolder: outputFolderURL,
+                filename: audioFilename,
+                format: .aac
+            )
+            logger.debug("Audio file writer created: \(audioFilename)")
+        }
+
         // Create silence detector
         silenceDetector = SilenceDetector(threshold: configuration.silencePauseThreshold)
         setupSilenceDetection()
@@ -338,7 +356,7 @@ public final class RecordingSessionCoordinator {
             return
         }
 
-        // Route mixed audio to transcription and silence detector
+        // Route mixed audio to transcription, silence detector, and audio file writer
         audioMixer.mixedBufferHandler = { [weak self] buffer in
             guard let self = self else { return }
 
@@ -350,6 +368,18 @@ public final class RecordingSessionCoordinator {
             // Feed to transcription manager
             Task { @MainActor in
                 await transcriptionManager.feedAudio(buffer)
+            }
+
+            // Write to audio file if enabled
+            if let audioFileWriter = self.audioFileWriter {
+                Task { @MainActor [buffer, weak self] in
+                    guard let self = self else { return }
+                    do {
+                        try await audioFileWriter.write(buffer: buffer)
+                    } catch {
+                        self.logger.error("Failed to write audio buffer: \(error.localizedDescription)")
+                    }
+                }
             }
         }
 
@@ -660,6 +690,7 @@ public final class RecordingSessionCoordinator {
         audioMixer = nil
         transcriptionManager = nil
         transcriptWriter = nil
+        audioFileWriter = nil
         silenceDetector = nil
         recordingStartTime = nil
         currentTitle = nil
