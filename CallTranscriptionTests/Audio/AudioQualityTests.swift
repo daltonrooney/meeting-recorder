@@ -263,13 +263,13 @@ final class AudioQualityTests: XCTestCase {
         // Verify file was created
         XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path))
 
-        // Verify file has reasonable size (higher bitrate = larger file)
+        // Verify file has reasonable size
         let attributes = try FileManager.default.attributesOfItem(atPath: fileURL.path)
         let fileSize = attributes[.size] as! UInt64
 
-        // With 256kbps encoding and ~0.085 seconds of audio, expect > 2KB
-        // (rough calculation: 256000 bits/sec * 0.085 sec / 8 = ~2.7KB)
-        XCTAssertGreaterThan(fileSize, 2000, "File seems too small for high-quality encoding")
+        // With 128kbps encoding and ~0.085 seconds of audio, expect > 1KB
+        // (rough calculation: 128000 bits/sec * 0.085 sec / 8 = ~1.36KB)
+        XCTAssertGreaterThan(fileSize, 1000, "File seems too small for AAC encoding")
     }
 
     func testAudioFileWriterMaintains48kHzSampleRate() async throws {
