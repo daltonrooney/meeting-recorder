@@ -120,7 +120,8 @@ public final class AppState: ObservableObject {
             silencePauseThreshold: settingsManager.silencePauseThreshold,
             filenameTemplate: settingsManager.filenameTemplate,
             outputFolderBookmark: settingsManager.outputFolderBookmark,
-            postRecordingScriptBookmark: settingsManager.postRecordingScriptBookmark
+            postRecordingScriptBookmark: settingsManager.postRecordingScriptBookmark,
+            saveOriginalAudio: settingsManager.saveOriginalAudio
         )
 
         // Create coordinator locally first

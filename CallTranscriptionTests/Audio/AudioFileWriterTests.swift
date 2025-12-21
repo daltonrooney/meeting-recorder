@@ -105,6 +105,7 @@ final class AudioFileWriterTests: XCTestCase {
 
     // MARK: - Audio Writing Tests
 
+    @MainActor
     func testWritesAudioBuffers() async throws {
         let writer = try await AudioFileWriter(
             outputFolder: tempDirectory,
@@ -137,6 +138,7 @@ final class AudioFileWriterTests: XCTestCase {
         XCTAssertGreaterThan(fileSize, 0, "Audio file should have content")
     }
 
+    @MainActor
     func testWritesMultipleBuffers() async throws {
         let writer = try await AudioFileWriter(
             outputFolder: tempDirectory,
@@ -192,6 +194,7 @@ final class AudioFileWriterTests: XCTestCase {
         try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: readOnlyFolder.path)
     }
 
+    @MainActor
     func testThrowsWhenWritingAfterFinalize() async throws {
         let writer = try await AudioFileWriter(
             outputFolder: tempDirectory,
@@ -221,6 +224,7 @@ final class AudioFileWriterTests: XCTestCase {
 
     // MARK: - Thread Safety Tests
 
+    @MainActor
     func testConcurrentWritesDoNotCrash() async throws {
         let writer = try await AudioFileWriter(
             outputFolder: tempDirectory,
