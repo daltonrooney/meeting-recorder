@@ -67,11 +67,12 @@ public final class AudioFileWriter {
         do {
             if format == .aac {
                 // For M4A/AAC: 48kHz mono for CoreAudio Process Tap compatibility
+                // Using 256kbps for higher quality (Issue #137)
                 let settings: [String: Any] = [
                     AVFormatIDKey: kAudioFormatMPEG4AAC,
                     AVSampleRateKey: 48000,
                     AVNumberOfChannelsKey: 1,
-                    AVEncoderBitRateKey: 128000
+                    AVEncoderBitRateKey: 256000  // Increased from 128000 to 256000 for better quality
                 ]
 
                 // Create the audio file
