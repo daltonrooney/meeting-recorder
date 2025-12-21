@@ -7570,6 +7570,36 @@
             "state": "translated",
             "value": "Failed to create access bookmark for %@: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo crear marcador de acceso para %@: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Échec de création du signet d'accès pour %@ : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zugriffs-Lesezeichen für %@ konnte nicht erstellt werden: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ のアクセスブックマークを作成できませんでした: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法为 %@ 创建访问书签：%@"
+          }
         }
       }
     },
@@ -7581,6 +7611,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unable to save persistent access to %@: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede guardar el acceso persistente a %@: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d'enregistrer l'accès permanent à %@ : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dauerhafter Zugriff auf %@ kann nicht gesichert werden: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ への永続的なアクセスを保存できません: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存对 %@ 的持久访问权限：%@"
           }
         }
       }
@@ -7594,6 +7654,36 @@
             "state": "translated",
             "value": "Try selecting the folder again in Settings."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccione la carpeta nuevamente en Ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionnez à nouveau le dossier dans Réglages."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie den Ordner erneut in den Einstellungen aus."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定でフォルダを再度選択してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在\"设置\"中重新选择文件夹。"
+          }
         }
       }
     },
@@ -7605,6 +7695,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Failed to resolve access bookmark: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo resolver el marcador de acceso: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Échec de résolution du signet d'accès : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zugriffs-Lesezeichen konnte nicht aufgelöst werden: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセスブックマークを解決できませんでした: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法解析访问书签：%@"
           }
         }
       }
@@ -7618,6 +7738,36 @@
             "state": "translated",
             "value": "Unable to access the saved folder: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede acceder a la carpeta guardada: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d'accéder au dossier enregistré : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf den gespeicherten Ordner kann nicht zugegriffen werden: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存されたフォルダにアクセスできません: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法访问已保存的文件夹：%@"
+          }
         }
       }
     },
@@ -7629,6 +7779,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "The folder may have been moved or deleted. Please select it again in Settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Es posible que la carpeta se haya movido o eliminado. Selecciónela nuevamente en Ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le dossier a peut-être été déplacé ou supprimé. Sélectionnez-le à nouveau dans Réglages."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Ordner wurde möglicherweise verschoben oder gelöscht. Wählen Sie ihn erneut in den Einstellungen aus."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダが移動または削除された可能性があります。設定で再度選択してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件夹可能已被移动或删除。请在\"设置\"中重新选择。"
           }
         }
       }
@@ -7642,6 +7822,36 @@
             "state": "translated",
             "value": "Failed to access folder: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo acceder a la carpeta: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Échec d'accès au dossier : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zugriff auf Ordner fehlgeschlagen: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダにアクセスできませんでした: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "访问文件夹失败：%@"
+          }
         }
       }
     },
@@ -7654,6 +7864,36 @@
             "state": "translated",
             "value": "Unable to start accessing security-scoped resource: %@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede iniciar el acceso al recurso con ámbito de seguridad: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de démarrer l'accès à la ressource avec portée de sécurité : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zugriff auf sicherheitsbeschränkte Ressource kann nicht gestartet werden: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "セキュリティスコープ付きリソースへのアクセスを開始できません: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法开始访问安全范围资源：%@"
+          }
         }
       }
     },
@@ -7665,6 +7905,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Try selecting the folder again in Settings to grant access."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccione la carpeta nuevamente en Ajustes para otorgar acceso."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionnez à nouveau le dossier dans Réglages pour accorder l'accès."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wählen Sie den Ordner erneut in den Einstellungen aus, um Zugriff zu gewähren."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定でフォルダを再度選択してアクセス権を付与してください。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在\"设置\"中重新选择文件夹以授予访问权限。"
           }
         }
       }

@@ -105,6 +105,10 @@ public final class AppState: ObservableObject {
         }
 
         // Build configuration from settings
+        let hasOutputBookmark = settingsManager.outputFolderBookmark != nil
+        let hasScriptBookmark = settingsManager.postRecordingScriptBookmark != nil
+        print("DEBUG: Creating configuration - outputFolder: \(settingsManager.expandedOutputFolderPath()), hasBookmark: \(hasOutputBookmark)")
+
         let configuration = RecordingConfiguration(
             outputFolder: settingsManager.expandedOutputFolderPath(),
             locale: Locale(identifier: "en-US"),

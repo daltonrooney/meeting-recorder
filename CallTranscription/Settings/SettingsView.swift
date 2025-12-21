@@ -247,15 +247,17 @@ struct SettingsView: View {
 
         if panel.runModal() == .OK, let url = panel.url {
             // Save the path
+            logger.info("User selected output folder: \(url.path, privacy: .public)")
             outputFolder = url.path
 
             // Create and save security-scoped bookmark
             do {
                 let bookmarkData = try bookmarkManager.createBookmark(for: url)
                 outputFolderBookmark = bookmarkData
+                logger.info("Successfully created bookmark for output folder, size: \(bookmarkData.count) bytes")
             } catch {
                 // Log error but don't block the user - path is still saved
-                logger.warning("Failed to create bookmark for output folder: \(error.localizedDescription)")
+                logger.error("Failed to create bookmark for output folder: \(error.localizedDescription, privacy: .public)")
             }
         }
     }

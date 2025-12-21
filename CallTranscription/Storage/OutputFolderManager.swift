@@ -43,24 +43,31 @@ public final class OutputFolderManager {
 
         // Try to use bookmark first if available
         let url: URL
+        let usingBookmark: Bool
         if let bookmarkData = bookmark {
             logger.debug("Attempting to resolve security-scoped bookmark")
             do {
                 // Resolve bookmark to get URL
+                // When using bookmark, skip PathValidator entirely
+                // Security-scoped bookmarks already provide validated access from macOS
                 url = try bookmarkManager.resolveBookmark(bookmarkData)
-                logger.info("Successfully resolved bookmark to: \(url.path)")
+                logger.info("Successfully resolved bookmark to: \(url.path, privacy: .public)")
+                usingBookmark = true
             } catch {
                 logger.warning("Failed to resolve bookmark: \(error.localizedDescription), falling back to path validation")
                 // Fall back to normal path validation if bookmark fails
                 let expandedPath = (pathToUse as NSString).expandingTildeInPath
                 url = try pathValidator.validateForFileOutput(path: expandedPath)
+                usingBookmark = false
             }
         } else {
-            // No bookmark - use normal path validation
+            // No bookmark - use normal path validation for sandbox-local paths
+            logger.debug("No bookmark provided, using path validation")
             let expandedPath = (pathToUse as NSString).expandingTildeInPath
             url = try pathValidator.validateForFileOutput(path: expandedPath)
+            usingBookmark = false
         }
-        logger.debug("Using output path: \(url.path)")
+        logger.debug("Using output path: \(url.path, privacy: .public), usingBookmark: \(usingBookmark)")
 
         // Check if directory exists
         var isDirectory: ObjCBool = false

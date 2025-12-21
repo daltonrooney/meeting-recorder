@@ -28,9 +28,27 @@ struct MenuBarView: View {
                             try await appState.startActualRecording(title: "Recording")
                             logger.info("Recording started successfully")
                         } catch {
-                            logger.error("Failed to start recording: \(error.localizedDescription)")
+                            // Log with public privacy so we can see the actual error
+                            logger.error("Failed to start recording: \(error.localizedDescription, privacy: .public)")
+                            logger.error("Error type: \(String(describing: type(of: error)), privacy: .public)")
+                            logger.error("Full error: \(String(describing: error), privacy: .public)")
+
                             errorMessage = error.localizedDescription
                             showError = true
+
+                            logger.debug("Error message set to: \(errorMessage ?? "nil", privacy: .public)")
+                            logger.debug("showError set to: \(showError)")
+
+                            // WORKAROUND: SwiftUI alerts don't always work in menu bar items
+                            // Show NSAlert as fallback to ensure user sees the error
+                            DispatchQueue.main.async {
+                                let alert = NSAlert()
+                                alert.messageText = NSLocalizedString("menubar.alert.error.title", comment: "Error alert title")
+                                alert.informativeText = error.localizedDescription
+                                alert.alertStyle = .critical
+                                alert.addButton(withTitle: NSLocalizedString("menubar.alert.button.ok", comment: "OK button"))
+                                alert.runModal()
+                            }
                         }
                     }
                 }
@@ -76,10 +94,26 @@ struct MenuBarView: View {
                 Button(LocalizedStringKey("menubar.button.stopRecording")) {
                     Task {
                         do {
-                            try await appState.stopActualRecording()
+                            logger.debug("Stop Recording button clicked")
+                            let transcriptURL = try await appState.stopActualRecording()
+                            logger.info("Recording stopped, transcript saved to: \(transcriptURL.path, privacy: .public)")
                         } catch {
+                            logger.error("Failed to stop recording: \(error.localizedDescription, privacy: .public)")
+                            logger.error("Error type: \(String(describing: type(of: error)), privacy: .public)")
+                            logger.error("Full error: \(String(describing: error), privacy: .public)")
+
                             errorMessage = error.localizedDescription
                             showError = true
+
+                            // NSAlert fallback for menu bar context
+                            DispatchQueue.main.async {
+                                let alert = NSAlert()
+                                alert.messageText = NSLocalizedString("menubar.alert.error.title", comment: "Error alert title")
+                                alert.informativeText = error.localizedDescription
+                                alert.alertStyle = .critical
+                                alert.addButton(withTitle: NSLocalizedString("menubar.alert.button.ok", comment: "OK button"))
+                                alert.runModal()
+                            }
                         }
                     }
                 }
