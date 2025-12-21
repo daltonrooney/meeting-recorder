@@ -50,6 +50,10 @@ public final class AudioFileWriter {
         // Generate filename if not provided
         let finalFilename: String
         if let filename = filename {
+            // Validate filename for path traversal attacks (check for /, .., etc.)
+            if filename.contains("/") || filename.contains("..") {
+                throw CallTranscriptionError.pathTraversalDetected(filename, reason: "Filename contains directory separators or parent directory references")
+            }
             finalFilename = filename
         } else {
             let timestamp = ISO8601DateFormatter().string(from: Date())
@@ -59,30 +63,10 @@ public final class AudioFileWriter {
 
         self.fileURL = outputFolder.appendingPathComponent(finalFilename)
 
-        // Create audio file with appropriate format
-        let audioFormat: AVAudioFormat
-        if format == .aac {
-            // AAC format: 48kHz, mono, for CoreAudio Process Tap compatibility
-            audioFormat = AVAudioFormat(
-                commonFormat: .pcmFormatFloat32,
-                sampleRate: 48000,
-                channels: 1,
-                interleaved: false
-            )!
-        } else {
-            // WAV format: 48kHz, mono, PCM
-            audioFormat = AVAudioFormat(
-                commonFormat: .pcmFormatFloat32,
-                sampleRate: 48000,
-                channels: 1,
-                interleaved: false
-            )!
-        }
-
         // Create file for writing
         do {
             if format == .aac {
-                // For M4A, we need to use kAudioFileM4AType
+                // For M4A/AAC: 48kHz mono for CoreAudio Process Tap compatibility
                 let settings: [String: Any] = [
                     AVFormatIDKey: kAudioFormatMPEG4AAC,
                     AVSampleRateKey: 48000,
@@ -98,12 +82,23 @@ public final class AudioFileWriter {
                     interleaved: false
                 )
             } else {
-                // For WAV files
+                // For WAV files: 48kHz mono PCM
+                guard let audioFormat = AVAudioFormat(
+                    commonFormat: .pcmFormatFloat32,
+                    sampleRate: 48000,
+                    channels: 1,
+                    interleaved: false
+                ) else {
+                    throw CallTranscriptionError.audioProcessingFailed("Failed to create audio format")
+                }
+
                 self.audioFile = try AVAudioFile(
                     forWriting: fileURL,
                     settings: audioFormat.settings
                 )
             }
+        } catch let error as CallTranscriptionError {
+            throw error
         } catch {
             throw CallTranscriptionError.outputFolderNotWritable(outputFolder)
         }
@@ -115,11 +110,11 @@ public final class AudioFileWriter {
     /// - Throws: Error if writing fails or file is already finalized
     public func write(buffer: AVAudioPCMBuffer) async throws {
         guard !isFinalized else {
-            throw CallTranscriptionError.transcriptAlreadyFinalized
+            throw CallTranscriptionError.audioFileAlreadyFinalized
         }
 
         guard let audioFile = audioFile else {
-            throw CallTranscriptionError.transcriptAlreadyFinalized
+            throw CallTranscriptionError.audioFileAlreadyFinalized
         }
 
         // Write buffer to file

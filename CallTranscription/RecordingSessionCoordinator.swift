@@ -372,8 +372,13 @@ public final class RecordingSessionCoordinator {
 
             // Write to audio file if enabled
             if let audioFileWriter = self.audioFileWriter {
-                Task { @MainActor [buffer] in
-                    try? await audioFileWriter.write(buffer: buffer)
+                Task { @MainActor [buffer, weak self] in
+                    guard let self = self else { return }
+                    do {
+                        try await audioFileWriter.write(buffer: buffer)
+                    } catch {
+                        self.logger.error("Failed to write audio buffer: \(error.localizedDescription)")
+                    }
                 }
             }
         }
