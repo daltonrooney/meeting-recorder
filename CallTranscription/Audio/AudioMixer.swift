@@ -267,12 +267,14 @@ public final class AudioMixer {
     /// - Throws: Error if conversion fails
     private func convertStereoToMono(_ stereoBuffer: AVAudioPCMBuffer, targetSampleRate: Double) throws -> AVAudioPCMBuffer {
         // First, downmix stereo to mono
-        let monoFormat = AVAudioFormat(
+        guard let monoFormat = AVAudioFormat(
             commonFormat: .pcmFormatFloat32,
             sampleRate: stereoBuffer.format.sampleRate,
             channels: 1,
             interleaved: false
-        )!
+        ) else {
+            throw NSError(domain: "AudioMixer", code: -3, userInfo: [NSLocalizedDescriptionKey: "Failed to create mono audio format"])
+        }
 
         guard let monoBuffer = AVAudioPCMBuffer(pcmFormat: monoFormat, frameCapacity: stereoBuffer.frameCapacity) else {
             throw NSError(domain: "AudioMixer", code: -4, userInfo: [NSLocalizedDescriptionKey: "Failed to create mono buffer"])
@@ -299,12 +301,14 @@ public final class AudioMixer {
 
         // If sample rate conversion is needed, apply it now
         if stereoBuffer.format.sampleRate != targetSampleRate {
-            let targetFormat = AVAudioFormat(
+            guard let targetFormat = AVAudioFormat(
                 commonFormat: .pcmFormatFloat32,
                 sampleRate: targetSampleRate,
                 channels: 1,
                 interleaved: false
-            )!
+            ) else {
+                throw NSError(domain: "AudioMixer", code: -5, userInfo: [NSLocalizedDescriptionKey: "Failed to create target audio format"])
+            }
 
             guard let converter = AVAudioConverter(from: monoFormat, to: targetFormat) else {
                 throw NSError(domain: "AudioMixer", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create sample rate converter"])

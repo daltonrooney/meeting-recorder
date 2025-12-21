@@ -155,13 +155,12 @@ final class AudioQualityTests: XCTestCase {
         }
     }
 
-    func testAudioMixerAvoidsPhaseCancellationInStereoDownmix() async throws {
+    func testAudioMixerHandlesPhaseInvertedSignalsCorrectly() async throws {
         let mixer = AudioMixer()
 
-        // Create stereo buffer with identical content but opposite phase
-        // NOTE: This is an extreme edge case - when L and R are completely inverted,
-        // standard stereo downmix (L+R)/sqrt(2) will produce near-zero output.
-        // This is mathematically correct behavior for this specific input.
+        // Create stereo buffer with completely phase-inverted signals (L = -R)
+        // This edge case tests that the downmix algorithm handles extreme phase relationships
+        // without crashing and produces mathematically correct output.
         let stereoBuffer = createTestBuffer(channelCount: 2, frameCount: 1024)
 
         if let channelData = stereoBuffer.floatChannelData {
@@ -182,11 +181,12 @@ final class AudioQualityTests: XCTestCase {
         XCTAssertNotNil(receivedBuffer)
 
         // With completely phase-inverted signals (L = -R), standard downmix (L+R)/sqrt(2)
-        // will produce near-zero output. This is expected and mathematically correct.
+        // mathematically produces near-zero output. This is correct behavior.
         // Real-world audio rarely has perfect phase inversion across all frequencies.
-        // We verify the downmix doesn't crash and produces valid output.
+        // We verify the downmix produces valid output in all cases.
         if let outputData = receivedBuffer?.floatChannelData {
-            // Verify output is within valid range (even if near-zero due to phase cancellation)
+            // Verify output is within valid range [-1.0, 1.0]
+            // Output will be near-zero for perfectly inverted signals, which is expected
             for frame in 0..<Int(receivedBuffer!.frameLength) {
                 XCTAssertGreaterThanOrEqual(outputData[0][frame], -1.0)
                 XCTAssertLessThanOrEqual(outputData[0][frame], 1.0)
