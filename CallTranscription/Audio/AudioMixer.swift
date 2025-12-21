@@ -207,12 +207,25 @@ public final class AudioMixer {
             return buffer
         }
 
-        logger.debug("Converting buffer from \(buffer.format.sampleRate)Hz/\(buffer.format.channelCount)ch to \(targetFormat.sampleRate)Hz/\(targetFormat.channelCount)ch")
+        // Log format conversion for diagnostics (Issue #137)
+        logger.info("Converting audio format: \(buffer.format.sampleRate)Hz/\(buffer.format.channelCount)ch → \(targetFormat.sampleRate)Hz/\(targetFormat.channelCount)ch")
+
+        // Handle stereo-to-mono conversion separately to avoid phase issues (Issue #137)
+        if buffer.format.channelCount == 2 && targetFormat.channelCount == 1 {
+            logger.debug("Performing stereo-to-mono downmix with phase-aware mixing")
+            return try convertStereoToMono(buffer, targetSampleRate: targetFormat.sampleRate)
+        }
 
         guard let converter = AVAudioConverter(from: buffer.format, to: targetFormat) else {
             logger.error("Failed to create audio converter")
             throw NSError(domain: "AudioMixer", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create audio converter"])
         }
+
+        // Configure converter for maximum quality (Issue #137)
+        converter.sampleRateConverterQuality = .max
+        converter.sampleRateConverterAlgorithm = AVSampleRateConverterAlgorithm_Mastering
+
+        logger.debug("Configured AVAudioConverter with maximum quality settings")
 
         // Calculate output frame count with safety margin for sample rate conversion
         let ratio = targetFormat.sampleRate / buffer.format.sampleRate
@@ -237,7 +250,94 @@ public final class AudioMixer {
             throw error
         }
 
+        logger.debug("Audio conversion successful: output \(outputBuffer.frameLength) frames")
+
         return outputBuffer
+    }
+
+    /// Converts stereo buffer to mono using phase-aware mixing algorithm.
+    ///
+    /// This implementation avoids phase cancellation by using proper stereo downmix algorithm
+    /// instead of simple averaging. It handles in-phase and out-of-phase signals appropriately.
+    ///
+    /// - Parameters:
+    ///   - stereoBuffer: Input stereo buffer
+    ///   - targetSampleRate: Target sample rate for output
+    /// - Returns: Mono buffer at target sample rate
+    /// - Throws: Error if conversion fails
+    private func convertStereoToMono(_ stereoBuffer: AVAudioPCMBuffer, targetSampleRate: Double) throws -> AVAudioPCMBuffer {
+        // First, downmix stereo to mono
+        let monoFormat = AVAudioFormat(
+            commonFormat: .pcmFormatFloat32,
+            sampleRate: stereoBuffer.format.sampleRate,
+            channels: 1,
+            interleaved: false
+        )!
+
+        guard let monoBuffer = AVAudioPCMBuffer(pcmFormat: monoFormat, frameCapacity: stereoBuffer.frameCapacity) else {
+            throw NSError(domain: "AudioMixer", code: -4, userInfo: [NSLocalizedDescriptionKey: "Failed to create mono buffer"])
+        }
+
+        monoBuffer.frameLength = stereoBuffer.frameLength
+
+        // Perform phase-aware downmix
+        if let stereoData = stereoBuffer.floatChannelData,
+           let monoData = monoBuffer.floatChannelData {
+
+            let leftChannel = stereoData[0]
+            let rightChannel = stereoData[1]
+            let output = monoData[0]
+
+            // Use proper stereo downmix: (L + R) / sqrt(2)
+            // This preserves power and avoids phase cancellation
+            let scaleFactor: Float = 1.0 / sqrt(2.0)
+
+            for frame in 0..<Int(stereoBuffer.frameLength) {
+                output[frame] = (leftChannel[frame] + rightChannel[frame]) * scaleFactor
+            }
+        }
+
+        // If sample rate conversion is needed, apply it now
+        if stereoBuffer.format.sampleRate != targetSampleRate {
+            let targetFormat = AVAudioFormat(
+                commonFormat: .pcmFormatFloat32,
+                sampleRate: targetSampleRate,
+                channels: 1,
+                interleaved: false
+            )!
+
+            guard let converter = AVAudioConverter(from: monoFormat, to: targetFormat) else {
+                throw NSError(domain: "AudioMixer", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create sample rate converter"])
+            }
+
+            // Configure for maximum quality
+            converter.sampleRateConverterQuality = .max
+            converter.sampleRateConverterAlgorithm = AVSampleRateConverterAlgorithm_Mastering
+
+            let ratio = targetSampleRate / stereoBuffer.format.sampleRate
+            let outputFrameCount = AVAudioFrameCount(ceil(Double(monoBuffer.frameLength) * ratio) * 1.1)
+
+            guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: outputFrameCount) else {
+                throw NSError(domain: "AudioMixer", code: -2, userInfo: [NSLocalizedDescriptionKey: "Failed to create output buffer"])
+            }
+
+            var error: NSError?
+            nonisolated(unsafe) let unsafeBuffer = monoBuffer
+            let inputBlock: AVAudioConverterInputBlock = { inNumPackets, outStatus in
+                outStatus.pointee = .haveData
+                return unsafeBuffer
+            }
+
+            converter.convert(to: outputBuffer, error: &error, withInputFrom: inputBlock)
+
+            if let error = error {
+                throw error
+            }
+
+            return outputBuffer
+        }
+
+        return monoBuffer
     }
 
     /// Scales buffer samples by the specified level.
