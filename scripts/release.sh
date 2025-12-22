@@ -22,6 +22,12 @@ VERSION=$(defaults read "$INFO_PLIST" CFBundleShortVersionString 2>/dev/null || 
 
 if [ -z "$VERSION" ]; then
     echo -e "${RED}Error: Could not read version from Info.plist${NC}"
+    echo ""
+    echo "Please ensure Info.plist exists at: ${INFO_PLIST}"
+    echo ""
+    echo "Usage examples:"
+    echo "  # Update version in Info.plist first, then run:"
+    echo "  ./scripts/release.sh"
     exit 1
 fi
 
@@ -31,20 +37,43 @@ echo -e "${GREEN}Preparing release ${VERSION}${NC}"
 if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo -e "${RED}Error: Version must follow semantic versioning (X.Y.Z)${NC}"
     echo "Current version: $VERSION"
+    echo ""
+    echo "Please update the version in Info.plist to follow semantic versioning."
+    echo ""
+    echo "Usage examples:"
+    echo "  # Update CFBundleShortVersionString in Info.plist to format like:"
+    echo "  1.0.0"
+    echo "  1.2.3"
+    echo "  2.0.0"
     exit 1
 fi
 
 # Check for uncommitted changes
 if [ -n "$(git status --porcelain)" ]; then
     echo -e "${RED}Error: Uncommitted changes detected${NC}"
-    echo "Please commit or stash changes before creating a release"
+    echo ""
+    echo "Please commit or stash changes before creating a release."
+    echo ""
+    echo "Usage examples:"
+    echo "  git add ."
+    echo "  git commit -m 'Prepare release'"
+    echo "  ./scripts/release.sh"
     exit 1
 fi
 
 # Check if tag already exists
 if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
     echo -e "${RED}Error: Tag v${VERSION} already exists${NC}"
-    echo "Please update the version in Info.plist"
+    echo ""
+    echo "Please update the version in Info.plist to a new version."
+    echo ""
+    echo "Usage examples:"
+    echo "  # Update version in Info.plist, then run:"
+    echo "  ./scripts/release.sh"
+    echo ""
+    echo "  # Or delete the existing tag if you want to recreate it:"
+    echo "  git tag -d v${VERSION}"
+    echo "  git push origin :refs/tags/v${VERSION}"
     exit 1
 fi
 

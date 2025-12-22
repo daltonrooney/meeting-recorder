@@ -25,12 +25,20 @@ APP_SPECIFIC_PASSWORD="${APP_SPECIFIC_PASSWORD:-}"
 # Validate required parameters
 if [ -z "$APPLE_ID" ] || [ -z "$TEAM_ID" ] || [ -z "$APP_SPECIFIC_PASSWORD" ]; then
     echo -e "${YELLOW}Notarization skipped: Missing required environment variables${NC}"
+    echo ""
     echo "Required variables:"
     echo "  APPLE_ID - Your Apple ID email"
     echo "  TEAM_ID - Your Apple Developer Team ID"
     echo "  APP_SPECIFIC_PASSWORD - App-specific password for notarization"
     echo ""
     echo -e "${YELLOW}Note: Notarization is optional for development builds${NC}"
+    echo ""
+    echo "Usage examples:"
+    echo "  export APPLE_ID='your@email.com'"
+    echo "  export TEAM_ID='TEAM123456'"
+    echo "  export APP_SPECIFIC_PASSWORD='xxxx-xxxx-xxxx-xxxx'"
+    echo "  ./scripts/notarize.sh Release"
+    # Exit with success code since notarization is optional for development builds
     exit 0
 fi
 
@@ -42,7 +50,12 @@ ZIP_PATH="${BUILD_DIR}/${PROJECT_NAME}-notarize.zip"
 # Check if app exists
 if [ ! -d "$APP_PATH" ]; then
     echo -e "${RED}Error: Application not found at ${APP_PATH}${NC}"
-    echo "Please build the application first using: scripts/build.sh ${CONFIGURATION}"
+    echo ""
+    echo "Please build the application first."
+    echo ""
+    echo "Usage examples:"
+    echo "  ./scripts/build.sh ${CONFIGURATION}"
+    echo "  ./scripts/notarize.sh ${CONFIGURATION}"
     exit 1
 fi
 
