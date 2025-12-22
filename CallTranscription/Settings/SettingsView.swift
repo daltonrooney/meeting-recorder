@@ -14,6 +14,7 @@ struct SettingsView: View {
     @AppStorage("captureMicrophone") private var captureMicrophone: Bool = SettingsManager.defaultCaptureMicrophone
     @AppStorage("silencePauseThreshold") private var silencePauseThresholdRaw: String = SettingsManager.defaultSilencePauseThreshold.rawValue
     @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
+    @AppStorage("revealTranscriptInFinder") private var revealTranscriptInFinder: Bool = SettingsManager.defaultRevealTranscriptInFinder
     @AppStorage("filenameTemplate") private var filenameTemplate: String = SettingsManager.defaultFilenameTemplate
     @AppStorage("outputFolderBookmark") private var outputFolderBookmark: Data?
     @AppStorage("postRecordingScriptBookmark") private var postRecordingScriptBookmark: Data?
@@ -67,6 +68,11 @@ struct SettingsView: View {
                 .accessibilityIdentifier("saveOriginalAudioToggle")
                 .accessibilityLabel(LocalizedStringKey("settings.output.saveOriginalAudio.accessibility.label"))
                 .accessibilityHint(LocalizedStringKey("settings.output.saveOriginalAudio.accessibility.hint"))
+
+            Toggle(LocalizedStringKey("settings.output.revealTranscriptInFinder.label"), isOn: $revealTranscriptInFinder)
+                .accessibilityIdentifier("revealTranscriptInFinderToggle")
+                .accessibilityLabel(LocalizedStringKey("settings.output.revealTranscriptInFinder.accessibility.label"))
+                .accessibilityHint(LocalizedStringKey("settings.output.revealTranscriptInFinder.accessibility.hint"))
 
             VStack(alignment: .leading, spacing: 4) {
                 TextField(LocalizedStringKey("settings.filenameTemplate.label"), text: $filenameTemplate)

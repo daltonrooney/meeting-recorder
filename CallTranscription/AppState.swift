@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import AppKit
 
 /// The central state management object for the Call Transcription application.
 ///
@@ -215,6 +216,11 @@ public final class AppState: ObservableObject {
             totalPausedDuration = 0
             pauseStartTime = nil
             self.coordinator = nil
+
+            // Reveal transcript in Finder if setting is enabled
+            if settingsManager.revealTranscriptInFinder {
+                NSWorkspace.shared.activateFileViewerSelecting([transcriptURL])
+            }
 
             return transcriptURL
         } catch {
