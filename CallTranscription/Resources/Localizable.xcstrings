@@ -8451,36 +8451,6 @@
             "state": "translated",
             "value": "Recording is already paused"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La grabación ya está pausada"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'enregistrement est déjà en pause"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aufnahme ist bereits pausiert"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音は既に一時停止中です"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "录音已暂停"
-          }
         }
       }
     },
@@ -8491,36 +8461,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "The recording is already in a paused state"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La grabación ya se encuentra en estado pausado"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'enregistrement est déjà dans un état de pause"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Aufnahme befindet sich bereits im pausierten Zustand"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音は既に一時停止状態です"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "录音已处于暂停状态"
           }
         }
       }
@@ -8533,36 +8473,6 @@
             "state": "translated",
             "value": "Resume the recording before attempting to pause again"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reanude la grabación antes de intentar pausar nuevamente"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reprendre l'enregistrement avant de tenter de le mettre en pause à nouveau"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Setzen Sie die Aufnahme fort, bevor Sie erneut pausieren"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "再度一時停止する前に録音を再開してください"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在尝试再次暂停之前请恢复录音"
-          }
         }
       }
     },
@@ -8573,36 +8483,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recording is already in progress"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La grabación ya está en progreso"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'enregistrement est déjà en cours"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aufnahme läuft bereits"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音は既に進行中です"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "录音已在进行中"
           }
         }
       }
@@ -8615,36 +8495,6 @@
             "state": "translated",
             "value": "A recording session is already active"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ya hay una sesión de grabación activa"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Une session d'enregistrement est déjà active"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eine Aufnahmesitzung ist bereits aktiv"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音セッションは既にアクティブです"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "录音会话已处于活动状态"
-          }
         }
       }
     },
@@ -8655,36 +8505,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stop the current recording before starting a new one"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detenga la grabación actual antes de iniciar una nueva"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Arrêter l'enregistrement actuel avant d'en démarrer un nouveau"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stoppen Sie die aktuelle Aufnahme, bevor Sie eine neue starten"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "新しい録音を開始する前に現在の録音を停止してください"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在开始新录音之前请停止当前录音"
           }
         }
       }
@@ -8697,36 +8517,6 @@
             "state": "translated",
             "value": "Invalid callback URL scheme: %@"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esquema de URL de callback inválido: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schéma d'URL de callback invalide : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ungültiges Callback-URL-Schema: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無効なコールバックURLスキーム：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无效的回调URL方案：%@"
-          }
         }
       }
     },
@@ -8737,36 +8527,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "The callback URL uses a disallowed scheme: %@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La URL de callback utiliza un esquema no permitido: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'URL de callback utilise un schéma non autorisé : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Callback-URL verwendet ein nicht zulässiges Schema: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "コールバックURLは許可されていないスキームを使用しています：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "回调URL使用了不允许的方案：%@"
           }
         }
       }
@@ -8779,36 +8539,6 @@
             "state": "translated",
             "value": "Use a safe callback scheme like shortcuts://, http://, or https://"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use un esquema de callback seguro como shortcuts://, http:// o https://"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utiliser un schéma de callback sécurisé comme shortcuts://, http:// ou https://"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwenden Sie ein sicheres Callback-Schema wie shortcuts://, http:// oder https://"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "shortcuts://、http://、またはhttps://などの安全なコールバックスキームを使用してください"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请使用安全的回调方案，如shortcuts://、http://或https://"
-          }
         }
       }
     },
@@ -8819,36 +8549,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Invalid filename template: %@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plantilla de nombre de archivo inválida: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modèle de nom de fichier invalide : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ungültige Dateinamenvorlage: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無効なファイル名テンプレート：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无效的文件名模板：%@"
           }
         }
       }
@@ -8861,36 +8561,6 @@
             "state": "translated",
             "value": "The filename template contains invalid characters or path separators: %@"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La plantilla de nombre de archivo contiene caracteres inválidos o separadores de ruta: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le modèle de nom de fichier contient des caractères invalides ou des séparateurs de chemin : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Dateinamenvorlage enthält ungültige Zeichen oder Pfadtrennzeichen: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ファイル名テンプレートに無効な文字またはパス区切り文字が含まれています：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "文件名模板包含无效字符或路径分隔符：%@"
-          }
         }
       }
     },
@@ -8901,36 +8571,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ensure the template contains no path separators (/ or \\) or traversal patterns (../)"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Asegúrese de que la plantilla no contenga separadores de ruta (/ o \\) ni patrones de recorrido (../)"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Assurez-vous que le modèle ne contient pas de séparateurs de chemin (/ ou \\) ni de motifs de parcours (../)"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stellen Sie sicher, dass die Vorlage keine Pfadtrennzeichen (/ oder \\) oder Traversierungsmuster (../) enthält"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "テンプレートにパス区切り文字（/または\\）やトラバーサルパターン（../）が含まれていないことを確認してください"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "确保模板不包含路径分隔符（/或\\）或遍历模式（../）"
           }
         }
       }
@@ -8943,36 +8583,6 @@
             "state": "translated",
             "value": "Invalid URL action: %@"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Acción de URL inválida: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Action d'URL invalide : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ungültige URL-Aktion: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無効なURLアクション：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无效的URL操作：%@"
-          }
         }
       }
     },
@@ -8983,36 +8593,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "The URL contains an unsupported action: %@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La URL contiene una acción no compatible: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'URL contient une action non prise en charge : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die URL enthält eine nicht unterstützte Aktion: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URLにサポートされていないアクションが含まれています：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URL包含不支持的操作：%@"
           }
         }
       }
@@ -9025,36 +8605,6 @@
             "state": "translated",
             "value": "Use one of the supported actions: start, stop, pause, resume"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use una de las acciones compatibles: start, stop, pause, resume"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utiliser l'une des actions prises en charge : start, stop, pause, resume"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwenden Sie eine der unterstützten Aktionen: start, stop, pause, resume"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "サポートされているアクションのいずれかを使用してください：start、stop、pause、resume"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请使用支持的操作之一：start、stop、pause、resume"
-          }
         }
       }
     },
@@ -9065,36 +8615,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Invalid URL host: %@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Host de URL inválido: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hôte d'URL invalide : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ungültiger URL-Host: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無効なURLホスト：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无效的URL主机：%@"
           }
         }
       }
@@ -9107,36 +8627,6 @@
             "state": "translated",
             "value": "The URL host should be 'x-callback-url' but was: %@"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El host de la URL debe ser 'x-callback-url' pero era: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'hôte de l'URL doit être 'x-callback-url' mais était : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Der URL-Host sollte 'x-callback-url' sein, war aber: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URLホストは'x-callback-url'である必要がありますが、次のようになっていました：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URL主机应为'x-callback-url'，但实际为：%@"
-          }
         }
       }
     },
@@ -9147,36 +8637,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Use the x-callback-url host: olive://x-callback-url/action"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use el host x-callback-url: olive://x-callback-url/action"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utiliser l'hôte x-callback-url : olive://x-callback-url/action"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwenden Sie den x-callback-url-Host: olive://x-callback-url/action"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "x-callback-urlホストを使用してください：olive://x-callback-url/action"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请使用x-callback-url主机：olive://x-callback-url/action"
           }
         }
       }
@@ -9189,36 +8649,6 @@
             "state": "translated",
             "value": "Invalid URL scheme: %@"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esquema de URL inválido: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schéma d'URL invalide : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ungültiges URL-Schema: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無効なURLスキーム：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无效的URL方案：%@"
-          }
         }
       }
     },
@@ -9229,36 +8659,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "The URL scheme should be 'olive' but was: %@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El esquema de la URL debe ser 'olive' pero era: %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le schéma de l'URL doit être 'olive' mais était : %@"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Das URL-Schema sollte 'olive' sein, war aber: %@"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URLスキームは'olive'である必要がありますが、次のようになっていました：%@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URL方案应为'olive'，但实际为：%@"
           }
         }
       }
@@ -9271,36 +8671,6 @@
             "state": "translated",
             "value": "Use the olive:// URL scheme"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use el esquema de URL olive://"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utiliser le schéma d'URL olive://"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwenden Sie das URL-Schema olive://"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "olive:// URLスキームを使用してください"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请使用olive:// URL方案"
-          }
         }
       }
     },
@@ -9311,36 +8681,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Missing URL action"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Falta la acción de URL"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Action d'URL manquante"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URL-Aktion fehlt"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URLアクションがありません"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "缺少URL操作"
           }
         }
       }
@@ -9353,36 +8693,6 @@
             "state": "translated",
             "value": "The URL does not specify an action to perform"
           }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La URL no especifica una acción a realizar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'URL ne spécifie pas d'action à effectuer"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die URL gibt keine auszuführende Aktion an"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URLに実行するアクションが指定されていません"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URL未指定要执行的操作"
-          }
         }
       }
     },
@@ -9393,36 +8703,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Include an action in the URL path: olive://x-callback-url/start"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Incluya una acción en la ruta de la URL: olive://x-callback-url/start"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inclure une action dans le chemin de l'URL : olive://x-callback-url/start"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fügen Sie eine Aktion im URL-Pfad hinzu: olive://x-callback-url/start"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URLパスにアクションを含めてください：olive://x-callback-url/start"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在URL路径中包含操作：olive://x-callback-url/start"
           }
         }
       }
@@ -9435,35 +8715,125 @@
             "state": "translated",
             "value": "Recording"
           }
-        },
-        "es": {
+        }
+      }
+    },
+    "menubar.status.microphonePermissionRequired": {
+      "comment": "Message shown when microphone permission is required but not granted",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Grabación"
+            "value": "Microphone permission required. Grant in Settings."
           }
-        },
-        "fr": {
+        }
+      }
+    },
+    "menubar.accessibility.permissionRequired.label": {
+      "comment": "Accessibility label for permission required message",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistrement"
+            "value": "Microphone permission required"
           }
-        },
-        "de": {
+        }
+      }
+    },
+    "settings.permissions.header": {
+      "comment": "Permissions section header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aufnahme"
+            "value": "Permissions"
           }
-        },
-        "ja": {
+        }
+      }
+    },
+    "settings.permissions.microphone.status.granted": {
+      "comment": "Microphone permission granted status",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "録音"
+            "value": "Microphone permission granted"
           }
-        },
-        "zh-Hans": {
+        }
+      }
+    },
+    "settings.permissions.microphone.status.notGranted": {
+      "comment": "Microphone permission not granted status",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "录音"
+            "value": "Microphone permission not granted"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.status.accessibility.label": {
+      "comment": "Accessibility label for microphone permission status",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Microphone permission status"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.requestButton": {
+      "comment": "Button to request microphone permission",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant Microphone Permission"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.requestButton.accessibility.label": {
+      "comment": "Accessibility label for request microphone permission button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant Microphone Permission"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.requestButton.accessibility.hint": {
+      "comment": "Accessibility hint for request microphone permission button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requests microphone permission or opens System Settings if previously denied"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.helpText": {
+      "comment": "Help text for microphone permission",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Microphone permission is required to record audio. Click the button above to grant permission, or open System Settings if permission was previously denied."
           }
         }
       }
