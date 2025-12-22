@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import AppKit
+import AVFoundation
 
 /// The central state management object for the Call Transcription application.
 ///
@@ -22,6 +23,10 @@ public final class AppState: ObservableObject {
 
     /// Whether the recording is currently paused.
     @Published public private(set) var isPaused: Bool = false
+
+    /// Whether microphone permission has been granted.
+    /// This is checked at app launch and can be updated at runtime.
+    @Published public private(set) var microphonePermissionGranted: Bool = false
 
     // MARK: - Private Properties
 
@@ -53,6 +58,8 @@ public final class AppState: ObservableObject {
         self.settingsManager = settingsManager
         // Show consent dialog if user hasn't accepted it yet
         self.showConsentDialog = !settingsManager.hasAcceptedConsentDialog
+        // Check microphone permission at initialization
+        self.microphonePermissionGranted = AVCaptureDevice.authorizationStatus(for: .audio) == .authorized
     }
 
     nonisolated deinit {
@@ -88,6 +95,7 @@ public final class AppState: ObservableObject {
     /// Starts a new recording session with actual recording hardware.
     ///
     /// This method:
+    /// - Checks microphone permission if microphone is enabled
     /// - Creates a RecordingSessionCoordinator with current settings (or overrides)
     /// - Starts the recording through the coordinator
     /// - Changes `isRecording` to true
@@ -113,6 +121,13 @@ public final class AppState: ObservableObject {
             return
         }
         print("✅ Not currently recording, proceeding...")
+
+        // Check microphone permission if microphone is enabled
+        // Note: Skip permission check if microphone is disabled in settings
+        if settingsManager.captureMicrophone && !microphonePermissionGranted {
+            print("❌ Microphone permission not granted")
+            throw CallTranscriptionError.microphonePermissionDenied
+        }
 
         // Build configuration from settings, with optional session overrides
         let hasOutputBookmark = settingsManager.outputFolderBookmark != nil
@@ -318,6 +333,15 @@ public final class AppState: ObservableObject {
 
         // Restart the timer
         startTimer()
+    }
+
+    /// Updates the microphone permission status by checking the current system authorization.
+    ///
+    /// Call this method to refresh the permission status after the user grants or revokes
+    /// permission in System Settings.
+    public func updateMicrophonePermissionStatus() async {
+        let status = AVCaptureDevice.authorizationStatus(for: .audio)
+        microphonePermissionGranted = (status == .authorized)
     }
 
     // MARK: - Private Methods

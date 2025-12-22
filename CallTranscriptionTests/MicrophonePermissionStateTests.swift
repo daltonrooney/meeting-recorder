@@ -33,7 +33,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
 
     func testMicrophonePermissionGrantedDefaultsBasedOnSystemStatus() {
         let appState = AppState()
-        let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+        let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
         let expectedValue = (systemStatus == .authorized)
 
         XCTAssertEqual(appState.microphonePermissionGranted, expectedValue,
@@ -70,7 +70,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
 
         await appState.updateMicrophonePermissionStatus()
 
-        let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+        let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
         let expectedValue = (systemStatus == .authorized)
 
         XCTAssertEqual(appState.microphonePermissionGranted, expectedValue,
@@ -83,7 +83,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
         // If system is authorized, property should be true
         await appState.updateMicrophonePermissionStatus()
 
-        let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+        let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
         if systemStatus == .authorized {
             XCTAssertTrue(appState.microphonePermissionGranted,
                          "Should be true when system permission is authorized")
@@ -95,7 +95,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
 
         await appState.updateMicrophonePermissionStatus()
 
-        let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+        let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
         if systemStatus != .authorized {
             XCTAssertFalse(appState.microphonePermissionGranted,
                           "Should be false when system permission is not authorized")
@@ -108,7 +108,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
         let appState = AppState()
 
         // Permission should be checked during initialization
-        let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+        let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
         let expectedValue = (systemStatus == .authorized)
 
         XCTAssertEqual(appState.microphonePermissionGranted, expectedValue,
@@ -124,7 +124,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
         await appState.updateMicrophonePermissionStatus()
 
         // Value should reflect current system status
-        let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+        let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
         let expectedValue = (systemStatus == .authorized)
 
         XCTAssertEqual(appState.microphonePermissionGranted, expectedValue,
@@ -239,7 +239,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
 
     func testPermissionStatusReflectsActualSystemState() {
         let appState = AppState()
-        let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+        let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
 
         switch systemStatus {
         case .authorized:
@@ -296,7 +296,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
             }
 
             // Permission status should still be accurate
-            let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+            let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
             let expectedValue = (systemStatus == .authorized)
 
             XCTAssertEqual(appState.microphonePermissionGranted, expectedValue,
@@ -319,7 +319,7 @@ final class MicrophonePermissionStateTests: XCTestCase {
         let _ = newStatus // Verify property is accessible
 
         // Permission status should match system
-        let systemStatus = MicrophonePermissionHandler.checkAuthorizationStatus()
+        let systemStatus = AVCaptureDevice.authorizationStatus(for: .audio)
         XCTAssertEqual(newStatus, systemStatus == .authorized,
                       "Permission status should match system")
     }
