@@ -5,6 +5,8 @@ import OSLog
 private let logger = Logger(subsystem: "dev.rygn.CallTranscription", category: "SettingsView")
 
 struct SettingsView: View {
+    @EnvironmentObject var appState: AppState
+
     // Direct @AppStorage bindings for automatic persistence
     @AppStorage("outputFolder") private var outputFolder: String = SettingsManager.defaultOutputFolder
     @AppStorage("postRecordingScript") private var postRecordingScript: String = SettingsManager.defaultPostRecordingScript
@@ -31,6 +33,7 @@ struct SettingsView: View {
         Form {
             outputSection
             audioSourcesSection
+            permissionsSection
             displaySection
             silenceDetectionSection
             postRecordingSection
@@ -132,6 +135,57 @@ struct SettingsView: View {
                 .accessibilityHidden(true)
         } header: {
             Text(LocalizedStringKey("settings.audioSources.header"))
+                .accessibilityAddTraits(.isHeader)
+        }
+    }
+
+    // MARK: - Permissions Section
+
+    private var permissionsSection: some View {
+        Section {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Image(systemName: appState.microphonePermissionGranted ? "checkmark.circle.fill" : "xmark.circle.fill")
+                        .foregroundColor(appState.microphonePermissionGranted ? .green : .orange)
+                        .accessibilityHidden(true)
+
+                    Text(appState.microphonePermissionGranted
+                         ? LocalizedStringKey("settings.permissions.microphone.status.granted")
+                         : LocalizedStringKey("settings.permissions.microphone.status.notGranted"))
+                        .accessibilityIdentifier("microphonePermissionStatus")
+                        .accessibilityLabel(LocalizedStringKey("settings.permissions.microphone.status.accessibility.label"))
+                        .accessibilityValue(appState.microphonePermissionGranted
+                            ? NSLocalizedString("settings.permissions.microphone.status.granted", comment: "")
+                            : NSLocalizedString("settings.permissions.microphone.status.notGranted", comment: ""))
+                }
+
+                if !appState.microphonePermissionGranted {
+                    Button(LocalizedStringKey("settings.permissions.microphone.requestButton")) {
+                        Task {
+                            let handler = MicrophonePermissionHandler()
+                            do {
+                                try await handler.ensurePermission()
+                                // Permission granted, update state
+                                await appState.updateMicrophonePermissionStatus()
+                            } catch {
+                                // Permission denied, open System Settings
+                                handler.openSystemSettings()
+                            }
+                        }
+                    }
+                    .accessibilityIdentifier("requestMicrophonePermissionButton")
+                    .accessibilityLabel(LocalizedStringKey("settings.permissions.microphone.requestButton.accessibility.label"))
+                    .accessibilityHint(LocalizedStringKey("settings.permissions.microphone.requestButton.accessibility.hint"))
+
+                    Text(LocalizedStringKey("settings.permissions.microphone.helpText"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .accessibilityHidden(true)
+                }
+            }
+            .padding(.vertical, 4)
+        } header: {
+            Text(LocalizedStringKey("settings.permissions.header"))
                 .accessibilityAddTraits(.isHeader)
         }
     }

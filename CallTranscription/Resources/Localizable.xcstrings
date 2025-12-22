@@ -8741,6 +8741,102 @@
           }
         }
       }
+    },
+    "settings.permissions.header": {
+      "comment": "Permissions section header",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissions"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.status.granted": {
+      "comment": "Microphone permission granted status",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Microphone permission granted"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.status.notGranted": {
+      "comment": "Microphone permission not granted status",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Microphone permission not granted"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.status.accessibility.label": {
+      "comment": "Accessibility label for microphone permission status",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Microphone permission status"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.requestButton": {
+      "comment": "Button to request microphone permission",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant Microphone Permission"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.requestButton.accessibility.label": {
+      "comment": "Accessibility label for request microphone permission button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant Microphone Permission"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.requestButton.accessibility.hint": {
+      "comment": "Accessibility hint for request microphone permission button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requests microphone permission or opens System Settings if previously denied"
+          }
+        }
+      }
+    },
+    "settings.permissions.microphone.helpText": {
+      "comment": "Help text for microphone permission",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Microphone permission is required to record audio. Click the button above to grant permission, or open System Settings if permission was previously denied."
+          }
+        }
+      }
     }
   },
   "version": "1.0"
