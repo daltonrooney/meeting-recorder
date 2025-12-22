@@ -25,7 +25,12 @@ CLEAN="${2:-}"
 # Validate configuration
 if [[ "$CONFIGURATION" != "Debug" && "$CONFIGURATION" != "Release" ]]; then
     echo -e "${RED}Error: Configuration must be 'Debug' or 'Release'${NC}"
-    echo "Usage: $0 [Debug|Release] [clean]"
+    echo ""
+    echo "Usage examples:"
+    echo "  ./scripts/build.sh Debug"
+    echo "  ./scripts/build.sh Release"
+    echo "  ./scripts/build.sh Debug clean"
+    echo "  ./scripts/build.sh Release clean"
     exit 1
 fi
 
