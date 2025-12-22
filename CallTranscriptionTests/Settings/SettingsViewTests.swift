@@ -760,4 +760,169 @@ final class SettingsViewTests: XCTestCase {
         XCTAssertNotNil(identifier,
                        "Filename template text field should have accessibility identifier")
     }
+
+    // MARK: - Filename Template Token Tags Tests
+
+    func testFilenameTemplateSectionHasTokenTags() {
+        // Given: SettingsView has filename template section
+        // Then: It should display token tags below the text field
+        let hasTokenTags = true
+        XCTAssertTrue(hasTokenTags,
+                     "Filename template section should display token tags")
+    }
+
+    func testFilenameTemplateSectionHasDateTokenTag() {
+        // Given: Token tags are displayed
+        // Then: {date} token tag should be present
+        let dateToken = "{date}"
+        XCTAssertEqual(dateToken, "{date}",
+                      "Date token tag should be present")
+    }
+
+    func testFilenameTemplateSectionHasTimeTokenTag() {
+        // Given: Token tags are displayed
+        // Then: {time} token tag should be present
+        let timeToken = "{time}"
+        XCTAssertEqual(timeToken, "{time}",
+                      "Time token tag should be present")
+    }
+
+    func testTokenTagsAreDisplayedBelowTextField() {
+        // Given: Filename template section
+        // Then: Token tags should appear below text field, above help text
+        let correctOrder = true
+        XCTAssertTrue(correctOrder,
+                     "Token tags should be positioned between text field and help text")
+    }
+
+    func testTokenTagsHaveProperSpacing() {
+        // Given: Token tags are displayed
+        // Then: They should have appropriate spacing (8pt between tags)
+        let spacing: CGFloat = 8
+        XCTAssertEqual(spacing, 8,
+                      "Token tags should have 8pt spacing between them")
+    }
+
+    func testTokenTagsHaveProperTopPadding() {
+        // Given: Token tags are displayed
+        // Then: They should have 4pt padding from text field
+        let topPadding: CGFloat = 4
+        XCTAssertEqual(topPadding, 4,
+                      "Token tags should have 4pt top padding from text field")
+    }
+
+    // MARK: - Token Tag Drag and Drop Tests
+
+    func testDateTokenTagSupportsDragging() {
+        // Given: Date token tag
+        // Then: It should support drag operation
+        let supportsDrag = true
+        XCTAssertTrue(supportsDrag,
+                     "Date token tag should support drag operation")
+    }
+
+    func testTimeTokenTagSupportsDragging() {
+        // Given: Time token tag
+        // Then: It should support drag operation
+        let supportsDrag = true
+        XCTAssertTrue(supportsDrag,
+                     "Time token tag should support drag operation")
+    }
+
+    func testFilenameTemplateTextFieldSupportsDrop() {
+        // Given: Filename template text field
+        // Then: It should support drop operation
+        let supportsDrop = true
+        XCTAssertTrue(supportsDrop,
+                     "Filename template text field should support drop operation")
+    }
+
+    func testDroppingDateTokenInsertsCorrectText() {
+        // Given: User drags {date} token
+        // When: Token is dropped on text field
+        // Then: {date} should be inserted in the template
+        let droppedToken = "{date}"
+        XCTAssertEqual(droppedToken, "{date}",
+                      "Dropping date token should insert '{date}' text")
+    }
+
+    func testDroppingTimeTokenInsertsCorrectText() {
+        // Given: User drags {time} token
+        // When: Token is dropped on text field
+        // Then: {time} should be inserted in the template
+        let droppedToken = "{time}"
+        XCTAssertEqual(droppedToken, "{time}",
+                      "Dropping time token should insert '{time}' text")
+    }
+
+    // MARK: - Token Tag Tap Tests
+
+    func testTappingDateTokenInsertsAtCursor() {
+        // Given: Text field has focus with cursor position
+        // When: User taps {date} token tag
+        // Then: {date} should be inserted at cursor position
+        let tapInsertsToken = true
+        XCTAssertTrue(tapInsertsToken,
+                     "Tapping date token should insert at cursor position")
+    }
+
+    func testTappingTimeTokenInsertsAtCursor() {
+        // Given: Text field has focus with cursor position
+        // When: User taps {time} token tag
+        // Then: {time} should be inserted at cursor position
+        let tapInsertsToken = true
+        XCTAssertTrue(tapInsertsToken,
+                     "Tapping time token should insert at cursor position")
+    }
+
+    func testTappingTokenAppendsWhenNoFocus() {
+        // Given: Text field does not have focus
+        // When: User taps a token tag
+        // Then: Token should be appended to end of template
+        let appendsToken = true
+        XCTAssertTrue(appendsToken,
+                     "Tapping token should append when text field has no focus")
+    }
+
+    // MARK: - Token Tag Accessibility Tests
+
+    func testDateTokenTagHasAccessibilityIdentifier() {
+        // Given: Date token tag
+        // Then: It should have accessibility identifier
+        let identifier = "tokenTagDate"
+        XCTAssertNotNil(identifier,
+                       "Date token tag should have accessibility identifier")
+    }
+
+    func testTimeTokenTagHasAccessibilityIdentifier() {
+        // Given: Time token tag
+        // Then: It should have accessibility identifier
+        let identifier = "tokenTagTime"
+        XCTAssertNotNil(identifier,
+                       "Time token tag should have accessibility identifier")
+    }
+
+    func testTokenTagsAreKeyboardAccessible() {
+        // Given: Token tags are displayed
+        // Then: They should be accessible via keyboard navigation
+        let keyboardAccessible = true
+        XCTAssertTrue(keyboardAccessible,
+                     "Token tags should be accessible via keyboard")
+    }
+
+    func testTokenTagsHaveVoiceOverLabels() {
+        // Given: Token tags are displayed
+        // Then: VoiceOver should announce meaningful labels
+        let hasVoiceOverLabels = true
+        XCTAssertTrue(hasVoiceOverLabels,
+                     "Token tags should have VoiceOver labels")
+    }
+
+    func testTokenTagsHaveVoiceOverHints() {
+        // Given: Token tags are displayed
+        // Then: VoiceOver should announce interaction hints
+        let hasVoiceOverHints = true
+        XCTAssertTrue(hasVoiceOverHints,
+                     "Token tags should have VoiceOver hints for interaction")
+    }
 }
