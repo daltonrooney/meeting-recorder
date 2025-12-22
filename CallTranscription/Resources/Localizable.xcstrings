@@ -8442,6 +8442,281 @@
           }
         }
       }
+    },
+    "error.alreadyPaused.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recording is already paused"
+          }
+        }
+      }
+    },
+    "error.alreadyPaused.failureReason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recording is already in a paused state"
+          }
+        }
+      }
+    },
+    "error.alreadyPaused.recoverySuggestion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resume the recording before attempting to pause again"
+          }
+        }
+      }
+    },
+    "error.alreadyRecording.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recording is already in progress"
+          }
+        }
+      }
+    },
+    "error.alreadyRecording.failureReason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A recording session is already active"
+          }
+        }
+      }
+    },
+    "error.alreadyRecording.recoverySuggestion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop the current recording before starting a new one"
+          }
+        }
+      }
+    },
+    "error.invalidCallbackScheme.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid callback URL scheme: %@"
+          }
+        }
+      }
+    },
+    "error.invalidCallbackScheme.failureReason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The callback URL uses a disallowed scheme: %@"
+          }
+        }
+      }
+    },
+    "error.invalidCallbackScheme.recoverySuggestion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use a safe callback scheme like shortcuts://, http://, or https://"
+          }
+        }
+      }
+    },
+    "error.invalidFilenameTemplate.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid filename template: %@"
+          }
+        }
+      }
+    },
+    "error.invalidFilenameTemplate.failureReason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The filename template contains invalid characters or path separators: %@"
+          }
+        }
+      }
+    },
+    "error.invalidFilenameTemplate.recoverySuggestion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ensure the template contains no path separators (/ or \\) or traversal patterns (../)"
+          }
+        }
+      }
+    },
+    "error.invalidURLAction.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid URL action: %@"
+          }
+        }
+      }
+    },
+    "error.invalidURLAction.failureReason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The URL contains an unsupported action: %@"
+          }
+        }
+      }
+    },
+    "error.invalidURLAction.recoverySuggestion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use one of the supported actions: start, stop, pause, resume"
+          }
+        }
+      }
+    },
+    "error.invalidURLHost.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid URL host: %@"
+          }
+        }
+      }
+    },
+    "error.invalidURLHost.failureReason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The URL host should be 'x-callback-url' but was: %@"
+          }
+        }
+      }
+    },
+    "error.invalidURLHost.recoverySuggestion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the x-callback-url host: olive://x-callback-url/action"
+          }
+        }
+      }
+    },
+    "error.invalidURLScheme.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid URL scheme: %@"
+          }
+        }
+      }
+    },
+    "error.invalidURLScheme.failureReason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The URL scheme should be 'olive' but was: %@"
+          }
+        }
+      }
+    },
+    "error.invalidURLScheme.recoverySuggestion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the olive:// URL scheme"
+          }
+        }
+      }
+    },
+    "error.missingURLAction.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing URL action"
+          }
+        }
+      }
+    },
+    "error.missingURLAction.failureReason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The URL does not specify an action to perform"
+          }
+        }
+      }
+    },
+    "error.missingURLAction.recoverySuggestion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Include an action in the URL path: olive://x-callback-url/start"
+          }
+        }
+      }
+    },
+    "url.recording.defaultTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recording"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -5,6 +5,7 @@ Olive is a macOS menu bar application that records and transcribes audio from bo
 ## Table of Contents
 
 - [Features](#features)
+- [Automation](#automation)
 - [Accessibility](#accessibility)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -26,6 +27,39 @@ Olive is a macOS menu bar application that records and transcribes audio from bo
 - **Post-Recording Automation**: Execute shell scripts or shortcuts after recording stops
 - **Privacy-First**: All transcription happens on-device using Apple's Speech framework
 - **VoiceOver Support**: Full accessibility for screen reader users
+- **Comprehensive Automation**: Control Olive via App Intents, AppleScript, or x-callback-url
+
+## Automation
+
+Olive provides three powerful automation methods to integrate recording into your workflows:
+
+### App Intents (Shortcuts/Siri)
+
+Control Olive through the macOS Shortcuts app and Siri voice commands. Perfect for Focus mode integration, calendar-based automation, and native macOS workflows.
+
+```
+"Hey Siri, start recording in Olive"
+```
+
+### AppleScript
+
+Script Olive from Terminal, SSH, or automation tools like Keyboard Maestro. Ideal for complex scripting logic and remote control.
+
+```applescript
+tell application "Olive"
+    start recording with title "Team Meeting"
+end tell
+```
+
+### x-callback-url
+
+URL-based automation for web integration, cross-app workflows, and tools like BetterTouchTool. Supports success/error callbacks for chaining actions.
+
+```
+olive://x-callback-url/start?title=Meeting&x-success=shortcuts://success
+```
+
+**For complete automation documentation with examples, see [docs/AUTOMATION.md](docs/AUTOMATION.md)**
 
 ## Accessibility
 

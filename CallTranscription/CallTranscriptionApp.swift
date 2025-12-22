@@ -4,12 +4,16 @@ import SwiftUI
 struct CallTranscriptionApp: App {
     @StateObject private var settingsManager = SettingsManager()
     @StateObject private var appState: AppState
+    private let urlHandler: URLSchemeHandler
 
     init() {
         let settings = SettingsManager()
         _settingsManager = StateObject(wrappedValue: settings)
         let state = AppState(settingsManager: settings)
         _appState = StateObject(wrappedValue: state)
+
+        // Eager initialization of URL handler to avoid race conditions
+        urlHandler = URLSchemeHandler(appState: state)
 
         // Register AppState and SettingsManager for App Intents access
         Task { @MainActor in
@@ -22,6 +26,11 @@ struct CallTranscriptionApp: App {
             MenuBarView()
                 .environmentObject(appState)
                 .environmentObject(settingsManager)
+                .onOpenURL { url in
+                    Task { @MainActor in
+                        await urlHandler.handle(url)
+                    }
+                }
         } label: {
             // Show different icon based on recording state
             if appState.isPaused {

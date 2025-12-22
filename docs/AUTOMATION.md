@@ -1,11 +1,12 @@
 # Olive Automation Guide
 
-Olive supports automation through **App Intents** (Shortcuts/Siri) and **AppleScript**, allowing you to control recording, query status, and configure settings programmatically.
+Olive supports automation through **App Intents** (Shortcuts/Siri), **AppleScript**, and **x-callback-url**, allowing you to control recording, query status, and configure settings programmatically.
 
 ## Table of Contents
 
 - [App Intents (Shortcuts)](#app-intents-shortcuts)
 - [AppleScript](#applescript)
+- [x-callback-url](#x-callback-url)
 - [Common Use Cases](#common-use-cases)
 - [Troubleshooting](#troubleshooting)
 
@@ -184,6 +185,342 @@ osascript -e 'tell application "Olive" to start recording'
 ```bash
 osascript my_script.scpt
 ```
+
+## x-callback-url
+
+Olive supports the [x-callback-url specification](http://x-callback-url.com/) for URL-based automation, allowing integration with tools like Shortcuts, Keyboard Maestro, BetterTouchTool, and web applications.
+
+### URL Scheme
+
+All Olive automation URLs use the `olive://` scheme with the x-callback-url format:
+
+```
+olive://x-callback-url/<action>?<parameters>
+```
+
+### Actions
+
+#### Start Recording
+
+Starts a new recording session.
+
+**URL Format:**
+```
+olive://x-callback-url/start?title=<title>&outputFolder=<path>&filenameTemplate=<template>
+```
+
+**Parameters:**
+- `title` (optional): Recording title
+- `outputFolder` (optional): Path to save transcripts (session-specific override, doesn't modify settings)
+- `filenameTemplate` (optional): Filename template (session-specific override, doesn't modify settings)
+- `x-success` (optional): Callback URL on success
+- `x-error` (optional): Callback URL on error
+- `x-cancel` (optional): Callback URL on cancel
+
+**Example:**
+```
+olive://x-callback-url/start?title=Team%20Meeting
+```
+
+**With callbacks:**
+```
+olive://x-callback-url/start?title=Meeting&x-success=shortcuts://success&x-error=shortcuts://error
+```
+
+**Session Overrides:** The `outputFolder` and `filenameTemplate` parameters are session-specific overrides that apply only to the current recording. Your user settings remain unchanged, and subsequent manual recordings will use your configured preferences.
+
+#### Stop Recording
+
+Stops the current recording and returns the transcript file path.
+
+**URL Format:**
+```
+olive://x-callback-url/stop?x-success=<callback>
+```
+
+**Returns:** Via x-success callback:
+- `transcriptURL`: File path to saved transcript
+
+**Example:**
+```
+olive://x-callback-url/stop?x-success=shortcuts://process-transcript
+```
+
+**Success callback receives:**
+```
+shortcuts://process-transcript?transcriptURL=file:///Users/name/Documents/transcript.txt
+```
+
+#### Pause Recording
+
+Pauses the current recording session.
+
+**URL Format:**
+```
+olive://x-callback-url/pause?x-success=<callback>&x-error=<callback>
+```
+
+**Example:**
+```
+olive://x-callback-url/pause?x-success=shortcuts://paused
+```
+
+#### Resume Recording
+
+Resumes a paused recording session.
+
+**URL Format:**
+```
+olive://x-callback-url/resume?x-success=<callback>&x-error=<callback>
+```
+
+**Example:**
+```
+olive://x-callback-url/resume?x-success=shortcuts://resumed
+```
+
+### Error Handling
+
+When an error occurs, Olive calls the `x-error` callback with:
+- `errorMessage`: Human-readable error description
+
+**Example error callback:**
+```
+shortcuts://error?errorMessage=A%20recording%20session%20is%20already%20in%20progress
+```
+
+**Common errors:**
+- `A recording session is already in progress` - Start called while recording
+- `No recording session is currently active` - Stop/pause/resume called when not recording
+- `Recording is already paused` - Pause called on paused recording
+- `Recording is not currently paused` - Resume called on active recording
+- `Invalid filename template` - Template contains `/` or `..`
+- `Output folder is not writable` - Invalid or inaccessible folder path
+
+### Allowed Callback Schemes
+
+For security, Olive only permits these callback URL schemes:
+- `shortcuts://` - macOS Shortcuts app
+- `x-callback-url://` - Standard x-callback-url
+- `https://` - Secure web callbacks only
+
+**Blocked schemes** (for security):
+- `http://` - Blocked (sends sensitive data over unencrypted connections)
+- `applescript://` - Blocked (code execution risk)
+- `file://` - Blocked (local file access risk)
+- `javascript://` - Blocked (XSS risk)
+- `data://` - Blocked (data injection risk)
+
+### Shortcuts Integration
+
+#### Basic Start/Stop Workflow
+
+1. Create new shortcut in Shortcuts app
+2. Add "Open URL" action
+3. Enter: `olive://x-callback-url/start?title=My%20Recording`
+4. Add delay or other actions
+5. Add "Open URL" action
+6. Enter: `olive://x-callback-url/stop`
+
+#### Advanced: Process Transcript After Recording
+
+```
+1. Open URL: olive://x-callback-url/start?title=Meeting&x-success=shortcuts://run-shortcut?name=RecordingStarted
+2. [RecordingStarted shortcut runs]
+3. Wait 30 minutes
+4. Open URL: olive://x-callback-url/stop?x-success=shortcuts://run-shortcut?name=ProcessTranscript
+5. [ProcessTranscript shortcut receives transcriptURL parameter]
+6. Get File from transcriptURL
+7. Upload to Dropbox / Send email / etc.
+```
+
+#### Complete Shortcut Example
+
+**Meeting Recorder with Notification:**
+
+```
+Action 1: Open URL
+URL: olive://x-callback-url/start?title=Daily%20Standup&x-success=shortcuts://recording-started&x-error=shortcuts://recording-failed
+
+[If success callback received]
+Action 2: Show Notification
+Title: Recording Started
+Body: Daily Standup recording in progress
+
+Action 3: Wait 15 minutes
+
+Action 4: Open URL
+URL: olive://x-callback-url/stop?x-success=shortcuts://recording-stopped
+
+[If success callback received with transcriptURL]
+Action 5: Show Notification
+Title: Recording Complete
+Body: Transcript saved to [transcriptURL]
+```
+
+### Keyboard Maestro Integration
+
+**Trigger: Hotkey (⌘⌥R)**
+```
+Action: Execute Shell Script
+  open "olive://x-callback-url/start?title=Quick%20Recording"
+```
+
+**Stop Recording:**
+```
+Action: Execute Shell Script
+  open "olive://x-callback-url/stop"
+```
+
+### BetterTouchTool Integration
+
+Create custom Touch Bar buttons or gestures:
+
+**Start Button:**
+```
+Trigger: Touch Bar Button
+Action: Open URL
+URL: olive://x-callback-url/start
+```
+
+### Web Integration
+
+Web applications can trigger Olive recordings via custom URL schemes:
+
+**HTML Link:**
+```html
+<a href="olive://x-callback-url/start?title=Web%20Meeting">Start Recording</a>
+```
+
+**JavaScript:**
+```javascript
+// Start recording from web app
+window.location = 'olive://x-callback-url/start?title=Customer%20Call&x-success=https://myapp.com/recording-started';
+
+// Stop and send transcript to web server
+window.location = 'olive://x-callback-url/stop?x-success=https://myapp.com/process-transcript';
+```
+
+### Security Considerations
+
+#### Path Validation
+
+Output folder paths are validated for security:
+- Must be within user home directory or temp directory
+- Path traversal (`..`) is blocked
+- Symlinks are not followed outside allowed directories
+
+**Allowed:**
+- `/Users/name/Documents/Transcripts`
+- `~/Documents/Meetings`
+- `/tmp/recordings`
+
+**Blocked:**
+- `/etc/passwd`
+- `../../sensitive-data`
+- `/System/Library/`
+
+#### Filename Template Validation
+
+Templates are validated to prevent directory traversal:
+- Cannot contain `/` (path separators)
+- Cannot contain `..` (parent directory references)
+- Must be a valid filename pattern
+
+**Allowed:**
+- `Meeting_{YYYY-MM-DD}`
+- `transcript_{HH-mm-ss}`
+
+**Blocked:**
+- `../other-folder/transcript`
+- `folder/transcript`
+
+#### Session-Specific Configuration
+
+The `outputFolder` and `filenameTemplate` parameters are session-specific overrides that apply only to the current recording session without modifying your permanent user settings.
+
+**Behavior:**
+- Automation starts recording with `outputFolder=/tmp/recordings`
+- This recording saves to `/tmp/recordings`
+- User manually starts another recording → saves to configured settings location
+- Your permanent settings remain unchanged
+
+This design ensures automation workflows can use custom paths without affecting your normal recording preferences.
+
+### URL Encoding
+
+Always URL-encode parameter values:
+
+**Correct:**
+```
+olive://x-callback-url/start?title=Team%20Meeting%20%232
+```
+
+**Incorrect:**
+```
+olive://x-callback-url/start?title=Team Meeting #2
+```
+
+**Common encodings:**
+- Space: `%20`
+- `/`: `%2F`
+- `?`: `%3F`
+- `&`: `%26`
+- `#`: `%23`
+
+### Testing URLs
+
+Test x-callback-url automation from Terminal:
+
+```bash
+# Start recording
+open "olive://x-callback-url/start?title=Test"
+
+# Stop recording
+open "olive://x-callback-url/stop"
+
+# With callbacks (callbacks won't work from Terminal, but action will execute)
+open "olive://x-callback-url/start?title=Test&x-success=shortcuts://success"
+```
+
+### API Reference
+
+| Action | Parameters | Returns | Errors |
+|--------|------------|---------|--------|
+| start | title, outputFolder, filenameTemplate | - | alreadyRecording, invalidFilenameTemplate, pathOutsideAllowedDirectories |
+| stop | - | transcriptURL | notRecording |
+| pause | - | - | notRecording, alreadyPaused |
+| resume | - | - | notRecording, notPaused |
+
+### Comparison with Other Automation Methods
+
+| Feature | x-callback-url | App Intents | AppleScript |
+|---------|----------------|-------------|-------------|
+| URL-based triggering | ✅ | ❌ | ❌ |
+| Web integration | ✅ | ❌ | ❌ |
+| Callbacks | ✅ | ❌ | ❌ |
+| Return values | Via callbacks | ✅ Direct | ✅ Direct |
+| Settings persistence | ✅ Session-only | Temporary | Temporary |
+| Type safety | ❌ String-based | ✅ | ❌ |
+| macOS version | All | 13.0+ | All |
+
+**When to use x-callback-url:**
+- Web-based automation
+- Cross-app workflows requiring callbacks
+- Tools that support URL schemes (Keyboard Maestro, BetterTouchTool)
+- Remote triggering via URL
+
+**When to use App Intents:**
+- Native Shortcuts integration
+- Siri voice commands
+- Focus mode automation
+- Type-safe parameter passing
+
+**When to use AppleScript:**
+- Complex scripting logic
+- Terminal/cron automation
+- SSH remote control
+- Legacy tool integration
 
 ## Common Use Cases
 
