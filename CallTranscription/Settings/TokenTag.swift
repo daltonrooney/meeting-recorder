@@ -49,7 +49,7 @@ struct TokenTag: View {
     }
 
     private var accessibilityHint: String {
-        "Drag to insert \(token) token, or tap to insert at cursor"
+        "Drag to insert \(token) token, or tap to insert at end of template"
     }
 }
 

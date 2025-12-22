@@ -380,6 +380,8 @@ struct SettingsView: View {
                     DispatchQueue.main.async {
                         self.insertToken(string)
                     }
+                } else {
+                    logger.warning("Dropped item is neither Data nor String, ignoring")
                 }
                 return
             }
