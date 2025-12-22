@@ -4,6 +4,7 @@ import SwiftUI
 struct CallTranscriptionApp: App {
     @StateObject private var settingsManager = SettingsManager()
     @StateObject private var appState: AppState
+    @StateObject private var urlHandlerContainer = URLHandlerContainer()
 
     init() {
         let settings = SettingsManager()
@@ -17,14 +18,6 @@ struct CallTranscriptionApp: App {
         }
     }
 
-    @MainActor
-    private var urlSchemeHandler: URLSchemeHandler {
-        URLSchemeHandler(
-            appState: appState,
-            settingsManager: settingsManager
-        )
-    }
-
     var body: some Scene {
         MenuBarExtra {
             MenuBarView()
@@ -32,7 +25,7 @@ struct CallTranscriptionApp: App {
                 .environmentObject(settingsManager)
                 .onOpenURL { url in
                     Task { @MainActor in
-                        await urlSchemeHandler.handle(url)
+                        await urlHandlerContainer.handler(for: appState, settingsManager: settingsManager).handle(url)
                     }
                 }
         } label: {
@@ -73,9 +66,25 @@ struct CallTranscriptionApp: App {
                 .environmentObject(settingsManager)
                 .onOpenURL { url in
                     Task { @MainActor in
-                        await urlSchemeHandler.handle(url)
+                        await urlHandlerContainer.handler(for: appState, settingsManager: settingsManager).handle(url)
                     }
                 }
         }
+    }
+}
+
+// MARK: - URL Handler Container
+
+@MainActor
+final class URLHandlerContainer: ObservableObject {
+    private var _handler: URLSchemeHandler?
+
+    func handler(for appState: any RecordingActionHandler, settingsManager: SettingsManager) -> URLSchemeHandler {
+        if let existing = _handler {
+            return existing
+        }
+        let handler = URLSchemeHandler(appState: appState, settingsManager: settingsManager)
+        _handler = handler
+        return handler
     }
 }

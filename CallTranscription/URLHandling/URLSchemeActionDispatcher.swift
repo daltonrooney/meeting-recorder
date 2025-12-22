@@ -138,9 +138,7 @@ final class URLSchemeActionDispatcher {
 
     private func validateAndSetFilenameTemplate(_ template: String) throws {
         // Validate template (reject paths with / or ../)
-        do {
-            try filenameTemplateProcessor.validate(template)
-        } catch {
+        guard filenameTemplateProcessor.validate(template) else {
             throw CallTranscriptionError.invalidFilenameTemplate(template)
         }
 
