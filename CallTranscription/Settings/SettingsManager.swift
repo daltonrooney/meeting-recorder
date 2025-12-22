@@ -24,6 +24,7 @@ public final class SettingsManager: ObservableObject {
         static let filenameTemplate = "filenameTemplate"
         static let outputFolderBookmark = "outputFolderBookmark"
         static let postRecordingScriptBookmark = "postRecordingScriptBookmark"
+        static let revealTranscriptInFinder = "revealTranscriptInFinder"
     }
 
     // Default values
@@ -37,6 +38,7 @@ public final class SettingsManager: ObservableObject {
     public static let defaultSilencePauseThreshold = SilencePauseThreshold.never
     public static let defaultSaveOriginalAudio = false
     public static let defaultFilenameTemplate = "transcript_{date}_{time}.txt"
+    public static let defaultRevealTranscriptInFinder = false
 
     // Published properties
     @Published public var outputFolder: String
@@ -51,8 +53,9 @@ public final class SettingsManager: ObservableObject {
     @Published public var filenameTemplate: String
     @Published public var outputFolderBookmark: Data?
     @Published public var postRecordingScriptBookmark: Data?
+    @Published public var revealTranscriptInFinder: Bool
 
-    private let userDefaults: UserDefaults
+    internal let userDefaults: UserDefaults
     private var cancellables = Set<AnyCancellable>()
 
     public init(userDefaults: UserDefaults = .standard) {
@@ -110,6 +113,12 @@ public final class SettingsManager: ObservableObject {
 
         self.filenameTemplate = userDefaults.string(forKey: Keys.filenameTemplate)
             ?? Self.defaultFilenameTemplate
+
+        if userDefaults.objectExists(forKey: Keys.revealTranscriptInFinder) {
+            self.revealTranscriptInFinder = userDefaults.bool(forKey: Keys.revealTranscriptInFinder)
+        } else {
+            self.revealTranscriptInFinder = Self.defaultRevealTranscriptInFinder
+        }
 
         // Initialize bookmarks (Data stored in UserDefaults)
         self.outputFolderBookmark = userDefaults.data(forKey: Keys.outputFolderBookmark)
@@ -197,6 +206,14 @@ public final class SettingsManager: ObservableObject {
             .dropFirst() // Skip initial value
             .sink { [weak self] newValue in
                 self?.userDefaults.set(newValue, forKey: Keys.filenameTemplate)
+            }
+            .store(in: &cancellables)
+
+        // Persist revealTranscriptInFinder changes
+        $revealTranscriptInFinder
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.revealTranscriptInFinder)
             }
             .store(in: &cancellables)
 
