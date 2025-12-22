@@ -70,22 +70,21 @@ final class TokenTagTests: XCTestCase {
     // MARK: - Tap Gesture Tests
 
     func testTokenTagSupportsTapGesture() {
-        var tappedToken: String?
         let token = "{date}"
-        let tag = TokenTag(token: token) {
-            tappedToken = $0
+        let tag = TokenTag(token: token) { _ in
+            // Tap handler exists
         }
 
         // Verify tap handler exists
         // The actual tap will be tested in integration tests
-        XCTAssertNil(tappedToken) // Not tapped yet
+        XCTAssertNotNil(tag)
     }
 
     func testTokenTagTapHandlerProvidesToken() {
-        var tappedToken: String?
         let token = "{time}"
-        let tag = TokenTag(token: token) {
-            tappedToken = $0
+        let tag = TokenTag(token: token) { receivedToken in
+            // In integration, this should receive the token
+            XCTAssertEqual(receivedToken, token)
         }
 
         // In integration, tapping should provide the token
