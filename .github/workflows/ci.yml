@@ -37,12 +37,48 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode.app
 
+      # Cache XcodeGen binary installation
+      - name: Cache XcodeGen
+        id: cache-xcodegen
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/local/bin/xcodegen
+            /opt/homebrew/bin/xcodegen
+          key: ${{ runner.os }}-xcodegen-${{ hashFiles('**/project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-xcodegen-
+
+      # Only install XcodeGen if not cached
+      - name: Install XcodeGen
+        if: steps.cache-xcodegen.outputs.cache-hit != 'true'
+        run: brew install xcodegen
+
+      # Cache the generated Xcode project
+      - name: Cache Xcode project
+        id: cache-xcodeproj
+        uses: actions/cache@v4
+        with:
+          path: Olive.xcodeproj
+          key: ${{ runner.os }}-xcodeproj-${{ hashFiles('project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-xcodeproj-
+
+      # Only regenerate if project.yml changed or cache miss
       - name: Generate Xcode project
+        if: steps.cache-xcodeproj.outputs.cache-hit != 'true'
         run: |
           if [ -f "project.yml" ]; then
-            brew install xcodegen
+            echo "Regenerating Xcode project (project.yml changed or cache miss)"
             xcodegen generate
           fi
+
+      # Validate that project is up-to-date (for cache hits)
+      - name: Validate Xcode project
+        if: steps.cache-xcodeproj.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached Xcode project (project.yml unchanged)"
+          ./scripts/check-xcodegen-needed.sh || echo "Project is up to date"
 
       - name: Build ${{ matrix.configuration }}
         run: |
@@ -92,10 +128,39 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode.app
 
+      # Cache XcodeGen binary installation
+      - name: Cache XcodeGen
+        id: cache-xcodegen
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/local/bin/xcodegen
+            /opt/homebrew/bin/xcodegen
+          key: ${{ runner.os }}-xcodegen-${{ hashFiles('**/project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-xcodegen-
+
+      # Only install XcodeGen if not cached
+      - name: Install XcodeGen
+        if: steps.cache-xcodegen.outputs.cache-hit != 'true'
+        run: brew install xcodegen
+
+      # Cache the generated Xcode project
+      - name: Cache Xcode project
+        id: cache-xcodeproj
+        uses: actions/cache@v4
+        with:
+          path: Olive.xcodeproj
+          key: ${{ runner.os }}-xcodeproj-${{ hashFiles('project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-xcodeproj-
+
+      # Only regenerate if project.yml changed or cache miss
       - name: Generate Xcode project
+        if: steps.cache-xcodeproj.outputs.cache-hit != 'true'
         run: |
           if [ -f "project.yml" ]; then
-            brew install xcodegen
+            echo "Regenerating Xcode project (project.yml changed or cache miss)"
             xcodegen generate
           fi
 

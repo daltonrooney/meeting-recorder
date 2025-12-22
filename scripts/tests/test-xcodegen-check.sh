@@ -33,7 +33,8 @@ echo ""
 
 # Test 1: should_regenerate_xcode_project returns true when project.yml is newer
 echo "Test 1: Returns true when project.yml is newer than .xcodeproj"
-touch -t 202401010000 Olive.xcodeproj
+mkdir -p Olive.xcodeproj
+touch -t 202401010000 Olive.xcodeproj/project.pbxproj
 touch -t 202401020000 project.yml
 if source /tmp/olive-worktrees/issue-110/scripts/check-xcodegen-needed.sh && should_regenerate_xcode_project; then
     pass "Detects project.yml is newer"
@@ -43,7 +44,7 @@ fi
 
 # Test 2: should_regenerate_xcode_project returns false when .xcodeproj is newer
 echo "Test 2: Returns false when .xcodeproj is newer than project.yml"
-touch -t 202401020000 Olive.xcodeproj
+touch -t 202401020000 Olive.xcodeproj/project.pbxproj
 touch -t 202401010000 project.yml
 if source /tmp/olive-worktrees/issue-110/scripts/check-xcodegen-needed.sh && ! should_regenerate_xcode_project; then
     pass "Detects .xcodeproj is up to date"
