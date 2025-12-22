@@ -360,6 +360,13 @@ struct SettingsView: View {
     // MARK: - Token Insertion
 
     private func insertToken(_ token: String) {
+        // Validate that only known tokens are inserted
+        let validTokens = ["{date}", "{time}"]
+        guard validTokens.contains(token) else {
+            logger.warning("Attempted to insert invalid token: \(token, privacy: .public)")
+            return
+        }
+
         // Append token to the end of the template
         // In a more advanced implementation, this could insert at cursor position
         filenameTemplate += token
