@@ -52,7 +52,8 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
         let result = try await dispatcher.dispatch(request)
 
         XCTAssertTrue(mockAppState.startRecordingCalled)
-        XCTAssertNil(mockAppState.lastRecordingTitle)
+        // When no title is provided, a default localized title is used
+        XCTAssertEqual(mockAppState.lastRecordingTitle, NSLocalizedString("url.recording.defaultTitle", comment: "Default recording title from URL scheme"))
         XCTAssertNil(result.transcriptURL)
     }
 
@@ -360,8 +361,9 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
         )
 
         await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
-            guard case CallTranscriptionError.pathOutsideAllowedDirectories = error else {
-                XCTFail("Expected pathOutsideAllowedDirectories error, got \(error)")
+            // PathValidator now throws pathTraversalDetected for .. sequences
+            guard case CallTranscriptionError.pathTraversalDetected = error else {
+                XCTFail("Expected pathTraversalDetected error, got \(error)")
                 return
             }
         }

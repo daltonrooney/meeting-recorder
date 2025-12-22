@@ -123,6 +123,14 @@ final class URLSchemeActionDispatcher {
 
     // MARK: - Validation Helpers
 
+    /// Validates and permanently sets the output folder in user settings.
+    ///
+    /// - Warning: This permanently modifies the user's default output folder setting.
+    ///   Subsequent manual recordings will use this automation-provided folder until
+    ///   the user manually changes it in settings.
+    ///
+    /// - Parameter folder: The folder path to validate and set
+    /// - Throws: CallTranscriptionError if path validation fails
     private func validateAndSetOutputFolder(_ folder: String) throws {
         // Get allowed base directories
         let homeDirectory = FileManager.default.homeDirectoryForCurrentUser
@@ -130,19 +138,27 @@ final class URLSchemeActionDispatcher {
         let allowedDirectories = [homeDirectory, tempDirectory]
 
         // Validate path
-        let _ = try pathValidator.validate(path: folder, againstBaseDirectories: allowedDirectories)
+        _ = try pathValidator.validate(path: folder, againstBaseDirectories: allowedDirectories)
 
-        // Set in settings
+        // IMPORTANT: This permanently modifies user settings
         settingsManager.outputFolder = folder
     }
 
+    /// Validates and permanently sets the filename template in user settings.
+    ///
+    /// - Warning: This permanently modifies the user's default filename template setting.
+    ///   Subsequent manual recordings will use this automation-provided template until
+    ///   the user manually changes it in settings.
+    ///
+    /// - Parameter template: The template string to validate and set
+    /// - Throws: CallTranscriptionError.invalidFilenameTemplate if validation fails
     private func validateAndSetFilenameTemplate(_ template: String) throws {
         // Validate template (reject paths with / or ../)
         guard filenameTemplateProcessor.validate(template) else {
             throw CallTranscriptionError.invalidFilenameTemplate(template)
         }
 
-        // Set in settings
+        // IMPORTANT: This permanently modifies user settings
         settingsManager.filenameTemplate = template
     }
 }
