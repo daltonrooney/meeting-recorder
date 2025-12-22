@@ -82,6 +82,19 @@ struct SettingsView: View {
                     .accessibilityIdentifier("filenameTemplateTextField")
                     .accessibilityLabel(LocalizedStringKey("settings.filenameTemplate.accessibility.label"))
                     .accessibilityHint(LocalizedStringKey("settings.filenameTemplate.accessibility.hint"))
+                    .onDrop(of: [.text], isTargeted: nil) { providers in
+                        handleTokenDrop(providers: providers)
+                    }
+
+                HStack(spacing: 8) {
+                    TokenTag(token: "{date}") { token in
+                        insertToken(token)
+                    }
+                    TokenTag(token: "{time}") { token in
+                        insertToken(token)
+                    }
+                }
+                .padding(.top, 4)
 
                 Text(LocalizedStringKey("settings.filenameTemplate.helpText"))
                     .font(.caption)
@@ -342,6 +355,50 @@ struct SettingsView: View {
             shortcutsCache.updateCache(shortcuts: shortcuts)
             isLoadingShortcuts = false
         }
+    }
+
+    // MARK: - Token Insertion
+
+    private func insertToken(_ token: String) {
+        // Validate that only known tokens are inserted
+        let validTokens = ["{date}", "{time}"]
+        guard validTokens.contains(token) else {
+            logger.warning("Attempted to insert invalid token: \(token, privacy: .public)")
+            return
+        }
+
+        // Append token to the end of the template
+        // In a more advanced implementation, this could insert at cursor position
+        filenameTemplate += token
+    }
+
+    private func handleTokenDrop(providers: [NSItemProvider]) -> Bool {
+        guard let provider = providers.first else { return false }
+
+        provider.loadItem(forTypeIdentifier: UTType.text.identifier, options: nil) { item, error in
+            if let error = error {
+                logger.error("Failed to load dropped item: \(error.localizedDescription)")
+                return
+            }
+
+            guard let data = item as? Data,
+                  let token = String(data: data, encoding: .utf8) else {
+                if let string = item as? String {
+                    DispatchQueue.main.async {
+                        self.insertToken(string)
+                    }
+                } else {
+                    logger.warning("Dropped item is neither Data nor String, ignoring")
+                }
+                return
+            }
+
+            DispatchQueue.main.async {
+                self.insertToken(token)
+            }
+        }
+
+        return true
     }
 }
 
