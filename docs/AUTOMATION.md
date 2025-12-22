@@ -302,10 +302,14 @@ shortcuts://error?errorMessage=A%20recording%20session%20is%20already%20in%20pro
 For security, Olive only permits these callback URL schemes:
 - `shortcuts://` - macOS Shortcuts app
 - `x-callback-url://` - Standard x-callback-url
-- `http://` - Web callbacks (consider privacy implications)
-- `https://` - Secure web callbacks (consider privacy implications)
+- `https://` - Secure web callbacks only
 
-Dangerous schemes like `applescript://`, `file://`, `javascript://`, and `data://` are explicitly blocked.
+**Blocked schemes** (for security):
+- `http://` - Blocked (sends sensitive data over unencrypted connections)
+- `applescript://` - Blocked (code execution risk)
+- `file://` - Blocked (local file access risk)
+- `javascript://` - Blocked (XSS risk)
+- `data://` - Blocked (data injection risk)
 
 ### Shortcuts Integration
 

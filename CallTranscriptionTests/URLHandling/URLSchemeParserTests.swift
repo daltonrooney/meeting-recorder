@@ -210,4 +210,21 @@ final class URLSchemeParserTests: XCTestCase {
             XCTAssertEqual(scheme, "file")
         }
     }
+
+    func testValidateHTTPCallbackSchemeBlocked() {
+        let url = URL(string: "http://example.com/callback")!
+
+        XCTAssertThrowsError(try URLSchemeParser.validateCallbackURL(url)) { error in
+            guard case CallTranscriptionError.invalidCallbackScheme(let scheme) = error else {
+                XCTFail("Expected invalidCallbackScheme error, got \(error)")
+                return
+            }
+            XCTAssertEqual(scheme, "http")
+        }
+    }
+
+    func testValidateHTTPSCallbackSchemeAllowed() {
+        let url = URL(string: "https://example.com/callback")!
+        XCTAssertNoThrow(try URLSchemeParser.validateCallbackURL(url))
+    }
 }

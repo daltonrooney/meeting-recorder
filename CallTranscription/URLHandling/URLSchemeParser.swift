@@ -9,8 +9,8 @@ final class URLSchemeParser {
     private static let allowedCallbackSchemes = Set([
         "shortcuts",      // Shortcuts app
         "x-callback-url", // Standard x-callback-url scheme
-        "http",           // Web callbacks (consider privacy implications)
-        "https"           // Secure web callbacks (consider privacy implications)
+        "https"           // Secure web callbacks only (HTTP blocked for security)
+        // Note: HTTP removed - sends sensitive data over unencrypted connections
         // Note: applescript removed - could be dangerous
         // Note: file, javascript, data explicitly blocked
     ])
