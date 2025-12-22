@@ -117,6 +117,10 @@ public final class AudioFileWriter {
             throw CallTranscriptionError.audioFileAlreadyFinalized
         }
 
+        // DEBUG: Log incoming buffer format (Issue #137)
+        print("📝 AudioFileWriter.write() receiving buffer: \(buffer.frameLength) frames, \(buffer.format.sampleRate)Hz, \(buffer.format.channelCount)ch")
+        print("📝 AudioFileWriter file format: \(audioFile.fileFormat.sampleRate)Hz, \(audioFile.fileFormat.channelCount)ch")
+
         // Write buffer to file
         // AVAudioFile handles format conversion automatically
         try audioFile.write(from: buffer)

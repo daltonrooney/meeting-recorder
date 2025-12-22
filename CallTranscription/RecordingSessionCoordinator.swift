@@ -96,6 +96,9 @@ public final class RecordingSessionCoordinator {
     /// - Parameter title: Title for the recording session (appears in transcript header)
     /// - Throws: CallTranscriptionError if unable to start recording
     public func startRecording(title: String) async throws {
+        // CRITICAL DEBUG: Verify recording session is being started (Issue #137)
+        print("🎬 startRecording() CALLED with title: '\(title)'")
+
         guard !isRecording else {
             logger.error("Cannot start: already recording")
             throw CallTranscriptionError.featureNotImplemented("Already recording")
@@ -104,6 +107,7 @@ public final class RecordingSessionCoordinator {
         logger.info("Starting recording: \(title)")
         currentTitle = title
         recordingStartTime = Date()
+        print("✅ Recording state initialized, proceeding to validate configuration...")
 
         do {
             // CRITICAL: Start accessing security-scoped resource FIRST
@@ -298,6 +302,9 @@ public final class RecordingSessionCoordinator {
     // MARK: - Private Methods - Component Initialization
 
     private func initializeComponents() async throws {
+        // CRITICAL DEBUG: Verify component initialization (Issue #137)
+        print("🏗️ initializeComponents() CALLED")
+        print("📋 Configuration: microphoneEnabled=\(configuration.microphoneEnabled), systemAudioEnabled=\(configuration.systemAudioEnabled)")
         logger.debug("Initializing components")
 
         // Create audio mixer
@@ -305,6 +312,7 @@ public final class RecordingSessionCoordinator {
             microphoneLevel: configuration.microphoneEnabled ? 0.5 : 0.0,
             systemAudioLevel: configuration.systemAudioEnabled ? 0.5 : 0.0
         )
+        print("✅ AudioMixer created with micLevel=\(configuration.microphoneEnabled ? 0.5 : 0.0), sysLevel=\(configuration.systemAudioEnabled ? 0.5 : 0.0)")
 
         // Create transcription manager
         transcriptionManager = TranscriptionManager(locale: configuration.locale)
@@ -438,9 +446,14 @@ public final class RecordingSessionCoordinator {
         silenceDetector.onAudioDetectedAfterSilence = { @Sendable [weak self] in
             guard let self = self else { return }
             Task { @MainActor in
-                // Guard against race: check recording is active and paused
+                // Guard against race: check recording is active AND paused
                 guard self.isRecording else {
                     self.logger.debug("Ignoring auto-resume: recording already stopped")
+                    return
+                }
+
+                guard self.isPaused else {
+                    self.logger.debug("Ignoring auto-resume: recording not paused")
                     return
                 }
 
@@ -459,6 +472,8 @@ public final class RecordingSessionCoordinator {
     // MARK: - Private Methods - Component Control
 
     private func startComponents() async throws {
+        // CRITICAL DEBUG: Verify component starting (Issue #137)
+        print("⚡ startComponents() CALLED")
         logger.debug("Starting components")
 
         // Ensure model is available
@@ -466,41 +481,64 @@ public final class RecordingSessionCoordinator {
             throw CallTranscriptionError.featureNotImplemented("Transcription manager not available")
         }
         try await transcriptionManager.ensureModelAvailable()
+        print("✅ Transcription model available")
 
         // Start transcription
         try await transcriptionManager.startTranscription()
+        print("✅ Transcription started")
 
         // Start microphone if enabled
+        print("🔍 Checking configuration.microphoneEnabled = \(configuration.microphoneEnabled)")
         if configuration.microphoneEnabled {
+            print("✅ Microphone is ENABLED, calling startMicrophone()...")
             try await startMicrophone()
+        } else {
+            print("⚠️ Microphone is DISABLED, skipping startMicrophone()")
         }
 
         // Start system audio if enabled
+        print("🔍 Checking configuration.systemAudioEnabled = \(configuration.systemAudioEnabled)")
         if configuration.systemAudioEnabled {
+            print("✅ System audio is ENABLED, calling startSystemAudio()...")
             try await startSystemAudio()
+        } else {
+            print("⚠️ System audio is DISABLED, skipping startSystemAudio()")
         }
 
         logger.debug("Components started")
+        print("✅ startComponents() completed")
     }
 
     private func startMicrophone() async throws {
+        // CRITICAL DEBUG: Verify this method is being called (Issue #137)
+        print("🚀 startMicrophone() CALLED - about to start microphone capture")
         logger.debug("Starting microphone capture")
 
         // Check permission
         let permissionHandler = await MicrophonePermissionHandler()
         try await permissionHandler.ensurePermission()
+        print("✅ Microphone permission granted")
 
         // Create and start capture
         microphoneCapture = MicrophoneCapture()
+        print("✅ MicrophoneCapture instance created")
 
         guard let microphoneCapture = microphoneCapture,
               let audioMixer = audioMixer else {
+            print("❌ FATAL: microphoneCapture or audioMixer is nil!")
             throw CallTranscriptionError.featureNotImplemented("Microphone capture or mixer not available")
         }
+        print("✅ Guard passed: microphoneCapture and audioMixer exist")
 
         // Route microphone audio to mixer
+        print("🔌 Setting audioBufferHandler on microphoneCapture...")
         microphoneCapture.audioBufferHandler = { @Sendable [weak self, weak audioMixer] buffer in
-            guard let self = self, let audioMixer = audioMixer else { return }
+            // CRITICAL DEBUG: Verify callback is invoked and weak refs are valid (Issue #137)
+            print("🎙️ audioBufferHandler INVOKED - buffer: \(buffer.frameLength) frames, self: \(self != nil), audioMixer: \(audioMixer != nil)")
+            guard let self = self, let audioMixer = audioMixer else {
+                print("❌ audioBufferHandler guard FAILED - early return (self: \(self != nil), audioMixer: \(audioMixer != nil))")
+                return
+            }
             nonisolated(unsafe) let unsafeBuffer = buffer
             Task { @MainActor [weak self] in
                 guard let self = self else { return }
@@ -511,9 +549,12 @@ public final class RecordingSessionCoordinator {
                 }
             }
         }
+        print("✅ audioBufferHandler set successfully")
 
         nonisolated(unsafe) let unsafeMicCapture = microphoneCapture
+        print("📡 Calling startCapture() on microphoneCapture...")
         try await unsafeMicCapture.startCapture()
+        print("✅ startCapture() completed successfully")
         logger.debug("Microphone capture started")
     }
 
@@ -529,7 +570,12 @@ public final class RecordingSessionCoordinator {
 
         // Route system audio to mixer
         systemAudioCapture.audioBufferHandler = { @Sendable [weak self, weak audioMixer] buffer in
-            guard let self = self, let audioMixer = audioMixer else { return }
+            // CRITICAL DEBUG: Verify callback is invoked and weak refs are valid (Issue #137)
+            print("🔊 systemAudioBufferHandler INVOKED - buffer: \(buffer.frameLength) frames, self: \(self != nil), audioMixer: \(audioMixer != nil)")
+            guard let self = self, let audioMixer = audioMixer else {
+                print("❌ systemAudioBufferHandler guard FAILED - early return (self: \(self != nil), audioMixer: \(audioMixer != nil))")
+                return
+            }
             nonisolated(unsafe) let unsafeBuffer = buffer
             Task { @MainActor [weak self] in
                 guard let self = self else { return }

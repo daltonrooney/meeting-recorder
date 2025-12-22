@@ -65,6 +65,9 @@ public final class AudioMixer {
     /// - Parameter buffer: Audio buffer from microphone source
     /// - Throws: Error if buffer processing fails
     public func feedMicrophoneBuffer(_ buffer: AVAudioPCMBuffer) async throws {
+        // CRITICAL DEBUG: Verify this method is being called (Issue #137)
+        print("🟢 AudioMixer.feedMicrophoneBuffer() CALLED - \(buffer.frameLength) frames, \(buffer.format.sampleRate)Hz, \(buffer.format.channelCount)ch")
+
         guard buffer.frameLength > 0 else {
             logger.debug("Skipping empty microphone buffer")
             return
@@ -118,11 +121,23 @@ public final class AudioMixer {
             lastMicrophoneBuffer = nil
             lastSystemAudioBuffer = nil
         } else if let micBuffer = lastMicrophoneBuffer {
-            // Only microphone - keep buffer for future mixing
+            // Only microphone buffer available
+            // If system audio is disabled (level == 0), output mic alone
+            // Otherwise, WAIT for system audio buffer to arrive (don't output yet)
+            guard systemAudioLevel == 0.0 else {
+                return // Wait for system audio buffer
+            }
             mixedBuffer = scaleBuffer(micBuffer, level: microphoneLevel)
+            lastMicrophoneBuffer = nil
         } else if let sysBuffer = lastSystemAudioBuffer {
-            // Only system audio - keep buffer for future mixing
+            // Only system audio buffer available
+            // If microphone is disabled (level == 0), output sys alone
+            // Otherwise, WAIT for microphone buffer to arrive (don't output yet)
+            guard microphoneLevel == 0.0 else {
+                return // Wait for microphone buffer
+            }
             mixedBuffer = scaleBuffer(sysBuffer, level: systemAudioLevel)
+            lastSystemAudioBuffer = nil
         } else {
             return
         }
@@ -200,15 +215,24 @@ public final class AudioMixer {
 
     /// Converts buffer to target format if needed, otherwise returns original buffer.
     private func convertBufferIfNeeded(_ buffer: AVAudioPCMBuffer, to targetFormat: AVAudioFormat) throws -> AVAudioPCMBuffer {
+        // Log input format for every buffer (critical for diagnosing Issue #137)
+        // Using both logger and print for visibility during debugging
+        let inputInfo = "🎤 AudioMixer: received \(buffer.frameLength) frames @ \(buffer.format.sampleRate)Hz, \(buffer.format.channelCount)ch"
+        logger.info("Audio buffer received: \(buffer.frameLength) frames, \(buffer.format.sampleRate)Hz, \(buffer.format.channelCount)ch")
+        print(inputInfo)
+
         // Check if formats match
         if buffer.format.sampleRate == targetFormat.sampleRate &&
            buffer.format.channelCount == targetFormat.channelCount &&
            buffer.format.commonFormat == targetFormat.commonFormat {
+            logger.debug("No conversion needed - format already matches target")
             return buffer
         }
 
         // Log format conversion for diagnostics (Issue #137)
+        let conversionInfo = "🔄 AudioMixer: converting \(buffer.format.sampleRate)Hz/\(buffer.format.channelCount)ch → \(targetFormat.sampleRate)Hz/\(targetFormat.channelCount)ch"
         logger.info("Converting audio format: \(buffer.format.sampleRate)Hz/\(buffer.format.channelCount)ch → \(targetFormat.sampleRate)Hz/\(targetFormat.channelCount)ch")
+        print(conversionInfo)
 
         // Handle stereo-to-mono conversion separately to avoid phase issues (Issue #137)
         if buffer.format.channelCount == 2 && targetFormat.channelCount == 1 {
@@ -227,11 +251,14 @@ public final class AudioMixer {
 
         logger.debug("Configured AVAudioConverter with maximum quality settings")
 
-        // Calculate output frame count with safety margin for sample rate conversion
+        // Calculate exact output frame count for sample rate conversion
         let ratio = targetFormat.sampleRate / buffer.format.sampleRate
-        let outputFrameCount = AVAudioFrameCount(ceil(Double(buffer.frameLength) * ratio) * 1.1)
+        let expectedFrameCount = AVAudioFrameCount(ceil(Double(buffer.frameLength) * ratio))
 
-        guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: outputFrameCount) else {
+        // Create buffer with small safety margin for converter internal buffering
+        let bufferCapacity = AVAudioFrameCount(Double(expectedFrameCount) * 1.1)
+
+        guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: bufferCapacity) else {
             logger.error("Failed to create output buffer")
             throw NSError(domain: "AudioMixer", code: -2, userInfo: [NSLocalizedDescriptionKey: "Failed to create output buffer"])
         }
@@ -250,9 +277,56 @@ public final class AudioMixer {
             throw error
         }
 
-        logger.debug("Audio conversion successful: output \(outputBuffer.frameLength) frames")
+        // Verify conversion produced output
+        guard outputBuffer.frameLength > 0 else {
+            logger.error("Audio conversion produced zero frames - input: \(buffer.frameLength) frames at \(buffer.format.sampleRate)Hz")
+            throw NSError(domain: "AudioMixer", code: -6, userInfo: [NSLocalizedDescriptionKey: "Sample rate conversion produced no output"])
+        }
 
-        return outputBuffer
+        // Trim output buffer to exact expected frame count to prevent time stretching (Issue #137)
+        // CRITICAL: We must create a NEW buffer and COPY only the correct frames
+        // Simply setting frameLength doesn't remove extra samples from memory, which causes
+        // AAC encoder to write incorrect duration
+        let finalBuffer: AVAudioPCMBuffer
+        if outputBuffer.frameLength > expectedFrameCount {
+            logger.debug("Trimming output buffer from \(outputBuffer.frameLength) to \(expectedFrameCount) frames by copying to new buffer")
+
+            guard let trimmedBuffer = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: expectedFrameCount) else {
+                logger.error("Failed to create trimmed buffer")
+                throw NSError(domain: "AudioMixer", code: -7, userInfo: [NSLocalizedDescriptionKey: "Failed to create trimmed buffer"])
+            }
+
+            trimmedBuffer.frameLength = expectedFrameCount
+
+            // Copy only the correct number of frames from output to trimmed buffer
+            let channelCount = Int(targetFormat.channelCount)
+            for channel in 0..<channelCount {
+                if let srcPtr = outputBuffer.floatChannelData?[channel],
+                   let dstPtr = trimmedBuffer.floatChannelData?[channel] {
+                    dstPtr.initialize(from: srcPtr, count: Int(expectedFrameCount))
+                }
+            }
+
+            finalBuffer = trimmedBuffer
+        } else {
+            finalBuffer = outputBuffer
+        }
+
+        // Log conversion results for diagnosis
+        let expectedFrames = AVAudioFrameCount(Double(buffer.frameLength) * ratio)
+        let resultInfo = "✅ AudioMixer: converted \(buffer.frameLength)→\(finalBuffer.frameLength) frames, \(buffer.format.sampleRate)Hz→\(targetFormat.sampleRate)Hz (expected ~\(expectedFrames))"
+        logger.info("Sample rate conversion: \(buffer.frameLength) frames @ \(buffer.format.sampleRate)Hz → \(finalBuffer.frameLength) frames @ \(targetFormat.sampleRate)Hz (expected ~\(expectedFrames))")
+        print(resultInfo)
+
+        // Verify conversion ratio is approximately correct (within 10% tolerance)
+        let actualRatio = Double(finalBuffer.frameLength) / Double(buffer.frameLength)
+        let expectedRatio = ratio
+        let tolerance = 0.1
+        if abs(actualRatio - expectedRatio) > expectedRatio * tolerance {
+            logger.warning("Sample rate conversion ratio mismatch: expected \(expectedRatio), got \(actualRatio)")
+        }
+
+        return finalBuffer
     }
 
     /// Converts stereo buffer to mono using phase-aware mixing algorithm.
@@ -338,9 +412,18 @@ public final class AudioMixer {
                 throw error
             }
 
+            // Verify conversion produced output
+            guard outputBuffer.frameLength > 0 else {
+                logger.error("Stereo-to-mono sample rate conversion produced zero frames")
+                throw NSError(domain: "AudioMixer", code: -7, userInfo: [NSLocalizedDescriptionKey: "Stereo-to-mono sample rate conversion produced no output"])
+            }
+
+            logger.info("Stereo-to-mono with sample rate conversion: \(monoBuffer.frameLength) frames @ \(monoFormat.sampleRate)Hz → \(outputBuffer.frameLength) frames @ \(targetFormat.sampleRate)Hz")
+
             return outputBuffer
         }
 
+        logger.info("Stereo-to-mono downmix complete: \(monoBuffer.frameLength) frames @ \(monoBuffer.format.sampleRate)Hz")
         return monoBuffer
     }
 

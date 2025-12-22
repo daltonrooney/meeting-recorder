@@ -99,10 +99,15 @@ public final class AppState: ObservableObject {
     /// If recording is already in progress, this method handles the call gracefully
     /// by doing nothing (idempotent).
     public func startActualRecording(title: String) async throws {
+        // CRITICAL DEBUG: Verify UI is calling this method (Issue #137)
+        print("🎯 AppState.startActualRecording() CALLED with title: '\(title)'")
+
         // Handle multiple start calls gracefully
         guard !isRecording else {
+            print("⚠️ Already recording, returning early")
             return
         }
+        print("✅ Not currently recording, proceeding...")
 
         // Build configuration from settings
         let hasOutputBookmark = settingsManager.outputFolderBookmark != nil
@@ -123,13 +128,17 @@ public final class AppState: ObservableObject {
             postRecordingScriptBookmark: settingsManager.postRecordingScriptBookmark,
             saveOriginalAudio: settingsManager.saveOriginalAudio
         )
+        print("📋 Configuration created: microphoneEnabled=\(configuration.microphoneEnabled), systemAudioEnabled=\(configuration.systemAudioEnabled), saveOriginalAudio=\(configuration.saveOriginalAudio)")
 
         // Create coordinator locally first
         let newCoordinator = RecordingSessionCoordinator(configuration: configuration)
+        print("✅ RecordingSessionCoordinator created successfully")
 
         do {
             // Try to start recording
+            print("📞 About to call newCoordinator.startRecording(title: '\(title)')...")
             try await newCoordinator.startRecording(title: title)
+            print("✅ newCoordinator.startRecording() completed successfully!")
 
             // Only update state after successful start
             self.coordinator = newCoordinator
@@ -142,6 +151,7 @@ public final class AppState: ObservableObject {
         } catch {
             // Coordinator failed to start, ensure it's not retained
             // No cleanup needed since we haven't assigned to self.coordinator yet
+            print("❌ ERROR in startActualRecording: \(error)")
             throw error
         }
     }
