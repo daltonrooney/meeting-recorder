@@ -25,6 +25,7 @@ public final class SettingsManager: ObservableObject {
         static let outputFolderBookmark = "outputFolderBookmark"
         static let postRecordingScriptBookmark = "postRecordingScriptBookmark"
         static let revealTranscriptInFinder = "revealTranscriptInFinder"
+        static let showRecordingTimeInMenuBar = "showRecordingTimeInMenuBar"
     }
 
     // Default values
@@ -39,6 +40,7 @@ public final class SettingsManager: ObservableObject {
     public static let defaultSaveOriginalAudio = false
     public static let defaultFilenameTemplate = "transcript_{date}_{time}.txt"
     public static let defaultRevealTranscriptInFinder = false
+    public static let defaultShowRecordingTimeInMenuBar = false
 
     // Published properties
     @Published public var outputFolder: String
@@ -54,6 +56,7 @@ public final class SettingsManager: ObservableObject {
     @Published public var outputFolderBookmark: Data?
     @Published public var postRecordingScriptBookmark: Data?
     @Published public var revealTranscriptInFinder: Bool
+    @Published public var showRecordingTimeInMenuBar: Bool
 
     internal let userDefaults: UserDefaults
     private var cancellables = Set<AnyCancellable>()
@@ -118,6 +121,12 @@ public final class SettingsManager: ObservableObject {
             self.revealTranscriptInFinder = userDefaults.bool(forKey: Keys.revealTranscriptInFinder)
         } else {
             self.revealTranscriptInFinder = Self.defaultRevealTranscriptInFinder
+        }
+
+        if userDefaults.objectExists(forKey: Keys.showRecordingTimeInMenuBar) {
+            self.showRecordingTimeInMenuBar = userDefaults.bool(forKey: Keys.showRecordingTimeInMenuBar)
+        } else {
+            self.showRecordingTimeInMenuBar = Self.defaultShowRecordingTimeInMenuBar
         }
 
         // Initialize bookmarks (Data stored in UserDefaults)
@@ -214,6 +223,14 @@ public final class SettingsManager: ObservableObject {
             .dropFirst() // Skip initial value
             .sink { [weak self] newValue in
                 self?.userDefaults.set(newValue, forKey: Keys.revealTranscriptInFinder)
+            }
+            .store(in: &cancellables)
+
+        // Persist showRecordingTimeInMenuBar changes
+        $showRecordingTimeInMenuBar
+            .dropFirst() // Skip initial value
+            .sink { [weak self] newValue in
+                self?.userDefaults.set(newValue, forKey: Keys.showRecordingTimeInMenuBar)
             }
             .store(in: &cancellables)
 
