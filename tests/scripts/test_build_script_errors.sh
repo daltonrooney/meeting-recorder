@@ -16,39 +16,6 @@ TESTS_RUN=0
 TESTS_PASSED=0
 TESTS_FAILED=0
 
-# Helper function to run a test
-run_test() {
-    local test_name="$1"
-    local test_command="$2"
-    local expected_pattern="$3"
-    
-    TESTS_RUN=$((TESTS_RUN + 1))
-    echo -e "${YELLOW}Running: ${test_name}${NC}"
-    
-    # Capture both stdout and stderr
-    if output=$(eval "$test_command" 2>&1); then
-        # Command succeeded when it should have failed
-        echo -e "${RED}FAIL: ${test_name}${NC}"
-        echo "  Expected command to fail but it succeeded"
-        TESTS_FAILED=$((TESTS_FAILED + 1))
-        return 1
-    fi
-    
-    # Command failed as expected, check output
-    if echo "$output" | grep -q "$expected_pattern"; then
-        echo -e "${GREEN}PASS: ${test_name}${NC}"
-        TESTS_PASSED=$((TESTS_PASSED + 1))
-        return 0
-    else
-        echo -e "${RED}FAIL: ${test_name}${NC}"
-        echo "  Expected pattern not found: $expected_pattern"
-        echo "  Actual output:"
-        echo "$output" | sed 's/^/    /'
-        TESTS_FAILED=$((TESTS_FAILED + 1))
-        return 1
-    fi
-}
-
 # Helper function to check for usage examples in output
 check_usage_examples() {
     local output="$1"
@@ -149,7 +116,7 @@ else
 fi
 TESTS_RUN=$((TESTS_RUN + 1))
 
-# Test 6: Check package.sh includes examples with optional clean parameter
+# Test 6: Check package.sh includes examples
 echo -e "${YELLOW}Test 6: package.sh error includes examples${NC}"
 output=$(cd "$SCRIPTS_DIR" && ./package.sh BadConfig 2>&1 || true)
 if echo "$output" | grep -q "./scripts/package.sh"; then

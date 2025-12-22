@@ -38,6 +38,7 @@ if [ -z "$APPLE_ID" ] || [ -z "$TEAM_ID" ] || [ -z "$APP_SPECIFIC_PASSWORD" ]; t
     echo "  export TEAM_ID='TEAM123456'"
     echo "  export APP_SPECIFIC_PASSWORD='xxxx-xxxx-xxxx-xxxx'"
     echo "  ./scripts/notarize.sh Release"
+    # Exit with success code since notarization is optional for development builds
     exit 0
 fi
 
