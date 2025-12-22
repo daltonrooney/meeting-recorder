@@ -88,18 +88,22 @@ public final class AppState: ObservableObject {
     /// Starts a new recording session with actual recording hardware.
     ///
     /// This method:
-    /// - Creates a RecordingSessionCoordinator with current settings
+    /// - Creates a RecordingSessionCoordinator with current settings (or overrides)
     /// - Starts the recording through the coordinator
     /// - Changes `isRecording` to true
     /// - Resets elapsed time tracking
     /// - Starts the elapsed time timer
     ///
-    /// - Parameter title: The title for the recording session
+    /// - Parameters:
+    ///   - title: The title for the recording session
+    ///   - overrides: Optional session-specific configuration overrides that take
+    ///     precedence over user settings without modifying them permanently.
+    ///     Used primarily by URL scheme automation.
     /// - Throws: `CallTranscriptionError` if recording fails to start
     ///
     /// If recording is already in progress, this method handles the call gracefully
     /// by doing nothing (idempotent).
-    public func startActualRecording(title: String) async throws {
+    public func startActualRecording(title: String, overrides: RecordingSessionOverrides? = nil) async throws {
         // CRITICAL DEBUG: Verify UI is calling this method (Issue #137)
         print("🎯 AppState.startActualRecording() CALLED with title: '\(title)'")
 
@@ -110,13 +114,17 @@ public final class AppState: ObservableObject {
         }
         print("✅ Not currently recording, proceeding...")
 
-        // Build configuration from settings
+        // Build configuration from settings, with optional session overrides
         let hasOutputBookmark = settingsManager.outputFolderBookmark != nil
-        let hasScriptBookmark = settingsManager.postRecordingScriptBookmark != nil
-        print("DEBUG: Creating configuration - outputFolder: \(settingsManager.expandedOutputFolderPath()), hasBookmark: \(hasOutputBookmark)")
+
+        // Apply overrides if provided, otherwise use user settings
+        let effectiveOutputFolder = overrides?.outputFolder ?? settingsManager.expandedOutputFolderPath()
+        let effectiveFilenameTemplate = overrides?.filenameTemplate ?? settingsManager.filenameTemplate
+
+        print("DEBUG: Creating configuration - outputFolder: \(effectiveOutputFolder), hasBookmark: \(hasOutputBookmark), hasOverrides: \(overrides != nil)")
 
         let configuration = RecordingConfiguration(
-            outputFolder: settingsManager.expandedOutputFolderPath(),
+            outputFolder: effectiveOutputFolder,
             locale: Locale(identifier: "en-US"),
             microphoneEnabled: settingsManager.captureMicrophone,
             systemAudioEnabled: settingsManager.captureSystemAudio,
@@ -124,7 +132,7 @@ public final class AppState: ObservableObject {
             postRecordingScriptPath: settingsManager.postRecordingScript.isEmpty ? nil : settingsManager.expandedPostRecordingScriptPath(),
             shortcutIdentifier: settingsManager.shortcutIdentifier.isEmpty ? nil : settingsManager.shortcutIdentifier,
             silencePauseThreshold: settingsManager.silencePauseThreshold,
-            filenameTemplate: settingsManager.filenameTemplate,
+            filenameTemplate: effectiveFilenameTemplate,
             outputFolderBookmark: settingsManager.outputFolderBookmark,
             postRecordingScriptBookmark: settingsManager.postRecordingScriptBookmark,
             saveOriginalAudio: settingsManager.saveOriginalAudio

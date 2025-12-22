@@ -13,7 +13,7 @@ struct CallTranscriptionApp: App {
         _appState = StateObject(wrappedValue: state)
 
         // Eager initialization of URL handler to avoid race conditions
-        urlHandler = URLSchemeHandler(appState: state, settingsManager: settings)
+        urlHandler = URLSchemeHandler(appState: state)
 
         // Register AppState and SettingsManager for App Intents access
         Task { @MainActor in

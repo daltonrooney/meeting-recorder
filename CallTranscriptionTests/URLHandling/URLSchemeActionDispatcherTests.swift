@@ -20,10 +20,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
         mockSettingsManager = SettingsManager(userDefaults: testDefaults)
         mockSettingsManager.outputFolder = tempDirectory.path
 
-        dispatcher = URLSchemeActionDispatcher(
-            appState: mockAppState,
-            settingsManager: mockSettingsManager
-        )
+        dispatcher = URLSchemeActionDispatcher(appState: mockAppState)
     }
 
     override func tearDown() async throws {
@@ -54,6 +51,8 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
         XCTAssertTrue(mockAppState.startRecordingCalled)
         // When no title is provided, a default localized title is used
         XCTAssertEqual(mockAppState.lastRecordingTitle, NSLocalizedString("url.recording.defaultTitle", comment: "Default recording title from URL scheme"))
+        // When no folder/template provided, overrides should be nil
+        XCTAssertNil(mockAppState.lastSessionOverrides)
         XCTAssertNil(result.transcriptURL)
     }
 
@@ -72,6 +71,8 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
 
         XCTAssertTrue(mockAppState.startRecordingCalled)
         XCTAssertEqual(mockAppState.lastRecordingTitle, "Team Meeting")
+        // When no folder/template provided, overrides should be nil
+        XCTAssertNil(mockAppState.lastSessionOverrides)
         XCTAssertNil(result.transcriptURL)
     }
 
@@ -92,7 +93,12 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
         _ = try await dispatcher.dispatch(request)
 
         XCTAssertTrue(mockAppState.startRecordingCalled)
-        XCTAssertEqual(mockSettingsManager.outputFolder, customFolder)
+        // Verify session overrides were provided (NOT that settings were modified)
+        XCTAssertNotNil(mockAppState.lastSessionOverrides)
+        XCTAssertEqual(mockAppState.lastSessionOverrides?.outputFolder, customFolder)
+        XCTAssertNil(mockAppState.lastSessionOverrides?.filenameTemplate)
+        // Verify settings were NOT modified
+        XCTAssertNotEqual(mockSettingsManager.outputFolder, customFolder)
     }
 
     func testDispatchStartActionWithFilenameTemplate() async throws {
@@ -109,7 +115,12 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
         _ = try await dispatcher.dispatch(request)
 
         XCTAssertTrue(mockAppState.startRecordingCalled)
-        XCTAssertEqual(mockSettingsManager.filenameTemplate, "meeting_{date}.txt")
+        // Verify session overrides were provided (NOT that settings were modified)
+        XCTAssertNotNil(mockAppState.lastSessionOverrides)
+        XCTAssertEqual(mockAppState.lastSessionOverrides?.filenameTemplate, "meeting_{date}.txt")
+        XCTAssertNil(mockAppState.lastSessionOverrides?.outputFolder)
+        // Verify settings were NOT modified
+        XCTAssertNotEqual(mockSettingsManager.filenameTemplate, "meeting_{date}.txt")
     }
 
     func testDispatchStartActionWithAllParameters() async throws {
@@ -130,8 +141,13 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
 
         XCTAssertTrue(mockAppState.startRecordingCalled)
         XCTAssertEqual(mockAppState.lastRecordingTitle, "Daily Standup")
-        XCTAssertEqual(mockSettingsManager.outputFolder, customFolder)
-        XCTAssertEqual(mockSettingsManager.filenameTemplate, "standup_{date}.txt")
+        // Verify session overrides were provided (NOT that settings were modified)
+        XCTAssertNotNil(mockAppState.lastSessionOverrides)
+        XCTAssertEqual(mockAppState.lastSessionOverrides?.outputFolder, customFolder)
+        XCTAssertEqual(mockAppState.lastSessionOverrides?.filenameTemplate, "standup_{date}.txt")
+        // Verify settings were NOT modified
+        XCTAssertNotEqual(mockSettingsManager.outputFolder, customFolder)
+        XCTAssertNotEqual(mockSettingsManager.filenameTemplate, "standup_{date}.txt")
     }
 
     func testDispatchStartActionWhenAlreadyRecording() async throws {
@@ -424,9 +440,12 @@ private class MockAppState: RecordingActionHandler {
     var lastRecordingTitle: String?
     var mockTranscriptURL: URL?
 
-    func startActualRecording(title: String) async throws {
+    var lastSessionOverrides: RecordingSessionOverrides?
+
+    func startActualRecording(title: String, overrides: RecordingSessionOverrides?) async throws {
         startRecordingCalled = true
         lastRecordingTitle = title
+        lastSessionOverrides = overrides
         isRecording = true
     }
 

@@ -10,15 +10,11 @@ final class URLSchemeHandler {
 
     init(
         appState: any RecordingActionHandler,
-        settingsManager: SettingsManager,
         parser: URLSchemeParser.Type = URLSchemeParser.self,
         workspace: NSWorkspaceProtocol = NSWorkspace.shared
     ) {
         self.parser = parser
-        self.dispatcher = URLSchemeActionDispatcher(
-            appState: appState,
-            settingsManager: settingsManager
-        )
+        self.dispatcher = URLSchemeActionDispatcher(appState: appState)
         self.callbackHandler = URLSchemeCallbackHandler(workspace: workspace)
     }
 

@@ -211,8 +211,8 @@ olive://x-callback-url/start?title=<title>&outputFolder=<path>&filenameTemplate=
 
 **Parameters:**
 - `title` (optional): Recording title
-- `outputFolder` (optional): Path to save transcripts (permanently updates settings)
-- `filenameTemplate` (optional): Filename template (permanently updates settings)
+- `outputFolder` (optional): Path to save transcripts (session-specific override, doesn't modify settings)
+- `filenameTemplate` (optional): Filename template (session-specific override, doesn't modify settings)
 - `x-success` (optional): Callback URL on success
 - `x-error` (optional): Callback URL on error
 - `x-cancel` (optional): Callback URL on cancel
@@ -227,7 +227,7 @@ olive://x-callback-url/start?title=Team%20Meeting
 olive://x-callback-url/start?title=Meeting&x-success=shortcuts://success&x-error=shortcuts://error
 ```
 
-**Security Note:** The `outputFolder` and `filenameTemplate` parameters permanently modify your user settings. Subsequent manual recordings will use these automation-provided values until you manually change them in settings.
+**Session Overrides:** The `outputFolder` and `filenameTemplate` parameters are session-specific overrides that apply only to the current recording. Your user settings remain unchanged, and subsequent manual recordings will use your configured preferences.
 
 #### Stop Recording
 
@@ -431,16 +431,17 @@ Templates are validated to prevent directory traversal:
 - `../other-folder/transcript`
 - `folder/transcript`
 
-#### Settings Persistence Warning
+#### Session-Specific Configuration
 
-The `outputFolder` and `filenameTemplate` parameters permanently modify user settings. This is intentional for automation scenarios where you want to set up a recording configuration that persists across multiple sessions.
+The `outputFolder` and `filenameTemplate` parameters are session-specific overrides that apply only to the current recording session without modifying your permanent user settings.
 
-**Impact:**
-- Automation sets `outputFolder` to `/tmp/recordings`
-- User manually starts recording → saves to `/tmp/recordings`
-- Remains until user changes it in Settings UI
+**Behavior:**
+- Automation starts recording with `outputFolder=/tmp/recordings`
+- This recording saves to `/tmp/recordings`
+- User manually starts another recording → saves to configured settings location
+- Your permanent settings remain unchanged
 
-If you want session-specific settings without permanently modifying defaults, use App Intents or AppleScript instead.
+This design ensures automation workflows can use custom paths without affecting your normal recording preferences.
 
 ### URL Encoding
 
@@ -495,7 +496,7 @@ open "olive://x-callback-url/start?title=Test&x-success=shortcuts://success"
 | Web integration | ✅ | ❌ | ❌ |
 | Callbacks | ✅ | ❌ | ❌ |
 | Return values | Via callbacks | ✅ Direct | ✅ Direct |
-| Settings persistence | ⚠️ Permanent | Temporary | Temporary |
+| Settings persistence | ✅ Session-only | Temporary | Temporary |
 | Type safety | ❌ String-based | ✅ | ❌ |
 | macOS version | All | 13.0+ | All |
 

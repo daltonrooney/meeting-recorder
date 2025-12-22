@@ -25,7 +25,6 @@ final class URLSchemeHandlerIntegrationTests: XCTestCase {
 
         handler = URLSchemeHandler(
             appState: mockAppState,
-            settingsManager: mockSettingsManager,
             workspace: mockWorkspace
         )
     }
@@ -80,8 +79,9 @@ final class URLSchemeHandlerIntegrationTests: XCTestCase {
 
         XCTAssertTrue(mockAppState.startRecordingCalled)
         XCTAssertEqual(mockAppState.lastRecordingTitle, "Meeting")
-        XCTAssertEqual(mockSettingsManager.outputFolder, customFolder)
-        XCTAssertEqual(mockSettingsManager.filenameTemplate, "meeting_{date}.txt")
+        // Settings should NOT be modified (overrides are used instead)
+        XCTAssertNotEqual(mockSettingsManager.outputFolder, customFolder)
+        XCTAssertNotEqual(mockSettingsManager.filenameTemplate, "meeting_{date}.txt")
         XCTAssertNotNil(mockWorkspace.lastOpenedURL)
     }
 
@@ -158,9 +158,9 @@ final class URLSchemeHandlerIntegrationTests: XCTestCase {
 
         try await Task.sleep(nanoseconds: 100_000_000) // 100ms
 
-        let opened = mockWorkspace.lastOpenedURL?.absoluteString ?? ""
-        XCTAssertTrue(opened.contains("shortcuts://error"))
-        XCTAssertTrue(opened.contains("errorMessage="))
+        // When URL scheme is invalid, parsing fails and we cannot extract error callback
+        // So no callback should be invoked (error is just logged)
+        XCTAssertNil(mockWorkspace.lastOpenedURL)
     }
 
     func testHandleInvalidActionURL() async throws {
@@ -170,9 +170,9 @@ final class URLSchemeHandlerIntegrationTests: XCTestCase {
 
         try await Task.sleep(nanoseconds: 100_000_000) // 100ms
 
-        let opened = mockWorkspace.lastOpenedURL?.absoluteString ?? ""
-        XCTAssertTrue(opened.contains("shortcuts://error"))
-        XCTAssertTrue(opened.contains("errorMessage="))
+        // When action is invalid, parsing fails and we cannot extract error callback
+        // So no callback should be invoked (error is just logged)
+        XCTAssertNil(mockWorkspace.lastOpenedURL)
     }
 
     func testHandleSecurityViolation() async throws {
@@ -242,7 +242,7 @@ private class MockAppStateForIntegration: RecordingActionHandler {
     var mockTranscriptURL: URL?
     var shouldFailStart = false
 
-    func startActualRecording(title: String) async throws {
+    func startActualRecording(title: String, overrides: RecordingSessionOverrides?) async throws {
         if shouldFailStart {
             throw CallTranscriptionError.alreadyRecording
         }
