@@ -18,7 +18,7 @@ final class URLSchemeHandlerIntegrationTests: XCTestCase {
 
         let testSuiteName = "URLSchemeHandlerIntegrationTests-\(UUID().uuidString)"
         let testDefaults = UserDefaults(suiteName: testSuiteName)!
-        mockSettingsManager = SettingsManager(defaults: testDefaults)
+        mockSettingsManager = SettingsManager(userDefaults: testDefaults)
         mockSettingsManager.outputFolder = tempDirectory.path
 
         mockWorkspace = MockNSWorkspaceForIntegration()
@@ -230,7 +230,10 @@ final class URLSchemeHandlerIntegrationTests: XCTestCase {
 // MARK: - Mock AppState for Integration
 
 @MainActor
-private class MockAppStateForIntegration: AppState {
+private class MockAppStateForIntegration: RecordingActionHandler {
+    var isRecording = false
+    var isPaused = false
+
     var startRecordingCalled = false
     var stopRecordingCalled = false
     var pauseRecordingCalled = false
@@ -239,7 +242,7 @@ private class MockAppStateForIntegration: AppState {
     var mockTranscriptURL: URL?
     var shouldFailStart = false
 
-    override func startActualRecording(title: String?) async throws {
+    func startActualRecording(title: String) async throws {
         if shouldFailStart {
             throw CallTranscriptionError.alreadyRecording
         }
@@ -248,7 +251,7 @@ private class MockAppStateForIntegration: AppState {
         isRecording = true
     }
 
-    override func stopActualRecording() async throws -> URL {
+    func stopActualRecording() async throws -> URL {
         stopRecordingCalled = true
         isRecording = false
         guard let url = mockTranscriptURL else {
@@ -257,12 +260,12 @@ private class MockAppStateForIntegration: AppState {
         return url
     }
 
-    override func pauseRecording() async throws {
+    func pauseRecording() async throws {
         pauseRecordingCalled = true
         isPaused = true
     }
 
-    override func resumeRecording() async throws {
+    func resumeRecording() async throws {
         resumeRecordingCalled = true
         isPaused = false
     }

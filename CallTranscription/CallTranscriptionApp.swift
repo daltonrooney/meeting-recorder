@@ -17,11 +17,24 @@ struct CallTranscriptionApp: App {
         }
     }
 
+    @MainActor
+    private var urlSchemeHandler: URLSchemeHandler {
+        URLSchemeHandler(
+            appState: appState,
+            settingsManager: settingsManager
+        )
+    }
+
     var body: some Scene {
         MenuBarExtra {
             MenuBarView()
                 .environmentObject(appState)
                 .environmentObject(settingsManager)
+                .onOpenURL { url in
+                    Task { @MainActor in
+                        await urlSchemeHandler.handle(url)
+                    }
+                }
         } label: {
             // Show different icon based on recording state
             if appState.isPaused {
@@ -58,6 +71,11 @@ struct CallTranscriptionApp: App {
             SettingsView()
                 .environmentObject(appState)
                 .environmentObject(settingsManager)
+                .onOpenURL { url in
+                    Task { @MainActor in
+                        await urlSchemeHandler.handle(url)
+                    }
+                }
         }
     }
 }

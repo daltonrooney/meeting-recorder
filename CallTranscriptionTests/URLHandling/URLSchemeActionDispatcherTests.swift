@@ -17,7 +17,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
 
         let testSuiteName = "URLSchemeActionDispatcherTests-\(UUID().uuidString)"
         let testDefaults = UserDefaults(suiteName: testSuiteName)!
-        mockSettingsManager = SettingsManager(defaults: testDefaults)
+        mockSettingsManager = SettingsManager(userDefaults: testDefaults)
         mockSettingsManager.outputFolder = tempDirectory.path
 
         dispatcher = URLSchemeActionDispatcher(
@@ -146,7 +146,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.alreadyRecording = error else {
                 XCTFail("Expected alreadyRecording error, got \(error)")
                 return
@@ -191,7 +191,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.notRecording = error else {
                 XCTFail("Expected notRecording error, got \(error)")
                 return
@@ -233,7 +233,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.notRecording = error else {
                 XCTFail("Expected notRecording error, got \(error)")
                 return
@@ -255,7 +255,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.alreadyPaused = error else {
                 XCTFail("Expected alreadyPaused error, got \(error)")
                 return
@@ -297,7 +297,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.notRecording = error else {
                 XCTFail("Expected notRecording error, got \(error)")
                 return
@@ -319,7 +319,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.notPaused = error else {
                 XCTFail("Expected notPaused error, got \(error)")
                 return
@@ -340,7 +340,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.pathOutsideAllowedDirectories = error else {
                 XCTFail("Expected pathOutsideAllowedDirectories error, got \(error)")
                 return
@@ -359,7 +359,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.pathOutsideAllowedDirectories = error else {
                 XCTFail("Expected pathOutsideAllowedDirectories error, got \(error)")
                 return
@@ -380,7 +380,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.invalidFilenameTemplate = error else {
                 XCTFail("Expected invalidFilenameTemplate error, got \(error)")
                 return
@@ -399,7 +399,7 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
             cancelCallback: nil
         )
 
-        await XCTAssertThrowsErrorAsync(try await dispatcher.dispatch(request)) { error in
+        await XCTAssertThrowsErrorAsync({ try await dispatcher.dispatch(request) }) { error in
             guard case CallTranscriptionError.invalidFilenameTemplate = error else {
                 XCTFail("Expected invalidFilenameTemplate error, got \(error)")
                 return
@@ -411,7 +411,10 @@ final class URLSchemeActionDispatcherTests: XCTestCase {
 // MARK: - Mock AppState
 
 @MainActor
-private class MockAppState: AppState {
+private class MockAppState: RecordingActionHandler {
+    var isRecording = false
+    var isPaused = false
+
     var startRecordingCalled = false
     var stopRecordingCalled = false
     var pauseRecordingCalled = false
@@ -419,13 +422,13 @@ private class MockAppState: AppState {
     var lastRecordingTitle: String?
     var mockTranscriptURL: URL?
 
-    override func startActualRecording(title: String?) async throws {
+    func startActualRecording(title: String) async throws {
         startRecordingCalled = true
         lastRecordingTitle = title
         isRecording = true
     }
 
-    override func stopActualRecording() async throws -> URL {
+    func stopActualRecording() async throws -> URL {
         stopRecordingCalled = true
         isRecording = false
         guard let url = mockTranscriptURL else {
@@ -434,12 +437,12 @@ private class MockAppState: AppState {
         return url
     }
 
-    override func pauseRecording() async throws {
+    func pauseRecording() async throws {
         pauseRecordingCalled = true
         isPaused = true
     }
 
-    override func resumeRecording() async throws {
+    func resumeRecording() async throws {
         resumeRecordingCalled = true
         isPaused = false
     }
@@ -447,8 +450,9 @@ private class MockAppState: AppState {
 
 // MARK: - XCTest Async Error Assertion Helper
 
+@MainActor
 func XCTAssertThrowsErrorAsync<T>(
-    _ expression: @autoclosure () async throws -> T,
+    _ expression: () async throws -> T,
     _ message: @autoclosure () -> String = "",
     file: StaticString = #filePath,
     line: UInt = #line,
