@@ -72,6 +72,30 @@ public enum CallTranscriptionError: LocalizedError {
     /// Failed to access security-scoped resource.
     case securityScopedAccessFailed(String)
 
+    /// Invalid URL scheme (expected 'olive')
+    case invalidURLScheme(String)
+
+    /// Invalid URL host (expected 'x-callback-url')
+    case invalidURLHost(String)
+
+    /// Missing action in URL path
+    case missingURLAction
+
+    /// Invalid action in URL (not start/stop/pause/resume)
+    case invalidURLAction(String)
+
+    /// Invalid callback URL scheme (security check failed)
+    case invalidCallbackScheme(String)
+
+    /// Invalid filename template (contains path separators or traversal)
+    case invalidFilenameTemplate(String)
+
+    /// Already recording (cannot start another recording)
+    case alreadyRecording
+
+    /// Already paused (cannot pause again)
+    case alreadyPaused
+
     // MARK: - LocalizedError Conformance
 
     public var errorDescription: String? {
@@ -142,6 +166,30 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .securityScopedAccessFailed(let path):
             return String(format: NSLocalizedString("error.securityScopedAccessFailed.description", comment: "Security-scoped access failed error description"), path)
+
+        case .invalidURLScheme(let scheme):
+            return String(format: NSLocalizedString("error.invalidURLScheme.description", comment: "Invalid URL scheme error description"), scheme)
+
+        case .invalidURLHost(let host):
+            return String(format: NSLocalizedString("error.invalidURLHost.description", comment: "Invalid URL host error description"), host)
+
+        case .missingURLAction:
+            return NSLocalizedString("error.missingURLAction.description", comment: "Missing URL action error description")
+
+        case .invalidURLAction(let action):
+            return String(format: NSLocalizedString("error.invalidURLAction.description", comment: "Invalid URL action error description"), action)
+
+        case .invalidCallbackScheme(let scheme):
+            return String(format: NSLocalizedString("error.invalidCallbackScheme.description", comment: "Invalid callback scheme error description"), scheme)
+
+        case .invalidFilenameTemplate(let template):
+            return String(format: NSLocalizedString("error.invalidFilenameTemplate.description", comment: "Invalid filename template error description"), template)
+
+        case .alreadyRecording:
+            return NSLocalizedString("error.alreadyRecording.description", comment: "Already recording error description")
+
+        case .alreadyPaused:
+            return NSLocalizedString("error.alreadyPaused.description", comment: "Already paused error description")
         }
     }
 
@@ -212,6 +260,30 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .securityScopedAccessFailed(let path):
             return String(format: NSLocalizedString("error.securityScopedAccessFailed.failureReason", comment: "Security-scoped access failed failure reason"), path)
+
+        case .invalidURLScheme(let scheme):
+            return String(format: NSLocalizedString("error.invalidURLScheme.failureReason", comment: "Invalid URL scheme failure reason"), scheme)
+
+        case .invalidURLHost(let host):
+            return String(format: NSLocalizedString("error.invalidURLHost.failureReason", comment: "Invalid URL host failure reason"), host)
+
+        case .missingURLAction:
+            return NSLocalizedString("error.missingURLAction.failureReason", comment: "Missing URL action failure reason")
+
+        case .invalidURLAction(let action):
+            return String(format: NSLocalizedString("error.invalidURLAction.failureReason", comment: "Invalid URL action failure reason"), action)
+
+        case .invalidCallbackScheme(let scheme):
+            return String(format: NSLocalizedString("error.invalidCallbackScheme.failureReason", comment: "Invalid callback scheme failure reason"), scheme)
+
+        case .invalidFilenameTemplate(let template):
+            return String(format: NSLocalizedString("error.invalidFilenameTemplate.failureReason", comment: "Invalid filename template failure reason"), template)
+
+        case .alreadyRecording:
+            return NSLocalizedString("error.alreadyRecording.failureReason", comment: "Already recording failure reason")
+
+        case .alreadyPaused:
+            return NSLocalizedString("error.alreadyPaused.failureReason", comment: "Already paused failure reason")
         }
     }
 
@@ -283,6 +355,30 @@ public enum CallTranscriptionError: LocalizedError {
 
         case .securityScopedAccessFailed:
             return NSLocalizedString("error.securityScopedAccessFailed.recoverySuggestion", comment: "Security-scoped access failed recovery suggestion")
+
+        case .invalidURLScheme:
+            return NSLocalizedString("error.invalidURLScheme.recoverySuggestion", comment: "Invalid URL scheme recovery suggestion")
+
+        case .invalidURLHost:
+            return NSLocalizedString("error.invalidURLHost.recoverySuggestion", comment: "Invalid URL host recovery suggestion")
+
+        case .missingURLAction:
+            return NSLocalizedString("error.missingURLAction.recoverySuggestion", comment: "Missing URL action recovery suggestion")
+
+        case .invalidURLAction:
+            return NSLocalizedString("error.invalidURLAction.recoverySuggestion", comment: "Invalid URL action recovery suggestion")
+
+        case .invalidCallbackScheme:
+            return NSLocalizedString("error.invalidCallbackScheme.recoverySuggestion", comment: "Invalid callback scheme recovery suggestion")
+
+        case .invalidFilenameTemplate:
+            return NSLocalizedString("error.invalidFilenameTemplate.recoverySuggestion", comment: "Invalid filename template recovery suggestion")
+
+        case .alreadyRecording:
+            return NSLocalizedString("error.alreadyRecording.recoverySuggestion", comment: "Already recording recovery suggestion")
+
+        case .alreadyPaused:
+            return NSLocalizedString("error.alreadyPaused.recoverySuggestion", comment: "Already paused recovery suggestion")
         }
     }
 }
@@ -328,6 +424,30 @@ extension CallTranscriptionError: Equatable {
             return lhsPath == rhsPath && lhsResolved == rhsResolved
         case (.invalidPath(let lhsPath, let lhsReason), .invalidPath(let rhsPath, let rhsReason)):
             return lhsPath == rhsPath && lhsReason == rhsReason
+        case (.audioFileAlreadyFinalized, .audioFileAlreadyFinalized):
+            return true
+        case (.bookmarkCreationFailed(let lhsPath, let lhsReason), .bookmarkCreationFailed(let rhsPath, let rhsReason)):
+            return lhsPath == rhsPath && lhsReason == rhsReason
+        case (.bookmarkResolutionFailed(let lhsReason), .bookmarkResolutionFailed(let rhsReason)):
+            return lhsReason == rhsReason
+        case (.securityScopedAccessFailed(let lhsPath), .securityScopedAccessFailed(let rhsPath)):
+            return lhsPath == rhsPath
+        case (.invalidURLScheme(let lhsScheme), .invalidURLScheme(let rhsScheme)):
+            return lhsScheme == rhsScheme
+        case (.invalidURLHost(let lhsHost), .invalidURLHost(let rhsHost)):
+            return lhsHost == rhsHost
+        case (.missingURLAction, .missingURLAction):
+            return true
+        case (.invalidURLAction(let lhsAction), .invalidURLAction(let rhsAction)):
+            return lhsAction == rhsAction
+        case (.invalidCallbackScheme(let lhsScheme), .invalidCallbackScheme(let rhsScheme)):
+            return lhsScheme == rhsScheme
+        case (.invalidFilenameTemplate(let lhsTemplate), .invalidFilenameTemplate(let rhsTemplate)):
+            return lhsTemplate == rhsTemplate
+        case (.alreadyRecording, .alreadyRecording):
+            return true
+        case (.alreadyPaused, .alreadyPaused):
+            return true
         default:
             return false
         }
