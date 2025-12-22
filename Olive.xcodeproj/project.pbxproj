@@ -53,6 +53,7 @@
 		7AB2D7448A3CF22502BCE9C1 /* AppleScriptCommandsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022C66243E277745CFB35522 /* AppleScriptCommandsTests.swift */; };
 		7F562D9749E9136C5552ABB3 /* ConfigureSettingsIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F72653C0B9DF850283C9D0 /* ConfigureSettingsIntent.swift */; };
 		827E8015E7D05D6B3E34BD07 /* AudioLevelAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5402519B03BCFDD48BA7E0B9 /* AudioLevelAnalyzerTests.swift */; };
+		82AC94CBE35F3E9D5C28398E /* ShowRecordingTimeInMenuBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B33A3A42423988891C8A2 /* ShowRecordingTimeInMenuBarTests.swift */; };
 		8540D429DC2F0F7244CFED02 /* SettingsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505AB35CBBAFC38A3F994C27 /* SettingsManagerTests.swift */; };
 		864FCECF141EE8467DD83EC6 /* ShortcutExecutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62A30A04C1CDC6F8981F1DA /* ShortcutExecutorTests.swift */; };
 		87C2F7E5A8326973EEC14B37 /* PathValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C714FE708AA83CCBFB9AFE4F /* PathValidatorTests.swift */; };
@@ -143,6 +144,7 @@
 		2C62DAE744B332D70CAD74FC /* TranscriptFormattingLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFormattingLocalizationTests.swift; sourceTree = "<group>"; };
 		2CCD6118658147437E67D5B2 /* SettingsViewAccessibilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewAccessibilityTests.swift; sourceTree = "<group>"; };
 		313D538D7EB1D0E45613B4ED /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		384B33A3A42423988891C8A2 /* ShowRecordingTimeInMenuBarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowRecordingTimeInMenuBarTests.swift; sourceTree = "<group>"; };
 		3A5C3850689572C9A2C55CE4 /* MenuBarViewLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewLocalizationTests.swift; sourceTree = "<group>"; };
 		3E442F96EB088404DD4DAF1E /* SilenceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilenceDetector.swift; sourceTree = "<group>"; };
 		40F6B6521B8258AB8602E654 /* AudioFileSavingIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileSavingIntegrationTests.swift; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				E8CD4216B9C3A5370BCC0C34 /* SettingsViewCacheTests.swift */,
 				8B52F2CA77329D90BC322940 /* SettingsViewErrorTests.swift */,
 				A8EDECC3E117D2BC547E9BC3 /* SettingsViewTests.swift */,
+				384B33A3A42423988891C8A2 /* ShowRecordingTimeInMenuBarTests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -762,6 +765,7 @@
 				B389554621A06C69E8D96312 /* SettingsViewTests.swift in Sources */,
 				4DD997AC21F137568A88FD79 /* ShellScriptExecutorTests.swift in Sources */,
 				864FCECF141EE8467DD83EC6 /* ShortcutExecutorTests.swift in Sources */,
+				82AC94CBE35F3E9D5C28398E /* ShowRecordingTimeInMenuBarTests.swift in Sources */,
 				CDEC22DE30999B85093C5F68 /* SilenceDetectorTests.swift in Sources */,
 				7001D88F47E8FEF996BCD70E /* SpeechPermissionHandlerTests.swift in Sources */,
 				669821586D3BCC03B0B949E9 /* StartRecordingButtonFlowTests.swift in Sources */,
