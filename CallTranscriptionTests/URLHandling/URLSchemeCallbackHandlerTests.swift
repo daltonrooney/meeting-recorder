@@ -160,7 +160,8 @@ final class URLSchemeCallbackHandlerTests: XCTestCase {
 
         let opened = mockWorkspace.lastOpenedURL?.absoluteString ?? ""
         XCTAssertTrue(opened.contains("errorMessage="))
-        XCTAssertTrue(opened.contains("not".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!))
+        // Check for "recording" which appears in "No recording session is currently active."
+        XCTAssertTrue(opened.contains("recording".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!))
     }
 
     func testInvokeErrorCallbackWithPathError() async {
