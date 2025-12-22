@@ -22,6 +22,21 @@ jobs:
         run: |
           python3 scripts/validate_localizations.py
 
+  test-ci-optimization:
+    name: Test CI Optimization Scripts
+    runs-on: macos-15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test XcodeGen check logic
+        run: |
+          ./scripts/tests/test-xcodegen-check.sh
+
+      - name: Test CI workflow configuration
+        run: |
+          ./scripts/tests/test-ci-workflow.sh
+
   build-and-test:
     name: Build and Test
     runs-on: macos-15
@@ -37,11 +52,53 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode.app
 
+      # Cache XcodeGen binary with version-based key (not project.yml dependent)
+      # This caches the XcodeGen tool itself, which doesn't change when project.yml changes
+      # Using both Intel and Apple Silicon paths for cross-platform compatibility
+      - name: Cache XcodeGen
+        id: cache-xcodegen
+        uses: actions/cache@v4
+        with:
+          path: |
+            /opt/homebrew/bin/xcodegen
+            /usr/local/bin/xcodegen
+          key: ${{ runner.os }}-xcodegen-2.40.1
+
+      # Only install XcodeGen if not cached
+      - name: Install XcodeGen
+        if: steps.cache-xcodegen.outputs.cache-hit != 'true'
+        run: brew install xcodegen
+
+      # Cache generated Xcode project with hash of project.yml
+      # No restore-keys ensures strict invalidation when project.yml changes
+      # This prevents using outdated cached projects when configuration changes
+      - name: Cache Xcode project
+        id: cache-xcodeproj
+        uses: actions/cache@v4
+        with:
+          path: Olive.xcodeproj
+          key: ${{ runner.os }}-xcodeproj-${{ hashFiles('project.yml') }}
+
+      # Only regenerate if project.yml changed or cache miss
       - name: Generate Xcode project
+        if: steps.cache-xcodeproj.outputs.cache-hit != 'true'
         run: |
           if [ -f "project.yml" ]; then
-            brew install xcodegen
+            echo "Regenerating Xcode project (project.yml changed or cache miss)"
             xcodegen generate
+            # Store hash of project.yml for validation (more reliable than timestamps in CI)
+            shasum -a 256 project.yml | awk '{print $1}' > Olive.xcodeproj/.project_yml_hash
+          fi
+
+      # Validate that cached project is up-to-date
+      # Exit with error if cache claims hit but project is stale
+      - name: Validate Xcode project
+        if: steps.cache-xcodeproj.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached Xcode project (project.yml unchanged)"
+          if ./scripts/check-xcodegen-needed.sh; then
+            echo "ERROR: Cached project is out of date but cache indicated a hit"
+            exit 1
           fi
 
       - name: Build ${{ matrix.configuration }}
@@ -92,11 +149,53 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode.app
 
+      # Cache XcodeGen binary with version-based key (not project.yml dependent)
+      # This caches the XcodeGen tool itself, which doesn't change when project.yml changes
+      # Using both Intel and Apple Silicon paths for cross-platform compatibility
+      - name: Cache XcodeGen
+        id: cache-xcodegen
+        uses: actions/cache@v4
+        with:
+          path: |
+            /opt/homebrew/bin/xcodegen
+            /usr/local/bin/xcodegen
+          key: ${{ runner.os }}-xcodegen-2.40.1
+
+      # Only install XcodeGen if not cached
+      - name: Install XcodeGen
+        if: steps.cache-xcodegen.outputs.cache-hit != 'true'
+        run: brew install xcodegen
+
+      # Cache generated Xcode project with hash of project.yml
+      # No restore-keys ensures strict invalidation when project.yml changes
+      # This prevents using outdated cached projects when configuration changes
+      - name: Cache Xcode project
+        id: cache-xcodeproj
+        uses: actions/cache@v4
+        with:
+          path: Olive.xcodeproj
+          key: ${{ runner.os }}-xcodeproj-${{ hashFiles('project.yml') }}
+
+      # Only regenerate if project.yml changed or cache miss
       - name: Generate Xcode project
+        if: steps.cache-xcodeproj.outputs.cache-hit != 'true'
         run: |
           if [ -f "project.yml" ]; then
-            brew install xcodegen
+            echo "Regenerating Xcode project (project.yml changed or cache miss)"
             xcodegen generate
+            # Store hash of project.yml for validation (more reliable than timestamps in CI)
+            shasum -a 256 project.yml | awk '{print $1}' > Olive.xcodeproj/.project_yml_hash
+          fi
+
+      # Validate that cached project is up-to-date
+      # Exit with error if cache claims hit but project is stale
+      - name: Validate Xcode project
+        if: steps.cache-xcodeproj.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached Xcode project (project.yml unchanged)"
+          if ./scripts/check-xcodegen-needed.sh; then
+            echo "ERROR: Cached project is out of date but cache indicated a hit"
+            exit 1
           fi
 
       - name: Build Release
