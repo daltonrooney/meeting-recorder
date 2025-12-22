@@ -111,8 +111,8 @@ Documentation is considered complete when:
 
 ## Related Files
 
-- `/tmp/olive-worktrees/issue-111/docs/NOTARIZATION.md` ✅ CREATED
-- `/tmp/olive-worktrees/issue-111/README.md` (Distribution section)
-- `/tmp/olive-worktrees/issue-111/scripts/README.md` (notarize.sh section)
-- `/tmp/olive-worktrees/issue-111/scripts/notarize.sh` (implementation)
-- `/tmp/olive-worktrees/issue-111/.github/workflows/ci.yml` (CI/CD integration)
+- `docs/NOTARIZATION.md` ✅ CREATED
+- `README.md` (Distribution section)
+- `scripts/README.md` (notarize.sh section)
+- `scripts/notarize.sh` (implementation)
+- `.github/workflows/ci.yml` (CI/CD integration)
