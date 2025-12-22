@@ -64,11 +64,6 @@ struct CallTranscriptionApp: App {
             SettingsView()
                 .environmentObject(appState)
                 .environmentObject(settingsManager)
-                .onOpenURL { url in
-                    Task { @MainActor in
-                        await urlHandlerContainer.handler(for: appState, settingsManager: settingsManager).handle(url)
-                    }
-                }
         }
     }
 }
