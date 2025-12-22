@@ -4,20 +4,15 @@ import Foundation
 @MainActor
 final class URLSchemeParser {
 
-    /// Allowed callback URL schemes for security
+    /// Allowed callback URL schemes (whitelist for security)
+    /// Only these schemes are permitted for x-success, x-error, and x-cancel callbacks
     private static let allowedCallbackSchemes = Set([
-        "shortcuts",
-        "x-callback-url",
-        "applescript",
-        "http",
-        "https"
-    ])
-
-    /// Disallowed callback URL schemes (security risk)
-    private static let disallowedCallbackSchemes = Set([
-        "javascript",
-        "file",
-        "data"
+        "shortcuts",      // Shortcuts app
+        "x-callback-url", // Standard x-callback-url scheme
+        "http",           // Web callbacks (consider privacy implications)
+        "https"           // Secure web callbacks (consider privacy implications)
+        // Note: applescript removed - could be dangerous
+        // Note: file, javascript, data explicitly blocked
     ])
 
     /// Parse a URL into a URLSchemeRequest
@@ -95,15 +90,16 @@ final class URLSchemeParser {
         )
     }
 
-    /// Validate a callback URL for security
+    /// Validate a callback URL for security using whitelist approach
     /// - Parameter url: The callback URL to validate
-    /// - Throws: CallTranscriptionError.invalidCallbackScheme if the scheme is disallowed
+    /// - Throws: CallTranscriptionError.invalidCallbackScheme if the scheme is not in the allowed list
     static func validateCallbackURL(_ url: URL) throws {
-        guard let scheme = url.scheme?.lowercased() else {
+        guard let scheme = url.scheme?.lowercased(), !scheme.isEmpty else {
             throw CallTranscriptionError.invalidCallbackScheme("")
         }
 
-        if disallowedCallbackSchemes.contains(scheme) {
+        // Whitelist-only validation: reject anything not explicitly allowed
+        guard allowedCallbackSchemes.contains(scheme) else {
             throw CallTranscriptionError.invalidCallbackScheme(scheme)
         }
     }

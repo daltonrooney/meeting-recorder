@@ -4,13 +4,16 @@ import SwiftUI
 struct CallTranscriptionApp: App {
     @StateObject private var settingsManager = SettingsManager()
     @StateObject private var appState: AppState
-    @StateObject private var urlHandlerContainer = URLHandlerContainer()
+    private let urlHandler: URLSchemeHandler
 
     init() {
         let settings = SettingsManager()
         _settingsManager = StateObject(wrappedValue: settings)
         let state = AppState(settingsManager: settings)
         _appState = StateObject(wrappedValue: state)
+
+        // Eager initialization of URL handler to avoid race conditions
+        urlHandler = URLSchemeHandler(appState: state, settingsManager: settings)
 
         // Register AppState and SettingsManager for App Intents access
         Task { @MainActor in
@@ -25,7 +28,7 @@ struct CallTranscriptionApp: App {
                 .environmentObject(settingsManager)
                 .onOpenURL { url in
                     Task { @MainActor in
-                        await urlHandlerContainer.handler(for: appState, settingsManager: settingsManager).handle(url)
+                        await urlHandler.handle(url)
                     }
                 }
         } label: {
@@ -65,21 +68,5 @@ struct CallTranscriptionApp: App {
                 .environmentObject(appState)
                 .environmentObject(settingsManager)
         }
-    }
-}
-
-// MARK: - URL Handler Container
-
-@MainActor
-final class URLHandlerContainer: ObservableObject {
-    private var _handler: URLSchemeHandler?
-
-    func handler(for appState: any RecordingActionHandler, settingsManager: SettingsManager) -> URLSchemeHandler {
-        if let existing = _handler {
-            return existing
-        }
-        let handler = URLSchemeHandler(appState: appState, settingsManager: settingsManager)
-        _handler = handler
-        return handler
     }
 }

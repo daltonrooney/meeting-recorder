@@ -130,15 +130,26 @@ final class URLSchemeActionDispatcher {
     ///   the user manually changes it in settings.
     ///
     /// - Parameter folder: The folder path to validate and set
-    /// - Throws: CallTranscriptionError if path validation fails
+    /// - Throws: CallTranscriptionError if path validation fails or folder doesn't exist
     private func validateAndSetOutputFolder(_ folder: String) throws {
         // Get allowed base directories
         let homeDirectory = FileManager.default.homeDirectoryForCurrentUser
         let tempDirectory = FileManager.default.temporaryDirectory
         let allowedDirectories = [homeDirectory, tempDirectory]
 
-        // Validate path
+        // Validate path security
         _ = try pathValidator.validate(path: folder, againstBaseDirectories: allowedDirectories)
+
+        // Check folder existence and create if needed
+        let folderURL = URL(fileURLWithPath: folder)
+        var isDirectory: ObjCBool = false
+        if !FileManager.default.fileExists(atPath: folder, isDirectory: &isDirectory) {
+            // Create directory with intermediate directories
+            try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: true)
+        } else if !isDirectory.boolValue {
+            // Path exists but is not a directory
+            throw CallTranscriptionError.outputFolderNotWritable(folderURL)
+        }
 
         // IMPORTANT: This permanently modifies user settings
         settingsManager.outputFolder = folder
