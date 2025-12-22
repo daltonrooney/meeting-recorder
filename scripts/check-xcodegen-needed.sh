@@ -1,6 +1,7 @@
 #!/bin/bash
 # Check if XcodeGen needs to run
-# Returns 0 (true) if XcodeGen needs to run, 1 (false) otherwise
+# Returns 0 (success/true) if regeneration needed, 1 (failure/false) if not needed
+# Following bash convention where 0 = true/success, 1 = false/failure
 
 should_regenerate_xcode_project() {
     local project_yml="project.yml"
@@ -25,20 +26,13 @@ should_regenerate_xcode_project() {
         return 0
     fi
     
-    # Primary check: timestamp comparison
-    # Note: git doesn't preserve modification times, so this may be unreliable in CI
-    if [ "$project_yml" -nt "$pbxproj" ]; then
-        echo "⚠️  project.yml is newer than Olive.xcodeproj - regeneration needed"
-        return 0
-    fi
-    
-    # Fallback check: hash-based validation
-    # More reliable in CI environments where timestamps are unreliable
+    # Primary check: Hash-based validation (more reliable in CI)
+    # Git doesn't preserve modification times, so timestamps are unreliable in CI
     # We hash project.yml and compare it to a stored hash in the xcodeproj
-    # If the hash file doesn't exist or doesn't match, regenerate
     local hash_file="$xcodeproj/.project_yml_hash"
     local current_hash
-    current_hash=$(shasum -a 256 "$project_yml" | cut -d' ' -f1)
+    # Use awk for safer parsing (handles special characters in paths)
+    current_hash=$(shasum -a 256 "$project_yml" | awk '{print $1}')
     
     if [ -f "$hash_file" ]; then
         local stored_hash
@@ -47,20 +41,21 @@ should_regenerate_xcode_project() {
             echo "⚠️  project.yml hash changed - regeneration needed"
             return 0
         fi
-    else
-        # Hash file doesn't exist - store current hash for future comparisons
-        # Don't require regeneration if project is newer than yml
-        if [ "$pbxproj" -nt "$project_yml" ]; then
-            echo "$current_hash" > "$hash_file"
-            echo "✓ Olive.xcodeproj is up to date - stored hash for future validation"
-            return 1
-        else
-            echo "⚠️  Hash file missing and timestamps inconclusive - regeneration needed"
-            return 0
-        fi
+        # Hash matches - project is up to date
+        echo "✓ Olive.xcodeproj is up to date - skipping regeneration"
+        return 1
     fi
     
-    echo "✓ Olive.xcodeproj is up to date - skipping regeneration"
+    # Hash file doesn't exist - fall back to timestamp check
+    # Check if project.yml is newer than xcodeproj
+    if [ "$project_yml" -nt "$pbxproj" ]; then
+        echo "⚠️  project.yml is newer than Olive.xcodeproj - regeneration needed"
+        return 0
+    fi
+    
+    # Project appears newer than yml - store hash for future comparisons
+    echo "$current_hash" > "$hash_file"
+    echo "✓ Olive.xcodeproj is up to date - stored hash for future validation"
     return 1
 }
 

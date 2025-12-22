@@ -48,6 +48,8 @@ fi
 
 # Test 2: should_regenerate_xcode_project returns false when .xcodeproj is newer
 echo "Test 2: Returns false when .xcodeproj is newer than project.yml"
+rm -rf Olive.xcodeproj
+mkdir -p Olive.xcodeproj
 touch -t 202401020000 Olive.xcodeproj/project.pbxproj
 touch -t 202401010000 project.yml
 if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && ! should_regenerate_xcode_project; then
@@ -74,6 +76,57 @@ if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && should_regenerate_xco
     pass "Handles missing project.yml gracefully"
 else
     fail "Should handle missing project.yml"
+fi
+
+# Test 5: Hash validation - matching hash returns false (no regeneration needed)
+echo "Test 5: Returns false when hash matches stored hash"
+rm -rf Olive.xcodeproj
+mkdir -p Olive.xcodeproj
+echo "test content" > project.yml
+touch -t 202401020000 Olive.xcodeproj/project.pbxproj
+touch -t 202401010000 project.yml
+# Generate and store the hash
+HASH=$(shasum -a 256 project.yml | awk '{print $1}')
+echo "$HASH" > Olive.xcodeproj/.project_yml_hash
+if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && ! should_regenerate_xcode_project; then
+    pass "Detects matching hash - no regeneration needed"
+else
+    fail "Should detect matching hash and skip regeneration"
+fi
+
+# Test 6: Hash validation - mismatched hash returns true (regeneration needed)
+echo "Test 6: Returns true when hash doesn't match stored hash"
+rm -rf Olive.xcodeproj
+mkdir -p Olive.xcodeproj
+echo "test content" > project.yml
+touch Olive.xcodeproj/project.pbxproj
+# Store a different hash
+echo "wrong_hash_value_12345" > Olive.xcodeproj/.project_yml_hash
+if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && should_regenerate_xcode_project; then
+    pass "Detects mismatched hash - regeneration needed"
+else
+    fail "Should detect mismatched hash and require regeneration"
+fi
+
+# Test 7: Hash validation - missing hash file falls back to timestamp check
+echo "Test 7: Falls back to timestamp check when hash file is missing"
+rm -rf Olive.xcodeproj
+mkdir -p Olive.xcodeproj
+echo "test content" > project.yml
+touch -t 202401020000 Olive.xcodeproj/project.pbxproj
+touch -t 202401010000 project.yml
+# No hash file exists
+if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && ! should_regenerate_xcode_project; then
+    pass "Uses timestamp check when hash missing - creates hash file"
+else
+    fail "Should fall back to timestamp check and create hash file"
+fi
+
+# Verify hash file was created
+if [ -f Olive.xcodeproj/.project_yml_hash ]; then
+    pass "Hash file created for future validation"
+else
+    fail "Should create hash file when missing"
 fi
 
 # Cleanup
