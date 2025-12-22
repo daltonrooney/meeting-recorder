@@ -3,6 +3,7 @@ import OSLog
 
 struct MenuBarView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var settingsManager: SettingsManager
     @State private var errorMessage: String?
     @State private var showError = false
     @State private var isStarting: Bool = false
@@ -14,6 +15,11 @@ struct MenuBarView: View {
             // Main recording control button
             if !appState.isRecording {
                 // Not recording - show start button
+                // Check if microphone permission is required and granted
+                let needsMicrophonePermission = settingsManager.captureMicrophone
+                let hasPermission = appState.microphonePermissionGranted
+                let canStartRecording = !needsMicrophonePermission || hasPermission
+
                 Button(LocalizedStringKey("menubar.button.startRecording")) {
                     logger.debug("Start Recording button clicked")
                     Task {
@@ -52,11 +58,19 @@ struct MenuBarView: View {
                         }
                     }
                 }
-                .disabled(isStarting || appState.isRecording)
-                .opacity(isStarting ? 0.6 : 1.0)
+                .disabled(isStarting || appState.isRecording || !canStartRecording)
+                .opacity(isStarting || !canStartRecording ? 0.6 : 1.0)
                 .keyboardShortcut("R", modifiers: [.command, .shift])
                 .accessibilityLabel(LocalizedStringKey("menubar.accessibility.startRecording.label"))
                 .accessibilityHint(LocalizedStringKey("menubar.accessibility.startRecording.hint"))
+
+                // Show permission message if microphone permission required but not granted
+                if needsMicrophonePermission && !hasPermission {
+                    Text(LocalizedStringKey("menubar.status.microphonePermissionRequired"))
+                        .foregroundColor(.orange)
+                        .font(.caption)
+                        .accessibilityLabel(LocalizedStringKey("menubar.accessibility.permissionRequired.label"))
+                }
             } else if appState.isPaused {
                 // Recording but paused - show resume button
                 Button(LocalizedStringKey("menubar.button.resumeRecording")) {
