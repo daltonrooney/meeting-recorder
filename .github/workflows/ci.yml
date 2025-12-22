@@ -22,6 +22,21 @@ jobs:
         run: |
           python3 scripts/validate_localizations.py
 
+  test-ci-optimization:
+    name: Test CI Optimization Scripts
+    runs-on: macos-15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test XcodeGen check logic
+        run: |
+          ./scripts/tests/test-xcodegen-check.sh
+
+      - name: Test CI workflow configuration
+        run: |
+          ./scripts/tests/test-ci-workflow.sh
+
   build-and-test:
     name: Build and Test
     runs-on: macos-15
@@ -37,15 +52,13 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode.app
 
-      # Cache XcodeGen binary installation
+      # Cache XcodeGen binary installation (version-based key, not project.yml dependent)
       - name: Cache XcodeGen
         id: cache-xcodegen
         uses: actions/cache@v4
         with:
-          path: |
-            /usr/local/bin/xcodegen
-            /opt/homebrew/bin/xcodegen
-          key: ${{ runner.os }}-xcodegen-${{ hashFiles('**/project.yml') }}
+          path: /opt/homebrew/bin/xcodegen
+          key: ${{ runner.os }}-xcodegen-2.40.1
           restore-keys: |
             ${{ runner.os }}-xcodegen-
 
@@ -78,7 +91,10 @@ jobs:
         if: steps.cache-xcodeproj.outputs.cache-hit == 'true'
         run: |
           echo "Using cached Xcode project (project.yml unchanged)"
-          ./scripts/check-xcodegen-needed.sh || echo "Project is up to date"
+          if ./scripts/check-xcodegen-needed.sh; then
+            echo "ERROR: Cached project is out of date but cache indicated a hit"
+            exit 1
+          fi
 
       - name: Build ${{ matrix.configuration }}
         run: |
@@ -128,15 +144,13 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode.app
 
-      # Cache XcodeGen binary installation
+      # Cache XcodeGen binary installation (version-based key, not project.yml dependent)
       - name: Cache XcodeGen
         id: cache-xcodegen
         uses: actions/cache@v4
         with:
-          path: |
-            /usr/local/bin/xcodegen
-            /opt/homebrew/bin/xcodegen
-          key: ${{ runner.os }}-xcodegen-${{ hashFiles('**/project.yml') }}
+          path: /opt/homebrew/bin/xcodegen
+          key: ${{ runner.os }}-xcodegen-2.40.1
           restore-keys: |
             ${{ runner.os }}-xcodegen-
 
@@ -162,6 +176,16 @@ jobs:
           if [ -f "project.yml" ]; then
             echo "Regenerating Xcode project (project.yml changed or cache miss)"
             xcodegen generate
+          fi
+
+      # Validate that project is up-to-date (for cache hits)
+      - name: Validate Xcode project
+        if: steps.cache-xcodeproj.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached Xcode project (project.yml unchanged)"
+          if ./scripts/check-xcodegen-needed.sh; then
+            echo "ERROR: Cached project is out of date but cache indicated a hit"
+            exit 1
           fi
 
       - name: Build Release

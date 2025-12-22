@@ -7,6 +7,9 @@ set -e
 TEST_PASSED=0
 TEST_FAILED=0
 
+# Get the repository root dynamically
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
 # Colors for output
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -28,6 +31,7 @@ TEST_DIR=$(mktemp -d)
 cd "$TEST_DIR"
 
 echo "Running XcodeGen optimization tests..."
+echo "Repository root: $REPO_ROOT"
 echo "Test directory: $TEST_DIR"
 echo ""
 
@@ -36,7 +40,7 @@ echo "Test 1: Returns true when project.yml is newer than .xcodeproj"
 mkdir -p Olive.xcodeproj
 touch -t 202401010000 Olive.xcodeproj/project.pbxproj
 touch -t 202401020000 project.yml
-if source /tmp/olive-worktrees/issue-110/scripts/check-xcodegen-needed.sh && should_regenerate_xcode_project; then
+if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && should_regenerate_xcode_project; then
     pass "Detects project.yml is newer"
 else
     fail "Should detect project.yml is newer"
@@ -46,7 +50,7 @@ fi
 echo "Test 2: Returns false when .xcodeproj is newer than project.yml"
 touch -t 202401020000 Olive.xcodeproj/project.pbxproj
 touch -t 202401010000 project.yml
-if source /tmp/olive-worktrees/issue-110/scripts/check-xcodegen-needed.sh && ! should_regenerate_xcode_project; then
+if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && ! should_regenerate_xcode_project; then
     pass "Detects .xcodeproj is up to date"
 else
     fail "Should detect .xcodeproj is up to date"
@@ -56,7 +60,7 @@ fi
 echo "Test 3: Returns true when .xcodeproj doesn't exist"
 rm -rf Olive.xcodeproj
 touch project.yml
-if source /tmp/olive-worktrees/issue-110/scripts/check-xcodegen-needed.sh && should_regenerate_xcode_project; then
+if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && should_regenerate_xcode_project; then
     pass "Detects missing .xcodeproj"
 else
     fail "Should detect missing .xcodeproj"
@@ -66,7 +70,7 @@ fi
 echo "Test 4: Returns true when project.yml doesn't exist"
 mkdir -p Olive.xcodeproj
 rm -f project.yml
-if source /tmp/olive-worktrees/issue-110/scripts/check-xcodegen-needed.sh && should_regenerate_xcode_project; then
+if source "$REPO_ROOT/scripts/check-xcodegen-needed.sh" && should_regenerate_xcode_project; then
     pass "Handles missing project.yml gracefully"
 else
     fail "Should handle missing project.yml"
