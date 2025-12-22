@@ -24,7 +24,10 @@ CONFIGURATION="${1:-Release}"
 # Validate configuration
 if [[ "$CONFIGURATION" != "Debug" && "$CONFIGURATION" != "Release" ]]; then
     echo -e "${RED}Error: Configuration must be 'Debug' or 'Release'${NC}"
-    echo "Usage: $0 [Debug|Release]"
+    echo ""
+    echo "Usage examples:"
+    echo "  ./scripts/package.sh Release"
+    echo "  ./scripts/package.sh Debug"
     exit 1
 fi
 
@@ -36,7 +39,12 @@ ARCHIVE_NAME="${PROJECT_NAME}-${VERSION}-${CONFIGURATION}.zip"
 # Check if app exists
 if [ ! -d "$APP_PATH" ]; then
     echo -e "${RED}Error: Application not found at ${APP_PATH}${NC}"
-    echo "Please build the application first using: scripts/build.sh ${CONFIGURATION}"
+    echo ""
+    echo "Please build the application first."
+    echo ""
+    echo "Usage examples:"
+    echo "  ./scripts/build.sh ${CONFIGURATION}"
+    echo "  ./scripts/package.sh ${CONFIGURATION}"
     exit 1
 fi
 

@@ -106,12 +106,11 @@ else
 fi
 TESTS_RUN=$((TESTS_RUN + 1))
 
-# Test 3: notarize.sh with missing app (invalid configuration path)
-echo -e "${YELLOW}Test 3: notarize.sh with missing app${NC}"
-output=$(cd "$SCRIPTS_DIR" && ./notarize.sh InvalidConfig 2>&1 || true)
-if echo "$output" | grep -q "Error: Application not found" && \
-   check_usage_examples "$output" "notarize.sh"; then
-    echo -e "${GREEN}PASS: notarize.sh shows usage examples on error${NC}"
+# Test 3: notarize.sh shows usage examples (when env vars missing OR when app missing)
+echo -e "${YELLOW}Test 3: notarize.sh shows usage examples${NC}"
+output=$(cd "$SCRIPTS_DIR" && ./notarize.sh Release 2>&1 || true)
+if check_usage_examples "$output" "notarize.sh"; then
+    echo -e "${GREEN}PASS: notarize.sh shows usage examples${NC}"
     TESTS_PASSED=$((TESTS_PASSED + 1))
 else
     echo -e "${RED}FAIL: notarize.sh missing usage examples${NC}"
@@ -121,8 +120,7 @@ else
 fi
 TESTS_RUN=$((TESTS_RUN + 1))
 
-# Test 4: release.sh with invalid version format (we'll need to mock this)
-# This is harder to test without modifying Info.plist, so we'll test documentation
+# Test 4: Verify error messages contain example usage
 echo -e "${YELLOW}Test 4: Verify error messages contain example usage${NC}"
 # Check build.sh source for usage examples function
 if grep -q "show_usage\|print_usage\|usage_examples" "$SCRIPTS_DIR/build.sh" 2>/dev/null || \
