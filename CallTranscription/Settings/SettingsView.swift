@@ -15,6 +15,7 @@ struct SettingsView: View {
     @AppStorage("silencePauseThreshold") private var silencePauseThresholdRaw: String = SettingsManager.defaultSilencePauseThreshold.rawValue
     @AppStorage("saveOriginalAudio") private var saveOriginalAudio: Bool = SettingsManager.defaultSaveOriginalAudio
     @AppStorage("revealTranscriptInFinder") private var revealTranscriptInFinder: Bool = SettingsManager.defaultRevealTranscriptInFinder
+    @AppStorage("showRecordingTimeInMenuBar") private var showRecordingTimeInMenuBar: Bool = SettingsManager.defaultShowRecordingTimeInMenuBar
     @AppStorage("filenameTemplate") private var filenameTemplate: String = SettingsManager.defaultFilenameTemplate
     @AppStorage("outputFolderBookmark") private var outputFolderBookmark: Data?
     @AppStorage("postRecordingScriptBookmark") private var postRecordingScriptBookmark: Data?
@@ -30,6 +31,7 @@ struct SettingsView: View {
         Form {
             outputSection
             audioSourcesSection
+            displaySection
             silenceDetectionSection
             postRecordingSection
         }
@@ -117,6 +119,25 @@ struct SettingsView: View {
                 .accessibilityHidden(true)
         } header: {
             Text(LocalizedStringKey("settings.audioSources.header"))
+                .accessibilityAddTraits(.isHeader)
+        }
+    }
+
+    // MARK: - Display Section
+
+    private var displaySection: some View {
+        Section {
+            Toggle(LocalizedStringKey("settings.display.showRecordingTimeInMenuBar.label"), isOn: $showRecordingTimeInMenuBar)
+                .accessibilityIdentifier("showRecordingTimeInMenuBarToggle")
+                .accessibilityLabel(LocalizedStringKey("settings.display.showRecordingTimeInMenuBar.accessibility.label"))
+                .accessibilityHint(LocalizedStringKey("settings.display.showRecordingTimeInMenuBar.accessibility.hint"))
+
+            Text(LocalizedStringKey("settings.display.helpText"))
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .accessibilityHidden(true)
+        } header: {
+            Text(LocalizedStringKey("settings.display.header"))
                 .accessibilityAddTraits(.isHeader)
         }
     }
