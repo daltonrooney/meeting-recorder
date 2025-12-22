@@ -2,7 +2,46 @@
   "sourceLanguage" : "en",
   "strings" : {
     "•" : {
-
+      "comment" : "Bullet point character",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        }
+      }
     },
     "config.validation.cannotCreateDirectory" : {
       "comment" : "Cannot create directory error message (with %@ placeholders for path and error)",
@@ -1139,13 +1178,130 @@
       }
     },
     "error.audioFileAlreadyFinalized.description" : {
-      "comment" : "Audio file already finalized error description"
+      "comment" : "Audio file already finalized error description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audiodatei wurde bereits abgeschlossen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audio file has already been finalized"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El archivo de audio ya ha sido finalizado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier audio a déjà été finalisé"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声ファイルは既に確定されています"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音频文件已完成"
+          }
+        }
+      }
     },
     "error.audioFileAlreadyFinalized.failureReason" : {
-      "comment" : "Audio file already finalized failure reason"
+      "comment" : "Audio file already finalized failure reason",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wurde versucht, in eine bereits abgeschlossene Audiodatei zu schreiben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attempted to write to an audio file that has already been finalized"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se intentó escribir en un archivo de audio que ya ha sido finalizado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentative d'écriture dans un fichier audio déjà finalisé"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "既に確定された音声ファイルへの書き込みが試行されました"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尝试写入已完成的音频文件"
+          }
+        }
+      }
     },
     "error.audioFileAlreadyFinalized.recoverySuggestion" : {
-      "comment" : "Audio file already finalized recovery suggestion"
+      "comment" : "Audio file already finalized recovery suggestion",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstellen Sie eine neue Aufnahme, anstatt zu versuchen, zu einer abgeschlossenen Datei hinzuzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a new recording instead of trying to append to a finalized file"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cree una nueva grabación en lugar de intentar agregar a un archivo finalizado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créez un nouvel enregistrement au lieu d'essayer d'ajouter à un fichier finalisé"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確定されたファイルに追加しようとするのではなく、新しい録音を作成してください"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建新录音而不是尝试追加到已完成的文件"
+          }
+        }
+      }
     },
     "error.audioProcessingFailed.description" : {
       "comment" : "Audio processing failed error description (with %@ placeholder for reason)",
