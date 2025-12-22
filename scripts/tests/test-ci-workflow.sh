@@ -55,10 +55,10 @@ fi
 
 # Test 3: XcodeGen binary cache uses version-based key (not project.yml dependent)
 echo "Test 3: XcodeGen binary cache uses version-based key"
-if grep -q "xcodegen-2\\.40\\.1" "$CI_WORKFLOW"; then
+if grep -qE "xcodegen-[0-9]+\.[0-9]+\.[0-9]+" "$CI_WORKFLOW"; then
     pass "XcodeGen cache uses version-based key"
 else
-    fail "XcodeGen cache should use version-based key, not project.yml hash"
+    fail "XcodeGen cache should use version-based key (e.g., xcodegen-2.40.1)"
 fi
 
 # Test 4: Workflow conditionally runs XcodeGen
@@ -83,6 +83,16 @@ if grep -q "test-ci-optimization" "$CI_WORKFLOW"; then
     pass "CI workflow runs optimization tests"
 else
     fail "CI workflow should run test scripts"
+fi
+
+# Test 7: No restore-keys for Xcode project cache (strict invalidation)
+echo "Test 7: Xcode project cache has strict invalidation"
+# Count occurrences of restore-keys in the context of Xcode project cache
+# Should not have restore-keys for xcodeproj to ensure strict invalidation
+if grep -A5 "Cache Xcode project" "$CI_WORKFLOW" | grep -q "restore-keys"; then
+    fail "Xcode project cache should not have restore-keys for strict invalidation"
+else
+    pass "Xcode project cache uses strict invalidation (no restore-keys)"
 fi
 
 # Summary
