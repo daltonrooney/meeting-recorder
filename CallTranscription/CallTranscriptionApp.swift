@@ -25,15 +25,29 @@ struct CallTranscriptionApp: App {
         } label: {
             // Show different icon based on recording state
             if appState.isPaused {
-                Image(systemName: "pause.circle.fill")
-                    .foregroundColor(.orange)
-                    .accessibilityLabel("Meeting Recorder - Paused")
-                    .accessibilityValue(appState.elapsedTime)
+                if settingsManager.showRecordingTimeInMenuBar {
+                    Label(appState.elapsedTime, systemImage: "pause.circle.fill")
+                        .foregroundColor(.orange)
+                        .accessibilityLabel("Meeting Recorder - Paused")
+                        .accessibilityValue(appState.elapsedTime)
+                } else {
+                    Image(systemName: "pause.circle.fill")
+                        .foregroundColor(.orange)
+                        .accessibilityLabel("Meeting Recorder - Paused")
+                        .accessibilityValue(appState.elapsedTime)
+                }
             } else if appState.isRecording {
-                Image(systemName: "record.circle")
-                    .foregroundColor(.red)
-                    .accessibilityLabel("Meeting Recorder - Recording")
-                    .accessibilityValue(appState.elapsedTime)
+                if settingsManager.showRecordingTimeInMenuBar {
+                    Label(appState.elapsedTime, systemImage: "record.circle")
+                        .foregroundColor(.red)
+                        .accessibilityLabel("Meeting Recorder - Recording")
+                        .accessibilityValue(appState.elapsedTime)
+                } else {
+                    Image(systemName: "record.circle")
+                        .foregroundColor(.red)
+                        .accessibilityLabel("Meeting Recorder - Recording")
+                        .accessibilityValue(appState.elapsedTime)
+                }
             } else {
                 Image(systemName: "stop.circle")
                     .accessibilityLabel("Meeting Recorder - Not Recording")
